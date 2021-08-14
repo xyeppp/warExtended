@@ -6,12 +6,10 @@ local ipairs=ipairs
 local HyperlinkData = L"v1.0"
 local HyperlinkText = L"[warExt] "
 local HyperlinkColor = DefaultColor.GREEN
---Return self hyperlink
+
 warExtended.getSelfHyperlink=CreateHyperLink( HyperlinkData, HyperlinkText, {HyperlinkColor.r, HyperlinkColor.g, HyperlinkColor.b}, {} )
 
--- Settings
 warExtended.Settings = {}
---Automation Settings
 -- Safe = accept from friends & guild only
 -- Scenario = accepts from players in current scenario
 warExtended.Settings.Automation = {
@@ -31,6 +29,9 @@ warExtended.Settings.Automation = {
     },
     ['AutomaticRespawn'] = false
 }
+warExtended.Settings.isMacroSetCreated = false;
+
+
 
 warExtended.CareerShorthandle = {
     [GameData.CareerLine.IRON_BREAKER] = 'IB',

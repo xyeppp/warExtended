@@ -22,6 +22,9 @@
             <File name="warExtendedCore.lua" />
             <File name="warExtendedSlash.lua" />
             <File name="warExtendedEmotes.lua" />
+            <File name="warExtendedHyperlinks.lua" />
+            <File name="warExtendedHooks.lua" />
+            <File name="macro/warExtendedMacros.lua" />
           </Files>
 
         <OnInitialize>

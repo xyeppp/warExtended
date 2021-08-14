@@ -45,12 +45,22 @@ local function getGroupType()
 end
 
 function warExtended.Initialize()
+    warExtended.RegisterHooks()
+    warExtended.RegisterAddonExtras()
+    warExtended.RegisterMacroSets()
+end
+
+function warExtended.RegisterAddonExtras()
   if warExtended.isUserAddonEnabled("LibSlash") then
     warExtended.RegisterSlashCommands()
     warExtended.RegisterSlashEmotes()
   end
-end
 
+  if warExtended.isUserAddonEnabled("Enemy") then
+    p("enemy enabled")
+  end
+
+end
 
 --- Define new global functions
 
