@@ -11,12 +11,12 @@ local EmoteList = {
     ['amaze'] = {
         ['hostile'] = L' You are amazed by $et',
         ['friendly'] = L'You are amazed by $ft',
-        ['notarget'] = L'You are amazed!'
+        ['notarget'] = L'is amazed!'
     },
     ['scared'] = {
         ['hostile'] = L' You are scared of $et',
         ['friendly'] = L'You are scared of $ft',
-        ['notarget'] = L'You are amazed!'
+        ['notarget'] = L'is scared.'
     }
 }
 
@@ -31,7 +31,7 @@ function warExtended.RegisterSlashEmotes()
 end
 
 function warExtended.EmoteParser(emote)
-    local HostileTargetName, FriendlyTargetName = warExtended.getCurrentTargetNames()
+    local HostileTargetName, FriendlyTargetName = warExtended.GetCurrentTargetNames()
     if HostileTargetName ~= L"" then
         ChatMacro(EmoteList[emote].hostile, '/e')
     elseif FriendlyTargetName ~= L"" then

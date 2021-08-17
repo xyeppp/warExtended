@@ -1,4 +1,5 @@
 local warExtended = warExtended
+local math=math
 
 -- URL patterns for automatic link conversion
 local URLpattern = "[a-zA-Z@:%._\+~#=%/]+%.[a-zA-Z0-9@:_\+~#=%/%?&]"
@@ -44,26 +45,19 @@ local function getGroupType()
   return 1
 end
 
+
 function warExtended.Initialize()
+
     warExtended.RegisterHooks()
-    warExtended.RegisterAddonExtras()
-    warExtended.RegisterMacroSets()
-end
-
-function warExtended.RegisterAddonExtras()
-  if warExtended.isUserAddonEnabled("LibSlash") then
-    warExtended.RegisterSlashCommands()
+    warExtended.RegisterCoreAndSlashCmd()
     warExtended.RegisterSlashEmotes()
-  end
 
-  if warExtended.isUserAddonEnabled("Enemy") then
-    p("enemy enabled")
-  end
 
 end
+
+
 
 --- Define new global functions
-
 function ChatMacro(text,channel)
     text = towstring(text)
     channel = towstring(channel)
