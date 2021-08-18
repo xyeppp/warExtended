@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ModuleFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
 
-    <UiMod name="warExtended Macro" version="1.0" date="14/06/21" >
+    <UiMod name="warExtended Macro" version="1.0" date="17/08/21" >
         <Replaces name="EA_MacroWindow" />
         <Author name="EAMythic | changes by anon + xyeppp" email="" />
         <VersionSettings gameVersion="1.4.8" windowsVersion="1.0.0" savedVariablesVersion="1.0" />
@@ -22,10 +22,13 @@
         <OnInitialize>
             <CreateWindow name="MacroIconSelectionWindow" show="false" />
             <CreateWindow name="EA_Window_Macro" show="false" />
-            <CallFunction name="warExtended.InitializeModuleMacro" />
+            <CallFunction name="warExtendedMacro.Initialize" />
         </OnInitialize>
+        <OnShutdown>
+            <CallFunction name="warExtendedMacro.Shutdown" />
+        </OnShutdown>
            <SavedVariables>
-            <SavedVariable name="warExtended.Macro" />
+            <SavedVariable name="warExtendedMacro.Settings" />
         </SavedVariables>
     </UiMod>
 

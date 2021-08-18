@@ -20,17 +20,7 @@ local EmoteList = {
     }
 }
 
-function warExtended.RegisterSlashEmotes()
-    for Emote,_ in pairs(EmoteList) do
-        LibSlash.RegisterSlashCmd(Emote,
-				   function()
-                warExtended.EmoteParser(Emote)
-            end
-        )
-    end
-end
-
-function warExtended.EmoteParser(emote)
+local function emoteParser(emote)
     local HostileTargetName, FriendlyTargetName = warExtended.GetCurrentTargetNames()
     if HostileTargetName ~= L"" then
         ChatMacro(EmoteList[emote].hostile, '/e')
@@ -38,5 +28,15 @@ function warExtended.EmoteParser(emote)
         ChatMacro(EmoteList[emote].friendly, '/e')
     else
         ChatMacro(EmoteList[emote].notarget, '/e')
+    end
+end
+
+function warExtended.RegisterSlashEmotes()
+    for Emote,_ in pairs(EmoteList) do
+        LibSlash.RegisterSlashCmd(Emote,
+				   function()
+                emoteParser(Emote)
+            end
+        )
     end
 end

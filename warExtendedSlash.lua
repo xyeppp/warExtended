@@ -3,11 +3,10 @@ local pairs=pairs
 
 local function getSlashCommands()
   for Module,_ in pairs(warExtended.Modules) do
-    local ModuleHyperlink = warExtended.Modules[Module]["hyperlink"]
-    for Command,_ in pairs(warExtended.Modules[Module]["cmd"]) do
-      local CommandDescription = warExtended.Modules[Module]["cmd"][Command]["description"]
-      EA_ChatWindow.Print(ModuleHyperlink..L"/"..towstring(Command)..L" - "..CommandDescription)
-    end
+      for Command,_ in pairs(warExtended.Modules[Module]["cmd"]) do
+        local CommandDescription = warExtended.Modules[Module]["cmd"][Command]["description"]
+           warExtended.ModuleChatPrint(Module, "/"..(Command).." - "..CommandDescription)
+      end
     EA_ChatWindow.Print(L"-----------------")
   end
 end
@@ -15,18 +14,30 @@ end
 local slashCommands = {
 
   ["warext"] = {
-    ["function"] = function() return getSlashCommands() end,
-    ["description"] = L"Prints this menu."
+    ["function"] = getSlashCommands,
+    ["description"] = "Prints this menu."
   }
 }
 
+function warExtended.SlashHandler(cmd,...)
+  for Module,_ in pairs(warExtended.Modules) do
+      for Command,_ in pairs(warExtended.Modules[Module]["cmd"]) do
+        if cmd == Command then
+      local CommandFunction = warExtended.Modules[Module]["cmd"][Command]["function"]
+        local argSplit =  StringSplit((...), "#")
+        return  CommandFunction(unpack(argSplit))
+      end
+    end
+  end
+  end
 
-function warExtended.RegisterCoreAndSlashCmd()
 
-  warExtended.RegisterModule("Core", slashCommands)
 
-  local ModuleHyperlink = warExtended.Modules["Core"]["hyperlink"]
+function warExtended.RegisterSlashCore()
+
+  warExtended.ModuleRegister("Core", slashCommands)
+
   local CoreVersionNumber = warExtended.Modules["Core"]["version"]
-  EA_ChatWindow.Print(ModuleHyperlink..CoreVersionNumber..L" loaded. /warext for help.")
+  warExtended.ModuleChatPrint("Core", CoreVersionNumber..L" loaded. /warext for help.")
 
 end

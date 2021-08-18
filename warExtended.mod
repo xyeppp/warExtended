@@ -20,12 +20,12 @@
 
         <Files>
             <File name="warExtendedUtils.lua" />
-            <File name="warExtendedCore.lua" />
-            <File name="warExtendedModules.lua" />
-            <File name="warExtendedEmotes.lua" />
             <File name="warExtendedSlash.lua" />
+            <File name="warExtendedEmotes.lua" />
+            <File name="warExtendedModules.lua" />
             <File name="warExtendedHyperlinks.lua" />
             <File name="warExtendedHooks.lua" />
+            <File name="warExtendedCore.lua" />
           </Files>
 
         <OnInitialize>

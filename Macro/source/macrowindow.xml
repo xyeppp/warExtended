@@ -1085,7 +1085,7 @@
                 						</Anchor>
                 					</Anchors>
                 					<EventHandlers>
-                						<EventHandler event="OnSelChanged" function="warExtended.OnMacroComboBoxSelect" />
+                						<EventHandler event="OnSelChanged" function="warExtendedMacro.OnMacroComboBoxSelect" />
                 					</EventHandlers>
                 				</ComboBox>
 
