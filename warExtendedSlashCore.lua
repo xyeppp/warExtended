@@ -19,18 +19,33 @@ local slashCommands = {
   }
 }
 
+
+local function argSplitCleaner(argumentsTable)
+  local nilTable={}
+  for Argument, ArgumentParameters in pairs(argumentsTable) do
+    if ArgumentParameters == "" then
+      local v = argumentsTable[Argument]
+      p(v == nil)
+      nilTable[Argument] = "nil"
+      argumentsTable[Argument] = nil
+    end
+  end
+  return argumentsTable
+end
+
+
 function warExtended.SlashHandler(cmd,...)
+
   for Module,_ in pairs(warExtended.Modules) do
       for Command,_ in pairs(warExtended.Modules[Module]["cmd"]) do
         if cmd == Command then
-      local CommandFunction = warExtended.Modules[Module]["cmd"][Command]["function"]
-        local argSplit =  StringSplit((...), "#")
-        return  CommandFunction(unpack(argSplit))
+          local CommandFunction = warExtended.Modules[Module]["cmd"][Command]["function"]
+          local argumentsSplit =  StringSplit((...), "#")
+              return  CommandFunction(unpack(argumentsSplit))
+          end
       end
-    end
   end
-  end
-
+end
 
 
 function warExtended.RegisterSlashCore()

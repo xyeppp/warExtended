@@ -101,7 +101,7 @@ local function getFirstEmptyMacroSlot()
   end
 end
 
-local function RegisterMacro(macroAction, macroName, macroSlot, macroIcon)
+function RegisterMacro(macroAction, macroName, macroSlot, macroIcon)
   macroSlot = macroSlot or getFirstEmptyMacroSlot()
 
   if macroSlot == nil then
@@ -143,6 +143,7 @@ local function registerSelfHooks()
   --EA_Window_Macro.OnSave         = warExtendedMacro.EA_Window_Macro_OnSave
 end
 
+
 function warExtendedMacro.Initialize()
 
   warExtended.ModuleRegister("Macro", slashCommands)
@@ -156,17 +157,20 @@ function warExtendedMacro.Initialize()
 
 end
 
+
 function warExtendedMacro.EA_Window_Macro_OnSave()
   p("hooked")
 end
 
 function warExtendedMacro.SetMacroData(macroAction, macroSlot)
-  p(macroAction)
-  p("----")
-  p(macroSlot)
-  --local argSplit = StringSplit(tostring(macroAction), "#")
---  p(argSplit)
-  macroSlot = macroSlot or nil
+
+  if macroAction == "" then
+    return warExtended.ModuleChatPrint("Macro", "Usage: yourMacro#macroSlot\nMacro slot is optional - first empty slot will be used if not given.")
+  end
+
+  macroSlot = tonumber(macroSlot) or nil
+  RegisterMacro(macroAction, nil, macroSlot, nil)
+
 end
 
 function warExtendedMacro.LoadMacroSet(macroSet)
@@ -176,43 +180,6 @@ function warExtendedMacro.LoadMacroSet(macroSet)
     return warExtended.ModuleChatPrint("Macro", "Usage: /macroset 1 or 2")
   end
   end
-
-  --[[local regex = wstring.match(towstring(input), L"\^\%s")
-  local qnaSplit = StringSplit(tostring(input), "#")
-  local qnaSplitter = wstring.match(towstring(input), L"#")
-  local input = towstring(qnaSplit[1])
-  local macroNumber = towstring(qnaSplit[2])
-  local macros = DataUtils.GetMacros ()
-
-  if not input or input == L"" then EA_ChatWindow.Print(link..L"Usage: /qnamacro text#macroNumber)") return end
-  if not qnaSplit[2] or qnaSplit[2] == L"" or qnaSplit[2] == nil then EA_ChatWindow.Print(link..L"Usage: /qnamacro text#macroNumber)") return end
-  if qnaSplitter and (qnaSplit[2] == nil or qnaSplit[2] == L"") then EA_ChatWindow.Print(link..L"Usage: /qnamacro text#macroNumber)") return end
-  if qnaSplit and (qnaSplit[2] == nil or qnaSplit[2] == L"") then EA_ChatWindow.Print(link..L"Usage: /qnamacro text#macroNumber)") return end
-
-
-  for k, v in pairs(macros) do
-    if wstring.match(towstring(k), macroNumber) then
-    end
-  end
-
-  for k, v in pairs(QuickNameActionsRessurected.NameMap) do
-    input = wstring.gsub((input), towstring(k), towstring(v()))
-  end
-
-  SetMacroData( TextEditBoxGetText( "EA_Window_MacroDetailsName" ), input, macros[tonumber(macroNumber)].iconNum, tonumber(macroNumber))
-
-  local texture, x, y = GetIconData( macros[tonumber(macroNumber)].iconNum )
-  DynamicImageSetTexture( "EA_Window_MacroIconSlot"..tonumber(macroNumber).."IconBase", texture, x, y )
-
-  Sound.Play( Sound.BUTTON_CLICK )
-
-  EA_ChatWindow.Print(link..L"Macro ["..macroNumber..L"] set to: "..input)
-end]]
-
-
-
-
-
 
 
 function warExtendedMacro.Shutdown()

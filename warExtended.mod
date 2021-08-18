@@ -20,8 +20,8 @@
 
         <Files>
             <File name="warExtendedUtils.lua" />
-            <File name="warExtendedSlash.lua" />
-            <File name="warExtendedEmotes.lua" />
+            <File name="warExtendedSlashCore.lua" />
+            <File name="warExtendedSlashEmotes.lua" />
             <File name="warExtendedModules.lua" />
             <File name="warExtendedHyperlinks.lua" />
             <File name="warExtendedHooks.lua" />

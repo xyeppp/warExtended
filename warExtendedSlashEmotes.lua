@@ -4,31 +4,33 @@ local pairs=pairs
 --$et and $ft get automatically translated upon sending the message via ChatMacro function
 local EmoteList = {
     ['spit'] = {
-        ['hostile'] = L'spits on $et. How disgusting!',
-        ["friendly"] = L'spits on $ft. How disgusting!',
-        ['notarget'] = L'spits on himself...'
+        ['hostile'] = 'spits on $et. How disgusting!',
+        ["friendly"] = 'spits on $ft. How disgusting!',
+        ['notarget'] = 'spits on himself...'
     },
     ['amaze'] = {
-        ['hostile'] = L' You are amazed by $et',
-        ['friendly'] = L'You are amazed by $ft',
-        ['notarget'] = L'is amazed!'
+        ['hostile'] = ' You are amazed by $et',
+        ['friendly'] = 'You are amazed by $ft',
+        ['notarget'] = 'is amazed!'
     },
     ['scared'] = {
-        ['hostile'] = L' You are scared of $et',
-        ['friendly'] = L'You are scared of $ft',
-        ['notarget'] = L'is scared.'
+        ['hostile'] = ' You are scared of $et',
+        ['friendly'] = 'You are scared of $ft',
+        ['notarget'] = 'is scared.'
     }
 }
 
 local function emoteParser(emote)
     local HostileTargetName, FriendlyTargetName = warExtended.GetCurrentTargetNames()
-    if HostileTargetName ~= L"" then
-        ChatMacro(EmoteList[emote].hostile, '/e')
+
+    if HostileTargetName ~= L""  then
+        return ChatMacro(EmoteList[emote].hostile, '/e')
     elseif FriendlyTargetName ~= L"" then
-        ChatMacro(EmoteList[emote].friendly, '/e')
+        return ChatMacro(EmoteList[emote].friendly, '/e')
     else
-        ChatMacro(EmoteList[emote].notarget, '/e')
+        return ChatMacro(EmoteList[emote].notarget, '/e')
     end
+
 end
 
 function warExtended.RegisterSlashEmotes()
