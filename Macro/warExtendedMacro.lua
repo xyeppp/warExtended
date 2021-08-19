@@ -11,10 +11,17 @@ local DynamicImageSetTexture  = DynamicImageSetTexture
 local SetMacroData  = SetMacroData
 local GetIconData = GetIconData
 local macroBox = "MacroSetComboBox"
+local firstLoad = false;
 
 warExtendedMacro.Settings={}
 warExtendedMacro.Settings.isMacroSetCreated = false;
 warExtendedMacro.Settings.selectedMacroSet  = 1;
+warExtendedMacro.Settings.Sets = {}
+
+local selectedSet =  {
+    [1]=false,
+    [2]=false,
+  }
 
 local slashCommands = {
 
@@ -29,8 +36,7 @@ local slashCommands = {
 
 }
 
-local selectedMacroSet1 = false;
-local selectedMacroSet2 = false;
+
 
 local function initializeMacroComboBox()
   ComboBoxAddMenuItem(macroBox, L"Set 1")
@@ -41,8 +47,8 @@ end
 
 
 local function createMacroSets()
-  warExtendedMacro.Settings.Set1  = DataUtils.GetMacros()
-  warExtendedMacro.Settings.Set2  = DataUtils.CopyTable(warExtendedMacro.Set1)
+  warExtendedMacro.Settings.Sets[1] = DataUtils.GetMacros()
+  warExtendedMacro.Settings.Sets[2]= DataUtils.CopyTable(warExtendedMacro.Settings.Sets[1])
   warExtendedMacro.Settings.isMacroSetCreated  = true;
 end
 
@@ -54,14 +60,55 @@ local function getCurrentMacroSetText()
   return ComboBoxGetSelectedText(macroBox)
 end
 
-local function setCurrentMacroSet(macroSet)
-  ComboBoxSetSelectedMenuItem(macroBox, tonumber(macroSet))
-  warExtendedMacro.OnMacroComboBoxSelect()
+
+
+
+local function setNewMacroSet(macroSet)
+
+--  local currentMacro=DataUtils.GetMacros()
+  for Set,_ in pairs(selectedSet) do
+    if macroSet == Set then
+      selectedSet[Set] = true;
+      warExtendedMacro.Settings.selectedMacroSet = macroSet
+    else
+      -- split into separate functrion to saveCurrentMacro
+      selectedSet[Set] = false;
+    --  p("saving old macro to  "..Set)
+     -- warExtendedMacro.Settings.Sets[Set] = currentMacro
+    end
+  end
 end
 
-local function saveCurrentMacroSet()
-  local currentMacroSet = getCurrentMacroSetNumber()
+local function getNewMacros(macroSet)
+  local setNumber=macroSet
+  p("gettingNewMacros  "..setNumber)
+
+  for macroSlot,macroData in pairs(warExtendedMacro.Settings.Sets[setNumber]) do
+    SetMacroData( macroData.name, macroData.text, macroData.iconNum, macroSlot)
+  end
 end
+
+
+local function saveCurrentMacroSet()
+  local macroSet = getCurrentMacroSetNumber()
+  local currentSet = DataUtils.GetMacros()
+  for Set,_ in pairs (selectedSet) do
+    if selectedSet[Set] then
+      warExtendedMacro.Settings.Sets[Set] = currentSet
+      p("saving current macro to  "..Set)
+    end
+  end
+  local setNumber=macroSet or getCurrentMacroSetNumber()
+  --warExtendedMacro.Settings.Sets[setNumber] = currentSet
+end
+
+local function loadMacroSet(macroSet)
+  local macroSet=tonumber(macroSet)
+  ComboBoxSetSelectedMenuItem(macroBox, macroSet)
+  p("lkoading macro set "..macroSet)
+  warExtendedMacro.OnMacroComboBoxSelect(macroSet)
+end
+
 
 local function getMacroData(macroSlot, dataType)
   local currentMacros = DataUtils.GetMacros()
@@ -113,7 +160,7 @@ function RegisterMacro(macroAction, macroName, macroSlot, macroIcon)
 
   local texture, x, y = GetIconData( macroIcon )
   DynamicImageSetTexture( "MacroIconSelectionWindowIconSlot"..macroSlot.."IconBase", texture, x, y )
-  SetMacroData( macroName, towstring(macroAction), macroIcon, macroSlot )
+  SetMacroData( towstring(macroName), towstring(macroAction), macroIcon, macroSlot )
   DynamicImageSetTexture( "EA_Window_MacroIconSlot"..macroSlot.."IconBase", texture, x, y )
 
   Sound.Play( Sound.BUTTON_CLICK )
@@ -127,10 +174,10 @@ local function registerWarExtendedMacros()
 
   warExtended.ModuleChatPrint("Macro", L"Setting up warExtended Macros.")
 
-  RegisterMacro(L"/script TellTarget(\"whisper current friendly target with this text\")",L"warExtended Tell Target", nil, 22250);
-  RegisterMacro(L"/script InviteLast()",L"warExtended Invite Last", nil, 22251);
-  RegisterMacro(L"/script ReplyLast(\"reply to last whisper with this text\")", L"warExtended Reply Last", nil, 22252);
-  RegisterMacro(L"/script ChatMacro(\"send dynamic target info (example: $ehp $elvl $et) to a channel of choice\", \"/s\")",L"warExtended Chat Macro", nil, 22253);
+  RegisterMacro("/script TellTarget(\"whisper current friendly target with this text\")","warExtended Tell Target", nil, 22250);
+  RegisterMacro("/script InviteLast()","warExtended Invite Last", nil, 22251);
+  RegisterMacro("/script ReplyLast(\"reply to last whisper with this text\")", "warExtended Reply Last", nil, 22252);
+  RegisterMacro("/script ChatMacro(\"send dynamic target info (example: $ehp $elvl $et) to a channel of choice\", \"/s\")","warExtended Chat Macro", nil, 22253);
 
   local currentMacros = DataUtils.GetMacros()
   warExtendedMacro.Settings.Set1 = DataUtils.CopyTable(currentMacros)
@@ -139,12 +186,13 @@ end
 
 
 local function registerSelfHooks()
-  --Original_EA_Window_MacroOnSave = EA_Window_Macro.OnSave
-  --EA_Window_Macro.OnSave         = warExtendedMacro.EA_Window_Macro_OnSave
+  warExtendedMacro.Original_EA_Window_MacroOnSave = EA_Window_Macro.OnSave
+  EA_Window_Macro.OnSave         = warExtendedMacro.EA_Window_Macro_OnSave
 end
 
 
 function warExtendedMacro.Initialize()
+  firstLoad=true;
 
   warExtended.ModuleRegister("Macro", slashCommands)
 
@@ -157,9 +205,40 @@ function warExtendedMacro.Initialize()
 
 end
 
+--[[TODO:  for k, v in pairs(QuickNameActionsRessurected.NameMap) do
+    input = wstring.gsub((input), towstring(k), towstring(v()))
+  end]]
 
-function warExtendedMacro.EA_Window_Macro_OnSave()
-  p("hooked")
+
+function warExtendedMacro.EA_Window_Macro_OnSave(...)
+   warExtendedMacro.Original_EA_Window_MacroOnSave(...)
+  local currentSet = getCurrentMacroSetNumber()
+  saveCurrentMacroSet()
+    --[[local macros=DataUtils.GetMacros()
+    local tabler1=copyTable(macros,QuickNameActionsRessurected.Settings.MacroSet1)
+    local tabler2=copyTable(macros,QuickNameActionsRessurected.Settings.MacroSet2)
+
+    local macroText = TextEditBoxGetText( "EA_Window_MacroDetailsText" )
+    for k, v in pairs(QuickNameActionsRessurected.NameMap) do
+      macroText = wstring.gsub((macroText), towstring(k), towstring(v()))
+    end
+
+    SetMacroData( TextEditBoxGetText( "EA_Window_MacroDetailsName" ), macroText, EA_Window_Macro.iconNum, EA_Window_Macro.activeId )
+
+    local texture, x, y = GetIconData( EA_Window_Macro.iconNum )
+    DynamicImageSetTexture( "EA_Window_MacroIconSlot"..EA_Window_Macro.activeId.."IconBase", texture, x, y )
+
+    Sound.Play( Sound.BUTTON_CLICK )
+
+    if set1 then
+      local macros=DataUtils.GetMacros()
+      copyTable(macros,QuickNameActionsRessurected.Settings.MacroSet1)
+    elseif set2 then
+      local macros=DataUtils.GetMacros()
+      copyTable(macros,QuickNameActionsRessurected.Settings.MacroSet2)
+    end
+
+    end]]
 end
 
 function warExtendedMacro.SetMacroData(macroAction, macroSlot)
@@ -173,37 +252,80 @@ function warExtendedMacro.SetMacroData(macroAction, macroSlot)
 
 end
 
+
 function warExtendedMacro.LoadMacroSet(macroSet)
   if macroSet=="1" or macroSet=="2" then
-    return setCurrentMacroSet(macroSet)
+    return loadMacroSet(macroSet)
   else
     return warExtended.ModuleChatPrint("Macro", "Usage: /macroset 1 or 2")
   end
-  end
+end
+
+
+function warExtendedMacro.OnMacroComboBoxSelect(macroSet)
+   macroSet=macroSet or getCurrentMacroSetNumber()
+  local macroSetText=getCurrentMacroSetText()
+  local currentSet=DataUtils.GetMacros()
+
+  saveCurrentMacroSet()
+  setNewMacroSet(macroSet)
+  getNewMacros(macroSet)
+
+  --p(warExtendedMacro.Settings.selectedMacroSet)
+  --[[local selectedName=ComboBoxGetSelectedMenuItem("SetBox")
+  local selectedText=ComboBoxGetSelectedText("SetBox")
+  if selectedName==1 then
+    if set2 then set2=false end
+    set1=true;
+    for k,v in pairs(QuickNameActionsRessurected.Settings.MacroSet1) do
+      SetMacroData( v.name, v.text, v.iconNum, k)
+
+    end
+    EA_ChatWindow.Print(link..L"Macro "..(selectedText)..L" loaded.")
+    LabelSetText("EA_Window_MacroTitleBarText", L"Macro Set 1")
+    QuickNameActionsRessurected.Settings.SelectedSet=selectedName
+  elseif selectedName==2 then
+    if set1 then set1=false; end
+    set2=true;
+    for b,f in pairs(QuickNameActionsRessurected.Settings.MacroSet2) do
+      SetMacroData( f.name, f.text, f.iconNum, b)
+    end
+    EA_ChatWindow.Print(link..L"Macro "..(selectedText)..L" loaded.")
+    LabelSetText("EA_Window_MacroTitleBarText", L"Macro Set 2")
+      QuickNameActionsRessurected.Settings.SelectedSet=selectedName
+  end]]
+
+  if not firstLoad then return end
+end
 
 
 function warExtendedMacro.Shutdown()
   warExtended.ModuleUnregister("Macro")
 end
+ --[[if currentMacroSetNumber==1 then
+   -- if set2 then set2=false end
+   -- set1=true;
+   for k,v in pairs(warExtended.Settings.MacroSet1) do
+      SetMacroData( v.name, v.text, v.iconNum, k)
+    end
+
+    EA_ChatWindow.Print(link..L"Macro "..(currentMacroSetText)..L" loaded.")
+    LabelSetText("EA_Window_MacroTitleBarText", L"Macro Set 1")
+    warExtended.Settings.SelectedSet=selectedName
+  elseif currentMacroSetNumber==2 then
+    if set1 then set1=false; end
+    set2=true;
+    for b,f in pairs(QuickNameActionsRessurected.Settings.MacroSet2) do
+      SetMacroData( f.name, f.text, f.iconNum, b)
+    end
+   -- EA_ChatWindow.Print(link..L"Macro "..(currentMacroSetText)..L" loaded.")
+   -- LabelSetText("EA_Window_MacroTitleBarText", L"Macro Set 2")
+      --QuickNameActionsRessurected.Settings.SelectedSet=selectedName
+  --end
+--
 
 
-
-
---[[function QuickNameActionsRessurected.LoadSet(input)
-if input=="1" then
-  ComboBoxSetSelectedMenuItem("SetBox", 1)
-  QuickNameActionsRessurected.OnSelSet()
-  return
-elseif input=="2" then
-  ComboBoxSetSelectedMenuItem("SetBox", 2)
-  QuickNameActionsRessurected.OnSelSet()
-  return
-else
-  EA_ChatWindow.Print(towstring(link)..L"Usage: /qnaload 1 or /qnaload 2")
-end
-end]]
-
---[[function QuickNameActionsRessurected.OnSelSet()
+function QuickNameActionsRessurected.OnSelSet()
 local selectedName=ComboBoxGetSelectedMenuItem("SetBox")
   local selectedText=ComboBoxGetSelectedText("SetBox")
   if selectedName==1 then
@@ -256,63 +378,4 @@ elseif set2 then
 end
 
 end
-
-function QuickNameActionsRessurected.MacroSetter(input, macroNumber)
-  local regex = wstring.match(towstring(input), L"\^\%s")
-  local qnaSplit = StringSplit(tostring(input), "#")
-  local qnaSplitter = wstring.match(towstring(input), L"#")
-  local input = towstring(qnaSplit[1])
-  local macroNumber = towstring(qnaSplit[2])
-  local macros = DataUtils.GetMacros ()
-
-  if not input or input == L"" then EA_ChatWindow.Print(link..L"Usage: /qnamacro text#macroNumber)") return end
-  if not qnaSplit[2] or qnaSplit[2] == L"" or qnaSplit[2] == nil then EA_ChatWindow.Print(link..L"Usage: /qnamacro text#macroNumber)") return end
-  if qnaSplitter and (qnaSplit[2] == nil or qnaSplit[2] == L"") then EA_ChatWindow.Print(link..L"Usage: /qnamacro text#macroNumber)") return end
-  if qnaSplit and (qnaSplit[2] == nil or qnaSplit[2] == L"") then EA_ChatWindow.Print(link..L"Usage: /qnamacro text#macroNumber)") return end
-
-
-  for k, v in pairs(macros) do
-    if wstring.match(towstring(k), macroNumber) then
-    end
-  end
-
-  for k, v in pairs(QuickNameActionsRessurected.NameMap) do
-    input = wstring.gsub((input), towstring(k), towstring(v()))
-  end
-
-  SetMacroData( TextEditBoxGetText( "EA_Window_MacroDetailsName" ), input, macros[tonumber(macroNumber)].iconNum, tonumber(macroNumber))
-
-  local texture, x, y = GetIconData( macros[tonumber(macroNumber)].iconNum )
-  DynamicImageSetTexture( "EA_Window_MacroIconSlot"..tonumber(macroNumber).."IconBase", texture, x, y )
-
-  Sound.Play( Sound.BUTTON_CLICK )
-
-  EA_ChatWindow.Print(link..L"Macro ["..macroNumber..L"] set to: "..input)
-end]]
-
-function warExtendedMacro.OnMacroComboBoxSelect()
-  p(getCurrentMacroSetNumber())
-  p(getCurrentMacroSetText())
- end
-
- -- if currentMacroSetNumber==1 then
-   -- if set2 then set2=false end
-   -- set1=true;
-   --[[ for k,v in pairs(warExtended.Settings.MacroSet1) do
-      SetMacroData( v.name, v.text, v.iconNum, k)
-    end
-
-    EA_ChatWindow.Print(link..L"Macro "..(currentMacroSetText)..L" loaded.")
-    LabelSetText("EA_Window_MacroTitleBarText", L"Macro Set 1")
-    warExtended.Settings.SelectedSet=selectedName
-  elseif currentMacroSetNumber==2 then
-    if set1 then set1=false; end
-    set2=true;
-    for b,f in pairs(QuickNameActionsRessurected.Settings.MacroSet2) do
-      SetMacroData( f.name, f.text, f.iconNum, b)
-    end]]
-   -- EA_ChatWindow.Print(link..L"Macro "..(currentMacroSetText)..L" loaded.")
-   -- LabelSetText("EA_Window_MacroTitleBarText", L"Macro Set 2")
-      --QuickNameActionsRessurected.Settings.SelectedSet=selectedName
-  --end
---end
+]]

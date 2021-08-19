@@ -13,6 +13,7 @@ warExtended.Modules={}
 --}
 --
 --if yourFunction doesn't work do function (...) return yourFunction (...) end
+--A nil argument is equivalent to ""
 --
 --To create options for modules use the following table format:
 --options = {
