@@ -1075,7 +1075,7 @@
                             </EventHandlers>
                         </Button>
 
-                        <ComboBox name="SetBox" inherits="EA_ComboBox_DefaultResizableSmall">
+                        <ComboBox name="MacroSetComboBox" inherits="EA_ComboBox_DefaultResizableSmall">
                 					<Size>
                 						<AbsPoint x="300" y="50" />
                 					</Size>
@@ -1085,7 +1085,7 @@
                 						</Anchor>
                 					</Anchors>
                 					<EventHandlers>
-                						<EventHandler event="OnSelChanged" function="QuickNameActionsRessurected.OnSelSet" />
+                						<EventHandler event="OnSelChanged" function="warExtendedMacro.OnMacroComboBoxSelect" />
                 					</EventHandlers>
                 				</ComboBox>
 

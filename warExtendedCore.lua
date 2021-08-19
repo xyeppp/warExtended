@@ -1,38 +1,7 @@
 local warExtended = warExtended
-
--- URL patterns for automatic link conversion
-local URLpattern = "[a-zA-Z@:%._\+~#=%/]+%.[a-zA-Z0-9@:_\+~#=%/%?&]"
-local URLpatterns = {
-  -- X@X.Y url (---> email)
-  "^(www%.[%w_-]+%.%S+[^%p%s])",
-  "%s(www%.[%w_-]+%.%S+[^%p%s])",
-  -- XXX.YYY.ZZZ.WWW:VVVV/UUUUU url
-  "^(%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?:%d%d?%d?%d?%d?/%S+[^%p%s])",
-  "%s(%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?:%d%d?%d?%d?%d?/%S+[^%p%s])",
-  -- XXX.YYY.ZZZ.WWW:VVVV url (IP of ts server for example)
-  "^(%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?:%d%d?%d?%d?%d?)",
-  "%s(%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?:%d%d?%d?%d?%d?)",
-  -- XXX.YYY.ZZZ.WWW/VVVVV url (---> IP)
-  "^(%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?/%S+[^%p%s])",
-  "%s(%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?/%S+[^%p%s])",
-  -- XXX.YYY.ZZZ.WWW url (---> IP)
-  "^(%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?)",
-  "%s(%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?)",
-  -- X.Y.Z:WWWW/VVVVV url
-  "^([%w_.-]+[%w_-]%.%a%a+:%d%d?%d?%d?%d?/%S+[^%p%s])",
-  "%s([%w_.-]+[%w_-]%.%a%a+:%d%d?%d?%d?%d?/%S+[^%p%s])",
-  -- X.Y.Z:WWWW url  (ts server for example)
-  "^([%w_.-]+[%w_-]%.%a%a+:%d%d?%d?%d?%d?)",
-  "%s([%w_.-]+[%w_-]%.%a%a+:%d%d?%d?%d?%d?)",
-  -- X.Y.Z/WWWWW url
-  "^([%w_.-]+[%w_-]%.%a%a+/%S+[^%p%s])",
-  "%s([%w_.-]+[%w_-]%.%a%a+/%S+[^#%p%s])",
-  -- X.Y.Z url
-  "^([%w_.-]+[%w_-]%.%a%a+)",
-  "%s([%w_.-]+[%w_-]%.%a%a+)",
-  -- X://Y url
-  "(%a+://[%d%w_-%.]+[%.%d%w_%-%/%?%%%#=%;%:%+%&]*)",
-};
+local math=math
+local URLpattern = warExtended.Settings.URLpattern
+local URLpatterns = warExtended.Settings.URLpatterns
 
 local function getGroupType()
   if (IsWarBandActive()) then
@@ -44,16 +13,18 @@ local function getGroupType()
   return 1
 end
 
+
 function warExtended.Initialize()
-  if warExtended.isUserAddonEnabled("LibSlash") then
-    warExtended.RegisterSlashCommands()
+
+    warExtended.RegisterHooks()
+    warExtended.RegisterSlashCore()
     warExtended.RegisterSlashEmotes()
-  end
+
 end
 
 
---- Define new global functions
 
+--- Define new global functions
 function ChatMacro(text,channel)
     text = towstring(text)
     channel = towstring(channel)

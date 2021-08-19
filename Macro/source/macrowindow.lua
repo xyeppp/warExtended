@@ -147,9 +147,7 @@ end
 
 function EA_Window_Macro.OnSave()
   local macroText = TextEditBoxGetText( "EA_Window_MacroDetailsText" )
---  for k, v in pairs(QuickNameActionsRessurected.NameMap) do
-  --  macroText = wstring.gsub((macroText), towstring(k), towstring(v()))
---  end
+
   SetMacroData( TextEditBoxGetText( "EA_Window_MacroDetailsName" ), macroText, EA_Window_Macro.iconNum, EA_Window_Macro.activeId )
 
   local texture, x, y = GetIconData( EA_Window_Macro.iconNum )
