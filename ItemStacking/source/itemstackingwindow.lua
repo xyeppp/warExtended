@@ -6,7 +6,7 @@ ItemStackingWindow = {}
 ItemStackingWindow.CurrentItemSlot = nil
 ItemStackingWindow.CurrentSourceLoc = nil
 
-ItemStackingWindow.MAX_NON_STACKABLE_ITEMS = 1000
+ItemStackingWindow.MAX_NON_STACKABLE_ITEMS = 100
 
 ----------------------------------------------------------------
 -- Local Variables
@@ -17,25 +17,25 @@ ItemStackingWindow.MAX_NON_STACKABLE_ITEMS = 1000
 ----------------------------------------------------------------
 
 -- OnInitialize Handler
-function ItemStackingWindow.Initialize()		
-            
+function ItemStackingWindow.Initialize()
+
     local windowName = "ItemStackingWindow"
-        
+
     ButtonSetText( windowName.."Okay", GetString( StringTables.Default.LABEL_OKAY))
     ButtonSetText( windowName.."Cancel", GetString( StringTables.Default.LABEL_CANCEL))
-    
+
 end
 
 function ItemStackingWindow.Show(slotLoc, slot, titleText)
 
-    local itemData = ItemStackingWindow.GetItemData(slotLoc, slot)    
+    local itemData = ItemStackingWindow.GetItemData(slotLoc, slot)
     if(itemData == nil) then
         return
     end
-    
+
     local windowName = "ItemStackingWindow"
     local editBoxText = windowName.."TextInput"
-    
+
     local backpackType = EA_BackpackUtilsMediator.GetCurrentBackpackType()
     local backpackCursor = EA_BackpackUtilsMediator.GetCursorForBackpack( backpackType )
     -- if was a previous lock, release it
@@ -51,20 +51,20 @@ function ItemStackingWindow.Show(slotLoc, slot, titleText)
     if ItemStackingWindow.CurrentSourceLoc == backpackCursor and ItemStackingWindow.CurrentItemSlot then
         EA_BackpackUtilsMediator.RequestLockForSlot(ItemStackingWindow.CurrentItemSlot, backpackType, windowName)
     end
-    
+
     titleText = titleText or GetString( StringTables.Default.LABEL_STACK_SPLITTING)
     LabelSetText( windowName.."TitleBarText", titleText )
-    
+
     local itemText = itemData.name
     if itemData.stackCount > 1 then
         itemText = itemText..L" ("..itemData.stackCount..L")"
     end
     LabelSetText( windowName.."ItemText", itemText)
     TextEditBoxSetText(editBoxText, L"1")
-    
+
     --Setting the anchor position to be beneath the mouse cursor
     ItemStackingWindow.HandleAnchor()
-    
+
     WindowSetShowing( windowName, true)
     WindowAssignFocus( editBoxText, true)
     TextEditBoxSelectAll( editBoxText )
@@ -76,7 +76,7 @@ function ItemStackingWindow.HandleAnchor()
     local x = SystemData.MousePosition.x / InterfaceCore.GetScale() -100
     local y = SystemData.MousePosition.y / InterfaceCore.GetScale() -15
     WindowClearAnchors( windowName )
-    WindowAddAnchor( windowName, "topleft", "Root", "topleft", x, y )  
+    WindowAddAnchor( windowName, "topleft", "Root", "topleft", x, y )
 end
 
 -- OnShutdown Handler
@@ -103,18 +103,18 @@ function ItemStackingWindow.OnTextChanged()
     if(slot == nil) then
         return
     end
-    
+
     local itemData = ItemStackingWindow.GetItemData(slotLoc, slot)
-    
+
     if( itemData == nil ) then
         return
     end
-    
+
     local windowName = "ItemStackingWindow"
     local editBoxText = windowName.."TextInput"
 
     --Hexadecimal of 0 and 9 and Backspace
-    
+
     local amount = itemData.stackCount
     if itemData.stackCount <= 1 then
         -- TODO: we really should have server send us what the stack capacity is for an item so we can use that when an item is stackable
@@ -122,14 +122,14 @@ function ItemStackingWindow.OnTextChanged()
         -- amount = itemData.capacity
         amount = ItemStackingWindow.MAX_NON_STACKABLE_ITEMS
     end
-    
+
     local editInputText = TextEditBoxGetText(editBoxText)
     local outputNum = nil
     if( editInputText ~= nil ) then
         outputNum = tonumber(WStringToString(editInputText))
     end
-    
-    if( outputNum ~= nil) then	
+
+    if( outputNum ~= nil) then
         if( outputNum > amount ) then
             outputNum = amount
             TextEditBoxSetText(editBoxText, L""..outputNum)
@@ -144,7 +144,7 @@ function ItemStackingWindow.OkayButton()
     if(itemData == nil) then
         return
     end
-    
+
     local windowName = "ItemStackingWindow"
     local editBoxText = windowName.."TextInput"
 
@@ -153,11 +153,11 @@ function ItemStackingWindow.OkayButton()
     if( editInputText ~= nil ) then
         outputNum = tonumber(WStringToString(editInputText))
     end
-    
+
     if(outputNum ~= nil and outputNum > 0) then
         Cursor.PickUp( ItemStackingWindow.CurrentSourceLoc, ItemStackingWindow.CurrentItemSlot, itemData.uniqueID, itemData.iconNum, true, outputNum )
     end
-    
+
     ItemStackingWindow.OnClose()
 end
 
@@ -179,16 +179,16 @@ function ItemStackingWindow.OnClose()
 end
 
 function ItemStackingWindow.GetItemData(sourceLoc, slot)
-    
+
     local itemData
-    
+
     -- NOTE: I removed sourceLoc == Cursor.SOURCE_EQUIPMENT and sourceLoc == Cursor.SOURCE_QUEST_ITEM (1/12/09)
     --	 as valid choices, since I can't think of any reason we would have a stackable item in the CharacterWindow,
     --   and we shouldn't be able to split a stacked item in Quest Backpack
 
     local backpackType = EA_BackpackUtilsMediator.GetCurrentBackpackType()
-    local curretBackpackCursor = EA_BackpackUtilsMediator.GetCursorForBackpack( backpackType )      
-    if( sourceLoc ~= Cursor.SOURCE_QUEST_ITEM and ( sourceLoc == curretBackpackCursor or 
+    local curretBackpackCursor = EA_BackpackUtilsMediator.GetCursorForBackpack( backpackType )
+    if( sourceLoc ~= Cursor.SOURCE_QUEST_ITEM and ( sourceLoc == curretBackpackCursor or
         sourceLoc == Cursor.SOURCE_BANK ) )
     then
         itemData = DataUtils.GetItemData(sourceLoc, slot)
@@ -196,6 +196,6 @@ function ItemStackingWindow.GetItemData(sourceLoc, slot)
     elseif sourceLoc == Cursor.SOURCE_MERCHANT then
         itemData = EA_Window_InteractionStore.GetItem(slot)
     end
-    
+
     return itemData
 end
