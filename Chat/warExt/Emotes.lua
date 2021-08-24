@@ -1,7 +1,6 @@
 local warExtended = warExtended
 local pairs=pairs
 
---$et and $ft get automatically translated upon sending the message via ChatMacro function
 local EmoteList = {
     ['spit'] = {
         ['hostile'] = 'spits on $et. How disgusting!',
@@ -20,15 +19,17 @@ local EmoteList = {
     }
 }
 
-local function emoteParser(emote)
-    local HostileTargetName, FriendlyTargetName = warExtended.GetCurrentTargetNames()
 
-    if HostileTargetName ~= L""  then
-        return ChatMacro(EmoteList[emote].hostile, '/e')
-    elseif FriendlyTargetName ~= L"" then
-        return ChatMacro(EmoteList[emote].friendly, '/e')
+local function emoteParser(emote)
+    local HostileTarget, FriendlyTarget = warExtended:GetTargetNames()
+    emote=EmoteList[emote]
+
+    if HostileTarget  then
+        return ChatMacro(emote.hostile, '/e')
+    elseif FriendlyTarget then
+        return ChatMacro(emote.friendly, '/e')
     else
-        return ChatMacro(EmoteList[emote].notarget, '/e')
+        return ChatMacro(emote.notarget, '/e')
     end
 
 end

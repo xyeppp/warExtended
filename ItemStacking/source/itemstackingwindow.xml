@@ -38,7 +38,7 @@
                     </Anchors>
                     <Color r="255" g="255" b="0"/>
                 </Label>
-                
+
                 <!-- Text Input for the number of items to split -->
                 <EditBox name="$parentTextInput" inherits="EA_EditBox_DefaultFrame" maxchars="4" history="5" textalign="right" input="numbers" taborder="0">
                     <Size>
@@ -55,7 +55,7 @@
                         <EventHandler event="OnTextChanged" function="ItemStackingWindow.OnTextChanged" />
                     </EventHandlers>
                 </EditBox>
-                
+
                 <Button name="$parentOkay" inherits="EA_Button_DefaultResizeable">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
@@ -76,8 +76,8 @@
                         <EventHandler event="OnLButtonUp" function="ItemStackingWindow.CancelButton" />
                     </EventHandlers>
                 </Button>
-			</Windows>				
-			
+			</Windows>
+
 		</Window>
 	</Windows>
 </Interface>
