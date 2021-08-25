@@ -1,40 +1,25 @@
 if not warExtended then
   warExtended={}
+  warExtended.__index = warExtended
 end
 
 local EA_ChatWindow = EA_ChatWindow
-local pairs=pairs
-local ipairs=ipairs
 local string=string
 local modules = {}
 
 --TODO:make core item link icons invisible by subbing test from sendchattext
---To create slash commands for modules use the following table format:
---
---slashCommands = {
---  ["command"] = a
---    {
---      ["function"] = yourFunction,
---      ["description"] = c
---    }
---}
---
---If yourFunction doesn't work do function (...) return yourFunction (...) end
---All arguments get handled via warExt Slash Handler with an argument split on # character
---A nil argument is equivalent to ""
 --Register module with object = warExtended.Register(moduleName, hyperlinkName, hyperlinkColor)
---Use object:Print to "[hyperlinkName] text"
-
-warExtended.__index = warExtended
+--Use object:Print to "[hyperlinkName] text" or object:Warn to "[hyperlinkName] text" in RED color
+--If color is nil then GREEN is set as default.
 
 local function getModuleVersion(module)
-  local Addons = ModulesGetData()
-  local moduleName = module
+  local ModuleData = ModulesGetData()
 
-  for _, moduleData in ipairs(Addons) do
-    if moduleData.name == moduleName then
-      return towstring("v"..moduleData.version)
-    end
+  for Addons=1,#ModuleData do
+    local AddonData = ModuleData[Addons]
+     if AddonData.name == module then
+        return towstring("v."..AddonData.version)
+     end
   end
 end
 
@@ -48,30 +33,41 @@ local function getModuleHyperlink(moduleName, hyperlinkText, hyperlinkColor)
     return CreateHyperLink( HyperlinkData, HyperlinkText, {HyperlinkColor.r, HyperlinkColor.g, HyperlinkColor.b}, {} )
 end
 
+local function addToModulesList(moduleName, hyperlinkText, hyperlinkColor)
+  local isInModuleTable = modules[moduleName]
+
+  if isInModuleTable then
+    return
+  end
+
+  modules[moduleName] = {}
+  modules[moduleName].version = getModuleVersion(moduleName) or false
+  modules[moduleName].hyperlink = getModuleHyperlink(moduleName, hyperlinkText)
+  modules[moduleName].warninglink = getModuleHyperlink(moduleName, hyperlinkText, "RED")
+end
+
 function warExtended:Print(text)
+  local hyperLink = modules[self.moduleName].hyperlink
+
   text = towstring(text)
-  return EA_ChatWindow.Print(self.module.hyperlink..text)
+  return EA_ChatWindow.Print(hyperLink..text)
 end
 
 function warExtended:Warn(text)
+  local warnLink = modules[self.moduleName].warnlink
+
   text = towstring(text)
-  return EA_ChatWindow.Print(self.module.warnlink..text)
+  return EA_ChatWindow.Print(warnLink..text)
 end
 
 function warExtended.Register(moduleName, hyperlinkText, hyperlinkColor)
   local self = setmetatable({}, warExtended);
 
-  self.module = {};
-  self.module.name = moduleName;
-  self.module.hyperlinkText = hyperlinkText
-  self.module.version = getModuleVersion(moduleName);
-  self.module.warnlink = getModuleHyperlink(moduleName, hyperlinkText, "RED") ;
-  self.module.hyperlink = getModuleHyperlink(moduleName, hyperlinkText) ;
-  self.module.cmd = false;
+  self.moduleName = moduleName;
+  addToModulesList(moduleName, hyperlinkText, hyperlinkColor)
 
   return self
 end
-
 
 local function isLastWhisperPresent()
   local lastWhisperPlayer = ChatManager.LastTell.name ~= L""

@@ -1,4 +1,13 @@
 local keymap = {}
+--Register your keymap with the following table format and object:RegisterKeymap
+--
+--local keymapTable = {
+--  [text] = function,
+--  [text2] = function,
+--}
+--
+--Everything else will get handled automatically for you.
+
 
 function ChatMacro(text,channel)
   text = towstring(text)

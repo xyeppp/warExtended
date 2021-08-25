@@ -1,4 +1,4 @@
-warExtendedMacro = warExtended.Register("warExtended Macro Window", "daster", "red")
+warExtendedMacro = warExtended.Register("warExtended Macro Window", "daster", "orange")
 local Macro = warExtendedMacro
 
   --TODO:  getFirstEmptyMacroSlot() Search all macro sets and try to register on another set.
