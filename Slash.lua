@@ -2,6 +2,23 @@ local warExtended = warExtended
 local pairs=pairs
 local slash = {}
 
+--TODO:make core item link icons invisible by subbing test from sendchattext
+--To create slash commands for modules use the following table format:
+--
+--slashCommands = {
+--  ["command"] = a
+--    {
+--      ["function"] = yourFunction,
+--      ["description"] = c
+--    }
+--}
+--
+--If yourFunction doesn't work do function (...) return yourFunction (...) end
+--All arguments get handled via warExt Slash Handler with an argument split on # character
+--A nil argument is equivalent to ""
+--Register module with object = warExtended.Register(moduleName, hyperlinkName, hyperlinkColor)
+--Use object:Print to "[hyperlinkName] text"
+
 local function getSlashCommands()
   for Module,_ in pairs(warExtended.Modules) do
       for Command,_ in pairs(warExtended.Modules[Module]["cmd"]) do

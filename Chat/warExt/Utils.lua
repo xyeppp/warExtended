@@ -230,25 +230,6 @@ warExtended.ChatFunctionNames = {
     end
 }
 
-function warExtended.GetCurrentTargetNames()
-    local HostileTargetName     =   TargetInfo:UnitName('selfhostiletarget')
-    local FriendlyTargetName     =   TargetInfo:UnitName('selffriendlytarget')
-    return HostileTargetName, FriendlyTargetName
-end
-
-function warExtended.IsUserAddonEnabled(addon)
-    local mods = ModulesGetData()
-    for k, v in ipairs(mods) do
-        if v.name == addon then
-            if v.isEnabled then
-                return true
-            else
-                return false
-            end
-            break
-        end
-    end
-end
 
 
 --[[warExtended.Settings.Tester = {}

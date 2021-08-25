@@ -13,9 +13,12 @@
             <File name="Core.lua" />
             <File name="Hooks.lua" />
             <File name="StateMachine.lua" />
+            <File name="Utils.lua" />
             <File name="Slash.lua" />
-            <File name="Chat/Emotes.lua" />
-            <File name="Chat/Core.lua" />
+            <File name="Keymap.lua" />
+            <File name="Events.lua" />
+            <File name="Chat/warExt/Emotes.lua" />
+            <File name="Chat/warExt/Core.lua" />
            <!-- <File name="warExtendedUtils.lua" />
             <File name="warExtendedSlashCore.lua" />
             <File name="warExtendedSlashEmotes.lua" />-->
