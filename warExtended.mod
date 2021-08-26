@@ -17,8 +17,6 @@
             <File name="Slash.lua" />
             <File name="Keymap.lua" />
             <File name="Events.lua" />
-            <File name="Chat/warExt/Emotes.lua" />
-            <File name="Chat/warExt/Core.lua" />
            <!-- <File name="warExtendedUtils.lua" />
             <File name="warExtendedSlashCore.lua" />
             <File name="warExtendedSlashEmotes.lua" />-->

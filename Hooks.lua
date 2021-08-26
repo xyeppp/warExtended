@@ -41,7 +41,10 @@ end
 
 
 function warExtended:Hook(func, newFunc)
-    addFunctionNamesToTable(_G)
+
+    if not GlobalFunctionPaths[func] then
+        addFunctionNamesToTable(_G)
+    end
 
     if not HookedFunctions[newFunc] then
         HookedFunctions[newFunc] = {}

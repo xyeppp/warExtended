@@ -7,6 +7,8 @@ local EA_ChatWindow = EA_ChatWindow
 local string=string
 local modules = {}
 
+warExtended.__index = warExtended
+
 --TODO:make core item link icons invisible by subbing test from sendchattext
 --Register module with object = warExtended.Register(moduleName, hyperlinkName, hyperlinkColor)
 --Use object:Print to "[hyperlinkName] text" or object:Warn to "[hyperlinkName] text" in RED color
@@ -14,13 +16,15 @@ local modules = {}
 
 local function getModuleVersion(module)
   local ModuleData = ModulesGetData()
+  local addonVersion = ""
 
   for Addons=1,#ModuleData do
     local AddonData = ModuleData[Addons]
      if AddonData.name == module then
-        return towstring("v."..AddonData.version)
-     end
+       addonVersion = "v."..AddonData.version
+     break end
   end
+  return towstring(addonVersion)
 end
 
 local function getModuleHyperlink(moduleName, hyperlinkText, hyperlinkColor)
@@ -30,41 +34,31 @@ local function getModuleHyperlink(moduleName, hyperlinkText, hyperlinkColor)
   local HyperlinkData = L"WAREXT:"  ..  towstring(moduleName) ..L" ".. getModuleVersion(moduleName)
   local HyperlinkText = towstring("["..hyperlinkText.."] ")
   local HyperlinkColor = DefaultColor[string.upper(hyperlinkColor)]
-    return CreateHyperLink( HyperlinkData, HyperlinkText, {HyperlinkColor.r, HyperlinkColor.g, HyperlinkColor.b}, {} )
-end
-
-local function addToModulesList(moduleName, hyperlinkText, hyperlinkColor)
-  local isInModuleTable = modules[moduleName]
-
-  if isInModuleTable then
-    return
-  end
-
-  modules[moduleName] = {}
-  modules[moduleName].version = getModuleVersion(moduleName) or false
-  modules[moduleName].hyperlink = getModuleHyperlink(moduleName, hyperlinkText)
-  modules[moduleName].warninglink = getModuleHyperlink(moduleName, hyperlinkText, "RED")
+  return CreateHyperLink( HyperlinkData, HyperlinkText, {HyperlinkColor.r, HyperlinkColor.g, HyperlinkColor.b}, {} )
 end
 
 function warExtended:Print(text)
-  local hyperLink = modules[self.moduleName].hyperlink
+  local hyperLink = self.hyperlink
 
   text = towstring(text)
-  return EA_ChatWindow.Print(hyperLink..text)
+  EA_ChatWindow.Print(hyperLink..text)
 end
 
 function warExtended:Warn(text)
-  local warnLink = modules[self.moduleName].warnlink
+  local warnLink = self.warninglink
 
   text = towstring(text)
-  return EA_ChatWindow.Print(warnLink..text)
+  EA_ChatWindow.Print(warnLink..text)
 end
 
 function warExtended.Register(moduleName, hyperlinkText, hyperlinkColor)
+
   local self = setmetatable({}, warExtended);
 
-  self.moduleName = moduleName;
-  addToModulesList(moduleName, hyperlinkText, hyperlinkColor)
+  self.moduleName = moduleName
+  self.version = getModuleVersion(moduleName) or false
+  self.hyperlink = getModuleHyperlink(moduleName, hyperlinkText, hyperlinkColor)
+  self.warninglink = getModuleHyperlink(moduleName, hyperlinkText, "RED")
 
   return self
 end
@@ -92,4 +86,3 @@ function InviteLastWhisper()
     SendChatText(L"/invite "..ChatManager.LastTell.name, L"")
   end
 end
-
