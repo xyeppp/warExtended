@@ -34,12 +34,13 @@ local function emoteParser(emote)
 
 end
 
-function warExtended.RegisterSlashEmotes()
+
+function warExtended.RegisterEmotes()
     for Emote,_ in pairs(EmoteList) do
         LibSlash.RegisterSlashCmd(Emote,
-				   function()
-                emoteParser(Emote)
-            end
+                function()
+                    emoteParser(Emote)
+                end
         )
     end
 end

@@ -1,4 +1,4 @@
-warExtendedMacro = warExtended.Register("warExtended Macro Window", "daster", "red")
+warExtendedMacro = warExtended.Register("warExtended Macro Window")
 local Macro = warExtendedMacro
 
   --TODO:  getFirstEmptyMacroSlot() Search all macro sets and try to register on another set.
@@ -26,12 +26,12 @@ Macro.Settings.Sets = {}
 local slashCommands = {
 
   ["macro"] = {
-    ["function"] = function (...) return Macro:SetMacroData(...) end,
-    ["description"] = "Create a macro on the fly. Usage: /macro text#slot.\nSlot is optional, first empty slot will be used if nil"
+    ["func"] = function (...) Macro:SetMacroData(...) end,
+    ["desc"] = "Create a macro on the fly. Usage: /macro text#slot.\nSlot is optional, first empty slot will be used if nil"
   },
   ["macroset"] = {
-    ["function"] = function (...) return Macro:LoadMacroSet(...) end,
-    ["description"] = "Load a macro set. Usage: /macroset 1 or 2"
+    ["func"] = function (...) Macro:LoadMacroSet(...) end,
+    ["desc"] = "Load a macro set. Usage: /macroset 1 or 2"
   }
 
 }
@@ -164,7 +164,8 @@ function RegisterMacro(macroAction, macroName, macroSlot, macroIcon)
   macroSlot = macroSlot or getFirstEmptyMacroSlot()
 
   if macroSlot == nil then
-    return --warExtended.ModuleChatPrint("Macro","No empty macro slots in the current set - macro not set.")
+     Macro:Print("No empty macro slots in the current set - macro not set.")
+    return
   end
 
   macroIcon = macroIcon or getMacroIcon(macroSlot) or getRandomMacroIcon()
@@ -178,14 +179,13 @@ function RegisterMacro(macroAction, macroName, macroSlot, macroIcon)
   Sound.Play( Sound.BUTTON_CLICK )
 
 
-
-  --warExtended.ModuleChatPrint("Macro", towstring("Macro ["..macroSlot.."] set to: "..macroAction))
+  Macro:Print(towstring("Macro ["..macroSlot.."] set to: "..macroAction))
 
 end
 
 local function registerWarExtendedMacros()
 
-  --warExtended.ModuleChatPrint("Macro", L"Setting up warExtended Macros.")
+  Macro:Print("Setting up warExtended Macros.")
 
   RegisterMacro("/script TellTarget(\"whisper current friendly target with this text\")","warExtended Tell Target", nil, 22250);
   RegisterMacro("/script InviteLast()","warExtended Invite Last", nil, 22251);
@@ -206,7 +206,8 @@ function warExtendedMacro.Initialize()
     registerWarExtendedMacros()
   end
 
-  Macro:RegisterSlash(slashCommands)
+  Macro:RegisterSlash(slashCommands, "warextmacro")
+
   initializeMacroComboBox()
   registerSelfHook()
 
@@ -216,30 +217,27 @@ end
 function Macro:SetMacroData(macroAction, macroSlot)
 
   if macroAction == "" then
-    return --warExtended.ModuleChatPrint("Macro", "Usage: yourMacro#macroSlot\nMacro slot is optional - first empty slot will be used if not given.")
+     Macro:Print("Usage: yourMacro#macroSlot\nMacro slot is optional - first empty slot will be used if not given.")
+    return
   end
   macroSlot = tonumber(macroSlot) or nil
   RegisterMacro(macroAction, nil, macroSlot, nil)
 end
 
-function warExtendedMacro.LoadMacroSet(macroSet)
-local currentSet = getCurrentMacroSetNumber()
-local currentSetText = tostring(getCurrentMacroSetText())
+function warExtendedMacro:LoadMacroSet(macroSet)
+  local currentSet = getCurrentMacroSetNumber()
+  local currentSetText = tostring(getCurrentMacroSetText())
 
-  if macroSet=="1" or macroSet=="2" and (not currentSet == tonumber(macroSet)) then
-    loadMacroSet(macroSet)
-  else
-    return Macro:Print("test")
+  if (macroSet=="1" or macroSet=="2") and (currentSet ~= tonumber(macroSet)) then
+     loadMacroSet(macroSet)
+    return
+  elseif currentSet == tonumber(macroSet) then
+    Macro:Print(currentSetText.." is already loaded.")
+    return
   end
+
+  Macro:Print("Usage: /macroset 1 or 2")
 end
-
-   --[[if currentSet == tonumber(macroSet) then
-      return --warExtended.ModuleChatPrint("Macro", "Macro "..currentSetText.." is already loaded.")
-    else
-      return loadMacroSet(macroSet)
-    end]]
-
- -- warExtended.ModuleChatPrint("Macro", "Usage: /macroset 1 or 2")
 
 
 function warExtendedMacro.OnMacroComboBoxSelect()
