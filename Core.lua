@@ -37,6 +37,18 @@ local function getModuleHyperlink(moduleName, hyperlinkText, hyperlinkColor)
   return CreateHyperLink( HyperlinkData, HyperlinkText, {HyperlinkColor.r, HyperlinkColor.g, HyperlinkColor.b}, {} )
 end
 
+function warExtended.Register(moduleName, hyperlinkText, hyperlinkColor)
+
+  local self = setmetatable({}, warExtended);
+
+  self.moduleName = moduleName
+  self.version = getModuleVersion(moduleName) or false
+  self.hyperlink = getModuleHyperlink(moduleName, hyperlinkText, hyperlinkColor)
+  self.warninglink = getModuleHyperlink(moduleName, hyperlinkText, "RED")
+
+  return self
+end
+
 function warExtended:Print(text)
   local hyperLink = self.hyperlink
 
@@ -51,17 +63,10 @@ function warExtended:Warn(text)
   EA_ChatWindow.Print(warnLink..text)
 end
 
-function warExtended.Register(moduleName, hyperlinkText, hyperlinkColor)
-
-  local self = setmetatable({}, warExtended);
-
-  self.moduleName = moduleName
-  self.version = getModuleVersion(moduleName) or false
-  self.hyperlink = getModuleHyperlink(moduleName, hyperlinkText, hyperlinkColor)
-  self.warninglink = getModuleHyperlink(moduleName, hyperlinkText, "RED")
-
-  return self
+function warExtended:Alert(alertType, text)
+  AlertTextWindow.AddLine (alertType, towstring(text))
 end
+
 
 local function isLastWhisperPresent()
   local lastWhisperPlayer = ChatManager.LastTell.name ~= L""

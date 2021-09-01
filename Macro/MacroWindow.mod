@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ModuleFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
 
-    <UiMod name="warExtended Macro Window" version="1.0" date="17/08/21" >
+    <UiMod name="warExtended Macro Window" version="1.1" date="17/08/21" >
         <Replaces name="EA_MacroWindow" />
-        <Author name="EAMythic | changes by anon + xyeppp" email="" />
-        <VersionSettings gameVersion="1.4.8" windowsVersion="1.0.0" savedVariablesVersion="1.0" />
-        <Description text="This module contains the modified bigger_MacroWindow for warExtended." />
+        <Author name="xyeppp" email="" />
+        <VersionSettings gameVersion="1.4.8" windowsVersion="1.0.0" savedVariablesVersion="1.2" />
+        <Description text="warExtended Macro Module." />
         <Dependencies>
             <Dependency name="warExtended" />
             <Dependency name="EATemplate_DefaultWindowSkin" />
@@ -28,6 +28,7 @@
             <CallFunction name="warExtendedMacro.Shutdown" />
         </OnShutdown>
            <SavedVariables>
+               <SavedVariable name="warExtendedMacro.Sets" />
             <SavedVariable name="warExtendedMacro.Settings" />
         </SavedVariables>
     </UiMod>

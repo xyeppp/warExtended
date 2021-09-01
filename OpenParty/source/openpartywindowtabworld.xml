@@ -77,57 +77,79 @@
                     <Color r="253" g="253" b="253"/>
                 </Label>
                 <Label name="$parentSpecificInterest4" inherits="EA_Label_DefaultText_Small" maxchars="128" wordwrap="false" autoresize="true" autoresizewidth="true">
-                    <Size>
-                        <AbsPoint x="300" y="20" />
-                    </Size>
+<Size>
+<AbsPoint x="300" y="20"/>
+</Size>
+<Anchors>
+<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSpecificInterest3">
+<AbsPoint x="0" y="5"/>
+</Anchor>
+</Anchors>
+<Color r="253" g="253" b="253"/>
+</Label>
+<Label name="$parentNoteText" inherits="EA_Label_DefaultText_Small" maxchars="75" wordwrap="true" autoresize="true" autoresizewidth="true">
+<Size>
+<AbsPoint x="320" y="20"/>
+</Size>
+<Anchors>
+<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSpecificInterest4">
+<AbsPoint x="-20" y="5"/>
+</Anchor>
+</Anchors>
+<Color r="200" g="200" b="200"/>
+</Label>
+<Label name="$parentWbText" inherits="EA_Label_DefaultText_Small" maxchars="100" wordwrap="true" autoresize="true" font="font_clear_small_bold">
+<Size>
+<AbsPoint x="320" y="20"/>
+</Size>
+<Anchors>
+<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentNoteText">
+<AbsPoint x="0" y="13"/>
+</Anchor>
+</Anchors>
+<Color r="255" g="255" b="255"/>
+</Label>
+<DynamicImage name="$parentGroupLeaderCrownImage" texture="EA_HUD_01" slice="Group-Leader-Crown" popable="false" handleinput="false" layer="overlay">
+<Size>
+<AbsPoint x="25" y="16"/>
+</Size>
+<Anchors>
+<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentWbText">
+<AbsPoint x="0" y="22"/>
+</Anchor>
+</Anchors>
+</DynamicImage>
+<Window name="$parentGroupLeader" inherits="EA_Template_OpenPartyTooltipMember">
+<Anchors>
+<Anchor point="topright" relativePoint="topleft" relativeTo="$parentGroupLeaderCrownImage">
+<AbsPoint x="0" y="-5"/>
+</Anchor>
+</Anchors>
+</Window>
+<FullResizeImage name="$parentDivLine" inherits="EA_FullResizeImage_TintableSolidBackground">
+<Anchors>
+<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentWbText">
+<AbsPoint x="0" y="4"/>
+</Anchor>
+<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentWbText">
+<AbsPoint x="0" y="6"/>
+</Anchor>
+</Anchors>
+<TintColor r="130" g="130" b="130" a="255"/>
+</FullResizeImage>
+                <FullResizeImage name="$parentDivLine2" inherits="EA_FullResizeImage_TintableSolidBackground">
                     <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSpecificInterest3">
-                            <AbsPoint x="0" y="5" />
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDivLine">
+                            <AbsPoint x="0" y="30"/>
                         </Anchor>
-                    </Anchors>
-                    <Color r="253" g="253" b="253"/>
-                </Label>
-                <Label name="$parentNoteText" inherits="EA_Label_DefaultText_Small" maxchars="75" wordwrap="true" autoresize="true" autoresizewidth="true" >
-                    <Size>
-                        <AbsPoint x="320" y="20" />
-                    </Size>
-                    <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSpecificInterest4">
-                            <AbsPoint x="-20" y="5" />
-                        </Anchor>
-                    </Anchors>
-                    <Color r="200" g="200" b="200"/>
-                </Label>
-                <DynamicImage name="$parentGroupLeaderCrownImage" texture="EA_HUD_01" slice="Group-Leader-Crown" popable="false" handleinput="false" layer="overlay">
-                    <Size>
-                        <AbsPoint x="25" y="16" />
-                    </Size>
-                    <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentNoteText">
-                            <AbsPoint x="0" y="12" />
-                        </Anchor>
-                    </Anchors>
-                </DynamicImage>
-                <Window name="$parentGroupLeader" inherits="EA_Template_OpenPartyTooltipMember">
-                    <Anchors>
-                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentGroupLeaderCrownImage">
-                            <AbsPoint x="0" y="-5" />
-                        </Anchor>
-                    </Anchors>
-                </Window>
-                <FullResizeImage name="$parentDivLine" inherits="EA_FullResizeImage_TintableSolidBackground" >
-                    <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentNoteText">
-                            <AbsPoint x="0" y="4" />
-                        </Anchor>
-                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentNoteText">
-                            <AbsPoint x="0" y="6" />
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentDivLine">
+                            <AbsPoint x="0" y="32"/>
                         </Anchor>
                     </Anchors>
                     <TintColor r="130" g="130" b="130" a="255"/>
                 </FullResizeImage>
-            </Windows>
-        </Window>
+</Windows>
+</Window>
 
         <Button name="EA_Template_OpenPartyWorldGroupLine" inherits="EA_Button_ResizeIconFrame_NoNormalImage">
             <Size>
@@ -210,11 +232,11 @@
                 <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentSocket" />
                 <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentSocket" />
             </Anchors>
-            
+
             <EventHandlers>
                 <EventHandler event="OnUpdate" function="EA_Window_OpenPartyWorld.OnUpdate"/>
             </EventHandlers>
-            
+
             <Windows>
 
                 <Button name="$parentPartyLeaderSortButton" inherits="EA_Button_DefaultListSort" textalign="leftcenter" id="1">
@@ -272,7 +294,7 @@
                         <EventHandler event="OnLButtonUp" function="EA_Window_OpenPartyWorld.OnLButtonUpSortButton" />
                     </EventHandlers>
                 </Button>
-                
+
                 <ListBox name="$parentList" rowdef="EA_Template_OpenPartyWorldGroupLine" scrollbar="EA_ScrollBar_DefaultVerticalChain" visiblerows="10" rowspacing="0">
                     <Size>
                         <AbsPoint x="683" y="500" />
@@ -288,7 +310,7 @@
                         </ListColumns>
                     </ListData>
                 </ListBox>
-                
+
                 <Label name="$parentNoResultsHeader" maxchars="220" wordwrap="true" inherits="EA_Label_DefaultSubHeading" textalign="left" handleinput="false">
                     <Size>
                         <AbsPoint x="550" y="50" />
@@ -299,8 +321,8 @@
                         </Anchor>
                     </Anchors>
                 </Label>
-                
-                
+
+
                 <!-- Party interest drop downs, etc -->
                 <Label name="$parentHelpText" inherits="EA_Template_OpenParty_Label_Small" autoresize="true">
                     <Size>
@@ -335,7 +357,7 @@
                         <EventHandler event="OnSelChanged" function="EA_Window_OpenPartyWorld.PopulateSpecificComboBoxes" />
                     </EventHandlers>
                 </ComboBox>
-                
+
                 <Label name="$parentInterestSelectLabel" inherits="EA_Template_OpenParty_Label" autoresize="true">
                     <Size>
                         <AbsPoint x="300" y="30" />
@@ -396,7 +418,7 @@
                         <EventHandler event="OnSelChanged" function="EA_Window_OpenPartyWorld.UpdateComboBoxDisable" />
                     </EventHandlers>
                 </ComboBox>
-                
+
                 <Button name="$parentSetInterestsButton" inherits="EA_Button_ListSort" textalign="center" textAutoFitMinScale=".5" handleinput="true">
                     <Size>
                         <AbsPoint x="280" y="30" />
@@ -410,7 +432,7 @@
                         <EventHandler event="OnLButtonUp" function="EA_Window_OpenPartyWorld.SetInterests" />
                     </EventHandlers>
                 </Button>
-                
+
                 <Button name="$parentSearchButton" inherits="EA_Button_ListSort" textalign="center" textAutoFitMinScale=".5" handleinput="true">
                     <Size>
                         <AbsPoint x="280" y="30" />
@@ -424,7 +446,7 @@
                         <EventHandler event="OnLButtonUp" function="EA_Window_OpenPartyWorld.Search" />
                     </EventHandlers>
                 </Button>
-                
+
                 <Window name="$parentSearchableCheck" inherits="EA_LabelCheckButton">
                     <Anchors>
                         <Anchor point="bottom" relativePoint="top" relativeTo="$parentSearchButton">
@@ -442,7 +464,7 @@
                         <AbsPoint x="0" y="75" />
                     </Size>
                 </Window>
-                
+
                 <Window name="$parentHideFullPartiesCheck" inherits="EA_LabelCheckButton">
                     <Anchors>
                         <Anchor point="bottom" relativePoint="topleft" relativeTo="$parentSeparator">
@@ -464,7 +486,7 @@
                         <EventHandler event="OnLButtonUp" function="EA_Window_OpenParty.ToggleFullWindow"/>
                     </EventHandlers>
                 </Button>
-                
+
                 <Window name="$parentSeparator" inherits="EA_Window_DefaultVerticalSeparatorWithoutTop">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topright" relativeTo="$parentPartyLeaderSortButton">
@@ -475,10 +497,10 @@
                         </Anchor>
                     </Anchors>
                 </Window>
-                
-                
+
+
             </Windows>
-        
+
         </Window>
 
 

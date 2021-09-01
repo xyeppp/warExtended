@@ -1049,7 +1049,7 @@
                             </Anchors>
                         </Label>
 
-                        <EditBox name="$parentText" inherits="EA_EditBox_DefaultFrame_Multiline" taborder="2" maxchars="163840" handleinput="true" alpha="0.97">
+                        <EditBox name="$parentText" inherits="EA_EditBox_DefaultFrame_Multiline" taborder="2" maxchars="99999999999" handleinput="true" alpha="0.97">
                             <Size>
                                 <AbsPoint x="580" y="180" />
                             </Size>
