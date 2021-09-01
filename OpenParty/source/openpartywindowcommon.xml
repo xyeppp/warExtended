@@ -1,14 +1,14 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
-    
-    
+
+
         <Label name="EA_Template_OpenParty_Label_Small" inherits="EA_Label_DefaultText_Small" textalign="left" maxchars="512">
             <Color r="255" g="255" b="255" />
         </Label>
         <Label name="EA_Template_OpenParty_Label" inherits="EA_Label_DefaultText" textalign="left">
             <Color r="255" g="255" b="255" />
         </Label>
-        
+
         <Button name="EA_Template_OpenParty_ComboBoxSelected" inherits="EA_Button_DefaultResizableComboBoxSelected" font="font_default_text_small" textAutoFitMinScale="0.5" warnOnTextCropped="false" />
         <Button name="EA_Template_OpenParty_ComboBoxMenuButton" inherits="EA_Button_DefaultMenuButton" font="font_default_text_small" textAutoFitMinScale="0.5" warnOnTextCropped="false">
             <Size>
@@ -16,7 +16,7 @@
             </Size>
             <TextOffset x="3" y="3" />
         </Button>
-        
+
         <ComboBox name="EA_Template_OpenParty_ComboBox" selectedbutton="EA_Template_OpenParty_ComboBoxSelected"
                   menubackground="EA_Window_ComboBoxMenuBackground" menuitembutton="EA_Template_OpenParty_ComboBoxMenuButton"
                   scrollbar="EA_ScrollBar_DefaultVerticalChain" maxvisibleitems="10" >
@@ -25,7 +25,7 @@
             </Size>
             <MenuButtonOffset x="5" y="5" />
         </ComboBox>
-    
+
         <!-- Tab button definition for the row of available subsections -->
         <Button name="EA_Button_OpenPartyTab" inherits="EA_Button_Tab">
             <Size>
@@ -36,9 +36,9 @@
                 <EventHandler event="OnLButtonUp" function="EA_Window_OpenParty.OnClickTab" />
             </EventHandlers>
         </Button>
-        
-        
-        
+
+
+
         <Window name="EA_Template_OpenPartyTooltipMember"  inherits="TooltipBase"  sticky="true">
             <Size>
                 <AbsPoint x="0" y="32" />
@@ -128,48 +128,68 @@
                     </Anchors>
                     <Color r="253" g="253" b="253"/>
                 </Label>
-                <Label name="$parentNoteText" inherits="EA_Label_DefaultText_Small" maxchars="75" wordwrap="true" autoresize="true" >
-                    <Size>
-                        <AbsPoint x="320" y="20" />
-                    </Size>
-                    <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLocationText">
-                            <AbsPoint x="0" y="5" />
-                        </Anchor>
-                    </Anchors>
-                    <Color r="200" g="200" b="200"/>
-                </Label>
-                <DynamicImage name="$parentGroupLeaderCrownImage" texture="EA_HUD_01" slice="Group-Leader-Crown" popable="false" handleinput="false" layer="overlay">
-                    <Size>
-                        <AbsPoint x="25" y="16" />
-                    </Size>
-                    <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentNoteText">
-                            <AbsPoint x="0" y="12" />
-                        </Anchor>
-                    </Anchors>
-                </DynamicImage>
-                <Window name="$parentGroupLeader" inherits="EA_Template_OpenPartyTooltipMember">
-                    <Anchors>
-                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentGroupLeaderCrownImage">
-                            <AbsPoint x="0" y="-5" />
-                        </Anchor>
-                    </Anchors>
-                </Window>
-                <FullResizeImage name="$parentDivLine" inherits="EA_FullResizeImage_TintableSolidBackground" >
-                    <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentNoteText">
-                            <AbsPoint x="0" y="4" />
-                        </Anchor>
-                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentNoteText">
-                            <AbsPoint x="0" y="6" />
-                        </Anchor>
-                    </Anchors>
-                    <TintColor r="130" g="130" b="130" a="255"/>
-                </FullResizeImage>
-            </Windows>
-        </Window>
-        
-        
-    </Windows>
+                <Label name="$parentNoteText" inherits="EA_Label_DefaultText_Small" maxchars="75" wordwrap="true" autoresize="true">
+<Size>
+<AbsPoint x="320" y="20"/>
+</Size>
+<Anchors>
+<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLocationText">
+<AbsPoint x="0" y="5"/>
+</Anchor>
+</Anchors>
+<Color r="200" g="200" b="200"/>
+</Label>
+<Label name="$parentWbText" inherits="EA_Label_DefaultText_Small" maxchars="75" wordwrap="true" autoresize="true" font="font_clear_small_bold">
+<Size>
+<AbsPoint x="320" y="20"/>
+</Size>
+<Anchors>
+<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentNoteText">
+<AbsPoint x="0" y="13"/>
+</Anchor>
+</Anchors>
+<Color r="255" g="255" b="255"/>
+</Label>
+<DynamicImage name="$parentGroupLeaderCrownImage" texture="EA_HUD_01" slice="Group-Leader-Crown" popable="false" handleinput="false" layer="overlay">
+<Size>
+<AbsPoint x="25" y="16"/>
+</Size>
+<Anchors>
+<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentWbText">
+<AbsPoint x="0" y="22"/>
+</Anchor>
+</Anchors>
+</DynamicImage>
+<Window name="$parentGroupLeader" inherits="EA_Template_OpenPartyTooltipMember">
+<Anchors>
+<Anchor point="topright" relativePoint="topleft" relativeTo="$parentGroupLeaderCrownImage">
+<AbsPoint x="0" y="-5"/>
+</Anchor>
+</Anchors>
+</Window>
+<FullResizeImage name="$parentDivLine" inherits="EA_FullResizeImage_TintableSolidBackground">
+<Anchors>
+<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentWbText">
+<AbsPoint x="0" y="4"/>
+</Anchor>
+<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentWbText">
+<AbsPoint x="0" y="6"/>
+</Anchor>
+</Anchors>
+<TintColor r="130" g="130" b="130" a="255"/>
+</FullResizeImage>
+<FullResizeImage name="$parentDivLine2" inherits="EA_FullResizeImage_TintableSolidBackground">
+<Anchors>
+<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDivLine">
+<AbsPoint x="0" y="30"/>
+</Anchor>
+<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentDivLine">
+<AbsPoint x="0" y="32"/>
+</Anchor>
+</Anchors>
+<TintColor r="130" g="130" b="130" a="255"/>
+</FullResizeImage>
+</Windows>
+</Window>
+</Windows>
 </Interface>

@@ -43,8 +43,9 @@ local function getModuleSlashCommands(selfSlashCommand)
     local hyperlink = moduleData.hyperlink
 
     for command, commandData in pairs(moduleData[selfSlashCommand]) do
-      local description = commandData.desc
-      EA_ChatWindow.Print(hyperlink..L"/"..towstring(command)..L" - "..towstring(description))
+      local cmd=towstring(command)
+      local description = towstring(commandData.desc)
+      EA_ChatWindow.Print(hyperlink..L"/"..cmd..L" - "..description)
     end
 
     if next(moduleTable, _) ~= nil then
@@ -57,8 +58,7 @@ end
 
 local function registerModuleSelfSlash(selfSlashCommand)
   local selfSlashFunction = function () getModuleSlashCommands(selfSlashCommand) end
-  p("reg"..selfSlashCommand)
- LibSlash.RegisterSlashCmd(selfSlashCommand, selfSlashFunction)
+  LibSlash.RegisterSlashCmd(selfSlashCommand, selfSlashFunction)
 end
 
 
@@ -72,7 +72,6 @@ local function registerModuleSlashCommands(moduleName)
 
   for selfSlashCommand,slashCommands in pairs(registeredSlashCmds[moduleName]) do
     local isSelfSlashRegistered = registeredSelfSlashCmds[selfSlashCommand]
-
     if type(slashCommands) ~= "wstring" then
       for slashCommand,_ in pairs(slashCommands) do
         registerSlashCommand(slashCommand)

@@ -1,24 +1,50 @@
-warExtendedItemStacking = warExtended.Register("warExtended Item Stacking" )
+warExtendedItemStacking = warExtended.Register("warExtended:Item Stacking" )
 
 local ItemStacking = warExtendedItemStacking
 local textBox = "ItemStackingWindowTextInput"
 
-local slashCommands = {
+local function testfunction(inviteName)
+local color = DefaultColor.MAGENTA
+local link = CreateHyperLink( towstring("INVITE:"..inviteName), towstring("[Invite:"..(inviteName).."]"), {color.r, color.g, color.b}, {} )
+return tostring(link)
+end
 
-   ["dasdasd"] = {
-      ["func"] = function (...) return Macro:SetMacroData(...) end,
-      ["desc"] = "Create a macro on the fly. Usage: /macro text#slot.\nSlot is optional, first empty slot will be used if nil"
-   },
-   ["testestes"] = {
-      ["func"] = function (...) return Macro:LoadMacroSet(...) end,
-      ["desc"] = "Load a macro set. Usage: /macroset 1 or 2"
-   }
+local function IconReplace(iconNumber)
+   local iconString  = "<icon"..iconNumber..">"
+   return iconString
+end
+
+
+local slashCommands = {
+  -- ["$das"] = function (...) return testfunction(...) end,
+   ["$test"] = warExtended:GetCareerIcon("ironbreaker"),
+   ["$tester"] = warExtended:GetCareerIconString("blackorc"),
+   ["%tester"] = warExtended:GetRoleIconString("dps"),
+   ["#tester"] = warExtended:GetRoleIcon("tank"),
+   ["$ft"] = function() return TargetInfo:UnitName("selffriendlytarget") end,
+   ["!!(%a+)"] = function (...) return testfunction(...) end,
+   ["$ico(%d+)"] = function (...) return IconReplace(... ) end,
+--["$et"] = TargetInfo:UnitName("selfhostiletarget"):match(L"([^^]+)^?[^^]*") ,
+   ["$mt"] = function () return tostring(TargetInfo:UnitName("mouseovertarget")) end,
+--["$ehp"] = (L"HP: "..towstring(TargetInfo:UnitHealth("selfhostiletarget")..L"%%")),
+--["$fhp"] = ("HP: "..(TargetInfo:UnitHealth("selffriendlytarget").."%%")),
+--["$mhp"] = function() return towstring(L"HP: "..towstring(TargetInfo:UnitHealth("mouseovertarget")..L"%%")) end ,
+--["$fcr"] = TargetInfo:UnitCareer("selfriendlytarget"),
+--["$ecr"] = function() return towstring(L"CR: "..towstring(QuickNameActionsRessurected.ClassSearcher(TargetInfo:UnitCareer("selfhostiletarget")))) end,
+--["$mcr"] = function() return towstring(L"CR: "..towstring(QuickNameActionsRessurected.ClassSearcher(TargetInfo:UnitCareer("mouseovertarget")))) end,
+--["$elvl"] = "LVL:"..(TargetInfo:UnitLevel("selfhostiletarget")),
+   ["$flvl"] = function () return tostring(TargetInfo:UnitLevel("selffriendlytarget")) end,
+["$mlvl"] = function() return TargetInfo:UnitLevel("mouseovertarget") end,
 
 }
 
+
+
 function ItemStacking:TestFunction()
-   ItemStacking:RegisterSlash(slashCommands, "warextmacro")
+   ItemStacking:RegisterKeymap(slashCommands)
 end
+
+
 
 ItemStackingWindow.MAX_NON_STACKABLE_ITEMS = 1000
 

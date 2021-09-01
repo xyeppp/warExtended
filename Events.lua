@@ -35,11 +35,7 @@ end
 
 local function isFunctionRegisteredToEvent(moduleName, eventName, func)
   local isFunctionRegistered = registeredEvents[moduleName][eventName][func]
-
-  if not isFunctionRegistered then
-	d("Function ".. func .. " is not currently registered to event "..eventName)
-  end
-	return isFunctionRegistered
+  return isFunctionRegistered
 end
 
 
@@ -93,7 +89,8 @@ function warExtended:RegisterEvent(eventName, func)
   end
 
   if isFunctionRegisteredToEvent(moduleName, event, func) then
-	return d("Function ".. func .. " is already registered to event "..event)
+	d("Function ".. func .. " is already registered to event "..event)
+	return
   end
 
   registerFunctionToEvent(moduleName, event, func)
@@ -109,10 +106,12 @@ function warExtended:UnregisterEvent(eventName, func)
   end
 
   if not isEventInTable(moduleName, event) then
-	return d("Event ".. event .. " is not currently registered to anything.")
+	d("Event ".. event .. " is not currently registered to anything.")
+	return
   end
 
   if not isFunctionRegisteredToEvent(moduleName, event, func) then
+	d("Function ".. func .. " is not registered to event "..event)
 	return
   end
 
@@ -129,7 +128,8 @@ function warExtended:UnregisterEventAll(eventName)
   end
 
   if not isEventInTable(moduleName, event) then
-	return d("Event ".. event .. " is not currently registered to anything.")
+	d("Event ".. event .. " is not currently registered to anything.")
+	return
   end
 
   removeAllRegisteredEvents(moduleName, event)
@@ -137,10 +137,10 @@ end
 
 
 function warExtended:RegisterUpdate(func)
-  return warExtended:RegisterEvent("on update", func)
+  self:RegisterEvent("update processed", func)
 end
 
 
 function warExtended:UnregisterUpdate(func)
-  return warExtended:UnregisterEvent("on update", func)
+  self:UnregisterEvent("update processed", func)
 end

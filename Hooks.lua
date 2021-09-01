@@ -40,7 +40,7 @@ end
 end
 
 
-function warExtended:Hook(func, newFunc)
+function warExtended:Hook(func, newFunc, postHook)
 
     if not GlobalFunctionPaths[func] then
         addFunctionNamesToTable(_G)
@@ -52,15 +52,21 @@ function warExtended:Hook(func, newFunc)
 
     if(type(func) == "function") then
 
-
         local globalFunctionPath = GlobalFunctionPaths[func]
 
         if(globalFunctionPath ~= nil) then
 
             local wrapperFunction = function(...)
 				newFunc(...)
-                return func(...)
+                func(...)
             end
+
+            if postHook then
+                 wrapperFunction = function(...)
+                    func(...)
+                    newFunc(...)
+                end
+           end
 
             if(#globalFunctionPath == 1) then
                 HookedFunctions[newFunc][wrapperFunction] = _G[globalFunctionPath[1]]
