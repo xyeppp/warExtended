@@ -86,14 +86,14 @@ end
 
 
 function warExtended:RegisterKeymap(keymapTable)
-  if not chatTextSubstitutions[self.moduleName] then
-    chatTextSubstitutions[self.moduleName] = {}
+  if not chatTextSubstitutions[self.moduleInfo.moduleName] then
+    chatTextSubstitutions[self.moduleInfo.moduleName] = {}
   end
 
 
-  chatTextSubstitutions[self.moduleName] = keymapTable
+  chatTextSubstitutions[self.moduleInfo.oduleName] = keymapTable
 end
 
 function warExtended:UnregisterKeymap()
-  chatTextSubstitutions[self.moduleName]=nil
+  chatTextSubstitutions[self.moduleInfo.moduleName]=nil
 end
