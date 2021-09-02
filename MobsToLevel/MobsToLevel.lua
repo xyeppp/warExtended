@@ -1,57 +1,175 @@
-function QuickNameActionsRessurected.ExpToLevel()
-  if GameData.Player.level==40 then return end
-  if TargetInfo:UnitName("selfhostiletarget") == L"" then return end
-  local totalNeeded   = GameData.Player.Experience.curXpNeeded
-  local   totalEarned   = GameData.Player.Experience.curXpEarned
+warExtendedM2L = warExtended.Register("warExtended Mobs2Level")
 
-  local hasRest     = GameData.Player.Experience.restXp > 0
-  if hasRest then
-	totalRest = QuickNameActionsRessurected.GetRestPercent()
-  end
+local M2L = warExtendedM2L
+local formatClock = TimeUtils.FormatClock
+local ceil = math.ceil
+local strformat = string.format
+local tostr = tostring
+local isBestiaryUpdated
 
-  x2l = totalNeeded - totalEarned
 
+M2L.Settings = {
+	isToggled = false,
+	sessionStartTime = nil,
+	sessionXP = nil,
+}
+
+
+local function roundNumber(num, numDecimalPlaces)
+  return strformat("%." .. (numDecimalPlaces or 0) .. "f", num)
+end
+
+local function isM2LToggled()
+	local isToggled = M2L.Settings.isToggled
+	return isToggled
+end
+
+local function getExperienceNeededToLevel()
+	local 	totalExperienceNeeded   = GameData.Player.Experience.curXpNeeded
+  local   totalExperienceEarned   = GameData.Player.Experience.curXpEarned
+  local experiencedNeededToLevelUp = totalExperienceNeeded - totalExperienceEarned
+	return experiencedNeededToLevelUp
+end
+
+
+local function setSessionStartTimer()
+	if isM2LToggled() then
+		M2L.Settings.sessionStartTime = GetGameTime()
+		return
+	end
+	M2L.Settings.sessionStartTime = nil
+end
+
+
+local function addExperienceGainedToSessionData(experienceGained)
+
+	if M2L.Settings.sessionXP == nil then
+		M2L.Settings.sessionXP =  experienceGained
+		return
+	end
+
+	M2L.Settings.sessionXP = M2L.Settings.sessionXP + experienceGained
 
 end
 
-function QuickNameActionsRessurected.GetRestPercent()
-  local restPercent = (GameData.Player.Experience.curXpEarned + GameData.Player.Experience.restXp )/GameData.Player.Experience.curXpNeeded
-  return restPercent
-end
 
-function QuickNameActionsRessurected.Round2(num, numDecimalPlaces)
-  return towstring(string.format("%." .. (numDecimalPlaces or 0) .. "f", num))
-end
+local function registerSelfEvents()
+	if isM2LToggled() then
+		M2L:RegisterEvent("TOME_BESTIARY_SPECIES_KILL_COUNT_UPDATED", "warExtendedM2L.IsBestiaryUpdated")
+		M2L:RegisterEvent("combat", "warExtendedM2L.GetMonsterDataFromCombatLog")
+		return
+	end
 
-function QuickNameActionsRessurected.MobToggle()
-  if not QuickNameActionsRessurected.Settings.ExpPrinter then
-	EA_ChatWindow.Print(towstring(link)..L"Mobs2Level on.")
-	QuickNameActionsRessurected.Settings.ExpPrinter=true;
-  else
-	EA_ChatWindow.Print(towstring(link)..L"Mobs2Level off.")
-	QuickNameActionsRessurected.Settings.ExpPrinter=false;
-  end
+	M2L:UnregisterEvent("TOME_BESTIARY_SPECIES_KILL_COUNT_UPDATED", "warExtendedM2L.IsBestiaryUpdated")
+	M2L:UnregisterEvent("combat", "warExtendedM2L.GetMonsterDataFromCombatLog")
 end
 
 
-function QuickNameActionsRessurected.ExpPrinter(updateType, filterType)
-  if not QuickNameActionsRessurected.Settings.ExpPrinter or GameData.Player.level==40 then return end
-  if TargetInfo:UnitName("selfhostiletarget") ==L"" or TargetInfo:UnitIsNPC("selfhostiletarget")==false then return end
+local function setToggleState()
+  if isM2LToggled() then
+		M2L:Print("Mobs2Level turned off.")
+		M2L.Settings.isToggled=false;
+		M2L.Settings.sessionXP=nil;
+		return
+	end
+
+		M2L:Print("Mobs2Level turned on.")
+		M2L.Settings.isToggled=true;
+end
+
+
+local function toggleSelf()
+	local isPlayerMaxLevel = GameData.Player.level==40
+
+	if isPlayerMaxLevel and not isToggled then
+		M2L:Print("You are already at maximum level.")
+		return
+	end
+
+	setToggleState()
+	setSessionStartTimer()
+	registerSelfEvents()
+end
+
+
+local function getExperienceGainedPer(type)
+	local timeSinceStartSession = GetGameTime() - M2L.Settings.sessionStartTime
+	local xpPerSecond = M2L.Settings.sessionXP / timeSinceStartSession
+	local xpPerHour = ceil(xpPerSecond * 3600)
+
+	if type == "second" then
+	return xpPerSecond
+	elseif type == "hour" then
+	return xpPerHour
+	end
+end
+
+
+local function getEstimatedTimeToLevel()
+	local xpPerSecond = getExperienceGainedPer("second")
+	local timeToLevel = formatClock(getExperienceNeededToLevel() / xpPerSecond)
+	return tostr(timeToLevel)
+end
+
+
+local function printMonsterNeededToLevelMessage(monsterName, experienceGained)
+	local experienceNeeded = getExperienceNeededToLevel()
+	local mobsNeededToLevel = roundNumber(experienceNeeded / experienceGained) + 1
+	local timeToLevel = getEstimatedTimeToLevel()
+
+	M2L:Print(mobsNeededToLevel.." "..monsterName.." needed to level up.\nEstimated time to level: "..timeToLevel)
+	isBestiaryUpdated=false;
+end
+
+
+
+local slashCommands = {
+
+	m2l = {
+		func = toggleSelf,
+		desc = "Toggle M2L On/Off."
+	}
+
+}
+
+
+function warExtendedM2L.OnInitialize()
+
+	if isM2LToggled() then
+			M2L:RegisterEvent("TOME_BESTIARY_SPECIES_KILL_COUNT_UPDATED", "warExtendedM2L.IsBestiaryUpdated")
+			M2L:RegisterEvent("combat", "warExtendedM2L.GetMonsterDataFromCombatLog")
+	end
+
+	M2L:RegisterSlash(slashCommands, "warext")
+end
+
+
+function M2L.IsBestiaryUpdated()
+	-- this only exists to prevent printing any other type of gained XP as there's no other reliable method to check what did you kill
+	isBestiaryUpdated = true;
+end
+
+
+function M2L.GetMonsterDataFromCombatLog(updateType, filterType)
+	local isMaxLevel = GameData.Player.level==40
+
+	if isMaxLevel or not isBestiaryUpdated then
+		return
+	end
 
   if( updateType == SystemData.TextLogUpdate.ADDED ) then
-	local currenttime, filterId, text = TextLogGetEntry( "Combat", TextLogGetNumEntries("Combat") - 1 )
-	if GameData.Player.level==40 then return else
+	local _, _, text = TextLogGetEntry( "Combat", TextLogGetNumEntries("Combat") - 1 )
 	  if filterType == SystemData.ChatLogFilters.EXP then
-		local totalNeeded   = GameData.Player.Experience.curXpNeeded
-		local   totalEarned   = GameData.Player.Experience.curXpEarned
-		Experience = text:match(L"You gain (.+) experience.")
-		local slayed=tostring(TargetInfo:UnitName("selfhostiletarget"))
-		x2l = totalNeeded - totalEarned
-		--p(slayed)
-		m2l = QuickNameActionsRessurected.Round2(x2l / Experience)+1
-		--p("Experience Gained: "..tostring(Experience))
-		EA_ChatWindow.Print(towstring(tostring(link).."Kill "..m2l.." more "..slayed.." to level up. Need "..x2l.." XP more to level up. "..Experience.." XP gained from last target."))
+		local experienceGainedFromMonster = tostr(text:match(L"You gain (.+) experience."))
+		local nameOfSlayedMonster	=	tostr(TargetInfo:UnitName("selfhostiletarget"))
+
+		if not experienceGainedFromMonster then
+			return
+		end
+
+		addExperienceGainedToSessionData(experienceGainedFromMonster)
+		printMonsterNeededToLevelMessage(nameOfSlayedMonster, experienceGainedFromMonster)
 	  end
 	end
-  end
+
 end

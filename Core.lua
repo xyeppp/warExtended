@@ -41,23 +41,24 @@ function warExtended.Register(moduleName, hyperlinkText, hyperlinkColor)
 
   local self = setmetatable({}, warExtended);
 
-  self.moduleName = moduleName
-  self.version = getModuleVersion(moduleName) or false
-  self.hyperlink = getModuleHyperlink(moduleName, hyperlinkText, hyperlinkColor)
-  self.warninglink = getModuleHyperlink(moduleName, hyperlinkText, "RED")
+  self.moduleInfo={}
+  self.moduleInfo.moduleName = moduleName
+  self.moduleInfo.version = getModuleVersion(moduleName) or false
+  self.moduleInfo.hyperlink = getModuleHyperlink(moduleName, hyperlinkText, hyperlinkColor)
+  self.moduleInfo.warninglink = getModuleHyperlink(moduleName, hyperlinkText, "RED")
 
   return self
 end
 
 function warExtended:Print(text)
-  local hyperLink = self.hyperlink
+  local hyperLink = self.moduleInfo.hyperlink
 
   text = towstring(text)
   EA_ChatWindow.Print(hyperLink..text)
 end
 
 function warExtended:Warn(text)
-  local warnLink = self.warninglink
+  local warnLink = self.moduleInfo.warninglink
 
   text = towstring(text)
   EA_ChatWindow.Print(warnLink..text)

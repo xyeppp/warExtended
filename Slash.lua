@@ -91,18 +91,18 @@ end
 
 
 function warExtended:RegisterSlash(slashCommands, selfSlash)
-  local isSlashModuleTableCreated = registeredSlashCmds[self.moduleName]
+  local isSlashModuleTableCreated = registeredSlashCmds[self.moduleInfo.moduleName]
 
   if not isSlashModuleTableCreated then
-    registeredSlashCmds[self.moduleName] = {}
+    registeredSlashCmds[self.moduleInfo.moduleName] = {}
   end
 
-  if not registeredSlashCmds[self.moduleName][selfSlash] then
-    registeredSlashCmds[self.moduleName]["hyperlink"] = self.hyperlink
-    registeredSlashCmds[self.moduleName][selfSlash] = slashCommands
+  if not registeredSlashCmds[self.moduleInfo.moduleName][selfSlash] then
+    registeredSlashCmds[self.moduleInfo.moduleName]["hyperlink"] = self.moduleInfo.hyperlink
+    registeredSlashCmds[self.moduleInfo.moduleName][selfSlash] = slashCommands
   end
 
-  registerModuleSlashCommands(self.moduleName)
+  registerModuleSlashCommands(self.moduleInfo.moduleName)
 end
 
 
@@ -122,4 +122,3 @@ function warExtended.SlashHandler(cmd,...)
 
 
 end
-

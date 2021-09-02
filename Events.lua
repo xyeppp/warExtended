@@ -41,13 +41,22 @@ end
 
 local function registerFunctionToEvent(moduleName, eventName, func)
   registeredEvents[moduleName][eventName][func] = func
+  if eventName == "COMBAT" then
+    RegisterEventHandler(TextLogGetUpdateEventId("Combat"), func)
+    return
+  end
   RegisterEventHandler(SystemData.Events[eventName], func)
 end
 
 
 local function removeFromRegisteredEvents(moduleName, eventName, func)
-  UnregisterEventHandler(SystemData.Events[eventName], func)
   registeredEvents[moduleName][eventName][func] = nil
+  if eventName == "COMBAT" then
+    UnregisterEventHandler(TextLogGetUpdateEventId("Combat"), func)
+    return
+  end
+
+  UnregisterEventHandler(SystemData.Events[eventName], func)
 
   if isTableEmpty(moduleName, eventName) then
 	registeredEvents[moduleName][eventName] = nil
@@ -63,7 +72,7 @@ end
 
 
 local function isEventValid(event)
-  local doesEventExist = SystemData.Events[event]
+  local doesEventExist = SystemData.Events[event] or event == "COMBAT"
 
   if not doesEventExist then
 	d("Invalid event name. Event "..event.." does not exist.")
@@ -74,7 +83,7 @@ end
 
 function warExtended:RegisterEvent(eventName, func)
   local event = setStringToUpperCaseAndSubSpace(eventName)
-  local moduleName = self.moduleName
+  local moduleName = self.moduleInfo.moduleName
 
   if not isEventValid(event) then
 	return
@@ -98,7 +107,7 @@ end
 
 
 function warExtended:UnregisterEvent(eventName, func)
-  local moduleName = self.moduleName
+  local moduleName = self.moduleInfo.moduleName
   local event = setStringToUpperCaseAndSubSpace(eventName)
 
   if not isEventValid(event) then
@@ -120,7 +129,7 @@ end
 
 
 function warExtended:UnregisterEventAll(eventName)
-  local moduleName = self.moduleName
+  local moduleName = self.moduleInfo.moduleName
   local event = setStringToUpperCaseAndSubSpace(eventName)
 
   if not isEventValid(event) then

@@ -239,17 +239,15 @@ function Macro.SetMacroData(macroAction, macroSlot, macroSet)
   macroSet = tonumber(macroSet) or nil
   macroSlot = tonumber(macroSlot) or nil
 
-  if not doesMacroSetExist(macroSet) then
-    return
+    if macroAction == "" then
+      Macro:Print("Usage: yourMacro#macroSlot\nMacro slot is optional - first empty slot will be used if not given.")
+      return
+    end
+
+    RegisterMacro(macroAction, nil, macroSlot, nil, macroSet)
   end
 
-  if macroAction == "" then
-     Macro:Print("Usage: yourMacro#macroSlot\nMacro slot is optional - first empty slot will be used if not given.")
-    return
-  end
 
-  RegisterMacro(macroAction, nil, macroSlot, nil, macroSet)
-end
 
 
 
@@ -262,17 +260,19 @@ end
 
 function Macro.LoadMacroSet(macroSet)
   local currentSetText = tostring(getCurrentMacroSetText())
-  macroSet = "1" or "2"
 
-  if macroSet and not isSetLoaded(macroSet) then
-     loadMacroSet(macroSet)
-    return
-  elseif isSetLoaded(macroSet) then
-    Macro:Warn(currentSetText.." is already loaded.")
+  if not doesMacroSetExist(tonumber(macroSet)) then
     return
   end
 
-  Macro:Print("Usage: /macroset 1 or 2")
+  if not isSetLoaded(macroSet) then
+    loadMacroSet(macroSet)
+    return
+  else
+    Macro:Print(currentSetText.." is already loaded.")
+    return
+  end
+
 end
 
 
