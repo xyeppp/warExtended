@@ -5,6 +5,7 @@ end
 
 local EA_ChatWindow = EA_ChatWindow
 local string=string
+local SendChatText = SendChatText
 local modules = {}
 
 warExtended.__index = warExtended
@@ -68,6 +69,10 @@ function warExtended:Alert(alertType, text)
   AlertTextWindow.AddLine (alertType, towstring(text))
 end
 
+function warExtended:Send(text, channelType)
+  channelType = channelType or ""
+  SendChatText(towstring(text), towstring(channelType))
+end
 
 local function isLastWhisperPresent()
   local lastWhisperPlayer = ChatManager.LastTell.name ~= L""

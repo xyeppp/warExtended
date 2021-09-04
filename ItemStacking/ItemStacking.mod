@@ -14,7 +14,7 @@
         </Dependencies>
         <Files>
             <File name="Source/ItemStackingWindow.xml" />
-            <File name="warExt/ItemStackingWindow.lua" />
+            <File name="ItemStackingWindow.lua" />
         </Files>
         <OnInitialize>
             <CreateWindow name="ItemStackingWindow" show="false" />

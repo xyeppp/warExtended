@@ -26,12 +26,13 @@
             <File name="Source/OpenPartyWindowTabLootRollOptions.xml" />
             <File name="Source/OpenPartyWindowTabManage.xml" />
             <File name="Source/OpenPartyWindow.xml" />
-            <File name="warExt/OpenParty.lua" />
+            <File name="OpenParty.lua" />
         </Files>
         <OnInitialize>
             <CreateWindow name="EA_Window_OpenPartyFlyOutAnchor" show="false" />
             <CreateWindow name="EA_Window_OpenPartyFlyOut" show="true" />
             <CreateWindow name="EA_Window_OpenParty" show="false" />
+            <CallFunction name="warExtendedOpenParty.OnInitialize" />
         </OnInitialize>
         <SavedVariables>
             <SavedVariable name="EA_Window_OpenPartyWorld.Settings" />
