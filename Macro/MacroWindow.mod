@@ -17,7 +17,7 @@
         <Files>
             <File name="Source/MacroWindow.xml" />
             <File name="Source/MacroWindow.lua" />
-            <File name="warExt/MacroWindow.lua"  />
+            <File name="MacroWindow.lua"  />
         </Files>
         <OnInitialize>
             <CreateWindow name="MacroIconSelectionWindow" show="false" />

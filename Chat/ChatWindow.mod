@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!--<?xml version="1.0" encoding="UTF-8"?>
 <ModuleFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
 
     <UiMod name="EA_ChatWindow" version="1.2" date="12/2/2008" >
@@ -37,3 +37,4 @@
     </UiMod>
 
 </ModuleFile>
+!-->
