@@ -1,3 +1,4 @@
+local warExtended = warExtended
 local registeredEvents = {}
 
 local function setStringToUpperCaseAndSubSpace(str)

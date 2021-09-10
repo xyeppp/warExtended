@@ -1,7 +1,31 @@
-local function EnemyChanger()
+warExtendedCursor = warExtended.Register("warExtended Curs")
+local Kursor = warExtendedCursor
+
+
+Kursor.Settings = {
+
+  Ping = {
+    Message = "",
+    Channel = ""
+  },
+
+  isEnemyEnabled = "",
+  EnemyMarkNumber = ""
+}
+
+
+local function getPingMessage()
+  local message = Kursor.Settings.Ping.Message
+  local channel = Kursor.Settings.Ping.Channel
+  return message, channel
+end
+
+
+local function setEnemyTargetCache()
   if not Enemy.latestTarget then
-	Enemy.latestTarget={}
+    Enemy.latestTarget={}
   end
+
   Enemy.latestTarget.id=TargetInfo:UnitEntityId("mouseovertarget")
   Enemy.latestTarget.name=TargetInfo:UnitName("mouseovertarget")
   Enemy.latestTarget.isNpc=false;
@@ -9,63 +33,106 @@ local function EnemyChanger()
   Enemy.latestTarget.career=TargetInfo:UnitCareer("mouseovertarget")
 end
 
-function QuickNameActionsRessurected.newCursorOnRButtonDownProcessed(flags)
-  if SystemData.MouseOverWindow.name=="Root" then
-    if( flags == SystemData.ButtonFlags.CONTROL) then
-      if TargetInfo:UnitName("mouseovertarget") ~= L"" then
-        TargetInfo:UpdateFromClient()
-        ChatMacro(QuickNameActionsRessurected.Settings.PingMessage, QuickNameActionsRessurected.Settings.PingChannel)
-      end
-    elseif flags == SystemData.ButtonFlags.ALT then
-      if enemyMod then
-        if TargetInfo:UnitName("mouseovertarget") ~= L"" then
-          EnemyChanger()
-          --  oldCursorOnRButtonDownProcessed()
-          Enemy.MarksToggle(QuickNameActionsRessurected.Settings.MarkToggle)
-        end
-      end
-    elseif flags== SystemData.ButtonFlags.SHIFT then
-      p("shift")
-      local target=TargetInfo:UnitName("mouseovertarget")
-      if TargetInfo:UnitName("mouseovertarget") ~= L"" and TargetInfo:UnitIsNPC("mouseovertarget") == false then
-        PlayerMenuWindow.ShowMenu(target)
 
+
+local flagActions = {
+
+  CursorRButtonUp = {
+
+    isCtrlShiftPressed = function ()
+      local _, _, mouseoverTarget = Kursor:GetTargetNames()
+      if mouseoverTarget then
+        Kursor:Send(getPingMessage())
+      end
+    end,
+
+    isCtrlAltPressed = function()
+      local isEnemyEnabled = Kursor.Settings.isEnemyEnabled
+      local _, _, mouseoverTarget = Kursor:GetTargetNames()
+
+      if mouseoverTarget and isEnemyEnabled then
+        local enemyMarkNumber = Kursor.Settings.EnemyMarkNumber
+        setEnemyTargetCache()
+        Enemy.MarksToggle(enemyMarkNumber)
+      end
+
+    end,
+
+    isCtrlAltShiftPressed = function()
+      local _, _, mouseoverTarget = Kursor:GetTargetNames()
+      if mouseoverTarget then
+        PlayerMenuWindow.ShowMenu(mouseoverTarget)
       end
     end
-  end
-  oldCursorOnRButtonDownProcessed()
-end
+  },
 
-function QuickNameActionsRessurected.SetPing(input)
-  input=towstring(input)
-  local regex = wstring.match(towstring(input), L"\^\%s")
-  local qnaSplit = StringSplit(tostring(input), "#")
-  local input = towstring(qnaSplit[1])
-  local messageNumber = towstring(qnaSplit[2])
+}
 
-  if input == L"" or input == nil or regex or not qnaSplit[2] then
-    EA_ChatWindow.Print(link..L"Current ping message is: "..towstring(QuickNameActionsRessurected.Settings.PingMessage))
-    EA_ChatWindow.Print(link..L"/qnahelp for all available message $functions")
-    EA_ChatWindow.Print(link..L"Example usage: /qnaping Target Info: $mt $mlvl $mhp $mcr#channel")
-  else
-    QuickNameActionsRessurected.Settings.PingMessage=qnaSplit[1]
-    QuickNameActionsRessurected.Settings.PingChannel=qnaSplit[2]
-    EA_ChatWindow.Print(link..L"Ping message set to: "..towstring(QuickNameActionsRessurected.Settings.PingMessage))
-    EA_ChatWindow.Print(link..L"Ping channel set to: "..towstring(QuickNameActionsRessurected.Settings.PingChannel))
-    --  end
+
+local function kursorOnRButtonDown(flags)
+  local isRootWindow = SystemData.MouseOverWindow.name=="Root"
+
+  if isRootWindow then
+    Kursor:GetFunctionFromFlag(flags, "CursorRButtonUp")
+    return
   end
 end
 
-function QuickNameActionsRessurected.SetMark(input)
-  input=towstring(input)
-  local regex = wstring.match(towstring(input), L"\^\%s")
-  local number = wstring.match(towstring(input), L"(%d+)")
 
-  if input == L"" or input == nil or regex or not number then
-    EA_ChatWindow.Print(link..L"Current mark used: "..towstring(QuickNameActionsRessurected.Settings.MarkToggle))
-    EA_ChatWindow.Print(link..L"/qnamark number to set a new marker.")
-  else
-    QuickNameActionsRessurected.Settings.MarkToggle=tonumber(input)
-    EA_ChatWindow.Print(link..L"Mark used set to: "..towstring(QuickNameActionsRessurected.Settings.MarkToggle))
+local function setPingTextAndChannel(pingText, pingChannel)
+
+  if not pingText or not pingChannel then
+    Kursor:Print("Parameters: pingText#pingChannel")
+    return
   end
+
+  pingChannel = Kursor:FormatChannel(pingChannel)
+  Kursor.Settings.Ping.Message = pingText
+  Kursor.Settings.Ping.Channel = pingChannel
+  Kursor:Print("Cursor ping set to: "..pingText.." Channel: "..pingChannel)
+end
+
+
+
+local function setEnemyMark(enemyMarkNumber)
+  local isNumber = enemyMarkNumber:match("%d")
+  local isNil = enemyMarkNumber == ""
+
+  if not isNumber or isNil then
+    Kursor:Print("Parameters: enemyMarkNumber")
+    return
+  end
+
+  enemyMarkNumber = tonumber(enemyMarkNumber)
+  Kursor:Print("Cursor enemy mark set to: "..enemyMarkNumber)
+  Kursor.Settings.EnemyMarkNumber = enemyMarkNumber
+end
+
+
+local slashCommands = {
+  cping = {
+
+    func = function (pingText, pingChannel)
+      setPingTextAndChannel(pingText, pingChannel)
+    end,
+    desc = "Set ping message & channel: pingText#pingChannel"
+  },
+
+  cmark = {
+    func = function (enemyMarkNumber)
+      setEnemyMark(enemyMarkNumber)
+    end,
+    desc = "Set enemy mark number to use: enemyMarkNumber"
+  }
+}
+
+local function enemyCheck()
+  Kursor.Settings.isEnemyEnabled = Kursor:IsAddonEnabled("Enemy")
+end
+
+function Kursor.OnInitialize()
+  enemyCheck()
+  Kursor:RegisterFlags(flagActions)
+  Kursor:RegisterSlash(slashCommands, "warext")
+  Kursor:Hook(Cursor.OnRButtonDownProcessed, kursorOnRButtonDown)
 end
