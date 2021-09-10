@@ -167,13 +167,13 @@ local roleIcons = {
 
 
 local function getGroupType()
-  if (IsWarBandActive()) then
-    return 3
+  if IsWarBandActive() then
+    return "warband"
   end
-  if (GetNumGroupmates() > 0) then
-    return 2
+  if GetNumGroupmates() > 0 then
+    return "party"
   end
-  return 1
+  return "solo"
 end
 
 local function isStringInUtilsTable(stringToCheck)
@@ -206,14 +206,14 @@ function warExtended:GetGroupRoleCount(groupData)
       local leaderCareer = groupData.leaderCareer
       local leaderRole = getRoleFromCareerID(leaderCareer)
       groupRoleCount[leaderRole] = groupRoleCount[leaderRole] + 1
-    else
+      return groupRoleCount.tank, groupRoleCount.dps, groupRoleCount.heal
+    end
+
       for member=1,#groupData.Group do
         local memberCareer=groupData.Group[member].m_careerID
         local careerRole = getRoleFromCareerID(memberCareer)
         groupRoleCount[careerRole] = groupRoleCount[careerRole] + 1
       end
-    end
-
     return groupRoleCount.tank, groupRoleCount.dps, groupRoleCount.heal
   end
 
@@ -265,15 +265,27 @@ function warExtended:TellPlayer(playerName, text)
 end
 
 
-function warExtended:IsAddonEnabled(addon)
-  local Addons = ModulesGetData()
-  for _, Addon in ipairs(Addons) do
-    if Addon.name == addon then
-      if Addon.isEnabled then
-        return true
-        else
-        return false
-      end
+function warExtended:IsAddonEnabled(addonToCheck)
+  local AddonsData = ModulesGetData()
+  local isEnabled = false;
+
+  for _, Addon in ipairs(AddonsData) do
+    if Addon.name == addonToCheck then
+      isEnabled = Addon.isEnabled
+      break
     end
   end
+
+  return isEnabled
+end
+
+function warExtended:CompareString(stringToCompare, stringToCheck)
+  local stringBoundary = '%f[%w%p]%'..stringToCompare..'%f[%A]'
+  local isMatch = stringToCheck:match(stringBoundary)
+  return isMatch
+end
+
+function warExtended:FormatChannel(channel)
+  channel = string.format("/%s", channel:gsub("/",""))
+  return channel
 end

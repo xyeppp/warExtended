@@ -40,7 +40,7 @@
                 </Label>
 
                 <!-- Text Input for the number of items to split -->
-                <EditBox name="$parentTextInput" inherits="EA_EditBox_DefaultFrame" maxchars="4" history="5" textalign="right" input="numbers" taborder="0">
+                <EditBox name="$parentTextInput" inherits="EA_EditBox_DefaultFrame" maxchars="4" history="10" textalign="right" input="numbers" taborder="0">
                     <Size>
                         <AbsPoint x="200" y="35" />
                     </Size>

@@ -87,38 +87,11 @@ local flagActions = {
   }
 }
 
-local flagNumberToFlagText = {
-  [4] = "isShiftPressed",
-  [8] = "isCtrlPressed",
-  [12] = "isCtrlShiftPressed",
-  [32] = "isAltPressed",
-  [36] = "isAltShiftPressed",
-  [40] = "isCtrlAltPressed",
-  [44] = "isCtrlAltShiftPressed"
-}
-
-
-local function getFunctionFromFlag(playerName, flags, functionType)
-  local flagText = flagNumberToFlagText[flags]
-  local isFlagMatching = flagActions[functionType][flagText]
-
-  if isFlagMatching then
-
-    if playerName then
-      playerName = clearPlayerNameFromTag(playerName)
-    end
-
-    isFlagMatching(playerName)
-    return isFlagMatching
-  end
-
-  return isFlagMatching
-end
-
 
 function NameActions.newEA_ChatWindowOnPlayerLinkLButtonUp(playerName, flags, x, y )
+  local nameWithoutPlayerTag = clearPlayerNameFromTag(playerName)
 
-  if getFunctionFromFlag(playerName, flags, "PlayerlinkLButtonUp") then
+  if NameActions:GetFunctionFromFlag(flags, "PlayerlinkLButtonUp", nameWithoutPlayerTag) then
     return
   end
 
@@ -128,8 +101,9 @@ end
 
 
 function NameActions.newEA_ChatWindowOnPlayerLinkRButtonUp(playerName, flags, x, y, wndGroupId)
+  local nameWithoutPlayerTag = clearPlayerNameFromTag(playerName)
 
-  if getFunctionFromFlag(playerName, flags, "PlayerlinkRButtonUp") then
+  if NameActions:GetFunctionFromFlag(flags, "PlayerlinkRButtonUp", nameWithoutPlayerTag) then
     return
   end
 
@@ -140,7 +114,7 @@ end
 
 function NameActions.newEA_ChatWindowOnRButtonDown(flags)
 
-  if getFunctionFromFlag(nil, flags, "ChatWindowLButtonUp") then
+  if NameActions:GetFunctionFromFlag(flags, "ChatWindowLButtonUp", nil) then
     return
   end
 
@@ -148,15 +122,21 @@ function NameActions.newEA_ChatWindowOnRButtonDown(flags)
 end
 
 
+
+
+
+
 local function getCurrentSavedMessages(specifiedMessageType)
 
   if specifiedMessageType then
+
     for messageNumber=1,#NameActions.SavedMessages[specifiedMessageType] do
       local messageText = tostring(NameActions.SavedMessages[specifiedMessageType][messageNumber].Text)
       NameActions:Print("Quick-"..specifiedMessageType.." message ["..messageNumber.."] is: "..messageText)
     end
     return
   end
+
 
   for messageTypes, _ in pairs(NameActions.SavedMessages) do
     for messageNum=1,#NameActions.SavedMessages[messageTypes] do
@@ -172,7 +152,7 @@ local function saveMessage(newText, messageNumber, newChannel, messageType)
 NameActions.SavedMessages[messageType][messageNumber].Text = newText
 
 if newChannel then
-  newChannel = string.format("/%s", newChannel:gsub("/",""))
+  newChannel = NameActions:FormatChannel(newChannel)
   NameActions.SavedMessages[messageType][messageNumber].Channel = newChannel
   NameActions:Print("Quick-"..messageType.." message ["..messageNumber.."] set to:"
             ..newText.."\nChannel: "..newChannel)
@@ -189,10 +169,11 @@ local function setQuickMessage(newText, messageNumber, newChannel, messageType)
   local isMessageNumberValid = NameActions.SavedMessages[messageType][messageNumber]
 
   if not isMessageNumberValid then
-    NameActions:Warn("Invalid message number.")
+      NameActions:Warn("Invalid message number.")
     return
+
   elseif newText == "" then
-    getCurrentSavedMessages(messageType)
+      getCurrentSavedMessages(messageType)
     return
   end
 
@@ -202,28 +183,38 @@ end
 
 
 local slashCommands = {
+
   qmsg = {
+
     func = function ()
       getCurrentSavedMessages()
     end,
+
     desc = "Prints currently set Quick-Messages."
   },
+
   qtell = {
+
     func = function (text, messageNumber)
       setQuickMessage(text, messageNumber,nil, "Tell")
     end,
+
     desc = "Set your quick-tell message: /qtell text#slotNumber"
   },
+
   qchat = {
+
     func =  function (text, messageNumber, channel)
       setQuickMessage(text, messageNumber,channel, "Chat")
     end,
+
     desc = "Set your quick-chat message: /qchat text#slotNumber#channel"
   }
+
 }
 
 
-function NameActions.OnInitialize()
+local function setSelfHooks()
   originalEA_ChatWindowOnHyperLinkLButtonUp = EA_ChatWindow.OnHyperLinkLButtonUp
   EA_ChatWindow.OnHyperLinkLButtonUp = NameActions.newEA_ChatWindowOnPlayerLinkLButtonUp
 
@@ -232,6 +223,13 @@ function NameActions.OnInitialize()
 
   originalEA_ChatWindowOnRButtonDown = EA_ChatWindow.OnRButtonDown
   EA_ChatWindow.OnRButtonDown = NameActions.newEA_ChatWindowOnRButtonDown
+end
 
+
+function NameActions.OnInitialize()
+
+  setSelfHooks()
   NameActions:RegisterSlash(slashCommands, "warext")
+  NameActions:RegisterFlags(flagActions)
+
 end
