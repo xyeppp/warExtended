@@ -192,27 +192,18 @@ function setAutoMode(autoShorthandle, autoMode,...)
 end
 
 
-local function isCorrectChannel(channelFilter)
-  local currentChatFilter = GameData.ChatData.type
-  local desiredFilter = SystemData.ChatLogFilters[channelFilter]
-  return currentChatFilter == desiredFilter
-end
-
 
 local function getAutoMessage()
 
 end
 
 
-local function autosOnChatText()
+function warExtendedAutos.OnChatText()
   local chatText = GameData.ChatData.text
   local playerName = GameData.ChatData.name
 
-  if isAutoEnabled() then
-	if isCorrectChannel("GUILD") then
-	  --Autos:Send(L"/invite "..playerName)
+	if Autos:IsCorrectChannel("GUILD") then
 	  p("yes")
-	end
   end
 
 end
@@ -229,7 +220,7 @@ local slashCommands =  {
 
 
 Autos:RegisterSlash(slashCommands, "warext")
-Autos:Hook(ChatManager.OnChatText,autosOnChatText)
+--Autos:RegisterChat("warExtendedAutos.OnChatText")
 Autos:RegisterEvent("APPLICATION_TWO_BUTTON_DIALOG", "warExtendedAutos.AutoAcceptButtonDialog")
 
 
