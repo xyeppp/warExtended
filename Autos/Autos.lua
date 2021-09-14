@@ -1,10 +1,11 @@
 warExtendedAutos = warExtended.Register("war Extended Autos")
 local Autos = warExtendedAutos
 local tostring=tostring
+local pairs=pairs
 
 Autos.CustomList = {
-  Whitelist = {},
-  Blacklist = {}
+  whitelist = {},
+  blacklist = {}
 }
 
 Autos.Settings = {
@@ -33,24 +34,52 @@ Autos.Settings = {
 	}
 }
 
-local function getCustomNameList()
-  local customNameList = Autos.CustomNameList
+local function getCustomNameWhitelist()
+  local customNameList = Autos.CustomList.whitelist
   return customNameList
 end
 
+local playerLists = {
+  guild = GetGuildMemberData,
+  friends = GetFriendsList,
+  scenario = GameData.GetScenarioPlayers,
+  custom = getCustomNameWhitelist,
+}
+
+local function getAllPlayerLists()
+  local allPlayerLists = {}
+
+  for _, listFunction in pairs(playerLists) do
+	local playerList = listFunction()
+
+	if playerList then
+	  for playerData = 1,#playerList do
+		allPlayerLists[#allPlayerLists+1] = playerList[playerData]
+	  end
+	end
+  end
+
+	return allPlayerLists
+end
+
  autoModes = {
-  list = {
-	guild = GetGuildMemberData,
-	friends = GetFriendsList,
-	scenario = GameData.GetScenarioPlayers,
-	custom = getCustomNameList
+   autoShorthandles = {
+	 acc = "PartyAccept",
+	 inv = "PartyInvite",
+	 res = "RessurectAccept",
+	 rel = "AutoRelease",
+	 rep = "AutoReply",
+	 sc = "AutoScenario"
+   },
+  lists = {
+	guild = playerLists.guild,
+	friends = playerLists.friends,
+	scenario = playerLists.scenario,
+	custom = playerLists.custom,
+	safe = getAllPlayerLists,
+	all = ""
   },
-  mode = {
-	safe = "safe",
-	all = "all",
-	guild = "guild",
-	scenario = "scenario",
-	custom = "custom",
+  modes = {
 	on = true,
 	off = false
   },
@@ -58,32 +87,39 @@ end
   channels = "",
 }
 
- autoData = {
-  acc = {PartyAccept = autoModes},
-  inv = {PartyInvite = autoModes},
-  res = {RessurectAccept = autoModes},
-  rel = {AutoRelease = autoModes},
-  rep = {AutoReply = autoModes},
-  sc = {AutoScenario = autoModes}
-}
 
+local function getFullAutoPathFromShorthandle(autoShorthandle)
+	local fullAutoName = autoModes.autoShorthandles[autoShorthandle]
+   	local fullAutoPath = Autos.Settings[fullAutoName]
+	return fullAutoPath
+ end
 
- function getFullAutoPath(shorthandle)
-  local fullAutoName = autoData[shorthandle]
-   for name,_ in pairs(fullAutoName) do
-	 local fullAutoPath = Autos.Settings[name]
-	 return fullAutoPath
-   end
+local function isAutoModeOn(autoMode)
+  local autoMode = getFullAutoPathFromShorthandle(autoMode)
+  local isAutoEnabled = autoMode.mode
+  return isAutoEnabled
 end
 
- function getAutoPlayerList(specifiedList)
-  local playerList = autoModes.list[specifiedList]()
+local function getAutoList(autoMode)
+  local autoMode = getFullAutoPathFromShorthandle(autoMode)
+  local autoList = autoMode.list
+  return autoList
+end
+
+local function getAutoText(autoMode)
+  local autoMode = getFullAutoPathFromShorthandle(autoMode)
+  local autoText = autoMode.text
+  return autoText
+end
+
+local function getPlayerListFromListType(specifiedList)
+  local playerList = Autos.CustomList[specifiedList] or autoModes.lists[specifiedList]()
   return playerList
 end
 
 
- function getNamesFromAutoPlayerList(specifiedList)
-  local playerList = getAutoPlayerList(specifiedList)
+local function getNamesFromPlayerList(specifiedList)
+  local playerList = getPlayerListFromListType(specifiedList)
   local nameList= {}
 
   if playerList then
@@ -97,175 +133,287 @@ end
 end
 
 
- function getNamesFromAllAutoPlayerLists()
-   local nameList = {}
+local function isPlayerInAutoList(nameToCheck, listType)
+  local autoList = getNamesFromPlayerList(listType)
+  local isInList = false;
 
-  for playerList,_ in pairs(autoModes.list) do
-	local list = getNamesFromAutoPlayerList(playerList)
-	for player=1,#list do
-	  nameList[#nameList+1] = list[player]
-	end
-  end
+	for _, playerName in pairs(autoList) do
+	  local isPlayerInList = Autos:CompareString(nameToCheck, playerName)
 
-  return nameList
-end
-
-
-local function isModeAList(mode)
-  for list,_ in pairs(autoModes.list) do
-	local isList = mode == list
-	if isList then
-	  return isList
-	end
-  end
-end
-
-
-  function getNameListFromAutoMode(autoMode)
-	local isSafeMode = autoMode == "safe"
-
-	if isSafeMode then
-	  local autoNameList = getNamesFromAllAutoPlayerLists()
-	  return autoNameList
-	elseif isModeAList(autoMode) then
-	  local autoNameList = getNamesFromAutoPlayerList(autoMode)
-	  return autoNameList
-	end
-
- end
-
-
-function isPlayerInAutoModeList(playerName, autoMode)
-  local isAllMode = (autoMode == nil or autoMode == "all")
-  local autoModeNameList = getNameListFromAutoMode(autoMode)
-
-  if isAllMode then
-	return isAllMode
-  end
-
-  for name=1,#autoModeNameList do
-	local nameToCheck = autoModeNameList[name]
-	local isInList = Autos:CompareString(playerName, nameToCheck)
-
-	if isInList then
-	  return isInList
-	end
-
-  end
-end
-
-
-function getAutoMode(autoShorthandle)
-  local autoPath = getFullAutoPath(autoShorthandle)
-  local autoMode = autoPath.mode
-  return autoMode
-end
-
-local function isModeValid(autoShorthandle, autoMode)
-  for autoName,autoModes in pairs(autoData[autoShorthandle]) do
-	for _, modes in pairs(autoModes) do
-	  local isValid = modes == autoMode
-
-	  if isValid then
-		return isValid
+	  if isPlayerInList then
+		isInList = true;
 	  end
 
 	end
-  end
+
+  return isInList
 end
 
 
-function setAutoMode(autoShorthandle, autoMode,...)
-  if not autoData[autoShorthandle] then
-	return d("unknown type")
+local function removePlayerFromCustomList(playerName, listType)
+  local autoList = getPlayerListFromListType(listType)
+
+  for playerNumber, playerData in pairs(autoList) do
+	local isPlayerName = playerData.name == playerName
+
+	if isPlayerName then
+	  autoList[playerNumber] = nil
+	end
+
   end
 
-  local isValidMode = isModeValid(autoShorthandle, autoMode)
-  if not isValidMode then
+  Autos:Print("Player "..playerName.." removed from custom "..listType..".")
+end
+
+
+local function addPlayerToCustomNameList(playerName, listType)
+  local autoList = getPlayerListFromListType(listType)
+
+  if not autoList[#autoList+1] then
+	autoList[#autoList+1] = {["name"] = playerName}
+  end
+
+  Autos:Print("Player "..playerName.." added to custom "..listType..".")
+end
+
+local function getOppositeCustomList(listType)
+  local opposite = {
+	blacklist = "whitelist",
+	whitelist = "blacklist"
+  }
+  return opposite[listType]
+end
+
+
+local function addOrRemovePlayerFromCustomList(playerName, listType)
+
+  if playerName == "" then
+	Autos:Print("Unspecified player name.")
 	return
   end
 
-  local currentAutoMode = getAutoMode(autoShorthandle)
-  local isCurrentMode = currentAutoMode == autoMode
+  local isPlayerInList = isPlayerInAutoList(playerName, listType)
+  local isPlayerInOppositeList = isPlayerInAutoList(playerName, getOppositeCustomList(listType))
 
-
-end
-
-
-
-local function getAutoMessage()
-
-end
-
-
-function warExtendedAutos.OnChatText()
-  local chatText = GameData.ChatData.text
-  local playerName = GameData.ChatData.name
-
-	if Autos:IsCorrectChannel("GUILD") then
-	  p("yes")
+  if isPlayerInList then
+	removePlayerFromCustomList(playerName, listType)
+	return
   end
 
+  if isPlayerInOppositeList then
+	removePlayerFromCustomList(playerName, oppositeList)
+  end
+
+  addPlayerToCustomNameList(playerName, listType)
 end
 
+
+function setAutoMode(autoShorthandle, mode)
+  local autoMode = autoModes.modes[mode]
+
+  for fullAutoName,_ in pairs(autoModes.autoShorthandles[autoShorthandle]) do
+	Autos.Settings[fullAutoName].mode = autoMode
+ end
+end
 
 
 local slashCommands =  {
   auto = {
-	func = function (autoType, autoState) setAutoStatus(autoType, autoState) end,
-	desc = "Set your autos: res/resp/acc/sc/inv/rep#friends/guild/sc/safe/all/text#channel"
+	func = function (autoType, autoState, channels) setAutoMode(autoType, autoState, channels) end,
+	desc = "Set your autos: res/rel/acc/sc/inv/rep # friends/guild/sc/safe/all/text # channel"
+  },
+  autowhite = {
+	func = function (playerName) addOrRemovePlayerFromCustomList(playerName, "whitelist") end,
+	desc = "Add or remove a player from custom whitelist."
+  },
+  autoblack = {
+	func = function (playerName) addOrRemovePlayerFromCustomList(playerName, "blacklist") end,
+	desc = "Add or remove a player from custom blacklist."
   }
 }
 
 
-
-Autos:RegisterSlash(slashCommands, "warext")
---Autos:RegisterChat("warExtendedAutos.OnChatText")
-Autos:RegisterEvent("APPLICATION_TWO_BUTTON_DIALOG", "warExtendedAutos.AutoAcceptButtonDialog")
-
-
-
-
-
-
+local function getDialogData()
+  local dlgIndex = DialogManager.FindAvailableDialog (DialogManager.twoButtonDlgs, DialogManager.NUM_TWO_BUTTON_DLGS)
+  local dialogData = SystemData.Dialogs.AppDlg
+  local dialogText = tostring(dialogData.text)
+  local partyDialog = dialogText:match("(.+) has invited you")
+  local ressurectDialog = dialogText:match("(.+) has offered you")
+  return partyDialog, ressurectDialog, dlgIndex
+  end
 
 
+local function onDialogButonAccept(dlgIndex)
+  	DialogManager.Update(1)
+    DialogManager.twoButtonDlgs[ dlgIndex ].ButtonCallback1()
+  	DialogManager.Update(1)
+  	DialogManager.ReleaseDialog(DialogManager.twoButtonDlgs[ dlgIndex ], "TwoButtonDlg"..dlgIndex)
+  end
 
---[[local function autosAutoAcceptScenario()
-  oldEA_Window_ScenarioLobbyShowJoinPrompt()
-  if Autos.Settings.AutoJoin then
-	EA_Window_ScenarioLobby.UpdateStartTime(1)
-	BroadcastEvent( SystemData.Events.SCENARIO_INSTANCE_JOIN_NOW )
-	EA_Window_ScenarioLobby.UpdateStartTime(200)
+local function onDialogButtonDecline(dlgIndex)
+  DialogManager.Update(1)
+  DialogManager.twoButtonDlgs[ dlgIndex ].ButtonCallback2()
+  DialogManager.Update(1)
+  DialogManager.ReleaseDialog(DialogManager.twoButtonDlgs[ dlgIndex ], "TwoButtonDlg"..dlgIndex)
+end
+
+
+local function printAutoMessage(autoType, buttonCallbackType, extraText)
+  extraText = extraText or ""
+  local autoMessages = {
+	acc = {
+	  accept = "Accepted party invite from "..extraText..".",
+	  decline = "Declined party invite from "..extraText.."."
+	},
+	res = {
+	  accept = "Accepted ressurect offer from "..extraText..".",
+	  decline = "Declined ressurect offer from "..extraText.."."
+	},
+	sc = {
+	  accept = "Accepted scenario pop.",
+	},
+	rel = {
+	  accept = "Automatic respawn has been triggered.",
+	},
+	inv = {
+	  accept = "Sent group invite to "..extraText..".",
+	  decline = "Group invite to ".. extraText.. " not sent."
+	}
+  }
+  local message = autoMessages[autoType][buttonCallbackType]
+
+  if buttonCallbackType == "accept" then
+	Autos:Print(message)
+  else
+  	Autos:Warn(message)
+  end
+
+end
+
+local function isPlayerInBlacklist(playerName)
+  local isInBlacklist = isPlayerInAutoList(playerName, "blacklist")
+  return isInBlacklist
+end
+
+
+local function selectCorrectListBasedButtonCallback(playerName, autoType, dlgIndex)
+  local isAutoListSet = getAutoList(autoType) ~= ""
+
+  if isPlayerInBlacklist(playerName) then
+	onDialogButtonDecline(dlgIndex)
+	printAutoMessage(autoType, "decline", playerName)
+	return
+  end
+
+  if isAutoListSet then
+	autoList = getAutoList(autoType)
+	if isPlayerInAutoList(playerName, autoList) then
+	  onDialogButonAccept(dlgIndex)
+	  printAutoMessage(autoType, "accept", playerName)
+	end
+	return
+  end
+
+  onDialogButonAccept(dlgIndex)
+  printAutoMessage(autoType, "accept", playerName)
+  return
+end
+
+
+local function onAutoAcceptButtonDialog()
+  local isAutoAccOn =  isAutoModeOn("acc")
+  local isAutoResOn = isAutoModeOn("res")
+  local inviterName, ressurecterName, dlgIndex = getDialogData()
+
+  if isAutoAccOn and inviterName then
+	selectCorrectListBasedButtonCallback(inviterName, "acc",dlgIndex)
+  elseif isAutoResOn and ressurecterName then
+	selectCorrectListBasedButtonCallback(ressurecterName, "res",dlgIndex)
   end
 end
 
 
-local function getAutoFromDialogButtonText()
- -- DialogManager.Update(1)
-  for dialogNumber=1,#DialogManager.twoButtonDlgs do
-	local dialogData = DialogManager.twoButtonDlgs[dialogNumber]
-	p(dialogData)
-	--if v.inUse then
-	  --local texter = tostring(LabelGetText("TwoButtonDlg"..k.."BoxText"))
-
-	--inviterName in string.gmatch(texter, "(.+) has invited you(.*)") do
-	-- for resserName in string.gmatch(texter, "(.+) has offered you(.*)") do
-  end
-end
-
-
-function Autos.AutoAcceptButtonDialog()
-  local serverfriendslist = GetFriendsList()
-  local rosterData = GetGuildMemberData()
-  local interimPlayerData = GameData.GetScenarioPlayers()
-  p("yes")
-end
-
-
-function Autos.AutoRespawner()
-  if not Autos.Settings.AutoRespawn then return end
+local function processDeathWindow()
+  local deathWindowID = WindowGetId("DeathWindowRespawnButton")
+  DeathWindow.Update(1)
+  GameData.DeathRespawnData.selectedId = GameData.DeathRespawnData.Locations[deathWindowID].id
   BroadcastEvent( SystemData.Events.RELEASE_CORPSE )
   Sound.Play( Sound.BUTTON_CLICK )
   DeathWindow.Close()
-end]]
+end
+
+
+function Autos.OnPlayerDeath()
+  if isAutoModeOn("rel") then
+	processDeathWindow()
+	printAutoMessage("rel", "accept", nil)
+  end
+end
+
+local function isAutoInviteText(chatText)
+local isAutoText = chatText == (getAutoText("inv"))
+return isAutoText
+end
+
+
+local function processAutoReply(chatText, senderName)
+  if (Autos:IsCorrectChannel("TELL_RECEIVE") or Autos:IsCorrectChannel("GUILD"))
+		  and not isAutoInviteText(chatText) then
+	local replyMessage = "Auto-Reply: "..getAutoText("rep")
+	Autos:TellPlayer(senderName, replyMessage)
+  end
+end
+
+
+
+local function processAutoInvite(chatText, senderName)
+if (Autos:IsCorrectChannel("GUILD") or Autos:IsCorrectChannel("TELL_RECEIVE"))
+		and isAutoInviteText(chatText) then
+	if isPlayerInBlacklist(tostring(senderName)) then
+	  printAutoMessage("inv", "decline", tostring(senderName))
+	else
+	  Autos:InvitePlayer(senderName)
+	  printAutoMessage("inv", "accept", tostring(senderName))
+	end
+end
+end
+
+
+
+function warExtendedAutos.OnChatText()
+  local chatText = tostring(GameData.ChatData.text)
+  local senderName = GameData.ChatData.name
+
+  if isAutoModeOn("rep") then
+	processAutoReply(chatText, senderName)
+  end
+
+  if isAutoModeOn("inv") then
+	processAutoInvite(chatText, senderName)
+  end
+
+end
+
+
+local function autoAcceptScenario()
+  EA_Window_ScenarioLobby.UpdateStartTime( 1 )
+  BroadcastEvent( SystemData.Events.SCENARIO_INSTANCE_JOIN_NOW )
+  WindowSetShowing("EA_Window_ScenarioJoinPrompt", false)
+  LabelSetText( "EA_Window_InScenarioQueueTimer", GetString( StringTables.Default.TEXT_WAITING_ON_PLAYERS ))
+  EA_Window_ScenarioLobby.startTime = 0.1
+  WindowSetShowing( "EA_Window_ScenarioStarting", true )
+end
+
+local function onScenarioDialogButton()
+  if isAutoModeOn("sc") then
+	autoAcceptScenario()
+  end
+end
+
+
+Autos:RegisterSlash(slashCommands, "warext")
+Autos:RegisterChat("warExtendedAutos.OnChatText")
+Autos:RegisterEvent("player death", "warExtendedAutos.OnPlayerDeath")
+Autos:Hook(DialogManager.OnApplicationTwoButtonDialog, onAutoAcceptButtonDialog, true)
+Autos:Hook(EA_Window_ScenarioLobby.ShowJoinPrompt, onScenarioDialogButton, true)
+

@@ -32,13 +32,7 @@ local function getQuickMessage(specifiedMessageType, specifiedSlot)
 end
 
 local function searchSocialForPlayer(playerName)
-  SendPlayerSearchRequest(L""..playerName, L"", L"", { -1 }, 0, 40, false)
-end
-
-
-local function clearPlayerNameFromTag(playerName)
-  playerName = wstring.gsub( playerName, L"PLAYER:", L"" )
-  return playerName
+  SendPlayerSearchRequest(playerName, L"", L"", { -1 }, 0, 40, false)
 end
 
 
@@ -47,7 +41,6 @@ local flagActions = {
   PlayerlinkLButtonUp = {
 
     isShiftPressed = function (playerName)
-      NameActions:Send(playerName)
       searchSocialForPlayer(playerName)
     end,
 
@@ -88,22 +81,21 @@ local flagActions = {
 }
 
 
-function NameActions.newEA_ChatWindowOnPlayerLinkLButtonUp(playerName, flags, x, y )
-  local nameWithoutPlayerTag = clearPlayerNameFromTag(playerName)
 
-  if NameActions:GetFunctionFromFlag(flags, "PlayerlinkLButtonUp", nameWithoutPlayerTag) then
+function NameActions.newEA_ChatWindowOnPlayerLinkLButtonUp(playerName, flags, x, y )
+
+  if NameActions:GetFunctionFromFlag(flags, "PlayerlinkLButtonUp", playerName) then
     return
   end
 
-  originalEA_ChatWindowOnHyperLinkLButtonUp(playerName, flags, x, y )
+  originalEA_ChatWindowOnPlayerLinkLButtonUp(playerName, flags, x, y )
 end
 
 
 
 function NameActions.newEA_ChatWindowOnPlayerLinkRButtonUp(playerName, flags, x, y, wndGroupId)
-  local nameWithoutPlayerTag = clearPlayerNameFromTag(playerName)
 
-  if NameActions:GetFunctionFromFlag(flags, "PlayerlinkRButtonUp", nameWithoutPlayerTag) then
+  if NameActions:GetFunctionFromFlag(flags, "PlayerlinkRButtonUp", playerName) then
     return
   end
 
@@ -154,6 +146,7 @@ NameActions.SavedMessages[messageType][messageNumber].Text = newText
 if newChannel then
   newChannel = NameActions:FormatChannel(newChannel)
   NameActions.SavedMessages[messageType][messageNumber].Channel = newChannel
+
   NameActions:Print("Quick-"..messageType.." message ["..messageNumber.."] set to:"
             ..newText.."\nChannel: "..newChannel)
   return
@@ -213,10 +206,9 @@ local slashCommands = {
 
 }
 
-
 local function setSelfHooks()
-  originalEA_ChatWindowOnHyperLinkLButtonUp = EA_ChatWindow.OnHyperLinkLButtonUp
-  EA_ChatWindow.OnHyperLinkLButtonUp = NameActions.newEA_ChatWindowOnPlayerLinkLButtonUp
+  originalEA_ChatWindowOnPlayerLinkLButtonUp = EA_ChatWindow.OnPlayerLinkLButtonUp
+  EA_ChatWindow.OnPlayerLinkLButtonUp = NameActions.newEA_ChatWindowOnPlayerLinkLButtonUp
 
   originalEA_ChatWindowOnPlayerLinkRButtonUp = EA_ChatWindow.OnHyperLinkRButtonUp
   EA_ChatWindow.OnPlayerLinkRButtonUp = NameActions.newEA_ChatWindowOnPlayerLinkRButtonUp

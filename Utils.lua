@@ -165,17 +165,6 @@ local roleIcons = {
   },
 }
 
-
-function warExtended:GetGroupType()
-  if IsWarBandActive() then
-    return "BATTLEGROUP"
-  end
-  if GetNumGroupmates() > 0 then
-    return "GROUP"
-  end
-  return nil
-end
-
 local function isStringInUtilsTable(stringToCheck)
   local isStringInTable = roleIcons[stringToCheck] or careerInfo[stringToCheck]
   if not isStringInTable then
@@ -185,70 +174,9 @@ local function isStringInUtilsTable(stringToCheck)
 end
 
 
-local function getLeaderNameFromGroupData()
-    local groupData = GetGroupData()
-
-  for player = 1,#groupData do
-    local playerData = groupData[player]
-    local isLeader = playerData.isMainAssist
-    if isLeader then
-      return playerData.name
-    end
-  end
-
+function warExtended:GetCareerInfoTable()
+  return careerInfo
 end
-
-
-function warExtended:GetLeader()
-local gType =  warExtended:GetGroupType()
-local playerName = GameData.Player.name
-local isPlayerLeader = GameData.Player.isGroupLeader
-
-  if isPlayerLeader or not gType then
-    return playerName
-elseif gType == "BATTLEGROUP" then
-  local leaderName = PartyUtils.GetWarbandLeader().name
-  return leaderName
-elseif gType == "GROUP" then
-  local leaderName = getLeaderNameFromGroupData()
-  return leaderName
-end
-end
-
-
-
-local function getRoleFromCareerID(careerID)
-  for _, careerData in pairs(careerInfo) do
-    if careerID == careerData.id then
-      return careerData.role
-    end
-  end
-end
-
-
-function warExtended:GetGroupRoleCount(groupData)
-  local isLeaderAlone = groupData.Group == nil
-  local groupRoleCount = {
-    tank = 0,
-    dps = 0,
-    heal = 0
-  }
-
-    if isLeaderAlone then
-      local leaderCareer = groupData.leaderCareer
-      local leaderRole = getRoleFromCareerID(leaderCareer)
-      groupRoleCount[leaderRole] = groupRoleCount[leaderRole] + 1
-      return groupRoleCount.tank, groupRoleCount.dps, groupRoleCount.heal
-    end
-
-      for member=1,#groupData.Group do
-        local memberCareer=groupData.Group[member].m_careerID
-        local careerRole = getRoleFromCareerID(memberCareer)
-        groupRoleCount[careerRole] = groupRoleCount[careerRole] + 1
-      end
-    return groupRoleCount.tank, groupRoleCount.dps, groupRoleCount.heal
-  end
-
 
 
 function warExtended:GetTargetNames()
@@ -319,11 +247,6 @@ function warExtended:GetCareerIconString(career)
   return careerIconString
 end
 
-function warExtended:TellPlayer(playerName, text)
-  if not playerName and not text then return end
-  ChatMacro("/tell "..playerName.." "..text, "")
-end
-
 
 function warExtended:IsAddonEnabled(addonToCheck)
   local AddonsData = ModulesGetData()
@@ -346,8 +269,7 @@ function warExtended:CompareString(stringToCompare, stringToCheck)
 end
 
 function warExtended:FormatChannel(channel)
-  if channel then
-    channel = string.format("/%s", channel:gsub("/",""))
-    return channel
-  end
+  channel = tostring(channel)
+  channel = string.format("/%s", channel:gsub("/",""))
+  return channel
 end

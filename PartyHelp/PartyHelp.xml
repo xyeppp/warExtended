@@ -1,6 +1,6 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
-
-        <Window name="PHGroupWindow">
+<Windows>
+        <Window name="PartyHelpGroupWindow">
             <Size>
                 <AbsPoint x="200" y="150" />
             </Size>
@@ -68,33 +68,33 @@
             </Windows>
         </Window>
 
-        <Window name="PHWarbandWindow">
+        <Window name="PartyHelpWarbandWindow">
             <Size>
                 <AbsPoint x="800" y="150" />
             </Size>
             <Windows>
-                <Window name="$parentGroup1" inherits="PHGroupWindow">
+                <Window name="$parentGroup1" inherits="PartyHelpGroupWindow">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent" >
                             <AbsPoint x="0" y="0" />
                         </Anchor>
                     </Anchors>
                 </Window>
-                <Window name="$parentGroup2" inherits="PHGroupWindow">
+                <Window name="$parentGroup2" inherits="PartyHelpGroupWindow">
                     <Anchors>
                         <Anchor point="topright" relativePoint="topleft" relativeTo="$parentGroup1" >
                             <AbsPoint x="0" y="0" />
                         </Anchor>
                     </Anchors>
                 </Window>
-                <Window name="$parentGroup3" inherits="PHGroupWindow">
+                <Window name="$parentGroup3" inherits="PartyHelpGroupWindow">
                     <Anchors>
                         <Anchor point="topright" relativePoint="topleft" relativeTo="$parentGroup2" >
                             <AbsPoint x="0" y="0" />
                         </Anchor>
                     </Anchors>
                 </Window>
-                <Window name="$parentGroup4" inherits="PHGroupWindow">
+                <Window name="$parentGroup4" inherits="PartyHelpGroupWindow">
                     <Anchors>
                         <Anchor point="topright" relativePoint="topleft" relativeTo="$parentGroup3" >
                             <AbsPoint x="0" y="0" />
@@ -105,18 +105,18 @@
             </Windows>
         </Window>
 
-        <Button name="PHWindowClose" inherits="EA_Button_Default" backgroundtexture="shared_01" highlighttexture="shared_01" layer="popup">
+        <Button name="PartyHelpWindowCloseButton" inherits="EA_Button_Default" backgroundtexture="shared_01" highlighttexture="shared_01" layer="popup">
             <Size>
                 <AbsPoint x="37" y="37" />
             </Size>
             <Anchors>
-                <Anchor point="topleft" relativePoint="topright" relativeTo="PHWindow">
+                <Anchor point="topleft" relativePoint="topright" relativeTo="PartyHelpWindow">
                     <AbsPoint x="0" y="0" />
                 </Anchor>
             </Anchors>
 
             <EventHandlers>
-                <EventHandler event="OnLButtonUp" function="PartyHelper.OnClose" />
+                <EventHandler event="OnLButtonUp" function="warExtendedReadyCheck.OnCloseButton" />
             </EventHandlers>
 
             <TexCoords>
@@ -128,7 +128,7 @@
             </TexCoords>
         </Button>
 
-        <Window name="PHWindow" layer="popup" movable="false" resizeable="false" handleinput="false" savesettings="true">
+        <Window name="PartyHelpWindow" layer="popup" movable="false" resizeable="false" handleinput="false" savesettings="true">
             <Size>
                 <AbsPoint x="800" y="175" />
             </Size>
@@ -151,34 +151,14 @@
                     </Anchors>
 
                 </Label>
-                <Window name="$parentWarband0" inherits="PHWarbandWindow">
+                <Window name="$parentWarband" inherits="PartyHelpWarbandWindow">
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentHeadText">
                             <AbsPoint x="0" y="0" />
                         </Anchor>
                     </Anchors>
                 </Window>
-                <Window name="$parentWarband1" inherits="PHWarbandWindow">
-                    <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentWarband0">
-                            <AbsPoint x="0" y="25" />
-                        </Anchor>
-                    </Anchors>
-                </Window>
-                <Window name="$parentWarband2" inherits="PHWarbandWindow">
-                    <Anchors>
-                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentWarband0">
-                            <AbsPoint x="25" y="0" />
-                        </Anchor>
-                    </Anchors>
-                </Window>
-                <Window name="$parentWarband3" inherits="PHWarbandWindow">
-                    <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentWarband2">
-                            <AbsPoint x="0" y="25" />
-                        </Anchor>
-                    </Anchors>
-                </Window>
             </Windows>
         </Window>
+</Windows>
 </Interface>

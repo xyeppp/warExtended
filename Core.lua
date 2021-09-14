@@ -79,11 +79,20 @@ end
 
 
 
-function warExtended:Alert(alertType, text)
+function warExtended:Alert(text, alertType)
+  alertType = alertType or 1
   AlertTextWindow.AddLine (alertType, towstring(text))
 end
 
+function warExtended:TellPlayer(playerName, text)
+  if not playerName and not text then return end
+  SendChatText(L"/tell "..towstring(playerName)..L" "..towstring(text), L"")
+end
 
+function warExtended:InvitePlayer(playerName)
+  if not playerName then return end
+  SendChatText(L"/invite "..towstring(playerName), L"")
+end
 
 function warExtended:Send(text, channelType)
   channelType = warExtended:FormatChannel(channelType) or ""
