@@ -14,6 +14,8 @@
             <File name="Hooks.lua" />
             <File name="StateMachine.lua" />
             <File name="Utils.lua" />
+            <File name="GroupUtils.lua" />
+            <File name="BackpackUtils.lua" />
             <File name="Slash.lua" />
             <File name="Keymap.lua" />
             <File name="Events.lua" />

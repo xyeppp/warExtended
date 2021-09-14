@@ -165,17 +165,6 @@ local roleIcons = {
   },
 }
 
-
-local function getGroupType()
-  if IsWarBandActive() then
-    return "warband"
-  end
-  if GetNumGroupmates() > 0 then
-    return "party"
-  end
-  return "solo"
-end
-
 local function isStringInUtilsTable(stringToCheck)
   local isStringInTable = roleIcons[stringToCheck] or careerInfo[stringToCheck]
   if not isStringInTable then
@@ -185,38 +174,9 @@ local function isStringInUtilsTable(stringToCheck)
 end
 
 
-local function getRoleFromCareerID(careerID)
-  for _, careerData in pairs(careerInfo) do
-    if careerID == careerData.id then
-      return careerData.role
-    end
-  end
+function warExtended:GetCareerInfoTable()
+  return careerInfo
 end
-
-
-function warExtended:GetGroupRoleCount(groupData)
-  local isLeaderAlone = groupData.Group == nil
-  local groupRoleCount = {
-    tank = 0,
-    dps = 0,
-    heal = 0
-  }
-
-    if isLeaderAlone then
-      local leaderCareer = groupData.leaderCareer
-      local leaderRole = getRoleFromCareerID(leaderCareer)
-      groupRoleCount[leaderRole] = groupRoleCount[leaderRole] + 1
-      return groupRoleCount.tank, groupRoleCount.dps, groupRoleCount.heal
-    end
-
-      for member=1,#groupData.Group do
-        local memberCareer=groupData.Group[member].m_careerID
-        local careerRole = getRoleFromCareerID(memberCareer)
-        groupRoleCount[careerRole] = groupRoleCount[careerRole] + 1
-      end
-    return groupRoleCount.tank, groupRoleCount.dps, groupRoleCount.heal
-  end
-
 
 
 function warExtended:GetTargetNames()
@@ -227,6 +187,34 @@ function warExtended:GetTargetNames()
 end
 
 
+function warExtended:GetChannelFromChatType(chatType)
+  chatType = tonumber(chatType)
+
+  for chatFilterName, chatFilterNumber in pairs(SystemData.ChatLogFilters) do
+    if chatType == chatFilterNumber then
+      local channelHandle = tostring(ChatSettings.Channels[SystemData.ChatLogFilters[chatFilterName]].serverCmd)
+      return channelHandle
+    end
+  end
+
+end
+
+
+function warExtended:GetChannelFromFilterName(filterName)
+  for chatFilterName, _ in pairs(SystemData.ChatLogFilters) do
+    if filterName == chatFilterName then
+      local channelHandle = tostring(ChatSettings.Channels[SystemData.ChatLogFilters[chatFilterName]].serverCmd)
+      return channelHandle
+    end
+  end
+end
+
+
+function warExtended:IsCorrectChannel(channelFilter)
+  local currentChatFilter = GameData.ChatData.type
+  local desiredFilter = SystemData.ChatLogFilters[channelFilter]
+  return currentChatFilter == desiredFilter
+end
 
 function warExtended:GetRoleIconString(role, plural)
   if not isStringInUtilsTable(role) then return end
@@ -259,11 +247,6 @@ function warExtended:GetCareerIconString(career)
   return careerIconString
 end
 
-function warExtended:TellPlayer(playerName, text)
-  if not playerName and not text then return end
-  ChatMacro("/tell "..playerName.." "..text, "")
-end
-
 
 function warExtended:IsAddonEnabled(addonToCheck)
   local AddonsData = ModulesGetData()
@@ -286,6 +269,7 @@ function warExtended:CompareString(stringToCompare, stringToCheck)
 end
 
 function warExtended:FormatChannel(channel)
+  channel = tostring(channel)
   channel = string.format("/%s", channel:gsub("/",""))
   return channel
 end

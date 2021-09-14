@@ -1,0 +1,164 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+<Windows>
+        <Window name="PartyHelpGroupWindow">
+            <Size>
+                <AbsPoint x="200" y="150" />
+            </Size>
+            <Windows>
+                <Label name="$parent1" inherits="EA_Label_DefaultText" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="200" y="26" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Label name="$parent2" inherits="EA_Label_DefaultText" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="200" y="26" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parent1">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Label name="$parent3" inherits="EA_Label_DefaultText" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="200" y="26" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parent2">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Label name="$parent4" inherits="EA_Label_DefaultText" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="200" y="26" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parent3">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Label name="$parent5" inherits="EA_Label_DefaultText" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="200" y="26" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parent4">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Label name="$parent6" inherits="EA_Label_DefaultText" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="200" y="26" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parent5">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+            </Windows>
+        </Window>
+
+        <Window name="PartyHelpWarbandWindow">
+            <Size>
+                <AbsPoint x="800" y="150" />
+            </Size>
+            <Windows>
+                <Window name="$parentGroup1" inherits="PartyHelpGroupWindow">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent" >
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <Window name="$parentGroup2" inherits="PartyHelpGroupWindow">
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentGroup1" >
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <Window name="$parentGroup3" inherits="PartyHelpGroupWindow">
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentGroup2" >
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <Window name="$parentGroup4" inherits="PartyHelpGroupWindow">
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentGroup3" >
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+            </Windows>
+        </Window>
+
+        <Button name="PartyHelpWindowCloseButton" inherits="EA_Button_Default" backgroundtexture="shared_01" highlighttexture="shared_01" layer="popup">
+            <Size>
+                <AbsPoint x="37" y="37" />
+            </Size>
+            <Anchors>
+                <Anchor point="topleft" relativePoint="topright" relativeTo="PartyHelpWindow">
+                    <AbsPoint x="0" y="0" />
+                </Anchor>
+            </Anchors>
+
+            <EventHandlers>
+                <EventHandler event="OnLButtonUp" function="warExtendedReadyCheck.OnCloseButton" />
+            </EventHandlers>
+
+            <TexCoords>
+                <Normal x="274" y="46" />
+                <NormalHighlit x="274" y="83" />
+                <Pressed x="274" y="120"  />
+                <PressedHighlit x="274" y="120"  />
+                <Disabled x="274" y="46" />
+            </TexCoords>
+        </Button>
+
+        <Window name="PartyHelpWindow" layer="popup" movable="false" resizeable="false" handleinput="false" savesettings="true">
+            <Size>
+                <AbsPoint x="800" y="175" />
+            </Size>
+
+            <Anchors>
+                <Anchor point="center" relativePoint="center">
+                    <AbsPoint x="0" y="0" />
+                </Anchor>
+            </Anchors>
+
+            <Windows>
+                <Label name="$parentHeadText" inherits="EA_Label_DefaultText" textalign="left" maxchars="9999">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent" >
+                            <AbsPoint x="10" y="0" />
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="bottomright" relativeTo="$parent" >
+                            <AbsPoint x="0" y="25" />
+                        </Anchor>
+                    </Anchors>
+
+                </Label>
+                <Window name="$parentWarband" inherits="PartyHelpWarbandWindow">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentHeadText">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+            </Windows>
+        </Window>
+</Windows>
+</Interface>

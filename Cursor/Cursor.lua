@@ -1,5 +1,6 @@
 warExtendedCursor = warExtended.Register("warExtended Curs")
 local Kursor = warExtendedCursor
+local MOUSEOVER_TARGET = "mouseovertarget"
 
 
 Kursor.Settings = {
@@ -26,13 +27,12 @@ local function setEnemyTargetCache()
     Enemy.latestTarget={}
   end
 
-  Enemy.latestTarget.id=TargetInfo:UnitEntityId("mouseovertarget")
-  Enemy.latestTarget.name=TargetInfo:UnitName("mouseovertarget")
+  Enemy.latestTarget.id=TargetInfo:UnitEntityId(MOUSEOVER_TARGET)
+  Enemy.latestTarget.name=TargetInfo:UnitName(MOUSEOVER_TARGET)
   Enemy.latestTarget.isNpc=false;
-  Enemy.latestTarget.isFriendly=TargetInfo:UnitIsFriendly("mouseovertarget")
-  Enemy.latestTarget.career=TargetInfo:UnitCareer("mouseovertarget")
+  Enemy.latestTarget.isFriendly=TargetInfo:UnitIsFriendly(MOUSEOVER_TARGET)
+  Enemy.latestTarget.career=TargetInfo:UnitCareer(MOUSEOVER_TARGET)
 end
-
 
 
 local flagActions = {
@@ -40,17 +40,17 @@ local flagActions = {
   CursorRButtonUp = {
 
     isCtrlShiftPressed = function ()
-      local _, _, mouseoverTarget = Kursor:GetTargetNames()
-      if mouseoverTarget then
+      local _, _, isMouseoverTarget = Kursor:GetTargetNames()
+      if isMouseoverTarget then
         Kursor:Send(getPingMessage())
       end
     end,
 
     isCtrlAltPressed = function()
       local isEnemyEnabled = Kursor.Settings.isEnemyEnabled
-      local _, _, mouseoverTarget = Kursor:GetTargetNames()
+      local _, _, isMouseoverTarget = Kursor:GetTargetNames()
 
-      if mouseoverTarget and isEnemyEnabled then
+      if isMouseoverTarget and isEnemyEnabled then
         local enemyMarkNumber = Kursor.Settings.EnemyMarkNumber
         setEnemyTargetCache()
         Enemy.MarksToggle(enemyMarkNumber)
@@ -59,9 +59,9 @@ local flagActions = {
     end,
 
     isCtrlAltShiftPressed = function()
-      local _, _, mouseoverTarget = Kursor:GetTargetNames()
-      if mouseoverTarget then
-        PlayerMenuWindow.ShowMenu(mouseoverTarget)
+      local _, _, isMouseoverTarget = Kursor:GetTargetNames()
+      if isMouseoverTarget then
+        PlayerMenuWindow.ShowMenu(isMouseoverTarget, TargetInfo:UnitEntityId( MOUSEOVER_TARGET ))
       end
     end
   },
@@ -126,12 +126,12 @@ local slashCommands = {
   }
 }
 
-local function enemyCheck()
+local function getEnemyAddonEnabledInfo()
   Kursor.Settings.isEnemyEnabled = Kursor:IsAddonEnabled("Enemy")
 end
 
 function Kursor.OnInitialize()
-  enemyCheck()
+  getEnemyAddonEnabledInfo()
   Kursor:RegisterFlags(flagActions)
   Kursor:RegisterSlash(slashCommands, "warext")
   Kursor:Hook(Cursor.OnRButtonDownProcessed, kursorOnRButtonDown)
