@@ -357,7 +357,7 @@ end
 
 
 local function processAutoReply(chatText, senderName)
-  if (Autos:IsCorrectChannel("TELL_RECEIVE") or Autos:IsCorrectChannel("GUILD"))
+  if (Autos:IsChannel("TELL_RECEIVE") or Autos:IsChannel("GUILD"))
 		  and not isAutoInviteText(chatText) then
 	local replyMessage = "Auto-Reply: "..getAutoText("rep")
 	Autos:TellPlayer(senderName, replyMessage)
@@ -367,7 +367,7 @@ end
 
 
 local function processAutoInvite(chatText, senderName)
-if (Autos:IsCorrectChannel("GUILD") or Autos:IsCorrectChannel("TELL_RECEIVE"))
+if (Autos:IsChannel("GUILD") or Autos:IsChannel("TELL_RECEIVE"))
 		and isAutoInviteText(chatText) then
 	if isPlayerInBlacklist(tostring(senderName)) then
 	  printAutoMessage("inv", "decline", tostring(senderName))

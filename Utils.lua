@@ -210,10 +210,11 @@ function warExtended:GetChannelFromFilterName(filterName)
 end
 
 
-function warExtended:IsCorrectChannel(channelFilter)
+function warExtended:IsChannel(channelFilter)
   local currentChatFilter = GameData.ChatData.type
   local desiredFilter = SystemData.ChatLogFilters[channelFilter]
-  return currentChatFilter == desiredFilter
+  local isCorrect = currentChatFilter == desiredFilter or GameData.ChatData.type == channelFilter
+  return isCorrect
 end
 
 function warExtended:GetRoleIconString(role, plural)

@@ -259,7 +259,7 @@ end
 
 function warExtendedPartyHelper.OnChatText()
 
-  if PartyHelp:IsCorrectChannel("BATTLEGROUP") or PartyHelp:IsCorrectChannel("GROUP") or PartyHelp:IsCorrectChannel("GUILD") then
+  if PartyHelp:IsChannel("BATTLEGROUP") or PartyHelp:IsChannel("GROUP") or PartyHelp:IsChannel("GUILD") then
     local chatText = tostring(GameData.ChatData.text)
     local senderName = tostring(GameData.ChatData.name)
     local isReadyCheck,readyType = isTextMatchReadyCheck(chatText)

@@ -1,0 +1,152 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">>
+    <Windows>
+        <Window name="BagBonusTemplate" layer="primary">
+            <Windows>
+                <DynamicImage name="$parentType" handleinput="false" layer="background">
+                    <Size>
+                        <AbsPoint x="32" y="32"/>
+                    </Size>
+                </DynamicImage>
+                <Label name="$parentBonus" font ="font_clear_medium_bold" textalign="right">
+                    <Size>
+                        <AbsPoint x="90" y="30"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentType">
+                            <AbsPoint x="0" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Window name="$parentSeparator" inherits="EA_Window_DefaultSeparator" handleinput="false" layer="popup">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="-20" y="32"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="topright" relativeTo="$parent">
+                            <AbsPoint x="135" y="32"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <Window name="$parentProgressBar" handleinput="false" layer ="background" >
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="-12" y="32"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="topright" relativeTo="$parent">
+                            <AbsPoint x="130" y="64"/>
+                        </Anchor>
+                    </Anchors>
+                    <Size>
+                        <AbsPoint x="125" y="10"/>
+                    </Size>
+                    <Windows>
+                        <FullResizeImage name="$parentBackground" inherits="EA_FullResizeImage_TintableSolidBackground" layer ="background">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"  />
+                                <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                            </Anchors>
+                            <TintColor r="125" g="0" b="0" />
+                        </FullResizeImage>
+                        <FullResizeImage name="$parentFrame" inherits="EA_FullResizeImage_TanBorder" layer ="background" >
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"  />
+                                <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                            </Anchors>
+                        </FullResizeImage>
+                    </Windows>
+                </Window>
+                <Window name="$parentCurrentProgressBar" handleinput="false" layer="popup" alpha="0.75" >
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="-12" y="36"/>
+                        </Anchor>
+                    </Anchors>
+                    <Windows>
+                        <FullResizeImage name="$parentBackground" inherits="EA_FullResizeImage_TintableSolidBackground" layer ="popup">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"  />
+                                <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                            </Anchors>
+                            <TintColor r="50" g="255" b="50" />
+                        </FullResizeImage>
+                    </Windows>
+                </Window>
+            </Windows>
+        </Window>
+        <!--  View mode button definitions  -->
+        <Window name="BagBonusWindow" movable="true" savesettings="false" layer="secondary">
+            <Size>
+                <AbsPoint x="165" y="300"/>
+            </Size>
+            <Anchors>
+                <Anchor point="right" relativePoint="right" relativeTo="">
+                    <AbsPoint x="-150" y="0"/>
+                </Anchor>
+            </Anchors>
+            <Windows>
+                <Window name="$parentBackground" inherits="EA_Window_DefaultBackgroundFrame">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="0" y="10"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright">
+                            <AbsPoint x="-10" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <Button name="$parentClose" inherits="EA_Button_DefaultWindowClose">
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="center" relativeTo="$parentBackground">
+                            <AbsPoint x="-5" y="5"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="warExtendedBagBonus.ToggleBagBonusWindow"/>
+                    </EventHandlers>
+                </Button>
+                <Window name="$parentSeparator" inherits="EA_Window_TabSeparator" layer="secondary">
+                    <Size>
+                        <AbsPoint x="155" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topright" relativeTo="$parent">
+                            <AbsPoint x="155" y="12"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <FullResizeImage name="$parentTopBackgroundFill" inherits="EA_FullResizeImage_MetalFill" handleinput="false" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentSeparator">
+                            <AbsPoint x="8" y="0"/>
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="bottomright" relativeTo="$parentSeparator">
+                            <AbsPoint x="-8" y="32"/>
+                        </Anchor>
+                    </Anchors>
+                </FullResizeImage>
+                <Window name="$parentSeparator2" inherits="EA_Window_DefaultSeparator" handleinput="false">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTopBackgroundFill">
+                            <AbsPoint x="-9" y="-12"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="topright" relativeTo="$parentTopBackgroundFill">
+                            <AbsPoint x="8" y="-12"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <Label name="$parentTitle" font="font_clear_small_bold" textalign="center">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentTopBackgroundFill">
+                            <AbsPoint x="0" y="5"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentTopBackgroundFill"> </Anchor>
+                    </Anchors>
+                </Label>
+            </Windows>
+        </Window>
+        <!-- ******************** -->
+        <!--  Social Window Tabs  -->
+        <!-- ******************** -->
+        <!--  View mode button definitions  -->
+    </Windows>
+</Interface>

@@ -51,13 +51,6 @@ function warExtended.Register(moduleName, hyperlinkText, hyperlinkColor)
   return self
 end
 
-function warExtended:IsCorrectChannel(channelFilter)
-  local currentChatFilter = GameData.ChatData.type
-  local desiredFilter = SystemData.ChatLogFilters[channelFilter]
-  local isMatch = currentChatFilter == desiredFilter
-  return isMatch
-end
-
 
 function warExtended:RegisterChat(func)
   self:RegisterEvent("chat text arrived", func)
