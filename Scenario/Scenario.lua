@@ -1,8 +1,19 @@
+warExtendedScenario = warExtended.Register("warExtended Scenario")
+local Scenario = warExtendedScenario
+local CityTracker = EA_Window_CityTracker
+local mathfloor = math.floor
+
+local countdownMessages = {
+  [30] = "Scenario starting in 30s.",
+  [15] = "Scenario starting in 15s.",
+  [0] = "Scenario started.",
+}
+
 local function das(text)
   SendChatText(towstring(text), L"")
 end
 
-function GetSCData()
+function Scenario.GetSCData()
   local scenarioPlayerData = GameData.GetScenarioPlayers()
   local s = ":"
   local e = "#"
@@ -41,7 +52,7 @@ end
 
 
 
-function GetSCLink(order, destro, time)
+--[[function GetSCLink(order, destro, time)
   itemName = tostring(itemName)
   local linkData = tostring("ITEM:"..tostring(id))
   local data = linkData
@@ -56,8 +67,64 @@ function GetSCLink(order, destro, time)
   end
   local itemLink = CreateHyperLink( towstring(data), towstring(text), {color.r, color.g, color.b}, {} )
 
-  if not QuickNameActionsRessurected.Settings.ItemIcons then
-	return towstring(itemLink)
-  else return towstring(towstring(QuickNameActionsRessurected.IconLinker(id))..towstring((itemLink)))
+end
+end]]
+
+local function getTimerAlertMessage(timeLeft)
+  local timerMessage = countdownMessages[timeLeft]
+  return timerMessage
+end
+
+local function isCityPreMode()
+  for objectiveIndex = 1, CityTracker.NUM_OBJECTIVES do
+	for questIndex = 1, CityTracker.NUM_QUESTS do
+	  local objectiveData = DataUtils.activeObjectivesData[objectiveIndex]
+	  if objectiveData ~= nil then
+		local questData = objectiveData.Quest[questIndex]
+		if questData ~= nil then
+		  local isPreMode = objectiveData.Quest[questIndex].name == L"Prepare for Battle!"
+		  local isRunning = objectiveData.timerState == GameData.PQTimerState.RUNNING
+		  if isPreMode and isRunning then
+			return isPreMode
+		  end
+		end
+	  end
+	end
   end
+end
+
+local function printTimerAlertMessage(timeLeft)
+  local timerMessage = countdownMessages[timeLeft]
+  Scenario:Alert(timerMessage)
+end
+
+
+local function onScenarioTimerUpdate(timePassed)
+  local isPreMode = GameData.ScenarioData.mode == GameData.ScenarioMode.PRE_MODE
+  if isPreMode then
+	local timeLeft2 = DataUtils.FormatClock(GameData.ScenarioData.timeLeft)
+	local timeLeft = mathfloor(GameData.ScenarioData.timeLeft)+0.5
+	local isTimerMessage = getTimerAlertMessage(timeLeft)
+	local isTimerMessage2 = getTimerAlertMessage(timeLeft2)
+	if isTimerMessage then
+	  printTimerAlertMessage(timeLeft)
+	  p("tleft1")
+	elseif isTimerMessage2 then
+	  printTimerAlertMessage(timeLeft2)
+	  p("tleft2")
+	end
+  end
+end
+
+local function onCityTimerUpdate(timePassed)
+  local isPreMode = isCityPreMode()
+  if isPreMode then
+	p("premode")
+  end
+end
+
+
+function Scenario.OnInitialize()
+  Scenario:Hook(EA_Window_CityTracker.Update, onCityTimerUpdate, true)
+  Scenario:Hook(EA_Window_ScenarioTracker.Update, onScenarioTimerUpdate, true)
 end

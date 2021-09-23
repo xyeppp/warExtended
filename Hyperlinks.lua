@@ -10,10 +10,11 @@ local function addToHyperlinkList(hyperlinkText, hyperlinkFunction)
 end
 
 function warExtended:AddHyperlink(hyperlinkText, hyperlinkFunction)
-  if not hyperlinkText[self] then
-	hyperlinkText[self] = {}
+  if not hyperlinkTexts[self.moduleInfo.moduleName] then
+	hyperlinkTexts[self.moduleInfo.moduleName] = {}
   end
-  hyperlinkTexts[self][hyperlinkText] = hyperlinkFunction
+
+  hyperlinkTexts[self.moduleInfo.moduleName][hyperlinkText] = hyperlinkFunction
   p(hyperlinkTexts)
 end
 
