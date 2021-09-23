@@ -15,11 +15,12 @@
             <File name="StateMachine.lua" />
             <File name="Utils.lua" />
             <File name="GroupUtils.lua" />
-            <File name="BackpackUtils.lua" />
+           <!-- <File name="BackpackUtils.lua" /> -->
             <File name="Slash.lua" />
             <File name="Keymap.lua" />
             <File name="Events.lua" />
             <File name="Flags.lua" />
+            <File name="Hyperlinks.lua" />
            <!-- <File name="warExtendedUtils.lua" />
             <File name="warExtendedSlashCore.lua" />
             <File name="warExtendedSlashEmotes.lua" />-->
