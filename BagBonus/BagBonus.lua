@@ -161,14 +161,15 @@ local function createBagBonusWindow()
 end
 
 local function processBagBonusMessage(chatText)
-  local bagType, bagIncrease = chatText:match("Your next roll for (%w+) bag will be increased by (%d+)")
-  local isBagBonusConsumed = chatText:match("Your (%w+) bag bonus roll has been consumed.")
-  local isBonusUpdated = getBagBonus(bagStringTitleCase(bagType)) ~= bagIncrease
+  local bagType, bagIncreaseAmount = chatText:match("Your next roll for (%w+) bag will be increased by (%d+)")
+  local isBagBonusConsumed = chatText:match("Your (%w+) loot bag bonus roll has been consumed.")
+          or chatText:match("Your (%w+) bag bonus roll has been consumed.")
   bagType = bagStringTitleCase(bagType)
+  local isBonusUpdated = getBagBonus(bagType) ~= bagIncreaseAmount
 
-  if bagIncrease then
+  if bagIncreaseAmount then
     if isBonusUpdated then
-      setNewBagBonus(bagType, bagIncrease)
+      setNewBagBonus(bagType, bagIncreaseAmount)
     end
   elseif isBagBonusConsumed then
     setNewBagBonus(bagType, "0")

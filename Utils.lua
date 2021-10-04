@@ -274,3 +274,8 @@ function warExtended:FormatChannel(channel)
   channel = string.format("/%s", channel:gsub("/",""))
   return channel
 end
+
+function warExtended:RoundTo(number, numberOfDecimalPlaces)
+  local roundedNumber = tonumber(string.format("%." .. (numberOfDecimalPlaces or 0) .. "f", number))
+  return roundedNumber
+end

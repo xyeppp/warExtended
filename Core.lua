@@ -1,14 +1,10 @@
-if not warExtended then
-  warExtended={}
-  warExtended.__index = warExtended
-end
+warExtended={}
+warExtended.__index = warExtended
 
 local EA_ChatWindow = EA_ChatWindow
 local string=string
 local SendChatText = SendChatText
 local modules = {}
-
-warExtended.__index = warExtended
 
 --TODO:make core item link icons invisible by subbing test from sendchattext
 --Register module with object = warExtended.Register(moduleName, hyperlinkName, hyperlinkColor)

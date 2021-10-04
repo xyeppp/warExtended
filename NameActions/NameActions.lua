@@ -210,7 +210,7 @@ local function setSelfHooks()
   originalEA_ChatWindowOnPlayerLinkLButtonUp = EA_ChatWindow.OnPlayerLinkLButtonUp
   EA_ChatWindow.OnPlayerLinkLButtonUp = NameActions.newEA_ChatWindowOnPlayerLinkLButtonUp
 
-  originalEA_ChatWindowOnPlayerLinkRButtonUp = EA_ChatWindow.OnHyperLinkRButtonUp
+  originalEA_ChatWindowOnPlayerLinkRButtonUp = EA_ChatWindow.OnPlayerLinkRButtonUp
   EA_ChatWindow.OnPlayerLinkRButtonUp = NameActions.newEA_ChatWindowOnPlayerLinkRButtonUp
 
   originalEA_ChatWindowOnRButtonDown = EA_ChatWindow.OnRButtonDown

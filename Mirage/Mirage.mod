@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ModuleFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
 
-    <UiMod name="warExtended Cursor" version="1.1" date="17/08/21" >
-        <Author name="xyeppp" email="xyeppp@gmail.com" />
+    <UiMod name="warExtended Mirage" version="1.0" date="30/09/21" >
+        <Author name="xyeppp" email="" />
         <VersionSettings gameVersion="1.4.8" windowsVersion="1.0.0" savedVariablesVersion="1.1" />
-        <Description text="warExtended Cursor module." />
+        <Description text="warExtended Mirage module." />
 
         <Dependencies>
             <Dependency name="warExtended" />
         </Dependencies>
 
         <Files>
-            <File name="Cursor.lua"  />
+            <File name="Mirage.lua"  />
         </Files>
 
         <OnInitialize>
-            <CallFunction name="warExtendedCursor.OnInitialize" />
+            <CallFunction name="warExtendedMirage.OnInitialize" />
         </OnInitialize>
 
+        <OnShutdown>
+            <CallFunction name="warExtendedMirage.OnShutdown" />
+        </OnShutdown>
+
         <SavedVariables>
-            <SavedVariable name="warExtendedCursor.Settings" />
+            <SavedVariable name="warExtendedMirage.Settings" />
         </SavedVariables>
     </UiMod>
 

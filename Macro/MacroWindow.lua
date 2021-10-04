@@ -1,6 +1,56 @@
 warExtendedMacro = warExtended.Register("warExtended Macro Window")
 local Macro = warExtendedMacro
 
+
+--[[function Enemy.GetMacroId (text)
+--	local macros = DataUtils.GetMacros ()
+--
+--	for slot = 1, EA_Window_Macro.NUM_MACROS
+--	do
+--		if macros[slot].text == text
+--		then
+--			return slot
+--		end
+--	end
+--
+--	return nil
+--end
+--
+--
+--function Enemy.SetMacro (slot, name, text, iconId)
+--	SetMacroData (name, text, iconId, slot)
+--	EA_Window_Macro.UpdateDetails (slot)
+--end
+--
+--
+--function Enemy.CreateMacro (name, text, iconId)
+--
+--	local slot = Enemy.GetMacroId (text)
+--	if (slot) then return slot end
+--
+--	local macros = DataUtils.GetMacros ()
+--	for slot = 1, EA_Window_Macro.NUM_MACROS
+--	do
+--		if (macros[slot].text == L"")
+--		then
+--			Enemy.SetMacro (slot, name, text, iconId)
+--			return slot
+--		end
+--	end
+--
+--	return nil
+--end
+--
+--
+--function Enemy.GetMacro (slot)
+--	if (slot == nil) then return nil end
+--
+--	return DataUtils.GetMacros() [slot]
+--end]]
+--EA_Window_Macro.UpdateDetails(slot)
+
+
+
 local EA_Window_Macro = EA_Window_Macro
 local DataUtils = DataUtils
 local ComboBoxGetSelectedMenuItem = ComboBoxGetSelectedMenuItem

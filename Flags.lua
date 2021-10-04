@@ -23,6 +23,12 @@ function warExtended:RegisterFlags(flagCommands)
 end
 
 
+function warExtended:GetFlagName(flag)
+  local flagName = flagNumberToFlagText[flag]
+  return flagName
+end
+
+
 
 function warExtended:UnregisterFlags()
 

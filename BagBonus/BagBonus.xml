@@ -1,5 +1,6 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">>
     <Windows>
+
         <Window name="BagBonusTemplate" layer="primary">
             <Windows>
                 <DynamicImage name="$parentType" handleinput="false" layer="background">
@@ -73,7 +74,9 @@
                 </Window>
             </Windows>
         </Window>
-        <!--  View mode button definitions  -->
+
+
+
         <Window name="BagBonusWindow" movable="true" savesettings="false" layer="secondary">
             <Size>
                 <AbsPoint x="165" y="300"/>
@@ -144,9 +147,5 @@
                 </Label>
             </Windows>
         </Window>
-        <!-- ******************** -->
-        <!--  Social Window Tabs  -->
-        <!-- ******************** -->
-        <!--  View mode button definitions  -->
     </Windows>
 </Interface>

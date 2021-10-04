@@ -4,7 +4,8 @@
     <UiMod name="warExtended" version="1.6" date="14/09/21">
     <VersionSettings gameVersion="1.4.8" windowsVersion="1.0" savedVariablesVersion="1.6" />
     <Author name="xyeppp" />
-    <Description text="warExtended is a combination of addons dddesigned to bring Quality of Life improvements to Warhammer Online." />
+    <Description text="warExtended is a combination of addons designed to bring Quality of Life improvements to Warhammer Online." />
+
         <Dependencies>
             <Dependency name="LibSlash"/>
         </Dependencies>
@@ -20,16 +21,15 @@
             <File name="Keymap.lua" />
             <File name="Events.lua" />
             <File name="Flags.lua" />
+            <File name="Options.lua" />
+            <File name="Options.xml" />
+            <File name="OptionTemplates.xml" />
             <File name="Hyperlinks.lua" />
-           <!-- <File name="warExtendedUtils.lua" />
-            <File name="warExtendedSlashCore.lua" />
-            <File name="warExtendedSlashEmotes.lua" />-->
-          <!--  <File name="warExtendedHyperlinks.lua" />
-            <File name="warExtendedHooks.lua" />
-            <File name="warExtendedCore.lua" />-->
           </Files>
 
        <OnInitialize>
+           <CreateWindow name="warExtendedOptions" show="false" />
+           <CallFunction name="warExtended.InitializeOptions" />
           <!-- <CallFunction name="warExtended.Initialize" />-->
         </OnInitialize>
 
