@@ -1,6 +1,7 @@
 warExtendedScenario = warExtended.Register("warExtended Scenario")
 local Scenario = warExtendedScenario
-local CityTracker = EA_Window_CityTracker
+local EA_Window_CityTracker = EA_Window_CityTracker
+local ScenarioTracker = EA_Window_ScenarioTracker
 local mathfloor = math.floor
 
 local countdownMessages = {
@@ -76,43 +77,36 @@ local function getTimerAlertMessage(timeLeft)
 end
 
 local function isCityPreMode()
-  for objectiveIndex = 1, CityTracker.NUM_OBJECTIVES do
-	for questIndex = 1, CityTracker.NUM_QUESTS do
+  for objectiveIndex = 1, EA_Window_CityTracker.NUM_OBJECTIVES do
+	for questIndex = 1, EA_Window_CityTracker.NUM_QUESTS do
 	  local objectiveData = DataUtils.activeObjectivesData[objectiveIndex]
-	  if objectiveData ~= nil then
-		local questData = objectiveData.Quest[questIndex]
-		if questData ~= nil then
-		  local isPreMode = objectiveData.Quest[questIndex].name == L"Prepare for Battle!"
-		  local isRunning = objectiveData.timerState == GameData.PQTimerState.RUNNING
-		  if isPreMode and isRunning then
-			return isPreMode
-		  end
+	  local isQuestData = objectiveData.Quest[questIndex] ~= nil
+
+	  if isQuestData then
+		local isQuestDataPreMode = objectiveData.Quest[questIndex].name == L"Prepare for Battle!"
+		local isTimerRunning = objectiveData.Quest[questIndex].timerState == GameData.PQTimerState.RUNNING
+		if isQuestDataPreMode then
+		  return isTimerRunning
 		end
 	  end
+
 	end
   end
-end
-
-local function printTimerAlertMessage(timeLeft)
-  local timerMessage = countdownMessages[timeLeft]
-  Scenario:Alert(timerMessage)
 end
 
 
 local function onScenarioTimerUpdate(timePassed)
   local isPreMode = GameData.ScenarioData.mode == GameData.ScenarioMode.PRE_MODE
+
   if isPreMode then
-	local timeLeft2 = DataUtils.FormatClock(GameData.ScenarioData.timeLeft)
-	local timeLeft = mathfloor(GameData.ScenarioData.timeLeft)+0.5
-	local isTimerMessage = getTimerAlertMessage(timeLeft)
-	local isTimerMessage2 = getTimerAlertMessage(timeLeft2)
-	if isTimerMessage then
-	  printTimerAlertMessage(timeLeft)
-	  p("tleft1")
-	elseif isTimerMessage2 then
-	  printTimerAlertMessage(timeLeft2)
-	  p("tleft2")
+	p(GameData.ScenarioData.timeLeft)
+	local timeLeft = mathfloor(GameData.ScenarioData.timeLeft)
+	local timerMessage = getTimerAlertMessage(timeLeft)
+
+	if timerMessage ~= nil and timeLeft >= math.ceil(GameData.ScenarioData.timeLeft) then
+	  Scenario:Alert(timerMessage, 29)
 	end
+
   end
 end
 

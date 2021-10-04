@@ -1,11 +1,48 @@
 warExtendedMeter = warExtended.Register("warExtended Meter")
 local Meter = warExtendedMeter
 local tostring = tostring
-local MAX_METER_LENGTH = 10
 
 Meter.Settings = {
-  CombatStartTime = nil
+  CombatStartTime = nil,
+  SavedCombatData = {
+  }
 }
+
+local meterData = {
+}
+
+local meterEntry = {
+  name = "",
+  value = 0,
+  avgValue = 0,
+  totalValue = 0,
+  totalHits = 0,
+  minValue = 0,
+  maxValue = 0,
+}
+
+function meterData:GetTotal(totalOf)
+  local returnValue = 0
+
+  for meterIndex=1,#self do
+    local totalValue = self[meterIndex][totalOf]
+    local returnValue = returnValue + totalValue
+  end
+
+  return returnValue
+end
+
+function meterEntry:PrintSelf()
+  p("self")
+end
+
+
+
+
+
+
+
+
 
 local eventTypes = {
   Damage = {
@@ -15,81 +52,51 @@ local eventTypes = {
     [3] = "Ability Critical Damage",
   },
   Defensive = {
-    [4] =  "Block",
-    [5] =  "Parry",
+    [4] = "Block",
+    [5] = "Parry",
     [6] = "Evade",
-    [7] =  "Disrupt",
+    [7] = "Disrupt",
     [8] = "Absorb",
     [9] = "Immune"
   },
 }
 
 local siegeAbilities = {
-  14435, -- Oil
-  24684, -- Ram
-  24694, -- ST Cannon
-  24682  -- AoE Cannon
+  [14435] = "Oil",
+  [24684] = "Ram",
+  [24694] = "ST Cannon",
+  [24682] = "AoE Cannon"
 }
+
 
 local function isAbilitySiegeType(abilityId)
-  local siegeAbility = siegeAbilities[abilityId]
-  return siegeAbility
+  local isSiegeAbility = siegeAbilities[abilityId] ~= nil
+  return isSiegeAbility
 end
 
-local meterData = {
-  Damage = {
-    Taken = "DamageTaken",
-    Given = "DamageGiven",
-  },
-  Healing = {
-    Taken = "HealingTaken",
-    Given = "HealingGiven"
-  }
-}
 
-local meterEntry = {
-  name = "",
-  value = 0,
-  totalValue = 0,
-  totalHits = 0,
-  minValue = 0,
-  maxValue = 0,
-}
+local function getCombatEventType(combatEventId)
+  local damageEvent = eventTypes.Damage[combatEventId]
+  local defensiveEvent = eventTypes.Defensive[combatEventId]
 
-local function getCombatEventType(combatEventType)
-  for eventType,_ in pairs(eventTypes) do
-    local eventTypeName = eventTypes[eventType][combatEventType]
-    if eventTypeName then
-      return eventType, eventTypeName
-    end
+  if damageEvent then
+    return "Damage", damageEvent
   end
+
+  return "Defensive", defensiveEvent
 end
 
-function meterEntry:AddDefensiveCount(damageType)
-
+local function isDefensiveEvent(eventTypeName)
+  local isDefensiveEvent = eventTypeName == "Defensive"
+  return isDefensiveEvent
 end
 
-
-function meterEntry:AddValue(value, damageType)
-  local isDefensiveEvent = isDefensiveEvent(damageType)
-
-  if value > 0 then
-    self.totalHits = self.totalHits + 1
-    self.totalValue = self.totalValue + value
-  end
-end
-
-function meterEntry.Register(abilityName, damageType, value)
-  self.name = abilityName
-  self:AddValue(damageType, value)
-  return self
-end
-
-local function getValuePerSecond(totalValue)
+local function getAverageValuePerSecond(totalValue)
   local timeSinceCombatStart = GetGameTime() - Meter.Settings.CombatStartTime
-  local damagePerSecond = totalValue / timeSinceCombatStart
+  local damagePerSecond = Meter:RoundTo((totalValue / timeSinceCombatStart), 2)
   return damagePerSecond
 end
+
 
 local function getPlayerCombatState()
   local combatState = GameData.Player.inCombat
@@ -113,8 +120,8 @@ local function unregisterMeter()
   setCombatStartTimer(0)
 end
 
-local function registerMeterUpdate(combatState)
-  if combatState then
+local function onCombatStateMeterRegister(isInCombat)
+  if isInCombat then
     registerMeter()
     return
   end
@@ -125,9 +132,10 @@ local function setMeterState(combatState)
   local isCombatState = getPlayerCombatState() == combatState
 
   if isCombatState then
-    registerMeterUpdate(combatState)
+    onCombatStateMeterRegister(combatState)
   end
 end
+
 
 function Meter.OnPlayerCombatFlagUpdated(combatState)
   setMeterState(combatState)
@@ -146,27 +154,51 @@ function Meter.OnInitialize()
 end
 
 
-function warExtendedMeter.OnUpdate(timeElapsed)
+function Meter.OnUpdate(timeElapsed)
+end
+
+local function getMaxHitValue(maxValue, hitValue)
+  if maxValue < hitValue then
+    return hitValue
+  end
+  return maxValue
+end
+
+local function getMinHitValue(minValue, hitValue)
+  if minValue > hitValue and hitValue > 0 then
+    return hitValue
+  end
+  return minValue
+end
+
+
+local function getEntryType(isWorldObjPlayerBound)
+  if isWorldObjPlayerBound then
+    return "Taken"
+  end
+
+  return "Given"
+end
+
+
+local function getHitTypeAndValue(value)
+
+  if value > 0 then
+    return "Healing", value
+  end
+
+  value = value * (-1)
+  return "Damage", value
 end
 
 
 local function isWorldObjIdPlayerOrPet(worldObjId)
-  local playerWorldObjId, petWorldObjId = GameData.Player.worldObjNum, GameData.Player.Pet.objNum
-  local isPlayerWorldObjId, isPetWorldObjId = worldObjId == playerWorldObjId, worldObjId == petWorldObjId
+  local isPlayerWorldObjId = worldObjId == GameData.Player.worldObjNum
+  local isPetWorldObjId = worldObjId == GameData.Player.Pet.objNum
   return isPlayerWorldObjId or isPetWorldObjId
 end
 
-function getMeterTableTypeAndValue(value)
-  local isHealing, isDamage
-  if value > 0 then
-    isHealing = "Healing"
-    return isHealing, value
-  end
 
-  isDamage = "Damage"
-  value = value * (-1)
-  return isDamage, value
-end
 
 local function getAbilityName(abilityId)
   local abilityName = tostring(GetAbilityName(abilityId))
@@ -176,34 +208,26 @@ local function getAbilityName(abilityId)
   return abilityName
 end
 
-local function addMeterValue(meterTable, value, eventTypeName, abilityName)
-  p(meterTable, value,eventTypeName, abilityName)
+function meterData:AddEntry(abilityName, combatEventType, value, entryType)
+  p(abilityName, combatEventType, value, entryType)
 end
 
 
 local function addCombatEventToMeter(worldObjId, value, combatEventType, abilityId)
   local isWorldObjPlayerBound = isWorldObjIdPlayerOrPet(worldObjId)
+  local entryType = getEntryType(isWorldObjPlayerBound)
   local abilityName = getAbilityName(abilityId)
-  local meterTable, value = getMeterTableTypeAndValue(value)
-  local eventType, eventTypeName = getCombatEventType(combatEventType)
-  p(meterTable)
+  local eventType, eventName = getCombatEventType(combatEventType)
 
-  if isWorldObjPlayerBound then
-    meterTable = meterData[meterTable].Taken
-    addMeterValue(meterTable, value, eventTypeName, abilityName)
-    return
-  end
-
-  meterTable = meterData[meterTable].Given
-  addMeterValue(meterTable, value, eventTypeName, abilityName)
+  p(entryType.." - Hit Amount:"..value, "Event Type:"..eventType, eventName, "Ability Info:"..abilityId, abilityName)
+  meterData:AddEntry(abilityName, combatEventType, value, entryType)
 end
 
 
 function warExtendedMeter.OnWorldObjCombatEvent(worldObjId, value, combatEventType, abilityId)
-  local isImmunityEvent = isImmunityEvent(combatEventType)
   local isSiegeAbility = isAbilitySiegeType(abilityId)
 
-  if isImmunityEvent or isSiegeAbility then
+  if isSiegeAbility then
     return
   end
 

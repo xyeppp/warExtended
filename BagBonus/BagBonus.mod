@@ -2,7 +2,7 @@
 <ModuleFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
 
     <UiMod name="warExtended Bag Bonus" version="1.1" date="17/08/21" >
-        <Author name="xyeppp" email="" />
+        <Author name="xyeppp" email="xyeppp@gmail.com" />
         <VersionSettings gameVersion="1.4.8" windowsVersion="1.0.0" savedVariablesVersion="1.1" />
         <Description text="warExtended Bag Bonus Window module." />
 

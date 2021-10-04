@@ -35,9 +35,31 @@ local function setEnemyTargetCache()
 end
 
 
+local function isPlayerName(targetName)
+  local playerName = GameData.Player.name
+  local isPlayerName = playerName == targetName
+  return isPlayerName
+end
+
+local function isAllyTarget(targetType)
+  local allyTargetType = SystemData.TargetObjectType.ALLY_PLAYER
+  local isAllyTarget = allyTargetType == targetType
+  return isAllyTarget
+end
+
+local function showPlayerMenu(targetName)
+   local targetType = TargetInfo:UnitType (MOUSEOVER_TARGET);
+   local targetId = TargetInfo:UnitEntityId(MOUSEOVER_TARGET)
+
+  if not isPlayerName(targetName) and isAllyTarget(targetType) then
+      PlayerMenuWindow.ShowMenu(targetName, targetId)
+    end
+end
+
 local flagActions = {
 
-  CursorRButtonUp = {
+  CursorRButtonDown = {
+
 
     isCtrlShiftPressed = function ()
       local _, _, isMouseoverTarget = Kursor:GetTargetNames()
@@ -45,6 +67,7 @@ local flagActions = {
         Kursor:Send(getPingMessage())
       end
     end,
+
 
     isCtrlAltPressed = function()
       local isEnemyEnabled = Kursor.Settings.isEnemyEnabled
@@ -55,14 +78,14 @@ local flagActions = {
         setEnemyTargetCache()
         Enemy.MarksToggle(enemyMarkNumber)
       end
-
     end,
 
+
     isCtrlAltShiftPressed = function()
-      local _, _, isMouseoverTarget = Kursor:GetTargetNames()
-      if isMouseoverTarget then
-        PlayerMenuWindow.ShowMenu(isMouseoverTarget, TargetInfo:UnitEntityId( MOUSEOVER_TARGET ))
-      end
+      local _, _, mouseoverTarget = Kursor:GetTargetNames()
+       if mouseoverTarget then
+         showPlayerMenu(mouseoverTarget)
+       end
     end
   },
 
@@ -73,7 +96,7 @@ local function kursorOnRButtonDown(flags)
   local isRootWindow = SystemData.MouseOverWindow.name=="Root"
 
   if isRootWindow then
-    Kursor:GetFunctionFromFlag(flags, "CursorRButtonUp")
+    Kursor:GetFunctionFromFlag(flags, "CursorRButtonDown")
     return
   end
 end
@@ -130,9 +153,10 @@ local function getEnemyAddonEnabledInfo()
   Kursor.Settings.isEnemyEnabled = Kursor:IsAddonEnabled("Enemy")
 end
 
+
 function Kursor.OnInitialize()
   getEnemyAddonEnabledInfo()
   Kursor:RegisterFlags(flagActions)
   Kursor:RegisterSlash(slashCommands, "warext")
-  Kursor:Hook(Cursor.OnRButtonDownProcessed, kursorOnRButtonDown)
+  Kursor:Hook(Cursor.OnRButtonDownProcessed, kursorOnRButtonDown, true)
 end
