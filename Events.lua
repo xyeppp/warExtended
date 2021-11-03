@@ -107,6 +107,37 @@ function warExtended:RegisterEvent(eventName, func)
 end
 
 
+function warExtended:Broadcast(eventName)
+  local event = setStringToUpperCaseAndSubSpace(eventName)
+
+  if not isEventValid(event) then
+	return
+  end
+
+  BroadcastEvent(SystemData.Events[event])
+end
+
+function warExtended:RegisterWindowEvent(windowName, eventName, func)
+  local event = setStringToUpperCaseAndSubSpace(eventName)
+
+  if not isEventValid(event) then
+	return
+  end
+
+  WindowRegisterEventHandler(windowName, SystemData.Events[event], func)
+end
+
+function warExtended:UnregisterWindowEvent(windowName, eventName, func)
+  local event = setStringToUpperCaseAndSubSpace(eventName)
+
+  if not isEventValid(event) then
+	return
+  end
+
+  WindowUnregisterEventHandler(windowName, SystemData.Events[event], func)
+end
+
+
 function warExtended:UnregisterEvent(eventName, func)
   local moduleName = self.moduleInfo.moduleName
   local event = setStringToUpperCaseAndSubSpace(eventName)

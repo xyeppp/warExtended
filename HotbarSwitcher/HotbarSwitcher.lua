@@ -79,7 +79,6 @@ end
 local function onUpdateActionButtons(slot, actionType, actionId)
   local isSwitcherMacro = isActionButtonAMacro(actionType) and isMacroSwitcherMacro(actionId)
   local isSwitcherSaved = isHotbarSwitcherSaved(slot)
-  p(DataUtils.IsWorldLoading())
 
   if isSwitcherSaved then
     local isSwitcherPressed = getSwitcherState(slot)

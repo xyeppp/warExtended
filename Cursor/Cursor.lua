@@ -34,6 +34,11 @@ local function setEnemyTargetCache()
   Enemy.latestTarget.career=TargetInfo:UnitCareer(MOUSEOVER_TARGET)
 end
 
+local function setPlayerMenuWindowData(targetName)
+  local targetId = TargetInfo:UnitEntityId(MOUSEOVER_TARGET)
+  PlayerMenuWindow.curPlayer.name = targetName
+  PlayerMenuWindow.curPlayer.objNum = targetId
+end
 
 local function isPlayerName(targetName)
   local playerName = GameData.Player.name
@@ -131,6 +136,28 @@ local function setEnemyMark(enemyMarkNumber)
   Kursor.Settings.EnemyMarkNumber = enemyMarkNumber
 end
 
+local function getEnemyAddonEnabledInfo()
+  Kursor.Settings.isEnemyEnabled = Kursor:IsAddonEnabled("Enemy")
+end
+
+
+function Kursor.newPlayerMenuWindowOnRButtonDownProcessed(flags)
+  local flagName = Kursor:GetFlagName(flags)
+
+  if flagName == "isCtrlAltShiftPressed" then
+    return
+  end
+
+  oldPlayerMenuWindowOnRButtonDownProcessed()
+end
+
+
+local function setPlayerMenuWindowHook()
+  oldPlayerMenuWindowOnRButtonDownProcessed = PlayerMenuWindow.OnRButtonDownProcessed
+  PlayerMenuWindow.OnRButtonDownProcessed = Kursor.newPlayerMenuWindowOnRButtonDownProcessed
+end
+
+
 
 local slashCommands = {
   cping = {
@@ -149,13 +176,9 @@ local slashCommands = {
   }
 }
 
-local function getEnemyAddonEnabledInfo()
-  Kursor.Settings.isEnemyEnabled = Kursor:IsAddonEnabled("Enemy")
-end
-
-
 function Kursor.OnInitialize()
   getEnemyAddonEnabledInfo()
+  setPlayerMenuWindowHook()
   Kursor:RegisterFlags(flagActions)
   Kursor:RegisterSlash(slashCommands, "warext")
   Kursor:Hook(Cursor.OnRButtonDownProcessed, kursorOnRButtonDown, true)
