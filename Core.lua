@@ -1,113 +1,109 @@
-warExtended={}
+warExtended = {}
 warExtended.__index = warExtended
 
-local EA_ChatWindow = EA_ChatWindow
-local string=string
 local SendChatText = SendChatText
-local modules = {}
+local strupper = string.upper
+local towstring = towstring
 
---TODO:make core item link icons invisible by subbing test from sendchattext
 --Register module with object = warExtended.Register(moduleName, hyperlinkName, hyperlinkColor)
---Use object:Print to "[hyperlinkName] text" or object:Warn to "[hyperlinkName] text" in RED color
---If color is nil then GREEN is set as default.
+--Use object:Print to "[hyperlinkName] text" in chosen color or object:Warn to "[hyperlinkName] text" in RED color
+--If color is nil then GREEN is set as default. (use values from DefaultColor)
 
-local function getModuleVersion(module)
+local function getModuleVersion(moduleName)
   local ModuleData = ModulesGetData()
   local addonVersion = ""
 
   for Addons=1,#ModuleData do
     local AddonData = ModuleData[Addons]
-     if AddonData.name == module then
+     if AddonData.name == moduleName then
        addonVersion = "v."..AddonData.version
      break end
   end
-  return towstring(addonVersion)
+
+  return addonVersion
 end
 
-local function getModuleHyperlink(moduleName, hyperlinkText, hyperlinkColor)
+local function getModuleHyperlink(moduleName, version, hyperlinkText, hyperlinkColor)
   hyperlinkText = hyperlinkText or "warExt"
   hyperlinkColor = hyperlinkColor or "GREEN"
 
-  local HyperlinkData = L"WAREXT:"  ..  towstring(moduleName) ..L" ".. getModuleVersion(moduleName)
-  local HyperlinkText = towstring("["..hyperlinkText.."] ")
-  local HyperlinkColor = DefaultColor[string.upper(hyperlinkColor)]
-  return CreateHyperLink( HyperlinkData, HyperlinkText, {HyperlinkColor.r, HyperlinkColor.g, HyperlinkColor.b}, {} )
+  local HyperlinkData = "WAREXT:"  ..  moduleName .." ".. version
+  local HyperlinkText = "["..hyperlinkText.."] "
+  local HyperlinkColor = DefaultColor[strupper(hyperlinkColor)]
+  local moduleHyperlink = CreateHyperLink( towstring(HyperlinkData), towstring(HyperlinkText),
+          {HyperlinkColor.r, HyperlinkColor.g, HyperlinkColor.b}, {} )
+
+  return moduleHyperlink
 end
+
+
 
 function warExtended.Register(moduleName, hyperlinkText, hyperlinkColor)
 
   local self = setmetatable({}, warExtended);
+  local moduleVersion = getModuleVersion(moduleName);
 
-  self.moduleInfo={}
-  self.moduleInfo.moduleName = moduleName
-  self.moduleInfo.version = getModuleVersion(moduleName) or false
-  self.moduleInfo.hyperlink = getModuleHyperlink(moduleName, hyperlinkText, hyperlinkColor)
-  self.moduleInfo.warninglink = getModuleHyperlink(moduleName, hyperlinkText, "RED")
+    self.moduleInfo = {
+      moduleName = moduleName,
+      version = moduleVersion,
+      hyperlink =  getModuleHyperlink(moduleName, moduleVersion, hyperlinkText, hyperlinkColor),
+      warnlink = getModuleHyperlink(moduleName, moduleVersion, hyperlinkText, "RED"),
+    }
 
   return self
 end
 
 
-function warExtended:RegisterChat(func)
-  self:RegisterEvent("chat text arrived", func)
-end
+
+
 
 function warExtended:Print(text)
   local hyperLink = self.moduleInfo.hyperlink
-
   text = towstring(text)
+
   EA_ChatWindow.Print(hyperLink..text)
 end
 
-function warExtended:Warn(text)
-  local warnLink = self.moduleInfo.warninglink
 
+function warExtended:Warn(text)
+  local warnLink = self.moduleInfo.warnlink
   text = towstring(text)
+
   EA_ChatWindow.Print(warnLink..text)
 end
 
 
-
 function warExtended:Alert(text, alertType)
-  alertType = alertType or 1
-  AlertTextWindow.AddLine (alertType, towstring(text))
+  text = towstring(text)
+  alertType = alertType or 0
+
+  AlertTextWindow.AddLine(alertType, text)
 end
 
-function warExtended:TellPlayer(playerName, text)
-  if not playerName and not text then return end
-  SendChatText(L"/tell "..towstring(playerName)..L" "..towstring(text), L"")
-end
-
-function warExtended:InvitePlayer(playerName)
-  if not playerName then return end
-  SendChatText(L"/invite "..towstring(playerName), L"")
-end
 
 function warExtended:Send(text, channelType)
-  channelType = warExtended:FormatChannel(channelType) or ""
-  SendChatText(towstring(text), towstring(channelType))
+  channelType = warExtended:FormatChannel(channelType)
+  text = towstring(text)
+  channelType = towstring(channelType)
+
+  SendChatText(text, channelType)
 end
 
-local function isLastWhisperPresent()
-  local lastWhisperPlayer = ChatManager.LastTell.name ~= L""
-  return lastWhisperPlayer
-end
 
-function TellTarget(text)
-  local _, FriendlyTargetName = warExtended:GetTargetNames()
-  if FriendlyTargetName then
-    SendChatText(L"/tell "..FriendlyTargetName..L" "..towstring(text), L"")
+function warExtended:TellPlayer(playerName, text)
+  if not playerName and not text then
+    return
   end
+
+  warExtended:Send("/tell "..playerName.." "..text)
 end
 
-function ReplyLastWhisper(text)
-  if isLastWhisperPresent() then
-    SendChatText(L"/tell "..ChatManager.LastTell.name..L" "..towstring(text), L"")
+
+function warExtended:InvitePlayer(playerName)
+  if not playerName then
+    return
   end
+
+  warExtended:Send("/invite "..playerName)
 end
 
-function InviteLastWhisper()
-  if isLastWhisperPresent() then
-    SendChatText(L"/invite "..ChatManager.LastTell.name, L"")
-  end
-end

@@ -3,7 +3,8 @@ local registeredEvents = {}
 
 local function setStringToUpperCaseAndSubSpace(str)
   str = string.upper(str)
-  return str:gsub("%s", "_")
+  str = str:gsub("%s", "_")
+  return str
 end
 
 
