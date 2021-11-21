@@ -1,6 +1,8 @@
 local warExtended = warExtended
 local towstring = towstring
 
+
+
 macroFunc = {
   updateSelf = function(self, macroData)
     self.name = macroData.name
@@ -28,10 +30,15 @@ macroFunc = {
     EA_Window_Macro.UpdateDetails (self.slot)
   end,
 
+  setActiveActionButton = function(self, buttonName)
+    self.activeActionButtons[buttonName] = self.slot
+  end
+
 }
 
 function warExtended:RegisterMacro(macroData, macroSlot, macroStates)
   macroData = setmetatable(macroData, {__index = macroFunc})
+  macroData.activeActionButtons = {}
   macroData.slot = macroSlot
   macroData.macroStates = macroStates
   macroData.activeState = 1
@@ -94,12 +101,12 @@ function warExtended:IsMacroType(abilityType)
 end
 
 function warExtended.OnMacroUpdated(macroSlot)
+  local macroData = DataUtils.GetMacros()[macroSlot]
 
-  if macroSlot == nil then
-    return
+  if not macroCache[macroSlot] then
+    macroCache[macroSlot] = warExtended:RegisterMacro(macroData, macroSlot, nil)
   end
 
-  local macroData = DataUtils.GetMacros()[macroSlot]
   macroCache[macroSlot]:updateSelf(macroData)
 end
 
@@ -115,18 +122,32 @@ function warExtended.OnAllModulesInitialized()
       [1] = macroCache[macroIndex].text,
       [2] = L"testing123"
     }
+
     macroCache[macroIndex] = warExtended:RegisterMacro(macroCache[macroIndex], macroIndex, macroState)
   end
 
 end
 
-function warExtended.OnInitializeMacroUtils()
-  warExtended:RegisterEvent("macro updated", "warExtended.OnMacroUpdated")
-  warExtended:RegisterEvent("all modules initialized", "warExtended.OnAllModulesInitialized")
+function warExtended.OnUpdateActionButtons(self, actionType, actionId)
+  p(self)
+  if warExtended:IsMacroType(actionType) then
+    local actionName = self:GetName() .. "Action"
+    macroCache[actionId]:setActiveActionButton(actionName)
+  end
 end
+
+
+function warExtended.OnAllModulesInitialized()
+ -- warExtended:RegisterEvent("macro updated", "warExtended.OnMacroUpdated")
+  RegisterEventHandler(SystemData.Events.MACRO_UPDATED, "warExtended.OnMacroUpdated")
+  warExtended:Hook(ActionButton.SetActionData, warExtended.OnUpdateActionButtons, true)
+  -- warExtended:RegisterEvent("all modules initialized", "warExtended.OnAllModulesInitialized")
+end
+
 --warExtended:RegisterEvent("macro updated", "warExtended.OnMacroUpdated")
 RegisterEventHandler(SystemData.Events.MACRO_UPDATED, "warExtended.OnMacroUpdated")
 RegisterEventHandler(SystemData.Events.ALL_MODULES_INITIALIZED, "warExtended.OnAllModulesInitialized")
+--warExtended:Hook(ActionButton.SetActionData, warExtended.OnUpdateActionButtons, true)
 
 
 

@@ -1,6 +1,10 @@
 warExtended = {}
 warExtended.__index = warExtended
 
+--TODO: miraclegrow ligt remix GameData.Player.Cultivation.CurrentPlot = realplot and WindowSetGameAction from warTriage
+--hook Macro stuff on Core from GatherButton to look for currentmacro getactionbar from macro id
+
+
 local SendChatText = SendChatText
 local strupper = string.upper
 local towstring = towstring

@@ -3,6 +3,7 @@ local Switcher = warExtendedHotbarSwitcher
 local ActionBars = ActionBars
 local HOTBAR_SWITCHER = "HotbarSwitch"
 
+
 Switcher.Switchers = {
 }
 

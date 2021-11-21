@@ -25,6 +25,16 @@ function warExtended:CompareString(stringToCompare, stringToCheck)
   return isMatch
 end
 
+function warExtended:GetMouseOverWindow()
+  local mouseoverWindow = SystemData.MouseOverWindow.name
+  return mouseoverWindow
+end
+
+function warExtended:IsMouseOverWindow(windowName)
+  local isMouseOverWindow = warExtended:GetMouseOverWindow() == windowName
+  return isMouseOverWindow
+end
+
 
 
 function math.percent(percent,maxvalue)

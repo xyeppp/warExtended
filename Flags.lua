@@ -23,12 +23,16 @@ function warExtended:RegisterFlags(flagCommands)
 end
 
 
+
 function warExtended:GetFlagName(flag)
   local flagName = flagNumberToFlagText[flag]
   return flagName
 end
 
-
+function warExtended:IsFlagName(flagName, flag)
+  local isFlagName = flagNumberToFlagText[flag] == flagName
+  return isFlagName
+end
 
 function warExtended:UnregisterFlags()
 
