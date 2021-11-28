@@ -3,6 +3,7 @@
 		<Script file="Source/ItemStackingWindow.lua" />
 	</Scripts>
 	<Windows>
+
 		<Window name="ItemStackingWindow" layer="secondary" movable="true">
 			<Size>
 				<AbsPoint x="310" y="220" />

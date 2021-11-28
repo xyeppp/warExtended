@@ -4,6 +4,7 @@
         <VersionSettings gameVersion="1.4.9" windowsVersion="1.1" savedVariablesVersion="1.3"/>
       <Replaces name="EA_ItemStackingWindow" />
         <Author name="xyeppp" email="" />
+
         <Dependencies>
             <Dependency name="warExtended" />
             <Dependency name="EASystem_Utils" />
@@ -14,9 +15,12 @@
         </Dependencies>
 
         <Files>
+            <File name="Core.lua" />
+            <File name="Utils.lua" />
+            <File name="Window.lua" />
+
             <File name="Source/ItemStackingWindow.lua" />
             <File name="Source/ItemStackingWindow.xml" />
-            <File name="ItemStackingWindow.lua" />
         </Files>
 
         <OnInitialize>

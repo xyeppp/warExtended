@@ -2,12 +2,15 @@ warExtended = {}
 warExtended.__index = warExtended
 
 --TODO: miraclegrow ligt remix GameData.Player.Cultivation.CurrentPlot = realplot and WindowSetGameAction from warTriage
+--TODO: mini war report
 --hook Macro stuff on Core from GatherButton to look for currentmacro getactionbar from macro id
 
 
 local SendChatText = SendChatText
 local strupper = string.upper
 local towstring = towstring
+local ENABLED = "enabled."
+local DISABLED = "disabled."
 
 --Register module with object = warExtended.Register(moduleName, hyperlinkName, hyperlinkColor)
 --Use object:Print to "[hyperlinkName] text" in chosen color or object:Warn to "[hyperlinkName] text" in RED color
@@ -57,15 +60,25 @@ function warExtended.Register(moduleName, hyperlinkText, hyperlinkColor)
   return self
 end
 
-
-
-
-
 function warExtended:Print(text)
   local hyperLink = self.moduleInfo.hyperlink
   text = towstring(text)
 
   EA_ChatWindow.Print(hyperLink..text)
+end
+
+
+local function isToggle ( condition )
+  if condition then
+    return ENABLED
+  else
+    return DISABLED
+  end
+end
+
+function warExtended:PrintToggle(text, cond)
+  text = towstring(text..isToggle(cond))
+  self:Print(text)
 end
 
 

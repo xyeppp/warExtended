@@ -21,12 +21,16 @@
             <File name="Options/Options.xml" />
             <File name="Options/OptionTemplates.xml" />-->
 
+
             <File name="Utils/Chat.lua" />
             <File name="Utils/General.lua" />
             <File name="Utils/Group.lua" />
             <File name="Utils/Target.lua" />
             <File name="Utils/Career.lua" />
             <File name="Utils/Macro.lua" />
+            <File name="Utils/Button.lua" />
+            <File name="Utils/Window.lua" />
+            <File name="Utils/Icon.lua" />
             <!--<File name="Utils/BackpackUtils.lua" />-->
           </Files>
 

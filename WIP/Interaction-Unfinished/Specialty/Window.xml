@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- NOTE: This file is documented with NaturalDocs style comments. All comments beginning with '#' will
+     be included in the output.
+ -->
+
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Windows>
+
+        <!-- The main window -->
+        <Window name="warExtendedSpecialtyTraining" layer="secondary" movable="true" inherits="EA_Window_Default" savesettings="false">
+            <Size>
+                <AbsPoint x="850" y="870" />
+            </Size>
+            <Anchors>
+                <Anchor point="topleft" relativePoint="topleft">
+                    <AbsPoint x="150" y="180" />
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnInitialize"  function="EA_Window_InteractionSpecialtyTraining.Initialize" />
+                <EventHandler event="OnShutdown"    function="EA_Window_InteractionSpecialtyTraining.Shutdown" />
+                <EventHandler event="OnShown"       function="warExtendedSpecialtyTraining.OnShown" />
+                <EventHandler event="OnHidden"      function="EA_Window_InteractionSpecialtyTraining.OnHidden" />
+                <EventHandler event="OnRButtonUp"   function="EA_Window_InteractionSpecialtyTraining.ToggleContextMenu" />
+            </EventHandlers>
+            <Windows>
+                <!-- Title Bar, close button block -->
+                <Window name="$parentTitleBar" inherits="EA_TitleBar_Default" />
+                <DynamicImage name="$parentCornerImage" inherits="EA_Default_TrainingImage"/>
+
+                <Button name="$parentClose" inherits="EA_Button_DefaultWindowClose">
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="EA_Window_InteractionSpecialtyTraining.Hide" />
+                    </EventHandlers>
+                </Button>
+
+                <!-- Whole window background -->
+                <Window name="$parentBackground" inherits="EA_Window_DefaultFrame" layer="background">
+                    <Size>
+                        <AbsPoint x="550" y="710" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitleBar">
+                            <AbsPoint x="0" y="-5" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" />
+                    </Anchors>
+                </Window>
+
+                <!-- Middle section background -->
+                <DynamicImage name="$parentPicture" texture="EA_Training_Specialization_Background" slice="Background" layer="background" handleinput="false" popable="false" >
+                    <Size>
+                        <AbsPoint x="486" y="512" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="center" relativePoint="center" relativeTo="$parent">
+                            <AbsPoint x="10" y="0" />
+                        </Anchor>
+                        <Anchor point="center" relativePoint="center" relativeTo="$parent" >
+                            <AbsPoint x="-9" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </DynamicImage>
+
+                <Window name="$parentPath1" inherits="SpecialtyTrainingPanel" id="1" >
+                    <Anchors>
+                        <Anchor point="left" relativePoint="center" relativeTo="$parent">
+                        <AbsPoint x="80" y="5" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Window name="$parentPath2" inherits="SpecialtyTrainingPanel" id="2" >
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentPath1">
+                            <AbsPoint x="80" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Window name="$parentPath3" inherits="SpecialtyTrainingPanel" id="3">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentPath2">
+                            <AbsPoint x="80" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+
+
+                <!-- Bottom frame block -->
+                <Window name="$parentFooterSeparator" inherits="EA_Window_DefaultSeparator">
+                    <Size>
+                        <AbsPoint x="550" y="28" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parent">
+                            <AbsPoint x="0" y="-50"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="0" y="-50"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <!--Respec -->
+                <Button name="$parentRespecializeButton" inherits="EA_Button_DefaultResizeable">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parent">
+                            <AbsPoint x="20" y="-17"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="EA_Window_InteractionSpecialtyTraining.Respecialize" />
+                    </EventHandlers>
+                </Button>
+
+                <!-- Buy the advance button -->
+                <Button name="$parentPurchaseButton" inherits="EA_Button_DefaultResizeable" >
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="bottom" relativeTo="$parent">
+                            <AbsPoint x="0" y="-17"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="EA_Window_InteractionSpecialtyTraining.PurchaseAdvances" />
+                    </EventHandlers>
+                    <AnimatedImages>
+                        <Normal          def="EA_AnimatedImage_DefaultChoiceOverlay"  />
+                        <NormalHighlit   def="EA_AnimatedImage_DefaultChoiceOverlay" />
+                    </AnimatedImages>
+                </Button>
+
+                <!-- Close the window redundantly -->
+                <Button name="$parentCancelButton" inherits="EA_Button_DefaultResizeable">
+                    <Anchors>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="-20" y="-17"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="EA_Window_InteractionSpecialtyTraining.Hide" />
+                    </EventHandlers>
+                </Button>
+
+            </Windows>
+        </Window>
+
+
+
+    </Windows>
+</Interface>

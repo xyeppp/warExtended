@@ -25,14 +25,6 @@
         </Dependencies>
 
         <Files>
-            <File name="Core.lua" />
-
-            <File name="Store/Core.lua" />
-            <File name="Store/Search.lua" />
-            <File name="Store/Window.lua" />
-            <File name="Store/Default.lua" />
-            <File name="Store/Window.xml" />
-
             <File name="Original/Textures/TrainingTextures.xml" />
             <File name="Original/Textures/BaseTextures.xml" />
 
@@ -41,6 +33,22 @@
             <File name="Original/Source/Templates_InteractionQuest.xml" />
             <File name="Original/Source/Templates_InteractionFlightMaster.xml" />
             <File name="Original/Source/Templates_InteractionTraining.xml" />
+
+            <File name="Core.lua" />
+
+            <File name="Store/Core.lua" />
+            <File name="Store/Search.lua" />
+            <File name="Store/Window.lua" />
+            <File name="Store/Default/DefaultInteractionStore.lua" />
+            <File name="Store/Default/DefaultInteractionStoreWindow.xml" />
+
+            <File name="Specialty/Core.lua" />
+            <File name="Specialty/Window.lua" />
+            <File name="Specialty/Templates.xml" />
+            <File name="Specialty/Window.xml" />
+
+            <File name="Specialty/DefaultInteractionSpecialtyTraining.lua" />
+            <File name="Specialty/DefaultInteractionSpecialtyTrainingWindow.xml" />
 
             <File name="Original/Source/InteractionUtils.lua" />
             <File name="Original/Source/InteractionBase.xml" />
@@ -54,7 +62,7 @@
             <File name="Original/Source/InteractionFlightMaster.xml" />
             <File name="Original/Source/InteractionTraining.lua" />
             <File name="Original/Source/InteractionCoreTraining.xml" />
-            <File name="Original/Source/InteractionSpecialtyTraining.xml" />
+
             <File name="Original/Source/InteractionRenownTraining.xml" />
             <File name="Original/Source/InteractionTomeTraining.xml" />
             <File name="Original/Source/InteractionTradeskills.lua" />
