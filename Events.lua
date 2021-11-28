@@ -3,7 +3,8 @@ local registeredEvents = {}
 
 local function setStringToUpperCaseAndSubSpace(str)
   str = string.upper(str)
-  return str:gsub("%s", "_")
+  str = str:gsub("%s", "_")
+  return str
 end
 
 
@@ -104,6 +105,37 @@ function warExtended:RegisterEvent(eventName, func)
   end
 
   registerFunctionToEvent(moduleName, event, func)
+end
+
+
+function warExtended:Broadcast(eventName)
+  local event = setStringToUpperCaseAndSubSpace(eventName)
+
+  if not isEventValid(event) then
+	return
+  end
+
+  BroadcastEvent(SystemData.Events[event])
+end
+
+function warExtended:RegisterWindowEvent(windowName, eventName, func)
+  local event = setStringToUpperCaseAndSubSpace(eventName)
+
+  if not isEventValid(event) then
+	return
+  end
+
+  WindowRegisterEventHandler(windowName, SystemData.Events[event], func)
+end
+
+function warExtended:UnregisterWindowEvent(windowName, eventName, func)
+  local event = setStringToUpperCaseAndSubSpace(eventName)
+
+  if not isEventValid(event) then
+	return
+  end
+
+  WindowUnregisterEventHandler(windowName, SystemData.Events[event], func)
 end
 
 

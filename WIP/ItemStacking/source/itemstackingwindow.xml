@@ -1,0 +1,165 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Scripts>
+		<Script file="Source/ItemStackingWindow.lua" />
+	</Scripts>
+	<Windows>
+
+		<Window name="ItemStackingWindow" layer="secondary" movable="true">
+			<Size>
+				<AbsPoint x="310" y="220" />
+			</Size>
+			<Anchors>
+				<Anchor point="center" relativePoint="center" relativeTo="">
+					<AbsPoint x="0" y="0" />
+				</Anchor>
+			</Anchors>
+			<EventHandlers>
+				<EventHandler event="OnInitialize" function="ItemStackingWindow.Initialize" />
+				<EventHandler event="OnShutdown" function="ItemStackingWindow.Shutdown" />
+                <EventHandler event="OnKeyEnter" function="ItemStackingWindow.OnKeyEnter" />
+                <EventHandler event="OnKeyEscape" function="ItemStackingWindow.OnKeyEscape" />
+            </EventHandlers>
+            <Windows>
+                <Window name="$parentWindowBackground" inherits="EA_Window_DefaultBackgroundFrame" />
+                <Window name="$parentTitleBar" inherits="EA_TitleBar_Default" />
+                <Button name="$parentClose" inherits="EA_Button_DefaultWindowClose">
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="ItemStackingWindow.OnClose" />
+                    </EventHandlers>
+                </Button>
+
+                <DynamicImage name="$parentItemIcon" textureScale="0.625" handleinput="true" >
+                    <Size>
+                        <AbsPoint x="40" y="40" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="15" y="50" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnMouseOver" function="warExtendedItemStacking.OnMouseOverItemIcon" />
+                    </EventHandlers>
+                    <Windows>
+                        <DynamicImage name="$parentFrame" textureScale="0.625" texture="EA_SquareFrame" handleinput="false" >
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft" />
+                                <Anchor point="bottomright" relativePoint="bottomright" />
+                            </Anchors>
+                            <TexDims x="64" y="64" />
+                        </DynamicImage>
+                    </Windows>
+                </DynamicImage>
+
+                <Label name="$parentItemText" inherits="EA_Label_DefaultText" maxchars="128"  wordwrap="true" autoresize="true" textalign="left">
+                    <Size>
+                        <AbsPoint x="240" y="45" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentItemIcon">
+                            <AbsPoint x="10" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <Color r="255" g="255" b="0"/>
+                </Label>
+
+                <!-- Text Input for the number of items to split -->
+                <EditBox name="$parentTextInput" inherits="EA_EditBox_DefaultFrame" maxchars="4" history="5" textalign="right" input="numbers" taborder="0" layer="popup">
+                    <Size>
+                        <AbsPoint x="185" y="28" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="center" relativePoint="center" relativeTo="$parentItemText">
+                            <AbsPoint x="-20" y="45" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnKeyEnter" function="ItemStackingWindow.OnKeyEnter" />
+                        <EventHandler event="OnKeyEscape" function="ItemStackingWindow.OnKeyEscape" />
+                        <EventHandler event="OnTextChanged" function="ItemStackingWindow.OnTextChanged" />
+                    </EventHandlers>
+                </EditBox>
+
+                <SliderBar name="$parentAmountSlider" inherits="EA_Default_SliderBar" >
+                    <Size>
+                        <AbsPoint x="185" y="33" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTextInput">
+                            <AbsPoint x="0" y="15" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnSlide" function="warExtendedItemStacking.OnSlideAmountSlider" />
+                    </EventHandlers>
+                </SliderBar>
+
+                <Button name="$parentPlusButton" inherits="PlusButton">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentAmountSlider">
+                            <AbsPoint x="2" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonDown" function="warExtendedItemStacking.OnLButtonDownPlusMinusButton" />
+                        <EventHandler event="OnLButtonUp" function="warExtendedItemStacking.OnLButtonUpPlusMinusButton" />
+                        <EventHandler event="OnMouseOver" function="warExtendedItemStacking.OnMouseOverPlusMinusButton" />
+                    </EventHandlers>
+                </Button>
+                <Button name="$parentMinusButton" inherits="MinusButton" handleinput="true">
+                    <Anchors>
+                        <Anchor point="left" relativePoint="right" relativeTo="$parentAmountSlider">
+                            <AbsPoint x="-5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonDown" function="warExtendedItemStacking.OnLButtonDownPlusMinusButton" />
+                        <EventHandler event="OnLButtonUp" function="warExtendedItemStacking.OnLButtonUpPlusMinusButton" />
+                        <EventHandler event="OnMouseOver" function="warExtendedItemStacking.OnMouseOverPlusMinusButton" />
+                    </EventHandlers>
+                </Button>
+
+                <Label name="$parentItemCostLabel" inherits="EA_Label_DefaultText" textalign="left" autoresize="true">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentAmountSlider">
+                            <AbsPoint x="-50" y="12" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Window name="$parentItemCost" inherits="MoneyFrame" handleinput="false">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="right" relativeTo="$parentItemCostLabel">
+                            <AbsPoint x="10" y="2"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+
+
+
+                <Button name="$parentOkay" inherits="EA_Button_DefaultResizeable" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="10" y="220" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="ItemStackingWindow.OkayButton" />
+                    </EventHandlers>
+                </Button>
+                <Button name="$parentCancel" inherits="EA_Button_DefaultResizeable" layer="background">
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentOkay">
+                            <AbsPoint x="15" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="ItemStackingWindow.CancelButton" />
+                    </EventHandlers>
+                </Button>
+			</Windows>
+
+		</Window>
+	</Windows>
+</Interface>

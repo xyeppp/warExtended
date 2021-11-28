@@ -40,5 +40,6 @@ function warExtended:AddHyperlink(hyperlinkText, hyperlinkFunction)
   hyperlinkTexts[self.moduleInfo.moduleName][hyperlinkText] = hyperlinkFunction
 end
 
-warExtended:Hook(EA_ChatWindow.OnHyperLinkLButtonUp, onHyperlinkText, true)
+
+--warExtended:Hook(EA_ChatWindow.OnHyperLinkLButtonUp, onHyperlinkText, true)
 

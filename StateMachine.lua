@@ -101,7 +101,7 @@ end
 
 local counter=0
 
-function warExtended.RegisterUpdate(timeElapsed)
+--[[function warExtended.RegisterUpdate(timeElapsed)
 
   if next(g.timers) == nil then p("unregistering") return UnregisterSelf() end
 
@@ -121,7 +121,7 @@ function warExtended.RegisterUpdate(timeElapsed)
        end
    end
 end
-end
+end]]
 
 function warExtended.Registrator()
    --craftCounter=

@@ -4,33 +4,40 @@
     <UiMod name="warExtended" version="1.6" date="14/09/21">
     <VersionSettings gameVersion="1.4.8" windowsVersion="1.0" savedVariablesVersion="1.6" />
     <Author name="xyeppp" />
-    <Description text="warExtended is a combination of addons designed to bring Quality of Life improvements to Warhammer Online." />
-
-        <Dependencies>
-            <Dependency name="LibSlash"/>
-        </Dependencies>
+    <Description text="Addon framework designed to bring QoL improvements to Warhammer Online." />
 
         <Files>
             <File name="Core.lua" />
-            <File name="Hooks.lua" />
-            <File name="StateMachine.lua" />
-            <File name="Utils.lua" />
-            <File name="GroupUtils.lua" />
-           <!-- <File name="BackpackUtils.lua" /> -->
-            <File name="Slash.lua" />
-            <File name="Keymap.lua" />
             <File name="Events.lua" />
             <File name="Flags.lua" />
-            <File name="Options.lua" />
-            <File name="Options.xml" />
-            <File name="OptionTemplates.xml" />
+            <File name="Globals.lua" />
+            <File name="Hooks.lua" />
             <File name="Hyperlinks.lua" />
+            <File name="Keymap.lua" />
+            <File name="Slash.lua" />
+            <File name="StateMachine.lua" />
+
+            <!-- <File name="Options/Options.lua" />
+            <File name="Options/Options.xml" />
+            <File name="Options/OptionTemplates.xml" />-->
+
+
+            <File name="Utils/Chat.lua" />
+            <File name="Utils/General.lua" />
+            <File name="Utils/Group.lua" />
+            <File name="Utils/Target.lua" />
+            <File name="Utils/Career.lua" />
+            <File name="Utils/Macro.lua" />
+            <File name="Utils/Button.lua" />
+            <File name="Utils/Window.lua" />
+            <File name="Utils/Icon.lua" />
+            <!--<File name="Utils/BackpackUtils.lua" />-->
           </Files>
 
        <OnInitialize>
-           <CreateWindow name="warExtendedOptions" show="false" />
+           <!--<CreateWindow name="warExtendedOptions" show="false" />
            <CallFunction name="warExtended.InitializeOptions" />
-          <!-- <CallFunction name="warExtended.Initialize" />-->
+            <CallFunction name="warExtended.Initialize" />-->
         </OnInitialize>
 
         <!--<OnShutdown>
