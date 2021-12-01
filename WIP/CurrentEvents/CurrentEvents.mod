@@ -15,8 +15,8 @@
         </Dependencies>
         <Files>
             <File name="Original/Source/CurrentEventsWindow.xml" />
-            <File name="DefaultCurrentEventDefs.lua" />
-            <File name="DefaultCurrentEventsWindow.lua" />
+            <File name="Original/Source/CurrentEventDefs.lua" />
+            <File name="Original/Source/CurrentEventsWindow.lua" />
 
             <File name="Core.lua" />
             <File name="Templates.xml" />

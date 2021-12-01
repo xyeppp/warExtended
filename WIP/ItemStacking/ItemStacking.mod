@@ -7,6 +7,7 @@
 
         <Dependencies>
             <Dependency name="warExtended" />
+            <Dependency name="warExtended Money Frame" />
             <Dependency name="EASystem_Utils" />
             <Dependency name="EASystem_WindowUtils" />
             <Dependency name="EA_LegacyTemplates" />
@@ -19,8 +20,8 @@
             <File name="Utils.lua" />
             <File name="Window.lua" />
 
-            <File name="Source/ItemStackingWindow.lua" />
-            <File name="Source/ItemStackingWindow.xml" />
+            <File name="Original/Source/ItemStackingWindow.lua" />
+            <File name="Original/Source/ItemStackingWindow.xml" />
         </Files>
 
         <OnInitialize>

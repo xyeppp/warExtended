@@ -1,4 +1,5 @@
 local warExtended = warExtended
+local GameData = GameData
 
 function warExtended:IsAddonEnabled(addonToCheck)
   local AddonsData = ModulesGetData()
@@ -35,6 +36,16 @@ function math.percent(percent,maxvalue)
 	return (maxvalue*percent)/100
   end
   return false
+end
+
+function warExtended:GetPlayerHPCurrent()
+  local currentPlayerHP = GameData.Player.hitPoints.current
+  return currentPlayerHP
+end
+
+function warExtended:GetPlayerHPMax()
+  local maxPlayerHP = GameData.Player.hitPoints.maximum
+  return maxPlayerHP
 end
 
 --[[local Ratio = Value / MaxValue
