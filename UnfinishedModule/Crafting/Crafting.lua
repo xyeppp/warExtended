@@ -1,3 +1,6 @@
+--TODO:mgremix GATHERBUTTON buttonsetpresssedflag onupdate buttongetpressedflag
+
+
 local function autoFinder(itemData)
   local isApothecaryItem = DataUtils.IsTradeSkillItem( itemData, GameData.TradeSkills.APOTHECARY )
   local isTalismanMakingItem = DataUtils.IsTradeSkillItem( itemData, GameData.TradeSkills.TALISMAN )

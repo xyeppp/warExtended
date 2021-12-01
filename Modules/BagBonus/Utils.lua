@@ -116,9 +116,9 @@ local bagBonus = {
 
   addAnchor = function(self)
     if self.id == 1 then
-      WindowAddAnchor( self:getWindowName(), "topleft", BAG_BONUS_WINDOW, "center", 20, 50 )
+      WindowAddAnchor( self:getWindowName(), "topleft", BAG_BONUS_WINDOW, "center", 20, 35 )
     else
-      WindowAddAnchor( self:getWindowName(), "topleft", BAG_BONUS_TEMPLATE..(self.id-1), "center", 0, 50 )
+      WindowAddAnchor( self:getWindowName(), "topleft", BAG_BONUS_TEMPLATE..(self.id-1), "center", 0, 54 )
     end
   end,
 

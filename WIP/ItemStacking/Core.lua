@@ -8,8 +8,6 @@ local SLIDER_BAR = ITEM_STACKING_WINDOW.."AmountSlider"
 local ITEM_COST = ITEM_STACKING_WINDOW.."ItemCost"
 local ITEM_ICON = ITEM_STACKING_WINDOW.."ItemIcon"
 
---TODO:mgremix GATHERBUTTON buttonsetpresssedflag onupdate buttongetpressedflag
-
 local SHIFT_INCREMENT_DECREMENT_VALUE = 5
 local INCREMENT_DECREMENT_VALUE = 1
 local INCREMENT_DELAY = 0.15
@@ -125,9 +123,9 @@ local timer = 0
 function ItemStacking.OnUpdate(...)
    timer = timer + ...
    if timer >= INCREMENT_DELAY then
-      if ButtonGetPressedFlag(PLUS_BUTTON) then
+      if ItemStacking:IsButtonPressed(PLUS_BUTTON) then
          stackCount:increment()
-      elseif ButtonGetPressedFlag(MINUS_BUTTON) then
+      elseif ItemStacking:IsButtonPressed(MINUS_BUTTON) then
          stackCount:decrement()
       end
       timer = 0

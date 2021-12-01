@@ -31,6 +31,7 @@
             <File name="Utils/Button.lua" />
             <File name="Utils/Window.lua" />
             <File name="Utils/Icon.lua" />
+            <File name="Utils/Search.lua" />
             <!--<File name="Utils/BackpackUtils.lua" />-->
           </Files>
 

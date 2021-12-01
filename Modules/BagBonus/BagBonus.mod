@@ -15,6 +15,7 @@
             <File name="Utils.lua"  />
             <File name="Window.lua"  />
             <File name="Slash.lua"  />
+            <File name="Template.xml"  />
             <File name="Window.xml"  />
         </Files>
 
