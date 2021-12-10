@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Windows>
+
+    <Window name="warExtendedMirageAttache" layer="background" movable="false" handleinput="false">
+        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="Root"/>
+        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="Root"/>
+          <EventHandlers>
+            <EventHandler event="OnRawDeviceInput"  function="warExtendedMirage.OnRawDeviceInputToggleWindows" />
+        </EventHandlers>
+
+    </Window>
+
+        <!-- The main window -->
+        <Window name="warExtendedMirage" layer="secondary" movable="true" inherits="EA_Window_Default" savesettings="true">
+            <Size>
+                <AbsPoint x="500" y="700" />
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnInitialize"  function="warExtendedMirage.OnInitializeWindow" />
+                <EventHandler event="OnShutdown"    function="warExtendedMirage.OnShutdownWindow" />
+
+                <EventHandler event="OnShown"       function="warExtendedMirage.OnShown" />
+                <EventHandler event="OnHidden"      function="warExtendedMirage.OnHidden" />
+            </EventHandlers>
+
+            <Windows>
+                <!-- Title Bar, close button block -->
+                <Window name="$parentTitleBar" inherits="EA_TitleBar_Default" />
+                <Size>
+                    <AbsPoint x="530" y="32" />
+                </Size>
+                <DynamicImage name="$parentCornerImage" inherits="EA_Default_SettingsImage" texturescale="0.7">
+                <Size>
+                    <AbsPoint x="84" y="84" />
+                </Size>
+                </DynamicImage>
+
+                <Button name="$parentClose" inherits="EA_Button_DefaultWindowClose">
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="warExtendedMirage.ToggleWindow" />
+                    </EventHandlers>
+                </Button>
+
+                <!-- Whole window background -->
+                <Window name="$parentBackground" inherits="EA_Window_DefaultFrame" layer="background">
+                    <Size>
+                        <AbsPoint x="500" y="710" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitleBar">
+                            <AbsPoint x="0" y="-5" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" />
+                    </Anchors>
+                </Window>
+
+                <Window name="$parentListTopSeperator" inherits="EA_Window_DefaultSeparator" handleinput="false" >
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="bottomleft" relativeTo="$parentSortButton1" >
+                            <AbsPoint x="-8" y="10" />
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="bottomright" relativeTo="$parentSortButton1" >
+                            <AbsPoint x="11" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Button name="$parentSortButton1" inherits="warExtendedMirageSortButtonTemplate" id="1">
+                    <Size>
+                        <AbsPoint x="481" y="31" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentTitleBar">
+                            <AbsPoint x="-1" y="50" />
+                        </Anchor>
+                    </Anchors>
+                </Button>
+
+                <ListBox name="$parentWindowsList" scrollbar="EA_ScrollBar_DefaultVerticalChain" rowdef="warExtendedMirageListRowTemplate" visiblerows="8" rowspacing="2">
+                    <Size>
+                        <AbsPoint x="480" y="350" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSortButton1">
+                            <AbsPoint x="2" y="0"/>
+                        </Anchor>
+                    </Anchors>
+
+                    <ListData table="warExtendedMirage.windowsListData" populationfunction="warExtendedMirage.UpdateWindowRows">
+                        <ListColumns>
+                            <ListColumn windowname="WindowName" variable="wideStrName" format="wstring" />
+                        </ListColumns>
+                    </ListData>
+
+                </ListBox>
+
+                <Label name="$parentNoWindowsText" inherits="warExtendedMirageWindowDetailsLabelTemplate" textalign="center" >
+                    <Size>
+                        <AbsPoint x="470" y="26"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="center" relativePoint="center" relativeTo="$parentWindowsList">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Window name="$parentListBottomSeperator" inherits="EA_Window_DefaultSeparator" handleinput="false" >
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentWindowsList" >
+                            <AbsPoint x="-10" y="-10" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="topright" relativeTo="$parentWindowsList" >
+                            <AbsPoint x="10" y="-10" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Button name="$parentAddButton" inherits="EA_Button_DefaultResizeable">
+                    <Anchors>
+                        <Anchor point="bottomright" relativePoint="topright" relativeTo="$parentListBottomSeperator">
+                            <AbsPoint x="-20" y="2"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="" />
+                    </EventHandlers>
+                </Button>
+
+                <Button name="$parentRemoveButton" inherits="EA_Button_DefaultResizeable">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentAddButton">
+                            <AbsPoint x="" y="10"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="" />
+                    </EventHandlers>
+                </Button>
+
+                <Button name="$parentRenameButton" inherits="EA_Button_DefaultResizeable">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentRemoveButton">
+                            <AbsPoint x="" y="10"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="" />
+                    </EventHandlers>
+                </Button>
+
+
+
+                <!-- Bottom frame block -->
+                <Window name="$parentFooterSeparator" inherits="EA_Window_DefaultSeparator">
+                    <Size>
+                        <AbsPoint x="550" y="28" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parent">
+                            <AbsPoint x="0" y="-50"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="0" y="-50"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <!--Respec -->
+                <Button name="$parentRespecializeButton" inherits="EA_Button_DefaultResizeable">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parent">
+                            <AbsPoint x="20" y="-17"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="" />
+                    </EventHandlers>
+                </Button>
+
+                <!-- Close the window redundantly -->
+                <Button name="$parentCancelButton" inherits="EA_Button_DefaultResizeable">
+                    <Anchors>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="-20" y="-17"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="" />
+                    </EventHandlers>
+                </Button>
+
+            </Windows>
+        </Window>
+
+
+
+    </Windows>
+</Interface>

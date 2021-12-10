@@ -13,7 +13,6 @@
             <Dependency name="EASystem_Utils" />
             <Dependency name="EASystem_WindowUtils" />
             <Dependency name="EA_LegacyTemplates" />
-            <Dependency name="EASystem_Tooltips" />
         </Dependencies>
 
         <Files>

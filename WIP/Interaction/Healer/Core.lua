@@ -5,18 +5,15 @@ Healer.Settings = {
   isEnabled = false;
 }
 
-function Healer.OnInitialize()
-  Healer:RegisterEvent("interact show healer", "warExtendedHealer.OnInteractShowHealer")
+local function onInteractShowHealer(penaltyCount, costToRemove)
+  if Healer.Settings.isEnabled then
+	local cost = MoneyFrame.FormatMoneyString(costToRemove * penaltyCount)
+	Healer:Print("Automatically healed "..penaltyCount.. " penalties for a total cost of "..cost..".")
+	
+	EA_Window_InteractionHealer.HealAllPenalties()
+  end
 end
 
-function Healer.OnInteractShowHealer()
-  if Healer.Settings.isEnabled then
-	local cost = tostring(MoneyFrame.FormatMoneyString(EA_Window_InteractionHealer.costToRemoveSinglePenalty * EA_Window_InteractionHealer.penaltyCount))
-
-	Healer:Print("Automatically healed "..EA_Window_InteractionHealer.penaltyCount.. " penalties for a total cost of "..cost..".")
-
-	EA_Window_InteractionHealer.HealAllPenalties()
-	return
-  end
-
+function Healer.OnInitialize()
+  Healer:Hook(EA_Window_InteractionHealer.Show, onInteractShowHealer, true)
 end

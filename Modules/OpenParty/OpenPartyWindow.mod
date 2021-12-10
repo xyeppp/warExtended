@@ -14,7 +14,6 @@
             <Dependency name="EASystem_Utils" />
             <Dependency name="EASystem_WindowUtils" />
             <Dependency name="EA_LegacyTemplates" />
-            <Dependency name="EASystem_Tooltips" />
             <Dependency name="EA_GroupWindow" />
             <Dependency name="EA_PlayerStatusWindow" />
             <Dependency name="EA_PlayerMenu" />

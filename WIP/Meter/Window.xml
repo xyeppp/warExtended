@@ -1,0 +1,44 @@
+<Interface xmlns:xsi="http://wutf-8.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+
+    <Windows>
+        <Window name="warExtendedMeter" layer="background" movable="true" handleinput="true" savesettings="true" >
+
+            <Size> <AbsPoint x="320" y="40" /> </Size>
+            <Anchors>
+                <Anchor point="top" relativePoint="top" relativeTo="Root">
+                    <AbsPoint x="0" y="0" />
+                </Anchor>
+            </Anchors>
+
+            <Windows>
+                <FullResizeImage name="$parentBackground" inherits="EA_FullResizeImage_TintableSolidBackground" handleinput="true" layer="background" >
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent" />
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent"/>
+                    </Anchors>
+                    <TintColor  r="30" g="30" b="30" />
+                </FullResizeImage>
+
+                <Label name="$parentLabel" font="font_clear_medium" textalign="center" maxchars="100" layer="popup">
+                    <Size> <AbsPoint x="250" y="30" /> </Size>
+                    <Anchors> <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"> <AbsPoint x="1" y="1" /> </Anchor> </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnHyperLinkLButtonUp" function="EA_ChatWindow.OnHyperLinkLButtonUp" />
+                        <EventHandler event="OnHyperLinkRButtonUp" function="EA_ChatWindow.OnHyperLinkRButtonUp" />
+                    </EventHandlers>
+                </Label>
+
+
+                <Button name="$parentCloseButton" inherits="EA_Button_DefaultText" font="font_chat_text" layer="popup" handleinput="true" texturescale="1" >
+                    <Size><AbsPoint x="26" y="26"/></Size>
+                    <Anchors> <Anchor point="topright" relativePoint="center" relativeTo="$parentTitle"> <AbsPoint x="-12" y="15" /> </Anchor> </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="wbLeadHelper.hideWbLeadHelperWindowName" />
+                    </EventHandlers>
+                </Button>
+
+            </Windows>
+        </Window>
+
+    </Windows>
+</Interface>

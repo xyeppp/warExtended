@@ -9,7 +9,7 @@
         <!-- The main window -->
         <Window name="warExtendedSpecialtyTraining" layer="secondary" movable="true" inherits="EA_Window_Default" savesettings="false">
             <Size>
-                <AbsPoint x="850" y="870" />
+                <AbsPoint x="880" y="870" />
             </Size>
             <Anchors>
                 <Anchor point="topleft" relativePoint="topleft">
@@ -17,11 +17,11 @@
                 </Anchor>
             </Anchors>
             <EventHandlers>
-                <EventHandler event="OnInitialize"  function="EA_Window_InteractionSpecialtyTraining.Initialize" />
-                <EventHandler event="OnShutdown"    function="EA_Window_InteractionSpecialtyTraining.Shutdown" />
+                <EventHandler event="OnInitialize"  function="warExtendedSpecialtyTraining.OnInitializeWindow" />
+                <EventHandler event="OnShutdown"    function="warExtendedSpecialtyTraining.OnShutdownWindow" />
+
                 <EventHandler event="OnShown"       function="warExtendedSpecialtyTraining.OnShown" />
-                <EventHandler event="OnHidden"      function="EA_Window_InteractionSpecialtyTraining.OnHidden" />
-                <EventHandler event="OnRButtonUp"   function="EA_Window_InteractionSpecialtyTraining.ToggleContextMenu" />
+                <EventHandler event="OnHidden"      function="warExtendedSpecialtyTraining.OnHidden" />
             </EventHandlers>
             <Windows>
                 <!-- Title Bar, close button block -->
@@ -30,7 +30,7 @@
 
                 <Button name="$parentClose" inherits="EA_Button_DefaultWindowClose">
                     <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="EA_Window_InteractionSpecialtyTraining.Hide" />
+                        <EventHandler event="OnLButtonUp" function="warExtendedSpecialtyTraining.Hide" />
                     </EventHandlers>
                 </Button>
 
@@ -47,25 +47,47 @@
                     </Anchors>
                 </Window>
 
-                <!-- Middle section background -->
-                <DynamicImage name="$parentPicture" texture="EA_Training_Specialization_Background" slice="Background" layer="background" handleinput="false" popable="false" >
+                <Label name="$parentMasteryPoints" wordwrap="true" font="font_default_text_large" maxchars="50" inherits="DefaultWindowText" handleinput="true" textalign="center" autoresize="true">
                     <Size>
-                        <AbsPoint x="486" y="512" />
+                        <AbsPoint x="400" y="400" />
                     </Size>
                     <Anchors>
-                        <Anchor point="center" relativePoint="center" relativeTo="$parent">
-                            <AbsPoint x="10" y="0" />
-                        </Anchor>
-                        <Anchor point="center" relativePoint="center" relativeTo="$parent" >
-                            <AbsPoint x="-9" y="0" />
+                        <Anchor point="bottom" relativePoint="bottom" relativeTo="$parent">
+                            <AbsPoint x="0" y="-90" />
                         </Anchor>
                     </Anchors>
-                </DynamicImage>
+                    <EventHandlers>
+                        <EventHandler event="OnMouseOver" function="warExtendedSpecialtyTraining.OnMouseOverMasteryPoints" />
+                    </EventHandlers>
+                    <Color r="255" g="166" b="0" a="255" />
+                </Label>
+
+                <Label name="$parentMasteryPointsDescription" wordwrap="true" font="font_clear_small_bold" maxchars="500" inherits="DefaultWindowText" handleinput="false" textalign="center" autoresize="true">
+                    <Size>
+                        <AbsPoint x="320" y="200" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parent">
+                            <AbsPoint x="" y="-110" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Label name="$parentMasteryPointsDescription2" wordwrap="true" font="font_clear_small_bold" maxchars="500" inherits="DefaultWindowText" handleinput="false" textalign="center" autoresize="true">
+                    <Size>
+                        <AbsPoint x="320" y="200" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="" y="-110" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
 
                 <Window name="$parentPath1" inherits="SpecialtyTrainingPanel" id="1" >
                     <Anchors>
-                        <Anchor point="left" relativePoint="center" relativeTo="$parent">
-                        <AbsPoint x="80" y="5" />
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                        <AbsPoint x="0" y="50" />
                         </Anchor>
                     </Anchors>
                 </Window>
@@ -73,7 +95,7 @@
                 <Window name="$parentPath2" inherits="SpecialtyTrainingPanel" id="2" >
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentPath1">
-                            <AbsPoint x="80" y="0" />
+                            <AbsPoint x="" y="0" />
                         </Anchor>
                     </Anchors>
                 </Window>
@@ -81,24 +103,21 @@
                 <Window name="$parentPath3" inherits="SpecialtyTrainingPanel" id="3">
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentPath2">
-                            <AbsPoint x="80" y="0" />
+                            <AbsPoint x="" y="0" />
                         </Anchor>
                     </Anchors>
                 </Window>
 
-                <Label name="$parentMasteryPointPurse" wordwrap="true" font="font_default_text_large" maxchars="50" inherits="DefaultWindowText" handleinput="false" textalign="center" autoresize="true">
-                    <Size>
-                        <AbsPoint x="300" y="40" />
-                    </Size>
+                <Window name="$parentPathSeparator" inherits="EA_Window_DefaultSeparator">
                     <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentMasteryPointText">
-                            <AbsPoint x="0" y="30" />
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parentPath1">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentPath3">
+                            <AbsPoint x="0" y="0"/>
                         </Anchor>
                     </Anchors>
-                    <Color r="255" g="166" b="0" a="255" />
-                </Label>
-
-
+                </Window>
 
                 <!-- Bottom frame block -->
                 <Window name="$parentFooterSeparator" inherits="EA_Window_DefaultSeparator">

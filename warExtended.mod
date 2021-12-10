@@ -22,6 +22,42 @@
             <File name="Options/OptionTemplates.xml" />-->
 
 
+            <File name="Utils/AbilityData/Core.lua" />
+
+            <!--Dark Elf-->
+            <File name="Utils/AbilityData/Blackguard.lua" />
+            <File name="Utils/AbilityData/DiscipleOfKhaine.lua" />
+            <File name="Utils/AbilityData/Sorcerer.lua" />
+            <File name="Utils/AbilityData/WitchElf.lua" />
+            <!-- Chaos -->
+            <File name="Utils/AbilityData/Zealot.lua" />
+            <File name="Utils/AbilityData/Magus.lua" />
+            <File name="Utils/AbilityData/Marauder.lua" />
+            <File name="Utils/AbilityData/Chosen.lua" />
+
+            <!--Greenskin-->
+            <File name="Utils/AbilityData/BlackOrc.lua" />
+            <File name="Utils/AbilityData/SquigHerder.lua" />
+            <File name="Utils/AbilityData/Choppa.lua" />
+            <File name="Utils/AbilityData/Shaman.lua" />
+
+            <!--High Elf-->
+            <File name="Utils/AbilityData/SwordMaster.lua" />
+            <File name="Utils/AbilityData/Archmage.lua" />
+            <File name="Utils/AbilityData/WhiteLion.lua" />
+            <File name="Utils/AbilityData/ShadowWarrior.lua" />
+            <!--Empire-->
+            <File name="Utils/AbilityData/KnightOfTheBlazingSun.lua" />
+            <File name="Utils/AbilityData/BrightWizard.lua" />
+            <File name="Utils/AbilityData/WarriorPriest.lua" />
+            <File name="Utils/AbilityData/WitchHunter.lua" />
+
+            <!--Dwarf-->
+            <File name="Utils/AbilityData/Engineer.lua" />
+            <File name="Utils/AbilityData/RunePriest.lua" />
+            <File name="Utils/AbilityData/Slayer.lua" />
+            <File name="Utils/AbilityData/IronBreaker.lua" />
+
             <File name="Utils/Chat.lua" />
             <File name="Utils/General.lua" />
             <File name="Utils/Group.lua" />
@@ -32,6 +68,7 @@
             <File name="Utils/Window.lua" />
             <File name="Utils/Icon.lua" />
             <File name="Utils/Search.lua" />
+            <File name="Utils/Combat.lua" />
             <!--<File name="Utils/BackpackUtils.lua" />-->
           </Files>
 

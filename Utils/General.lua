@@ -1,5 +1,8 @@
 local warExtended = warExtended
 local GameData = GameData
+local GetGameTime = GetGameTime
+local GetAbilityData = GetAbilityData
+local ModulesGetData = ModulesGetData
 
 function warExtended:IsAddonEnabled(addonToCheck)
   local AddonsData = ModulesGetData()
@@ -47,6 +50,32 @@ function warExtended:GetPlayerHPMax()
   local maxPlayerHP = GameData.Player.hitPoints.maximum
   return maxPlayerHP
 end
+
+function warExtended:GetPlayerWorldObjNum()
+local playerWorldObj = GameData.Player.worldObjNum
+return playerWorldObj
+end
+
+function warExtended:IsPlayerWorldObjNum(worldObjNum)
+  local isPlayerWorldObjNum = worldObjNum == warExtended:GetPlayerWorldObjNum()
+  return isPlayerWorldObjNum
+end
+
+function warExtended:GetPlayerPetWorldObjNum()
+  local playerPetWorldObjNum = GameData.Player.Pet.objNum
+  return playerPetWorldObjNum
+end
+
+function warExtended:IsPlayerPetWorldObjNum(worldObjNum)
+  local isPlayerPetWorldObjId = worldObjNum == warExtended:GetPlayerPetWorldObjNum()
+  return isPlayerPetWorldObjId
+end
+
+function warExtended:GetGameTime()
+  local gameTime = GetGameTime()
+  return gameTime
+end
+
 
 --[[local Ratio = Value / MaxValue
 --Ratio = math.floor(ratio * 100 + 0.5) -- Round to nearest whole number.

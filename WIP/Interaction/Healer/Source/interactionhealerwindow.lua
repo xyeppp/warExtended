@@ -8,7 +8,7 @@ local HEALER_TOGGLE_BUTTON = "EA_Window_InteractionHealerHealAuto"
 -- Global Variables
 ----------------------------------------------------------------
 
-EA_Window_InteractionHealer = 
+EA_Window_InteractionHealer =
 {
     penaltyCount                = 0,
     costToRemoveSinglePenalty   = 0,
@@ -47,7 +47,7 @@ function EA_Window_InteractionHealer.CollectLabelsData()
     EA_Window_InteractionHealer.label1Width, EA_Window_InteractionHealer.label1Height = LabelGetTextDimensions("EA_Window_InteractionHealerMainScrollChildNumPenaltiesLabel")
     EA_Window_InteractionHealer.label2Width, EA_Window_InteractionHealer.label2Height = LabelGetTextDimensions("EA_Window_InteractionHealerMainScrollChildCostToRemoveLabel")
     EA_Window_InteractionHealer.label3Width, EA_Window_InteractionHealer.label3Height = LabelGetTextDimensions("EA_Window_InteractionHealerMainScrollChildCostToRemoveAllLabel")
-    EA_Window_InteractionHealer.titleWidth, EA_Window_InteractionHealer.titleHeight = WindowGetDimensions("EA_Window_InteractionHealerTitleBar")		
+    EA_Window_InteractionHealer.titleWidth, EA_Window_InteractionHealer.titleHeight = WindowGetDimensions("EA_Window_InteractionHealerTitleBar")
     
     
     EA_Window_InteractionHealer.uiScale = WindowGetScale( "EA_Window_InteractionHealer")
@@ -86,7 +86,7 @@ function EA_Window_InteractionHealer.Show(penaltyCount, costToRemove)
     
     WindowSetShowing( "EA_Window_InteractionHealer", true )
 
-    EA_Window_InteractionHealer.ShowDefaultFrame()   
+    EA_Window_InteractionHealer.ShowDefaultFrame()
 end
 
 function EA_Window_InteractionHealer.OnHidden()
@@ -95,7 +95,7 @@ function EA_Window_InteractionHealer.OnHidden()
     PlayInteractSound("healer_goodbye")
 end
 
-function EA_Window_InteractionHealer.Hide()   
+function EA_Window_InteractionHealer.Hide()
     WindowSetShowing( "EA_Window_InteractionHealer", false );
 end
 
@@ -113,15 +113,15 @@ function EA_Window_InteractionHealer.ShowDefaultFrame()
     LabelSetTextColor("EA_Window_InteractionHealerTitleBarText", 222, 192, 50)
     
     LabelSetText( "EA_Window_InteractionHealerMainScrollChildNumPenaltiesLabel", GetString( StringTables.Default.LABEL_NUM_PENALTIES ) )
-    LabelSetText( "EA_Window_InteractionHealerMainScrollChildCostToRemoveLabel", GetString( StringTables.Default.LABEL_COST_TO_HEAL_A_PENALTY ) )    
-    LabelSetText( "EA_Window_InteractionHealerMainScrollChildCostToRemoveAllLabel", GetString( StringTables.Default.LABEL_COST_TO_HEAL_ALL_PENALTIES ) ) 
+    LabelSetText( "EA_Window_InteractionHealerMainScrollChildCostToRemoveLabel", GetString( StringTables.Default.LABEL_COST_TO_HEAL_A_PENALTY ) )
+    LabelSetText( "EA_Window_InteractionHealerMainScrollChildCostToRemoveAllLabel", GetString( StringTables.Default.LABEL_COST_TO_HEAL_ALL_PENALTIES ) )
     
     EA_Window_InteractionHealer.CollectLabelsData()
     
     -- Resizing of the window due to larger/smaller label text happens here
     EA_Window_InteractionHealer.UpdateLabels()
     
-    -- Update the scroll window 
+    -- Update the scroll window
     --ScrollWindowSetOffset( "EA_Window_InteractionHealerMain", 0 )
     --ScrollWindowUpdateScrollRect( "EA_Window_InteractionHealerMain" )
     

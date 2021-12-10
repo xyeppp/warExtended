@@ -129,14 +129,24 @@ function warExtended:RegisterWindowEvent(windowName, eventName, func)
 end
 
 function warExtended:UnregisterWindowEvent(windowName, eventName, func)
-  local event = setStringToUpperCaseAndSubSpace(eventName)
+  WindowUnregisterCoreEventHandler(windowName, eventName, func)
+end
 
+function warExtended:RegisterCoreWindowEvent(windowName, eventName, func)
+  WindowRegisterCoreEventHandler(windowName, eventName, func)
+end
+
+function warExtended:UnregisterWindowEvent(windowName, eventName, func)
+  local event = setStringToUpperCaseAndSubSpace(eventName)
+  
   if not isEventValid(event) then
 	return
   end
-
+  
   WindowUnregisterEventHandler(windowName, SystemData.Events[event], func)
 end
+
+
 
 
 function warExtended:UnregisterEvent(eventName, func)
