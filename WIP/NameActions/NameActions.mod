@@ -11,7 +11,7 @@
         </Dependencies>
 
         <Files>
-            <File name="NameActions.lua"  />
+            <File name="Core.lua"  />
         </Files>
 
         <OnInitialize>

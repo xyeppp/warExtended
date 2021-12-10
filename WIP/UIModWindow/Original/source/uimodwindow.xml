@@ -132,16 +132,19 @@
                 <!-- Category Combo -->
 
                 <ComboBox name="$parentCategoryComboBox" inherits="EA_ComboBox_DefaultResizableLarge" maxvisibleitems="20" layer="popup" >
+
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentBackground">
                             <AbsPoint x="10" y="120" />
                         </Anchor>
                     </Anchors>
+
                     <EventHandlers>
                         <EventHandler event="OnSelChanged" function="UiModWindow.OnCategoryComboSelChanged" />
                     </EventHandlers>
-                </ComboBox>                    
-            
+
+                </ComboBox>
+
                 <Window name="$parentVerticalSeperator" inherits="EA_Window_DefaultVerticalSeparator" >
                     <Size>
                         <AbsPoint x="28" y="500" />

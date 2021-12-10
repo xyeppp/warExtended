@@ -1,0 +1,29 @@
+<Window name="warExtendedMirageSetTemplate">
+    <Size>
+        <AbsPoint x="245" y="31" />
+    </Size>
+    <Windows>
+        <ComboBox name="$parentComboBox" inherits="EA_ComboBox_DefaultResizableSmall" >
+            <Anchors>
+                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                    <AbsPoint x="0" y="" />
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnSelChanged" function="GuildWindowTabBanner.OnSelChangedPost" />
+                <EventHandler event="OnMouseOver" function="GuildWindowTabBanner.OnMouseOverPostComboBox" />
+            </EventHandlers>
+        </ComboBox>
+
+        <Label name="$parentLabel" font="font_default_text" textalign="left" handleinput="false" wordwrap="false">
+            <Size>
+                <AbsPoint x="80" y="32" />
+            </Size>
+            <Anchors>
+                <Anchor point="right" relativePoint="left" relativeTo="$parentComboBox">
+                    <AbsPoint x="5" y="0" />
+                </Anchor>
+            </Anchors>
+        </Label>
+    </Windows>
+</Window>

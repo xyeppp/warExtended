@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <Assets>
+        <Texture name="warExtendedSpaceInvaderBullet" file="Textures/bullet.tga" />
+        <Texture name="warExtendedSpaceInvaderShip" file="Textures/ship.tga" />
+        <Texture name="warExtendedSpaceInvaderEnemy" file="Textures/enemy.tga" />
+    </Assets>
+
+    <Windows>
+
+        <Window name="warExtendedSpaceInvadersBullet" layer="secondary" movable="false" handleinput="false"  inherits="EA_Window_Default" savesettings="true">
+            <Size>
+                <AbsPoint x="18" y="18" />
+            </Size>
+            <Windows>
+                <DynamicImage name="$parentTexture" texture="warExtendedSpaceInvaderBullet" textureScale="0.5" handleinput="false" layer="background" >
+                    <Size>
+                        <AbsPoint x="18" y="18" />
+                    </Size>
+                </DynamicImage>
+            </Windows>
+        </Window>
+
+        <Window name="warExtendedSpaceInvadersShip" layer="secondary" movable="false" handleinput="false" inherits="EA_Window_Default" savesettings="true">
+            <Size>
+                <AbsPoint x="50" y="72" />
+            </Size>
+            <Windows>
+                <DynamicImage name="$parentTexture" texture="warExtendedSpaceInvaderShip" textureScale=".55" handleinput="false" layer="background" >
+                    <Size>
+                        <AbsPoint x="62" y="85" />
+                    </Size>
+                </DynamicImage>
+            </Windows>
+        </Window>
+
+        <Window name="warExtendedSpaceInvadersEnemy" layer="secondary" movable="false" handleinput="false" inherits="EA_Window_Default" savesettings="true">
+            <Size>
+                <AbsPoint x="64" y="58" />
+            </Size>
+            <Windows>
+                <DynamicImage name="$parentTexture" texture="warExtendedSpaceInvaderEnemy" textureScale=".35" handleinput="false" layer="background" >
+                    <Size>
+                        <AbsPoint x="64" y="58" />
+                    </Size>
+                </DynamicImage>
+            </Windows>
+        </Window>
+
+
+
+                <!-- The main window -->
+                <Window name="warExtendedSpaceInvadersGameWindow" layer="secondary" movable="true" inherits="EA_Window_Default" savesettings="true" parent="warExtendedSpaceInvaders">
+                    <Size>
+                        <AbsPoint x="400" y="400" />
+                    </Size>
+
+                    <Windows>
+                        <!-- Whole window background -->
+                        <Window name="$parentBackground" inherits="EA_Window_DefaultFrame" layer="background">
+                            <Size>
+                                <AbsPoint x="500" y="710" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitleBar">
+                                    <AbsPoint x="0" y="-5" />
+                                </Anchor>
+                                <Anchor point="bottomright" relativePoint="bottomright" />
+                            </Anchors>
+                        </Window>
+
+                    </Windows>
+                </Window>
+
+
+
+    </Windows>
+</Interface>

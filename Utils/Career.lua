@@ -174,8 +174,12 @@ local function isStringInUtilsTable(stringToCheck)
   return isStringInTable
 end
 
+function warExtended:GetCareerId(careerName)
+  return careerInfo[careerName].id
+end
 
-function warExtended:GetRoleFromCareerID(careerID)
+
+function warExtended:GetRoleFromCareerId(careerID)
 
   for _, careerData in pairs(careerInfo) do
     if careerID == careerData.id then

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ModuleFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
 
-    <UiMod name="warExtended Interaction" version="1.2" date="11/6/2007" >
-        <VersionSettings gameVersion="1.4.9" windowsVersion="1.2" savedVariablesVersion="1.3"/>
+    <UiMod name="warExtended Interaction" version="1.5" date="11/6/2009" >
+        <VersionSettings gameVersion="1.4.9" windowsVersion="1.2" savedVariablesVersion="1.6"/>
         <Replaces name="EA_InteractionWindow" />
         <Author name="xyeppp" email="" />
         <Description text="warExtended Interaction module replacing default UI." />
@@ -12,7 +12,6 @@
             <Dependency name="EATemplate_DefaultWindowSkin" />
             <Dependency name="EASystem_Utils" />
             <Dependency name="EASystem_WindowUtils" />
-            <Dependency name="EASystem_Tooltips" />
             <Dependency name="EASystem_Strings" />
             <Dependency name="EASystem_DialogManager" />
             <Dependency name="EASystem_ResourceFrames" />
@@ -39,16 +38,16 @@
             <File name="Store/Core.lua" />
             <File name="Store/Search.lua" />
             <File name="Store/Window.lua" />
-            <File name="Store/Default/DefaultInteractionStore.lua" />
-            <File name="Store/Default/DefaultInteractionStoreWindow.xml" />
+            <File name="Store/Source/InteractionStore.lua" />
+            <File name="Store/Source/InteractionStoreWindow.xml" />
 
             <File name="Specialty/Core.lua" />
             <File name="Specialty/BackgroundImages.lua" />
             <File name="Specialty/Window.lua" />
             <File name="Specialty/Templates.xml" />
             <File name="Specialty/Window.xml" />
-            <File name="Specialty/DefaultInteractionSpecialtyTraining.lua" />
-            <File name="Specialty/DefaultInteractionSpecialtyTrainingWindow.xml" />
+            <File name="Specialty/Source/InteractionSpecialtyTraining.lua" />
+            <File name="Specialty/Source/InteractionSpecialtyTrainingWindow.xml" />
 
             <File name="Healer/Core.lua" />
             <File name="Healer/Button.lua" />
@@ -85,7 +84,7 @@
 
 
             <CreateWindow name="EA_Window_InteractionStore" show="false" />
-
+            <CreateWindow name="warExtendedSpecialtyTraining" show="false" />
 
 
             <CreateWindow name="EA_Window_InteractionBase" show="false" />

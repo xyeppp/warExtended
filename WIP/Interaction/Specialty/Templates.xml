@@ -4,7 +4,7 @@
 
 <Window name="SpecialtyTrainingPanel" layer="background" popable="false" >
     <Size>
-        <AbsPoint x="200" y="600" />
+        <AbsPoint x="285" y="640" />
     </Size>
     <Anchors>
         <Anchor point="left" relativePoint="left" relativeTo="$parent">
@@ -16,25 +16,50 @@
 
         <DynamicImage name="$parentBackground" texture="EA_Training_Specialization_Background" slice="Background" layer="background" handleinput="false" popable="false" >
             <Size>
-                <AbsPoint x="250" y="600" />
+                <AbsPoint x="285" y="640" />
             </Size>
             <Anchors>
                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="parent">
                     <AbsPoint x="0" y="0" />
                 </Anchor>
-                <Anchor point="bottomright" relativePoint="bottomright" relativeTo="parent" >
+                <Anchor point="bottomright" relativePoint="topright" relativeTo="parent" >
                     <AbsPoint x="0" y="0" />
                 </Anchor>
             </Anchors>
         </DynamicImage>
-        <!-- <FullResizeImage name="$parentOutline" inherits="YellowFrameSize" layer="secondary" /> -->
-        <Label name="$parentTitle" wordwrap="true" font="font_clear_medium_bold" maxchars="300" inherits="DefaultWindowText" handleinput="false" textalign="left" autoresize="true">
+
+        <VerticalResizeImage name="$parentDivider" inherits="EA_VerticalResizeImage_DefaultVerticalSeparatorMiddle" layer="secondary">
+            <Anchors>
+                <Anchor point="topleft" relativePoint="topleft">
+                    <AbsPoint x="0" y="0" />
+                </Anchor>
+                <Anchor point="bottomleft" relativePoint="bottomleft">
+                    <AbsPoint x="" y="" />
+                </Anchor>
+            </Anchors>
+        </VerticalResizeImage>
+
+        <Label name="$parentTitle" wordwrap="true" font="font_clear_medium_bold" maxchars="300" inherits="DefaultWindowText" handleinput="true" textalign="center" autoresize="true">
             <Size>
-                <AbsPoint x="250" y="50" />
+                <AbsPoint x="285" y="50" />
             </Size>
             <Anchors>
                 <Anchor point="top" relativePoint="center" relativeTo="$parent">
-                    <AbsPoint x="80" y="15" />
+                    <AbsPoint x="" y="-25" />
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnMouseOver" function="warExtendedSpecialtyTraining.OnMouseOverPathName" />
+            </EventHandlers>
+        </Label>
+
+        <Label name="$parentDescription" wordwrap="true" font="font_clear_small_bold" maxchars="300" inherits="DefaultWindowText" handleinput="false" textalign="center" autoresize="true">
+            <Size>
+                <AbsPoint x="285" y="50" />
+            </Size>
+            <Anchors>
+                <Anchor point="bottom" relativePoint="top" relativeTo="$parentTitle">
+                    <AbsPoint x="0" y="25" />
                 </Anchor>
             </Anchors>
         </Label>
@@ -45,7 +70,7 @@
         <Window name="$parentSpecializationStep15" inherits="EA_Templates_SpecializationStep">
             <Anchors>
                 <Anchor point="top" relativePoint="top" relativeTo="$parent">
-                    <AbsPoint x="0" y="40" />
+                    <AbsPoint x="-55" y="92" />
                 </Anchor>
             </Anchors>
         </Window>
@@ -143,76 +168,90 @@
         </Button>
         <!-- Core Abilities -->
 
-        <Window name="$parentAbility">
+        <Label name="$parentAbilityDescription" wordwrap="true" font="font_clear_small_bold" maxchars="300" inherits="DefaultWindowText" handleinput="true" textalign="center" autoresize="true">
             <Size>
-                <AbsPoint x="20" y="600" />
+                <AbsPoint x="70" y="250" />
+            </Size>
+            <Anchors>
+                <Anchor point="top" relativePoint="center" relativeTo="$parentAbility1">
+                    <AbsPoint x="" y="-25" />
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnMouseOver" function="warExtendedSpecialtyTraining.OnMouseOverAbilitiesDescription" />
+            </EventHandlers>
+        </Label>
+
+        <Window name="$parentAbility" handleinput="true">
+            <Size>
+                <AbsPoint x="100" y="600" />
             </Size>
             <Anchors>
                 <Anchor point="right" relativePoint="left" relativeTo="$parent">
-                    <AbsPoint x="35" y="120" />
+                    <AbsPoint x="-135" y="160" />
                 </Anchor>
             </Anchors>
             <Windows>
-                <Window name="$parent1" inherits="EA_Templates_SpecializationAbilityDisplay" id="1">
+                <Window name="$parent1" inherits="EA_Templates_SpecializationAbilityDisplay" id="1" handleinput="true">
                     <Anchors>
                         <Anchor point="top" relativePoint="bottom" relativeTo="$parent2">
-                            <AbsPoint x="0" y="0" />
+                            <AbsPoint x="0" y="-5" />
                         </Anchor>
                     </Anchors>
                 </Window>
-                <Window name="$parent2" inherits="EA_Templates_SpecializationAbilityDisplay" id="2">
+                <Window name="$parent2" inherits="EA_Templates_SpecializationAbilityDisplay" id="2" handleinput="true" >
                     <Anchors>
                         <Anchor point="top" relativePoint="top" relativeTo="">
                             <AbsPoint x="0" y="5" />
                         </Anchor>
                     </Anchors>
                 </Window>
-                <Window name="$parent3" inherits="EA_Templates_SpecializationAbilityDisplay" id="3">
+                <Window name="$parent3" inherits="EA_Templates_SpecializationAbilityDisplay" id="3" handleinput="true">
                     <Anchors>
                         <Anchor point="bottom" relativePoint="top" relativeTo="$parent2">
-                            <AbsPoint x="0" y="0" />
+                            <AbsPoint x="0" y="5" />
                         </Anchor>
                     </Anchors>
                 </Window>
-                <Window name="$parent4" inherits="EA_Templates_SpecializationAbilityDisplay" id="4">
+                <Window name="$parent4" inherits="EA_Templates_SpecializationAbilityDisplay" id="4" handleinput="true">
                     <Anchors>
                         <Anchor point="bottom" relativePoint="top" relativeTo="$parent3">
-                            <AbsPoint x="0" y="0" />
+                            <AbsPoint x="0" y="5" />
                         </Anchor>
                     </Anchors>
                 </Window>
                 <Window name="$parent5" inherits="EA_Templates_SpecializationAbilityDisplay" id="5">
                     <Anchors>
                         <Anchor point="bottom" relativePoint="top" relativeTo="$parent4">
-                            <AbsPoint x="0" y="0" />
+                            <AbsPoint x="0" y="5" />
                         </Anchor>
                     </Anchors>
                 </Window>
                 <Window name="$parent6" inherits="EA_Templates_SpecializationAbilityDisplay" id="6">
                     <Anchors>
                         <Anchor point="bottom" relativePoint="top" relativeTo="$parent5">
-                            <AbsPoint x="0" y="0" />
+                            <AbsPoint x="0" y="5" />
                         </Anchor>
                     </Anchors>
                 </Window>
                 <Window name="$parent7" inherits="EA_Templates_SpecializationAbilityDisplay" id="7">
                     <Anchors>
                         <Anchor point="bottom" relativePoint="top" relativeTo="$parent6">
-                            <AbsPoint x="0" y="0" />
+                            <AbsPoint x="0" y="5" />
                         </Anchor>
                     </Anchors>
                 </Window>
                 <Window name="$parent8" inherits="EA_Templates_SpecializationAbilityDisplay" id="8">
                     <Anchors>
                         <Anchor point="bottom" relativePoint="top" relativeTo="$parent7">
-                            <AbsPoint x="0" y="0" />
+                            <AbsPoint x="0" y="5" />
                         </Anchor>
                     </Anchors>
                 </Window>
                 <Window name="$parent9" inherits="EA_Templates_SpecializationAbilityDisplay" id="9">
                     <Anchors>
                         <Anchor point="bottom" relativePoint="top" relativeTo="$parent8">
-                            <AbsPoint x="0" y="0" />
+                            <AbsPoint x="0" y="5" />
                         </Anchor>
                     </Anchors>
                 </Window>

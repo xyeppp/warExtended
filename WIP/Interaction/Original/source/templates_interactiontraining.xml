@@ -115,7 +115,7 @@
                 <EventHandler event="OnLButtonUp" function="EA_Window_InteractionRenownTraining.SelectAdvance" />
                 <EventHandler event="OnMouseOver" function="EA_Window_InteractionRenownTraining.MouseOverAdvance" />
             </EventHandlers>
-        </Button>        
+        </Button>
 
         <Button name="EA_Templates_TomeTrainingAdvanceItem">
           <Size>
@@ -248,7 +248,7 @@
                 <EventHandler event="OnLButtonUp" function="EA_Window_InteractionRenownTraining.ChangeSorting" />
                 <EventHandler event="OnMouseOver" function="EA_Window_InteractionRenownTraining.OnMouseOverSortButton" />
             </EventHandlers>
-        </Button>        
+        </Button>
 
         <Button name="EA_Templates_TomeTrainingSortButton" inherits="EA_Button_ListSort" >
             <Size>
@@ -287,25 +287,23 @@
 
         <Window name="EA_Templates_SpecializationAbilityDisplay">
             <Size>
-                <AbsPoint x="64" y="64" />
+                <AbsPoint x="48" y="48" />
             </Size>
             <EventHandlers>
                 <EventHandler event="OnMouseOver" function="EA_Window_InteractionSpecialtyTraining.MouseOverLinkedAbility" />
             </EventHandlers>
             <Windows>
-                <DynamicImage name="$parentIcon" handleinput="false" >
+                <DynamicImage name="$parentIcon" handleinput="false" textureScale="0.78">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" />
                         <Anchor point="bottomright" relativePoint="bottomright" />
                     </Anchors>
-                    <TexDims x="64" y="64" />
                 </DynamicImage>
-                <DynamicImage name="$parentFrame" texture="EA_SquareFrame" handleinput="false" >
+                <DynamicImage name="$parentFrame" texture="EA_SquareFrame" handleinput="false" textureScale="0.78">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" />
                         <Anchor point="bottomright" relativePoint="bottomright" />
                     </Anchors>
-                    <TexDims x="64" y="64" />
                 </DynamicImage>
             </Windows>
         </Window>
@@ -554,8 +552,8 @@
                 </Window>
 
             </Windows>
-        </Button>        
-        
+        </Button>
+
         <!-- Filter Windows -->
         <Window name="EA_Templates_FilterMenu" movable="false" layer="secondary">
             <Size>

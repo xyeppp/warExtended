@@ -6,20 +6,6 @@ StopRes.Settings = {
   currentRessurectTarget = ""
 }
 
-local ressurectionAbilityIDs = {
-	[1598] = "Rune Of Life",
-	[1908] = "Gedup!",
-	[8248] = "Breath Of Sigmar",
-	[8555] = "Tzeentch Shall Remake You",
-	[9246] = "Gift Of Life",
-	[9558] = "Stand, Coward!"
-}
-
-local function isRessurectionAbility(abilityId)
-  local isRessurectionAbility = ressurectionAbilityIDs[abilityId]
-  return isRessurectionAbility
-end
-
 local ressingState = {
 
   getState = function ()
@@ -95,7 +81,7 @@ end
 
 
 function StopRes.OnBeginCast(abilityId)
-  if isRessurectionAbility(abilityId) then
+  if StopRes:CombatIsRessurectionAbility(abilityId) then
 	ressingState:start()
   end
 end
