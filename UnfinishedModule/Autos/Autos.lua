@@ -1,4 +1,4 @@
-warExtendedAutos = warExtended.Register("war Extended Autos")
+warExtendedAutos = warExtended.Register("warExtended Autos")
 local Autos = warExtendedAutos
 local tostring=tostring
 local pairs=pairs
@@ -162,7 +162,7 @@ local function removePlayerFromCustomList(playerName, listType)
 
   end
 
-  Autos:Print("Player "..playerName.." removed from custom "..listType..".")
+  Autos:Warn("Player "..playerName.." removed from custom "..listType..".")
 end
 
 

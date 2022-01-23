@@ -1,5 +1,5 @@
-
-
+warExtendedChat = warExtended.Register("warExtended Chat")
+local Chat = warExtendedChat
 
 function QuickNameActionsRessurected.OnShownText()
   tester={8, 4, 14,0,EA_ChatWindow.savedChannel}
@@ -123,7 +123,6 @@ function QuickNameActionsRessurected.AlertToggle(input)
     QuickNameActionsRessurected.Settings.AlertToggle = true;
     EA_ChatWindow.Print(link..L"Scanning for: "..towstring(input))
   end
-
 end
 
 function QuickNameActionsRessurected.newEA_ChatWindowOnRButtonDown(flags)

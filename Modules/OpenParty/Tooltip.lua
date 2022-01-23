@@ -1,5 +1,4 @@
 local OpenParty = warExtendedOpenParty
-
 local TOOLTIP_WIN = "EA_Tooltip_OpenParty"
 local OPEN_PARTY_NEARBY_WINDOW = "EA_WindowOpenPartyNearby"
 
@@ -27,9 +26,9 @@ function OpenParty.OnCreateOpenPartyTooltip ( groupLeaderData )
   local tooltipWindow = getTooltipWindowName()
 
   local tankCount, dpsCount, healCount = OpenParty:GetGroupRoleCount(groupLeaderData)
-  local tankIconText = OpenParty:GetRoleIconString("tank", true)
-  local dpsIconText = OpenParty:GetRoleIconString("dps")
-  local healIconText = OpenParty:GetRoleIconString("heal", true)
+  local tankIconText = OpenParty:GetRoleIconString(1, true)
+  local dpsIconText = OpenParty:GetRoleIconString(2)
+  local healIconText = OpenParty:GetRoleIconString(3, true)
 
 
   local tankString = tankIconText..": "..tankCount

@@ -20,6 +20,7 @@
             <Dependency name="EA_ContextMenu" />
         </Dependencies>
         <Files>
+
             <File name="Original/Source/OpenPartyWindowCommon.xml" />
             <File name="Original/Source/OpenPartyWindowTabNearby.xml" />
             <File name="Original/Source/OpenPartyWindowTabWorld.xml" />

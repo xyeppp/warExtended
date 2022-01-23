@@ -1,198 +1,122 @@
 local warExtended = warExtended
-local registeredEvents = {}
+local RegisterEventHandler = RegisterEventHandler
+local UnregisterEventHandler = UnregisterEventHandler
+local WindowRegisterEventHandler = WindowRegisterEventHandler
+local WindowUnregisterEventHandler = WindowUnregisterEventHandler
+local WindowRegisterCoreEventHandler = WindowUnregisterCoreEventHandler
+local WindowUnregisterCoreEventHandler = WindowUnregisterCoreEventHandler
+local TextLogGetUpdateEventId = TextLogGetUpdateEventId
+local BroadcastEvent = BroadcastEvent
+local Events = SystemData.Events
 
-local function setStringToUpperCaseAndSubSpace(str)
-  str = string.upper(str)
-  str = str:gsub("%s", "_")
-  return str
+local eventManager = {
+      fixString = function(self, str)
+      if not str or str == "" then
+        str = "nil"
+      end
+      
+      str = string.upper(str)
+      str = str:gsub("%s", "_")
+      return str
+    end,
+    
+    getEvent = function(self, event)
+      event = self:fixString(event)
+      
+      if not Events[event] then
+        d("Invalid event name. Event "..event.." does not exist.")
+        return
+      end
+      
+      return Events[event]
+    end,
+    
+    registerTextLogEvent = function(self, textLog, func)
+      RegisterEventHandler(TextLogGetUpdateEventId(textLog), func)
+    end,
+    
+    unregisterTextLogEvent = function(self, textLog, func)
+      UnregisterEventHandler(TextLogGetUpdateEventId(textLog), func)
+    end,
+    
+    registerEvent = function(self, event, func)
+      event = self:getEvent(event)
+      RegisterEventHandler(event, func)
+    end,
+    
+    unregisterEvent = function(self, event, func)
+      event = self:getEvent(event)
+      UnregisterEventHandler(event, func)
+    end,
+    
+    registerWindowEvent = function(self, window, event, func, core)
+      if core then
+        WindowRegisterCoreEventHandler(window, event, func)
+        return
+      end
+      
+      event = self:getEvent(event)
+      WindowRegisterEventHandler(window, event, func)
+    end,
+    
+    unregisterWindowEvent = function(self, window, event,func, core)
+      if core then
+        WindowUnregisterCoreEventHandler(window, event, func)
+        return
+      end
+      
+      event = self:getEvent(event)
+      WindowUnregisterEventHandler(window, event)
+    end,
+    
+  }
+
+function warExtended:RegisterTextLogEvent(textLog, func)
+  eventManager:registerTextLogEvent(textLog, func)
 end
 
-
-local function isTableCreated(moduleName)
-  local doesTableExist = registeredEvents[moduleName]
-  return doesTableExist
+function warExtended:UnregisterTextLogEvent(textLog, func)
+  eventManager:unregisterTextLogEvent(textLog, func)
 end
 
-
-local function isEventInTable(moduleName, eventName)
-  if not isTableCreated(moduleName) then return end
-
-  local isInTable = registeredEvents[moduleName][eventName]
-  return isInTable
+function warExtended:RegisterEvent(event, func)
+  eventManager:registerEvent(event, func)
 end
 
-
-local function addEventToTable(moduleName,eventName)
-  if not registeredEvents[moduleName][eventName] then
-	registeredEvents[moduleName][eventName] = {}
-  end
+function warExtended:UnregisterEvent(event, func)
+  eventManager:unregisterEvent(event, func)
 end
 
-
-local function isTableEmpty(moduleName, eventName)
-  local isEmpty = next(registeredEvents[moduleName][eventName]) == nil
-  return isEmpty
+function warExtended:RegisterWindowEvent(windowName, event, func)
+  eventManager:registerWindowEvent(windowName, event, func)
 end
 
-
-local function isFunctionRegisteredToEvent(moduleName, eventName, func)
-  local isFunctionRegistered = registeredEvents[moduleName][eventName][func]
-  return isFunctionRegistered
+function warExtended:UnregisterWindowEvent(windowName, event, func)
+  eventManager:unregisterWindowEvent(windowName, event, func)
 end
 
-
-local function registerFunctionToEvent(moduleName, eventName, func)
-  registeredEvents[moduleName][eventName][func] = func
-  if eventName == "COMBAT" then
-    RegisterEventHandler(TextLogGetUpdateEventId("Combat"), func)
-    return
-  end
-  RegisterEventHandler(SystemData.Events[eventName], func)
+function warExtended:UnregisterCoreWindowEvent(windowName, event, func)
+  eventManager:unregisterWindowEvent(windowName, event, func, true)
 end
 
-
-local function removeFromRegisteredEvents(moduleName, eventName, func)
-  registeredEvents[moduleName][eventName][func] = nil
-  if eventName == "COMBAT" then
-    UnregisterEventHandler(TextLogGetUpdateEventId("Combat"), func)
-    return
-  end
-
-  UnregisterEventHandler(SystemData.Events[eventName], func)
-
-  if isTableEmpty(moduleName, eventName) then
-	registeredEvents[moduleName][eventName] = nil
-  end
+function warExtended:RegisterCoreWindowEvent(windowName, event, func)
+  eventManager:registerWindowEvent(windowName, event, func, true)
 end
-
-
-local function removeAllRegisteredEvents(moduleName, eventName)
-  for RegisteredFunction,_ in pairs(registeredEvents[moduleName][eventName]) do
-	removeFromRegisteredEvents(moduleName, eventName, RegisteredFunction)
-  end
-end
-
-
-local function isEventValid(event)
-  local doesEventExist = SystemData.Events[event] or event == "COMBAT"
-
-  if not doesEventExist then
-	d("Invalid event name. Event "..event.." does not exist.")
-  end
-  return doesEventExist
-end
-
-
-function warExtended:RegisterEvent(eventName, func)
-  local event = setStringToUpperCaseAndSubSpace(eventName)
-  local moduleName = self.moduleInfo.moduleName
-
-  if not isEventValid(event) then
-	return
-  end
-
-  if not isTableCreated(moduleName) then
-	registeredEvents[moduleName] = {}
-  end
-
-  if not isEventInTable(moduleName, event) then
-	addEventToTable(moduleName, event)
-  end
-
-  if isFunctionRegisteredToEvent(moduleName, event, func) then
-	d("Function ".. func .. " is already registered to event "..event)
-	return
-  end
-
-  registerFunctionToEvent(moduleName, event, func)
-end
-
-
-function warExtended:Broadcast(eventName)
-  local event = setStringToUpperCaseAndSubSpace(eventName)
-
-  if not isEventValid(event) then
-	return
-  end
-
-  BroadcastEvent(SystemData.Events[event])
-end
-
-function warExtended:RegisterWindowEvent(windowName, eventName, func)
-  local event = setStringToUpperCaseAndSubSpace(eventName)
-
-  if not isEventValid(event) then
-	return
-  end
-
-  WindowRegisterEventHandler(windowName, SystemData.Events[event], func)
-end
-
-function warExtended:UnregisterWindowEvent(windowName, eventName, func)
-  WindowUnregisterCoreEventHandler(windowName, eventName, func)
-end
-
-function warExtended:RegisterCoreWindowEvent(windowName, eventName, func)
-  WindowRegisterCoreEventHandler(windowName, eventName, func)
-end
-
-function warExtended:UnregisterWindowEvent(windowName, eventName, func)
-  local event = setStringToUpperCaseAndSubSpace(eventName)
-  
-  if not isEventValid(event) then
-	return
-  end
-  
-  WindowUnregisterEventHandler(windowName, SystemData.Events[event], func)
-end
-
-
-
-
-function warExtended:UnregisterEvent(eventName, func)
-  local moduleName = self.moduleInfo.moduleName
-  local event = setStringToUpperCaseAndSubSpace(eventName)
-
-  if not isEventValid(event) then
-	return
-  end
-
-  if not isEventInTable(moduleName, event) then
-	d("Event ".. event .. " is not currently registered to anything.")
-	return
-  end
-
-  if not isFunctionRegisteredToEvent(moduleName, event, func) then
-	d("Function ".. func .. " is not registered to event "..event)
-	return
-  end
-
-  removeFromRegisteredEvents(moduleName, event, func)
-end
-
-
-function warExtended:UnregisterEventAll(eventName)
-  local moduleName = self.moduleInfo.moduleName
-  local event = setStringToUpperCaseAndSubSpace(eventName)
-
-  if not isEventValid(event) then
-	return
-  end
-
-  if not isEventInTable(moduleName, event) then
-	d("Event ".. event .. " is not currently registered to anything.")
-	return
-  end
-
-  removeAllRegisteredEvents(moduleName, event)
-end
-
 
 function warExtended:RegisterUpdate(func)
   self:RegisterEvent("update processed", func)
 end
 
-
 function warExtended:UnregisterUpdate(func)
   self:UnregisterEvent("update processed", func)
+end
+
+function warExtended:Broadcast(event)
+  event = eventManager:getEvent(event)
+
+  if not event then
+	return
+  end
+
+  BroadcastEvent(event)
 end

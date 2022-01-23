@@ -154,14 +154,14 @@ function warExtended:GetGroupRoleCount(groupData)
 
   if isLeaderAlone then
 	local leaderCareer = groupData.leaderCareer
-	local leaderRole = warExtended:GetRoleFromCareerID(leaderCareer)
+	local leaderRole = warExtended:GetCareerRoleFromLine(leaderCareer)
 	groupRoleCount[leaderRole] = groupRoleCount[leaderRole] + 1
 	return groupRoleCount.tank, groupRoleCount.dps, groupRoleCount.heal
   end
 
   for member=1,#groupData.Group do
 	local memberCareer=groupData.Group[member].m_careerID
-	local careerRole = warExtended:GetRoleFromCareerID(memberCareer)
+	local careerRole = warExtended:GetCareerRoleFromLine(memberCareer)
 	groupRoleCount[careerRole] = groupRoleCount[careerRole] + 1
   end
   return groupRoleCount.tank, groupRoleCount.dps, groupRoleCount.heal

@@ -2,46 +2,40 @@ local warExtended = warExtended
 local TargetInfo = TargetInfo
 local tostr = tostring
 
-local targetInfoUnitID = {
+local targetUnitType = {
   friendly = 'selffriendlytarget',
   enemy = 'selfhostiletarget',
   mouseover = 'mouseovertarget',
 }
 
-local function getTargetName(unitID)
-  local targetName = tostr(TargetInfo:UnitName(unitID):match(L"([^^]+)^?[^^]*")) or false
-  return targetName
-end
-
-local function getTargetHealth(unitID)
- local targetHealth = TargetInfo:UnitHealth(unitID)
-  return targetHealth
- end
-
-
 function warExtended:GetTargetName(targetType)
-  local unitID = targetInfoUnitID[targetType]
-  local targetName = getTargetName(unitID)
-
+  local unitType = targetUnitType[targetType] or targetType
+  local targetName = tostr(TargetInfo:UnitName(unitType)):match("([^^]+)^?[^^]*") or "nil"
   return targetName
 end
 
 function warExtended:GetTargetHealth(targetType)
-  local unitID = targetInfoUnitID[targetType]
-  local targetHealth = getTargetHealth(unitID)
+  local unitType = targetUnitType[targetType] or targetType
+  local targetHealth = TargetInfo:UnitHealth(unitType)
 
   return targetHealth
 end
 
+function warExtended:GetTargetCareer(targetType)
+  local unitType = targetUnitType[targetType] or targetType
+  local unitCareer = TargetInfo:UnitCareer(unitType)
+  return unitCareer
+end
 
---TODO:maybe delete this function?
+function warExtended:GetTargetLevel(targetType)
+  local unitType = targetUnitType[targetType] or targetType
+  local targetLevel =  TargetInfo:UnitLevel(unitType)
+  return targetLevel
+end
+
 function warExtended:GetAllTargets()
-  local targetNames = {}
-
-  for _, targetUnitId in pairs(targetInfoUnitID) do
-    targetNames[#targetNames+1] = getTargetName(targetUnitId)
-  end
-
-  local mouseoverTarget, friendlyTarget, hostileTarget = unpack(targetNames)
-  return mouseoverTarget, friendlyTarget, hostileTarget
+  local mouseoverTarget =  warExtended:GetTargetName("mouseover")
+  local friendlyTarget = warExtended:GetTargetName("friendly")
+  local hostileTarget = warExtended:GetTargetName("enemy")
+  return friendlyTarget, hostileTarget, mouseoverTarget
 end

@@ -4,7 +4,7 @@
     <UiMod name="warExtended Bag Bonus" version="1.2" date="17/08/21" >
         <Author name="xyeppp" email="xyeppp@gmail.com" />
         <VersionSettings gameVersion="1.4.8" windowsVersion="1.0.0" savedVariablesVersion="1.2" />
-        <Description text="warExtended Bag Bonus Window module." />
+        <Description text="Adds a visual representation for the current accumulated bag bonus." />
 
         <Dependencies>
             <Dependency name="warExtended" />

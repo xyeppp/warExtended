@@ -2,21 +2,7 @@ local warExtended = warExtended
 local GameData = GameData
 local GetGameTime = GetGameTime
 local GetAbilityData = GetAbilityData
-local ModulesGetData = ModulesGetData
 
-function warExtended:IsAddonEnabled(addonToCheck)
-  local AddonsData = ModulesGetData()
-  local isEnabled = false;
-
-  for _, Addon in ipairs(AddonsData) do
-	if Addon.name == addonToCheck then
-	  isEnabled = Addon.isEnabled
-	  break
-	end
-  end
-
-  return isEnabled
-end
 
 function warExtended:RoundTo(number, numberOfDecimalPlaces)
   local roundedNumber = tonumber(string.format("%." .. (numberOfDecimalPlaces or 0) .. "f", number))

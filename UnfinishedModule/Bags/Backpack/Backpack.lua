@@ -373,26 +373,6 @@ if not QNABackpacker then
 end
 
 
-local function textClean (s)
-  s = tostring(s)
-  s = string.gsub(s,'[%(%)%.%%%+%-%*%?%[%]%^%$]', function(c) return '%'..c end)
-  s = string.gsub(s, "%a", function (c)
-	return string.format("[%s%s]", string.lower(c),
-			string.upper(c))
-  end)
-  s = s:gsub("%s", "(.*)")
-  return s
-end
-
-
-
-local function NameShort(text)
-  text = tostring(text)
-  text = string.sub(text, 1, 3)
-  text = string.upper(text)
-  return towstring(text)
-end
-
 local function GetMinVisibleBankSlot()
   return (BankWindow.currentTabNumber-1) * NUM_SLOTS_PER_TAB + 1
 end

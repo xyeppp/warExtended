@@ -2,7 +2,7 @@ local BagBonus = warExtendedBagBonus
 
 local BAG_BONUS_WINDOW = "BagBonusWindow"
 local TITLE_LABEL = "Title"
-local TITLE_LABEL_TEXT = "Bag Bonus"
+local TITLE_LABEL_TEXT = "Bonus"
 local LAST_BAG_SEPARATOR = "BagBonusTemplate5Separator"
 
 local bagOrder = {

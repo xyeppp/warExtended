@@ -8,7 +8,7 @@
 
         <Dependencies>
             <Dependency name="warExtended" />
-            <Dependency name="EA_ScenarioWindowLobby" />
+            <Dependency name="EA_ScenarioLobbyWindow" />
         </Dependencies>
 
         <Files>
