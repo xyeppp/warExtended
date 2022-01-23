@@ -1,9 +1,9 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Scripts>
-        <Script file="Source/OpenPartyWindowTabLootRollOptions.lua" />
+        <Script file="Original/Source/OpenPartyWindowTabLootRollOptions.lua" />
     </Scripts>
     <Windows>
-    
+
         <Label name="EA_Template_AutoRollRarityHeader" inherits="EA_Label_DefaultText" textalign="center" >
             <Size>
                 <AbsPoint x="145" y="28" />
@@ -20,7 +20,7 @@
                 <EventHandler event="OnSelChanged" function="EA_Window_OpenPartyLootRollOptions.OnOptionChange" />
             </EventHandlers>
         </ComboBox>
-        
+
         <Window name="EA_Template_AutoRollRow">
             <Size>
                 <AbsPoint x="1032" y="70" />
@@ -87,7 +87,7 @@
                 <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentSocket" />
             </Anchors>
             <Windows>
-            
+
                 <Window name="$parentRarityLabel">
                     <Size>
                         <AbsPoint x="1000" y="28" />
@@ -135,7 +135,7 @@
                         </Label>
                     </Windows>
                 </Window>
-            
+
                 <Window name="$parentUsableEquipment" inherits="EA_Template_AutoRollRow" id="1">
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentRarityLabel">
@@ -143,7 +143,7 @@
                         </Anchor>
                     </Anchors>
                 </Window>
-                
+
                 <Window name="$parentUnusableEquipment" inherits="EA_Template_AutoRollRow" id="2">
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentUsableEquipment">
@@ -151,7 +151,7 @@
                         </Anchor>
                     </Anchors>
                 </Window>
-                
+
                 <Window name="$parentCrafting" inherits="EA_Template_AutoRollRow" id="3">
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentUnusableEquipment">
@@ -159,7 +159,7 @@
                         </Anchor>
                     </Anchors>
                 </Window>
-                
+
                 <Window name="$parentCurrency" inherits="EA_Template_AutoRollRow" id="4">
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentCrafting">
@@ -167,7 +167,7 @@
                         </Anchor>
                     </Anchors>
                 </Window>
-                
+
                 <Window name="$parentPotions" inherits="EA_Template_AutoRollRow" id="5">
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentCurrency">
@@ -175,7 +175,7 @@
                         </Anchor>
                     </Anchors>
                 </Window>
-                
+
                 <Window name="$parentTalismans" inherits="EA_Template_AutoRollRow" id="6">
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentPotions">
@@ -183,7 +183,7 @@
                         </Anchor>
                     </Anchors>
                 </Window>
-                
+
                 <Label name="$parentTrashTitle" inherits="EA_Template_AutoRollTitle">
                     <Size>
                         <AbsPoint x="100" y="28" />
@@ -201,7 +201,7 @@
                         </Anchor>
                     </Anchors>
                 </ComboBox>
-                
+
                 <Label name="$parentHelpText" inherits="EA_Template_OpenParty_Label_Small" autoresize="true">
                     <Size>
                         <AbsPoint x="600" y="50" />

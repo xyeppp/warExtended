@@ -3,7 +3,7 @@
 		<Script file="Original/Source/MainMenuWindow.lua" />
 	</Scripts>
 	<Windows>
-		
+
 		<Window name="MenuItemTemplate">
 			<Size>
 				<AbsPoint x="340" y="55" />
@@ -19,10 +19,10 @@
 						</Anchor>
 					</Anchors>
 				</FullResizeImage>
-				<DynamicImage name="$parentIcon"  handleinput="false" layer="background" > 
+				<DynamicImage name="$parentIcon"  handleinput="false" layer="background" >
 			        <Size>
-				        <AbsPoint x="55" y="55" />				
-			        </Size>			    
+				        <AbsPoint x="55" y="55" />
+			        </Size>
 			        <Anchors>
 				        <Anchor point="left" relativePoint="left">
 						        <AbsPoint x="0" y="0" />
@@ -51,13 +51,13 @@
 			        </Anchors>
 					<TextColors>
 						<Normal r="255" g="255" b="255" a="255" />
-						<NormalHighlit r="250" g="213" b="63" a="255" />			
+						<NormalHighlit r="250" g="213" b="63" a="255" />
 						<Pressed r="250" g="213" b="63" a="255" />
 						<PressedHighlit r="250" g="213" b="63" a="255" />
 						<Disabled r="92" g="92" b="92" a="255" />
-					</TextColors>					
+					</TextColors>
 				</Button>
-		     
+
         <Button name="$parentButton" backgroundtexture="" highlighttexture="EA_MainMenuHighlight" handleinput="false">
 	        <Size>
 		        <AbsPoint x="340" y="55" />
@@ -65,14 +65,14 @@
 	        <TexCoords>
 		        <NormalHighlit x="0" y="0" />
 		        <PressedHighlit x="0" y="0" />
-	        </TexCoords>		
+	        </TexCoords>
         </Button>
-        
-			</Windows>	
+
+			</Windows>
 		</Window>
-		
+
 		<Window name="MainMenuWindow" movable="false" layer="secondary" savesettings="false" >
-<!-- Each MenuItemTemplate is 55 px tall. So the y value here should be 
+<!-- Each MenuItemTemplate is 55 px tall. So the y value here should be
     (55 * #items=7) + frametop(=22px) + frame bottom(=22px)
 -->
 			<Size>
@@ -94,15 +94,15 @@
                 <Sound event="OnHidden" script="Sound.Play( Sound.MAIN_CLOSE )" />
             </Sounds>
 			<Windows>
-			
-				<Window name="$parentBackground" inherits="EA_Window_DefaultBackgroundFrame" />                             
-                <Window name="$parentTitleBar" inherits="EA_TitleBar_Default" />                        
+
+				<Window name="$parentBackground" inherits="EA_Window_DefaultBackgroundFrame" />
+                <Window name="$parentTitleBar" inherits="EA_TitleBar_Default" />
                 <Button name="$parentClose" inherits="EA_Button_DefaultWindowClose" >
                     <EventHandlers>
                         <EventHandler event="OnLButtonUp" function="MainMenuWindow.Hide" />
                     </EventHandlers>
                 </Button>
-				
+
 				<!-- Log Out -->
 				<Window name="$parentLogOutItem" inherits="MenuItemTemplate" >
 					<Anchors>
@@ -114,8 +114,8 @@
 						<EventHandler event="OnLButtonUp" function="MainMenuWindow.OnLogOut" />
                         <EventHandler event="OnMouseOver" function="MainMenuWindow.OnMouseOver" />
 					</EventHandlers>
-				</Window>			
-					
+				</Window>
+
 				<!-- Exit Game -->
 				<Window name="$parentExitGameItem" inherits="MenuItemTemplate" >
 					<Anchors>
@@ -127,8 +127,8 @@
 						<EventHandler event="OnLButtonUp" function="MainMenuWindow.OnExitGame" />
                         <EventHandler event="OnMouseOver" function="MainMenuWindow.OnMouseOver" />
 					</EventHandlers>
-				</Window>				
-				
+				</Window>
+
 				<!-- User Settings -->
 				<Window name="$parentUserSettingsItem" inherits="MenuItemTemplate" >
 					<Anchors>
@@ -140,8 +140,8 @@
 						<EventHandler event="OnLButtonUp" function="MainMenuWindow.OnOpenUserSettings" />
                         <EventHandler event="OnMouseOver" function="MainMenuWindow.OnMouseOver" />
 					</EventHandlers>
-				</Window>					
-				
+				</Window>
+
 				<!-- Key Mappings -->
 				<Window name="$parentKeyMappingItem" inherits="MenuItemTemplate" >
 					<Anchors>
@@ -154,7 +154,7 @@
                         <EventHandler event="OnMouseOver" function="MainMenuWindow.OnMouseOver" />
 					</EventHandlers>
 				</Window>
-				
+
 				<!-- Customize Ui -->
 				<Window name="$parentCustomizeInterfaceItem" inherits="MenuItemTemplate" >
 					<Anchors>
@@ -176,11 +176,11 @@
 						</Anchor>
 					</Anchors>
 					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="MainMenuWindow.OnOpenUiModsWindow" />
+						<EventHandler event="OnLButtonUp" function="warExtendedMainMenu.OnOpenUiModsWindow" />
 						<EventHandler event="OnMouseOver" function="MainMenuWindow.OnMouseOver" />
 					</EventHandlers>
 				</Window>
-				
+
 				<!-- Macros -->
 				<Window name="$parentMacrosItem" inherits="MenuItemTemplate" >
 					<Anchors>
@@ -195,7 +195,7 @@
 				</Window>
 
                 <!-- Account Entitlements -->
-                <Window name="$parentAccountEntitlementsItem" inherits="MenuItemTemplate" >
+                <!--<Window name="$parentAccountEntitlementsItem" inherits="MenuItemTemplate" >
                     <Anchors>
                         <Anchor point="bottom" relativePoint="top" relativeTo="$parentMacrosItem">
                             <AbsPoint x="0" y="0" />
@@ -205,12 +205,24 @@
                         <EventHandler event="OnLButtonUp" function="MainMenuWindow.OnAccountEntitlements" />
                         <EventHandler event="OnMouseOver" function="MainMenuWindow.OnMouseOver" />
                     </EventHandlers>
-                </Window>
+                </Window>-->
+
+				<Window name="$parentWarExtendedOptionsItem" inherits="MenuItemTemplate" >
+                  <Anchors>
+                      <Anchor point="bottom" relativePoint="top" relativeTo="$parentMacrosItem">
+                          <AbsPoint x="0" y="0" />
+                      </Anchor>
+                  </Anchors>
+                  <EventHandlers>
+                      <EventHandler event="OnLButtonUp" function="warExtendedMainMenu.OnOpenWarExtendedOptions" />
+                      <EventHandler event="OnMouseOver" function="MainMenuWindow.OnMouseOver" />
+                  </EventHandlers>
+              </Window>
 
                 <!-- Upgrade Now -->
                 <Window name="$parentUpgradeNowItem" inherits="MenuItemTemplate" >
 					<Anchors>
-						<Anchor point="bottom" relativePoint="top" relativeTo="$parentAccountEntitlementsItem">
+						<Anchor point="bottom" relativePoint="top" relativeTo="$parentWarExtendedItem">
 							<AbsPoint x="0" y="0" />
 						</Anchor>
 					</Anchors>
@@ -218,10 +230,10 @@
 						<EventHandler event="OnLButtonUp" function="MainMenuWindow.OnUpgradeNow" />
                         <EventHandler event="OnMouseOver" function="MainMenuWindow.OnMouseOver" />
 					</EventHandlers>
-				</Window>			
+				</Window>
 
       </Windows>
 		</Window>
-		
+
 	</Windows>
 </Interface>

@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
 -- Hyperlinking Functions
 --
---  This file contains the implementation for inserting and 
+--  This file contains the implementation for inserting and
 --  processing Hyperlinks within the Chat Window.
 ----------------------------------------------------------------
 
@@ -14,7 +14,7 @@ local ITEM_TAG      = L"ITEM:"     -- Format: "ITEM:<Item #>"                   
 local QUEST_TAG     = L"QUEST:"    -- Format: "QUEST:<Quest #>"                 Example: "QUEST:5678"
 local TOME_TAG      = L"TOME:"     -- Format: "TOME:<Section #>:<Entry #>"      Example: "TOME:2:55"
 local GUILD_TAG     = L"GUILD:"    -- Format: "GUILD:<Guild #>"                 Example: "GUILD:1212"
-local URL    		= L"URL:"      -- Format: "URL:<Url #>"                		Example: "URL:8" 
+local URL    		= L"URL:"      -- Format: "URL:<Url #>"                		Example: "URL:8"
 local ERASE         = L""
 
 EA_ChatWindow.HyperLinks =
@@ -23,13 +23,13 @@ EA_ChatWindow.HyperLinks =
     Quests      = {},
     Abilities   = {},
     Guilds      = {},
-    Urls        = {},	
+    Urls        = {},
 }
 
 local CLOSE_BUTTON_OFFSET = 12
 
 ----------------------------------------------------------------
--- Button Callbacks 
+-- Button Callbacks
 ----------------------------------------------------------------
 
 function EA_ChatWindow.OnHyperLinkLButtonUp( linkData, flags, x, y )
@@ -37,65 +37,65 @@ function EA_ChatWindow.OnHyperLinkLButtonUp( linkData, flags, x, y )
   
     -- Player Links
     local playerName, findCount = wstring.gsub( linkData, PLAYER_TAG, ERASE )
-    if( findCount > 0  ) 
-    then       
+    if( findCount > 0  )
+    then
        EA_ChatWindow.OnPlayerLinkLButtonUp( playerName, flags, x, y )
        return
     end
     
     -- Player Links (No Report Spam)
     local playerName, findCount = wstring.gsub( linkData, PLAYERNS_TAG, ERASE )
-    if( findCount > 0  ) 
-    then       
+    if( findCount > 0  )
+    then
        EA_ChatWindow.OnPlayerLinkLButtonUp( playerName, flags, x, y )
        return
     end
     
     -- Item Links
     local itemNumberText, findCount = wstring.gsub( linkData, ITEM_TAG, ERASE )
-    if( findCount > 0  ) 
-    then       
+    if( findCount > 0  )
+    then
        EA_ChatWindow.OnItemLinkLButtonUp( tonumber(itemNumberText), flags, x, y )
        return
     end
     
     -- Quest Links
     local questNumberText, findCount = wstring.gsub( linkData, QUEST_TAG, ERASE )
-    if( findCount > 0  ) 
-    then       
+    if( findCount > 0  )
+    then
        EA_ChatWindow.OnQuestLinkLButtonUp( tonumber(questNumberText), flags, x, y )
        return
     end
     
-        
+    
     -- Tome Links
     local tomeLinkText, findCount = wstring.gsub( linkData, TOME_TAG, ERASE )
-    if( findCount > 0  ) 
-    then       
+    if( findCount > 0  )
+    then
        EA_ChatWindow.OnTomeLinkLButtonUp( tomeLinkText, flags, x, y )
        return
     end
     
-            
+    
     -- Guild Links
     local guildLinkText, findCount = wstring.gsub( linkData, GUILD_TAG, ERASE )
-    if( findCount > 0  ) 
-    then       
+    if( findCount > 0  )
+    then
        EA_ChatWindow.OnGuildLinkLButtonUp( tonumber(guildLinkText), flags, x, y )
        return
     end
     
     -- Friended Links
     local playerName, findCount = wstring.gsub( linkData, FRIENDED_TAG, ERASE )
-    if( findCount > 0  ) 
-    then       
+    if( findCount > 0  )
+    then
        EA_ChatWindow.OnFriendedLinkLButtonUp( playerName, flags, x, y )
        return
     end
 	
 	 local urlLink, findCount = wstring.gsub( linkData, URL, ERASE )
-    if( findCount > 0  ) 
-    then       
+    if( findCount > 0  )
+    then
        EA_ChatWindow.OnUrlLinkLButtonUp(  tonumber(urlLink), flags, x, y )
        return
     end
@@ -106,9 +106,9 @@ function EA_ChatWindow.OnHyperLinkRButtonUp( linkData, flags, x, y )
     --d( L"EA_ChatWindow.OnHyperLinkRButtonUp: "..linkData )
   
     -- Player Links
-    local playerName, findCount = wstring.gsub( linkData, PLAYER_TAG, ERASE )   
-    if( findCount > 0  ) 
-    then       
+    local playerName, findCount = wstring.gsub( linkData, PLAYER_TAG, ERASE )
+    if( findCount > 0  )
+    then
        EA_ChatWindow.OnPlayerLinkRButtonUp( playerName, flags, x, y )
        return
     end
@@ -124,17 +124,17 @@ function EA_ChatWindow.OnHyperLinkRButtonUpChatWindowOnly(linkData, flags, x, y)
     local wndGroupId = WindowGetId(SystemData.ActiveWindow.name)
     
     -- Player Links
-    local playerName, findCount = wstring.gsub( linkData, PLAYER_TAG, ERASE )   
-    if( findCount > 0  ) 
-    then       
+    local playerName, findCount = wstring.gsub( linkData, PLAYER_TAG, ERASE )
+    if( findCount > 0  )
+    then
        EA_ChatWindow.OnPlayerLinkRButtonUp( playerName, flags, x, y, wndGroupId)
        return
     end
     
     -- Player Links (No Report Spam)
-    local playerName, findCount = wstring.gsub( linkData, PLAYERNS_TAG, ERASE )   
-    if( findCount > 0  ) 
-    then       
+    local playerName, findCount = wstring.gsub( linkData, PLAYERNS_TAG, ERASE )
+    if( findCount > 0  )
+    then
        EA_ChatWindow.OnPlayerLinkRButtonUp( playerName, flags, x, y )  -- Leave off wndGroupId to suppress report spam option
        return
     end
@@ -157,9 +157,9 @@ end
 function EA_ChatWindow.OnUrlLinkLButtonUp( urlLink, flags, x, y )
 	local function ClickCallBack( SelectedOption )
 		    return function() OpenURL(SelectedOption) end
-		end		
+		end
 DialogManager.MakeTwoButtonDialog( L"This will open site \n"..towstring(GetStringFromTable("UrlStrings", urlLink))..L" in a web browser window \n\n Auto cancel in:", GetString(StringTables.Default.LABEL_YES),ClickCallBack(urlLink),GetString(StringTables.Default.LABEL_NO),nil,60,nil )
-	
+
 end
 
 
@@ -169,7 +169,7 @@ function EA_ChatWindow.OnPlayerLinkRButtonUp( playerName, flags, x, y, wndGroupI
 	local _X = x
 	local _Y = y
 	
-if wndGroupId ~= nil then	
+if wndGroupId ~= nil then
 	local wndGroup = EA_ChatWindowGroups[wndGroupId]
     local activeTabId = wndGroup.activeTab
     local activeTabName = EA_ChatTabManager.GetTabName( wndGroup.Tabs[activeTabId].tabManagerId )
@@ -178,14 +178,14 @@ if wndGroupId ~= nil then
 	local FormatedMessage = wstring.gsub(towstring(wstring.gsub(towstring(offendingMessage),L"<br>", L"")),L"\n", L"")
 	
 	ReportText = FormatedMessage
- end	
+ end
     local function PassParametersToReportSpam()
         PlayerMenuWindow.OnReportSpam(WindowGroup, _X, _Y)
     end
     
 	local function ReportDialog()
       DialogManager.MakeTwoButtonDialog( L"Are you sure you want to report?", GetPregameString( StringTables.Pregame.LABEL_OKAY ) , PassParametersToReportSpam, GetPregameString( StringTables.Pregame.LABEL_CANCEL ), nil,60, 2, nil, nil, dialogType, DialogManager.TYPE_MODAL,_okDialog )
-    end	
+    end
 	
 	
     local CustomButtons = {}
@@ -225,8 +225,8 @@ function EA_ChatWindow.InsertItemLink( itemData )
         return
     end
 
-    local data  = ITEM_TAG..itemData.uniqueID 
-    local text  = L"["..itemData.name..L"]"    
+    local data  = ITEM_TAG..itemData.uniqueID
+    local text  = L"["..itemData.name..L"]"
     local color = DataUtils.GetItemRarityColor(itemData)
     
     local link  = CreateHyperLink( data, text, {color.r,color.g,color.b}, {} )
@@ -254,21 +254,21 @@ function EA_ChatWindow.CreateItemLinkWindow( itemId )
         -- Show an error message
         return
     end
-        
-    local windowName = "EA_ItemLinkWindow"..itemId    
+    
+    local windowName = "EA_ItemLinkWindow"..itemId
     
     -- Only allow one window per item
     if( DoesWindowExist( windowName ) )
     then
-        -- Re-Showing the window will force it to the top of it's layer 
+        -- Re-Showing the window will force it to the top of it's layer
         -- if it is behind annother window.
         WindowSetShowing( windowName, true )
         return
-    end    
+    end
     
     -- Cache a reference to the data
     EA_ChatWindow.HyperLinks.Items[ itemId ] = itemData
-       
+    
     -- Create the Window & Set the Data
     if( itemData.broken )
     then
@@ -278,12 +278,12 @@ function EA_ChatWindow.CreateItemLinkWindow( itemId )
         BrokenItemTooltip.SetTooltipData( windowName.."Data", itemData )
         WindowSetShowing( windowName.."DataSellPrice", false )
         WindowSetShowing( windowName.."DataRepairedItemBackground", false )
-    else    
+    else
         CreateWindowFromTemplate( windowName, "EA_Window_ItemLinkTemplate", "Root" )
         
         Tooltips.SetItemTooltipData( windowName.."Data", itemData, nil, nil )
     end
-        
+    
     WindowSetId( windowName, itemId )
 
     -- Size the Parent Window to the data's dimensions
@@ -314,10 +314,10 @@ function EA_ChatWindow.OnLButtonDownItemLinkWindow( flags, x, y )
     
     -- Create an Item Link on Shift-Left Click
     if( flags == SystemData.ButtonFlags.SHIFT )
-    then    
+    then
         local itemId = WindowGetId( SystemData.ActiveWindow.name )
         local itemData = EA_ChatWindow.HyperLinks.Items[ itemId ]
-                
+        
         EA_ChatWindow.InsertItemLink( itemData )
         
         WindowSetMoving( SystemData.ActiveWindow.name, false )
@@ -336,8 +336,8 @@ function EA_ChatWindow.InsertQuestLink( questData )
         return
     end
 
-    local data  = QUEST_TAG..questData.id 
-    local text  = L"["..questData.name..L"]"    
+    local data  = QUEST_TAG..questData.id
+    local text  = L"["..questData.name..L"]"
     local color = DefaultColor.GOLD
     
     local link  = CreateHyperLink( data, text, {color.r,color.g,color.b}, {} )
@@ -360,23 +360,23 @@ function EA_ChatWindow.CreateQuestLinkWindow( questId )
         return
     end
     
-    local windowName = "EA_QuestLinkWindow"..questId    
+    local windowName = "EA_QuestLinkWindow"..questId
     
     -- Only allow one window per item
     if( DoesWindowExist( windowName ) )
     then
-        -- Re-Showing the window will force it to the top of it's layer 
+        -- Re-Showing the window will force it to the top of it's layer
         -- if it is behind annother window.
         WindowSetShowing( windowName, true )
         return
-    end    
+    end
     
     local questData = GetDatabaseQuestData( questId )
     if( not questData )
     then
         -- Show an error message
         return
-    end      
+    end
     
     -- Cache a reference to the data
     EA_ChatWindow.HyperLinks.Quests[ questId ] = questData
@@ -403,7 +403,7 @@ function EA_ChatWindow.OnHiddenQuestLinkWindow()
     EA_ChatWindow.HyperLinks.Quests[ questId ] = nil
     
     -- Destroy the Window
-    DestroyWindow( SystemData.ActiveWindow.name )    
+    DestroyWindow( SystemData.ActiveWindow.name )
     
 end
 
@@ -411,10 +411,10 @@ function EA_ChatWindow.OnLButtonDownQuestLinkWindow( flags, x, y)
    
     -- Create an Quest Link on Shift-Left Click
     if( flags == SystemData.ButtonFlags.SHIFT )
-    then    
+    then
         local questId = WindowGetId( SystemData.ActiveWindow.name )
         local questData = EA_ChatWindow.HyperLinks.Quests[ questId ]
-                
+        
         EA_ChatWindow.InsertQuestLink( questData )
         
         WindowSetMoving( SystemData.ActiveWindow.name, false )
@@ -432,7 +432,7 @@ function EA_ChatWindow.LayoutQuestWindow( windowName, questData )
 
 	local G_Name = towstring(GameData.Guild.m_GuildName) or L"Guildless"
 	local mainText = questData.startDesc
-	mainText = wstring.gsub(towstring(mainText), L"|g",G_Name)	
+	mainText = wstring.gsub(towstring(mainText), L"|g",G_Name)
     -- Quest Starting Text
     LabelSetText(windowName.."InfoScrollChildText", mainText )
     
@@ -444,7 +444,7 @@ function EA_ChatWindow.LayoutQuestWindow( windowName, questData )
     
     -- Quest Journal Text
  	local journalDesc = questData.journalDesc
-	journalDesc = wstring.gsub(towstring(journalDesc), L"|g",G_Name)		
+	journalDesc = wstring.gsub(towstring(journalDesc), L"|g",G_Name)
 	
     LabelSetText(windowName.."InfoScrollChildJournalEntryText", journalDesc )
     
@@ -459,13 +459,13 @@ function EA_ChatWindow.LayoutQuestWindow( windowName, questData )
     scrollWindowHeight = scrollWindowHeight + windowHeight + 26 -- magic 26 is the anchor padding on the top and bottom of the divider
 
     -- DEBUG(L" scrollWindowHeight = "..scrollWindowHeight)
-    scrollWindowHeight = scrollWindowHeight + EA_ChatWindow.LayoutTimer( windowName, questData )   
+    scrollWindowHeight = scrollWindowHeight + EA_ChatWindow.LayoutTimer( windowName, questData )
     -- DEBUG(L" +timer             = "..scrollWindowHeight)
-    scrollWindowHeight = scrollWindowHeight + EA_ChatWindow.LayoutConditions( windowName, questData )  
+    scrollWindowHeight = scrollWindowHeight + EA_ChatWindow.LayoutConditions( windowName, questData )
     -- DEBUG(L" +conditions        = "..scrollWindowHeight)
-    scrollWindowHeight = scrollWindowHeight + EA_ChatWindow.LayoutGivenRewards( windowName, questData )  
+    scrollWindowHeight = scrollWindowHeight + EA_ChatWindow.LayoutGivenRewards( windowName, questData )
     -- DEBUG(L" +rewards           = "..scrollWindowHeight)
-    scrollWindowHeight = scrollWindowHeight + EA_ChatWindow.LayoutChoiceRewards( windowName, questData )  
+    scrollWindowHeight = scrollWindowHeight + EA_ChatWindow.LayoutChoiceRewards( windowName, questData )
     -- DEBUG(L" +choicerewards     = "..scrollWindowHeight)
 
 
@@ -494,7 +494,7 @@ function EA_ChatWindow.LayoutQuestWindow( windowName, questData )
                              EA_Window_InteractionQuest.QUEST_WINDOW_WIDTH, scrollWindowHeight )
     end
     
-    -- Update the scroll window 
+    -- Update the scroll window
     ScrollWindowSetOffset( windowName.."Info", 0 )
     ScrollWindowUpdateScrollRect( windowName.."Info" )
     
@@ -508,12 +508,12 @@ function EA_ChatWindow.LayoutTimer( windowName, questData )
     -- Timer
     local timer = questData.maxTimer
     local text = TimeUtils.FormatClock(timer)
-    LabelSetText( windowName.."InfoScrollChildTimerValue", text ) 
-    WindowSetShowing(windowName.."InfoScrollChildTimer", timer > 0 )   
+    LabelSetText( windowName.."InfoScrollChildTimerValue", text )
+    WindowSetShowing(windowName.."InfoScrollChildTimer", timer > 0 )
     
     local windowWidth, _ = WindowGetDimensions(windowName.."InfoScrollChildTimer")
     if( timer > 0 )
-    then        
+    then
         local _, textHeight = LabelGetTextDimensions( windowName.."InfoScrollChildTimerValue" )
         WindowSetDimensions( windowName.."InfoScrollChildTimer", windowWidth, textHeight )
         return textHeight
@@ -534,7 +534,7 @@ function EA_ChatWindow.LayoutConditions( windowName, questData )
     for condition = 1, EA_Window_InteractionQuest.NUM_CONDITION_COUNTERS
     do
         local conditionData = questData.conditions[condition];
-        local conditionWindowName = windowName.."InfoScrollChildConditions"..condition        
+        local conditionWindowName = windowName.."InfoScrollChildConditions"..condition
         
         if( conditionData ~= nil )
         then
@@ -582,7 +582,7 @@ function EA_ChatWindow.LayoutConditions( windowName, questData )
     end
 
     if( conditionsExist )
-    then    
+    then
         WindowSetDimensions(windowName.."InfoScrollChildConditions", EA_Window_InteractionQuest.QUEST_TEXT_WIDTH_EXTENT, conditionsTotalHeight)
         WindowSetShowing(windowName.."InfoScrollChildConditions", true)
         return conditionsTotalHeight
@@ -608,35 +608,35 @@ function EA_ChatWindow.LayoutGivenRewards( windowName, questData )
     if xpShowing
     then
         numGivenRewards = numGivenRewards + 1
-                
+        
         -- Construct the Fake Xp Icon
         -- DEBUG(L"  XP Reward "..questRewards.xp)
         WindowSetShowing( windowName.."InfoScrollChildGivenRewards"..numGivenRewards, true )
         local texture, x, y = GetIconData( Icons.XP_REWARD )
-        DynamicImageSetTexture( windowName.."InfoScrollChildGivenRewards"..numGivenRewards.."IconBase", texture, x, y ) 
+        DynamicImageSetTexture( windowName.."InfoScrollChildGivenRewards"..numGivenRewards.."IconBase", texture, x, y )
         WindowSetId( windowName.."InfoScrollChildGivenRewards"..numGivenRewards, EA_Window_InteractionQuest.XP_REWARD_ID )
     end
     
     if moneyShowing
     then
         numGivenRewards = numGivenRewards + 1
-                
+        
         -- Construct the Fake old Icon
         -- DEBUG(L"  Money Reward "..questRewards.money)
         WindowSetShowing( windowName.."InfoScrollChildGivenRewards"..numGivenRewards, true )
         local texture, x, y = GetIconData( Icons.GOLD_REWARD )
-        DynamicImageSetTexture( windowName.."InfoScrollChildGivenRewards"..numGivenRewards.."IconBase", texture, x, y ) 
+        DynamicImageSetTexture( windowName.."InfoScrollChildGivenRewards"..numGivenRewards.."IconBase", texture, x, y )
         WindowSetId( windowName.."InfoScrollChildGivenRewards"..numGivenRewards, EA_Window_InteractionQuest.MONEY_REWARD_ID )
     end
     
     -- Actual Items
     for rewardIndex, rewardItem in ipairs(questRewards.itemsGiven)
-    do 
+    do
         numGivenRewards = numGivenRewards + 1
         -- DEBUG( L"  Given Reward #"..rewardIndex..L" = "..rewardItem.name..L", stored at index "..numGivenRewards )
         WindowSetShowing( windowName.."InfoScrollChildGivenRewards"..numGivenRewards, true )
         local texture, x, y = GetIconData( rewardItem.iconNum )
-        DynamicImageSetTexture( windowName.."InfoScrollChildGivenRewards"..numGivenRewards.."IconBase", texture, x, y ) 
+        DynamicImageSetTexture( windowName.."InfoScrollChildGivenRewards"..numGivenRewards.."IconBase", texture, x, y )
         WindowSetId( windowName.."InfoScrollChildGivenRewards"..numGivenRewards, rewardIndex )
     end
 
@@ -688,16 +688,16 @@ function EA_ChatWindow.LayoutChoiceRewards( windowName, questData )
                                  DataUtils.SkillIsEnoughForItem(GameData.Player.Skills, rewardItem)
 
         
-        -- Do something if the filter removes all rewards?        
+        -- Do something if the filter removes all rewards?
         
         local isChoiceVisible = isRewardRelevent
         
         -- DEBUG( L"Choice Reward #"..reward..L" = "..rewardName..L", icon = "..rewardIcon )
-        if( isChoiceVisible ) 
+        if( isChoiceVisible )
         then
             numChoiceRewards = numChoiceRewards + 1
             local texture, x, y = GetIconData( rewardItem.iconNum )
-            DynamicImageSetTexture( windowName.."InfoScrollChildChoiceRewards"..numChoiceRewards.."IconBase", texture, x, y )    
+            DynamicImageSetTexture( windowName.."InfoScrollChildChoiceRewards"..numChoiceRewards.."IconBase", texture, x, y )
         end
         WindowSetShowing(windowName.."InfoScrollChildChoiceRewards"..numChoiceRewards, isChoiceVisible )
     end
@@ -751,7 +751,7 @@ local function GetQuestIdFromRewardWindow( rewardWindow )
     local numParentLevels = 4
     
     local windowName = rewardWindow
-    for index = 1, numParentLevels 
+    for index = 1, numParentLevels
     do
         windowName = WindowGetParent( windowName)
     end
@@ -761,12 +761,12 @@ end
 
 function EA_ChatWindow.OnMouseOverHyperLinkQuestGivenReward()
     
-    local rewardIndex   = WindowGetId(SystemData.ActiveWindow.name)    
-    local questId       = GetQuestIdFromRewardWindow(SystemData.ActiveWindow.name)    
-    local questData     = EA_ChatWindow.HyperLinks.Quests[ questId ]  
+    local rewardIndex   = WindowGetId(SystemData.ActiveWindow.name)
+    local questId       = GetQuestIdFromRewardWindow(SystemData.ActiveWindow.name)
+    local questData     = EA_ChatWindow.HyperLinks.Quests[ questId ]
     
     if( rewardIndex == EA_Window_InteractionQuest.MONEY_REWARD_ID )
-    then        
+    then
         Tooltips.CreateMoneyTooltip( GetString( StringTables.Default.LABEL_MONEY ),
                                      questData.rewards.money,
                                      SystemData.ActiveWindow.name,
@@ -791,7 +791,7 @@ function EA_ChatWindow.OnMouseOverHyperLinkQuestGivenReward()
         end
     
         Tooltips.CreateItemTooltip( itemData,
-                                    SystemData.ActiveWindow.name, 
+                                    SystemData.ActiveWindow.name,
                                     Tooltips.ANCHOR_WINDOW_RIGHT )
 
     end
@@ -799,11 +799,11 @@ function EA_ChatWindow.OnMouseOverHyperLinkQuestGivenReward()
     
 end
 
-function EA_ChatWindow.OnMouseOverHyperLinkQuestChoiceReward() 
+function EA_ChatWindow.OnMouseOverHyperLinkQuestChoiceReward()
 
-    local rewardIndex   = WindowGetId(SystemData.ActiveWindow.name)    
-    local questId       = GetQuestIdFromRewardWindow(SystemData.ActiveWindow.name)    
-    local questData     = EA_ChatWindow.HyperLinks.Quests[ questId ]       
+    local rewardIndex   = WindowGetId(SystemData.ActiveWindow.name)
+    local questId       = GetQuestIdFromRewardWindow(SystemData.ActiveWindow.name)
+    local questData     = EA_ChatWindow.HyperLinks.Quests[ questId ]
 
     local itemData = questData.rewards.itemsChosen[rewardIndex]
     if( itemData == nil )
@@ -811,14 +811,14 @@ function EA_ChatWindow.OnMouseOverHyperLinkQuestChoiceReward()
         return
     end
     
-    Tooltips.CreateItemTooltip( itemData, 
-                                SystemData.ActiveWindow.name, 
+    Tooltips.CreateItemTooltip( itemData,
+                                SystemData.ActiveWindow.name,
                                 Tooltips.ANCHOR_WINDOW_RIGHT )
 end
 
-function EA_ChatWindow.OnLButtonDownHyperLinkQuestGivenReward( flags, x, y ) 
+function EA_ChatWindow.OnLButtonDownHyperLinkQuestGivenReward( flags, x, y )
 
-    local rewardIndex   = WindowGetId(SystemData.ActiveWindow.name)    
+    local rewardIndex   = WindowGetId(SystemData.ActiveWindow.name)
     
     -- Do nothing for Xp and Money Rewards
     if( rewardIndex == EA_Window_InteractionQuest.MONEY_REWARD_ID or rewardIndex == EA_Window_InteractionQuest.XP_REWARD_ID )
@@ -826,8 +826,8 @@ function EA_ChatWindow.OnLButtonDownHyperLinkQuestGivenReward( flags, x, y )
         return
     end
     
-    local questId       = GetQuestIdFromRewardWindow(SystemData.ActiveWindow.name)    
-    local questData     = EA_ChatWindow.HyperLinks.Quests[ questId ]   
+    local questId       = GetQuestIdFromRewardWindow(SystemData.ActiveWindow.name)
+    local questData     = EA_ChatWindow.HyperLinks.Quests[ questId ]
 
     local itemData = questData.rewards.itemsGiven[rewardIndex]
     if( itemData == nil )
@@ -839,16 +839,16 @@ function EA_ChatWindow.OnLButtonDownHyperLinkQuestGivenReward( flags, x, y )
     if( flags == SystemData.ButtonFlags.SHIFT )
     then
         EA_ChatWindow.InsertItemLink( itemData )
-    end   
+    end
     
 end
 
-function EA_ChatWindow.OnLButtonDownHyperLinkQuestChoiceReward( flags, x, y ) 
+function EA_ChatWindow.OnLButtonDownHyperLinkQuestChoiceReward( flags, x, y )
 
     
-    local rewardIndex   = WindowGetId(SystemData.ActiveWindow.name)        
-    local questId       = GetQuestIdFromRewardWindow(SystemData.ActiveWindow.name)    
-    local questData     = EA_ChatWindow.HyperLinks.Quests[ questId ]       
+    local rewardIndex   = WindowGetId(SystemData.ActiveWindow.name)
+    local questId       = GetQuestIdFromRewardWindow(SystemData.ActiveWindow.name)
+    local questData     = EA_ChatWindow.HyperLinks.Quests[ questId ]
 
     local itemData = questData.rewards.itemsChosen[rewardIndex]
     if( itemData == nil )
@@ -860,7 +860,7 @@ function EA_ChatWindow.OnLButtonDownHyperLinkQuestChoiceReward( flags, x, y )
     if( flags == SystemData.ButtonFlags.SHIFT )
     then
         EA_ChatWindow.InsertItemLink( itemData )
-    end 
+    end
 end
 
 
@@ -876,9 +876,9 @@ function EA_ChatWindow.InsertGuildLink( guildData )
         return
     end
 
-    local data  = GUILD_TAG..guildData.id 
-    local text  = L"["..guildData.name..L"]"    
-    local color = DefaultColor.ORANGE 
+    local data  = GUILD_TAG..guildData.id
+    local text  = L"["..guildData.name..L"]"
+    local color = DefaultColor.ORANGE
     
     local link  = CreateHyperLink( data, text, {color.r,color.g,color.b}, {} )
     
@@ -915,13 +915,13 @@ function EA_ChatWindow.CreateGuildLinkWindow( guildId )
         -- Show an error message
         return
     end
-        
-    local windowName = "EA_GuildLinkWindow"..guildId    
+    
+    local windowName = "EA_GuildLinkWindow"..guildId
     
     -- Only allow one window per item
     if( DoesWindowExist( windowName ) )
     then
-        -- Re-Showing the window will force it to the top of it's layer 
+        -- Re-Showing the window will force it to the top of it's layer
         -- if it is behind annother window.
         WindowSetShowing( windowName, true )
         return
@@ -959,10 +959,10 @@ function EA_ChatWindow.OnLButtonDownGuildLinkWindow( flags, x, y )
     
     -- Create an Item Link on Shift-Left Click
     if( flags == SystemData.ButtonFlags.SHIFT )
-    then    
+    then
         local guildId = WindowGetId( SystemData.ActiveWindow.name )
         local guildData = EA_ChatWindow.HyperLinks.Guilds[ guildId ]
-                
+        
         EA_ChatWindow.InsertGuildLink( guildData )
         
         WindowSetMoving( SystemData.ActiveWindow.name, false )

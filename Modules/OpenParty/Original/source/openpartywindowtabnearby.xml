@@ -1,6 +1,6 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Scripts>
-        <Script file="Source/OpenPartyWindowTabNearby.lua" />
+        <Script file="Original/Source/OpenPartyWindowTabNearby.lua" />
     </Scripts>
     <Windows>
 
@@ -79,7 +79,7 @@
                 <EventHandler event="OnRButtonUp" function="EA_Window_OpenPartyNearby.OnRButtonUpGroupLeaderLine" />
             </EventHandlers>
         </Button>
-        
+
 
         <Button name="EA_Template_OpenPartyNearbySortButton" inherits="EA_Button_DefaultListSort">
             <EventHandlers>
@@ -93,12 +93,12 @@
                 <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentSocket" />
                 <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentSocket" />
             </Anchors>
-            
+
             <EventHandlers>
                 <EventHandler event="OnShown" function="EA_Window_OpenPartyNearby.RequestUpdateFullList"/>
                 <EventHandler event="OnUpdate" function="EA_Window_OpenPartyNearby.OnUpdate"/>
             </EventHandlers>
-            
+
             <Windows>
 
                 <Button name="$parentPartyLeaderSortButton" inherits="EA_Template_OpenPartyNearbySortButton" textalign="leftcenter" id="1">
@@ -144,7 +144,7 @@
                         </Anchor>
                     </Anchors>
                 </Button>
-                
+
                 <ListBox name="$parentList" rowdef="EA_Template_OpenPartyGroupLine" scrollbar="EA_ScrollBar_DefaultVerticalChain" visiblerows="10" rowspacing="0">
                     <Size>
                         <AbsPoint x="683" y="500" />
@@ -172,8 +172,8 @@
                     </Anchors>
                 </Label>
 
-                
-                
+
+
                 <Label name="$parentHelpText" inherits="EA_Template_OpenParty_Label_Small" autoresize="true">
                     <Size>
                         <AbsPoint x="300" y="300" />
@@ -185,7 +185,7 @@
                         <Anchor point="topleft" relativePoint="topright" relativeTo="$parentSeparator" />
                     </Anchors>
                 </Label>
-                
+
                 <Window name="$parentOpenPartyFlag" inherits="EA_LabelCheckButton">
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentHelpText">
@@ -196,7 +196,7 @@
                         <EventHandler event="OnLButtonUp" function="EA_Window_OpenPartyNearby.ToggleOpenPartyInterestFlag"/>
                     </EventHandlers>
                 </Window>
-                
+
                 <Window name="$parentLegend">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="bottomleft" relativeTo="$parentButtonBackground" />
@@ -211,7 +211,7 @@
                                 <Anchor point="topright" relativePoint="topright" relativeTo="$parent" />
                             </Anchors>
                         </Window>
-                        
+
                         <DynamicImage name="$parentGuildIcon" textureScale="1.0">
                             <Size>
                                 <AbsPoint x="20" y="20" />
@@ -232,7 +232,7 @@
                                 </Anchor>
                             </Anchors>
                         </Label>
-                        
+
                         <DynamicImage name="$parentAllianceIcon" textureScale="1.0">
                             <Size>
                                 <AbsPoint x="20" y="20" />
@@ -253,7 +253,7 @@
                                 </Anchor>
                             </Anchors>
                         </Label>
-                        
+
                         <DynamicImage name="$parentFriendIcon" textureScale="1.0">
                             <Size>
                                 <AbsPoint x="20" y="20" />
@@ -274,7 +274,7 @@
                                 </Anchor>
                             </Anchors>
                         </Label>
-                        
+
                         <DynamicImage name="$parentIgnoredIcon" textureScale="1.0">
                             <Size>
                                 <AbsPoint x="20" y="20" />
@@ -295,11 +295,11 @@
                                 </Anchor>
                             </Anchors>
                         </Label>
-                        
+
                     </Windows>
                 </Window>
-                
-                
+
+
 
                 <Window name="$parentButtonBackground" inherits="EA_Window_DefaultButtonBottomFrame" layer="background" >
                     <Size>
@@ -329,7 +329,7 @@
                         <EventHandler event="OnLButtonUp" function="EA_Window_OpenPartyNearby.RequestUpdateFullList" />
                     </EventHandlers>
                 </Button>
-                
+
                 <Window name="$parentSeparator" inherits="EA_Window_DefaultVerticalSeparatorWithoutTop">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topright" relativeTo="$parentPartyLeaderSortButton">
@@ -340,9 +340,9 @@
                         </Anchor>
                     </Anchors>
                 </Window>
-                
+
             </Windows>
-        
+
         </Window>
 
 

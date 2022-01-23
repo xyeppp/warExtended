@@ -1,7 +1,7 @@
 local warExtended = warExtended
 local pairs=pairs
 
-local EmoteList = {
+local emotes = {
     ['spit'] = {
         ['hostile'] = 'spits on $et. How disgusting!',
         ["friendly"] = 'spits on $ft. How disgusting!',
@@ -19,27 +19,27 @@ local EmoteList = {
     }
 }
 
-
 local function emoteParser(emote)
-    local HostileTarget, FriendlyTarget = warExtended:GetTargetNames()
-    emote=EmoteList[emote]
+    local friendlyTarget, hostileTarget = warExtended:GetAllTargets()
+    local emote=emotes[emote]
 
-    if HostileTarget  then
-        return ChatMacro(emote.hostile, '/e')
-    elseif FriendlyTarget then
-        return ChatMacro(emote.friendly, '/e')
+    if hostileTarget then
+        ChatMacro(emote.hostile, '/e')
+        return
+    elseif friendlyTarget and friendlyTarget ~= warExtended:GetPlayerName() then
+        ChatMacro(emote.friendly, '/e')
+        return
     else
-        return ChatMacro(emote.notarget, '/e')
+        ChatMacro(emote.notarget, '/e')
+        return
     end
-
 end
 
-
 function warExtended.RegisterEmotes()
-    for Emote,_ in pairs(EmoteList) do
-        LibSlash.RegisterSlashCmd(Emote,
+    for emote,_ in pairs(emotes) do
+        LibSlash.RegisterSlashCmd(emote,
                 function()
-                    emoteParser(Emote)
+                    emoteParser(emote)
                 end
         )
     end

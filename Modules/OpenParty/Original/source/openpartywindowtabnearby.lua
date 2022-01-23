@@ -609,6 +609,7 @@ function EA_Window_OpenPartyNearby.CreateOpenPartyTooltip( groupLeaderData, mous
             end
             LabelSetText (TOOLTIP_WIN.."GroupMember"..memberDisplayedIndex.."RankText", L"("..GetString(StringTables.Default.LABEL_RANK)..L" "..groupLeaderData.Group[idx].m_level..L")")
             LabelSetText (TOOLTIP_WIN.."GroupMember"..memberDisplayedIndex.."NameText", groupLeaderData.Group[idx].m_memberName)
+            
             WindowSetShowing(TOOLTIP_WIN.."GroupMember"..memberDisplayedIndex, true)
 
             memberDisplayedIndex = memberDisplayedIndex + 1

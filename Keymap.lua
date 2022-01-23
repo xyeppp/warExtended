@@ -4,6 +4,12 @@ local tostring=tostring
 local towstring=towstring
 local pairs=pairs
 local warExtended = warExtended
+
+local keymapManager = {
+  registeredMap = {}
+  
+}
+
 --Register your keymap with the following table format and object:RegisterKeymap
 --
 --local keymapTable = {
@@ -11,8 +17,6 @@ local warExtended = warExtended
 --  [text2] = function,
 --}
 --
-
-
 --[[ if isMatch then
 --        if isURL then
 --          p(SubstituteText("google"))
@@ -48,8 +52,6 @@ local warExtended = warExtended
 
 --Everything else will get handled automatically for you.
 
-
-
 local function substituteChatText(text)
 
   for _, registeredModules in pairs(chatTextSubstitutions) do
@@ -70,7 +72,8 @@ local function substituteChatText(text)
     end
   end
 
-  return towstring(text)
+  text = towstring(text)
+  return text
 end
 
 
@@ -83,17 +86,90 @@ function ChatMacro(chatText,chatChannel)
   SendChatText(chatText, chatChannel)
 end
 
+oldSendChatText = SendChatText
+SendChatText = function(text, channel)
+  text = substituteChatText(tostring(text))
+  oldSendChatText(text, channel)
+end
+
+
+local abuttons = {
+  add = function(self, buttonNumber, text)
+     self.active[buttonNumber] = text
+  end,
+  
+  getActive = function(self)
+    return self.active
+  end,
+  
+  clear = function(self)
+    if next(self.active) == 0 then
+      return
+    end
+  end,
+  
+  active = {}
+}
+switchedMacros = {}
+
+local function testFFFF(macroData)
+  if not switchedMacros[macroData.m_ActionId] then
+    return
+  end
+  
+  SetMacroData(switchedMacros[macroData.m_ActionId].name, switchedMacros[macroData.m_ActionId].text, switchedMacros[macroData.m_ActionId].iconNum, macroData.m_ActionId)
+  EA_Window_Macro.UpdateDetails (macroData.m_ActionId)
+  switchedMacros[macroData.m_ActionId] = nil
+end
+
+
+local function testFFF(macroData)
+  if macroData.m_ActionType == 4 then
+    local macros = GetMacrosData()
+    local macro = macros[macroData.m_ActionId]
+    if warExtended:IsKeymapText(tostring(macro.text)) then
+      p('is keymap')
+      switchedMacros[macroData.m_ActionId] = macro
+      SetMacroData (macro.name, substituteChatText(tostring(macro.text)), macro.iconNum, macroData.m_ActionId)
+      EA_Window_Macro.UpdateDetails (macroData.m_ActionId)
+    end
+  end
+end
+
+function testMacro()
+    warExtended:Hook(ActionButton.OnLButtonDown,testFFF, true)
+    warExtended:Hook(ActionButton.OnLButtonUp,testFFFF, true)
+end
 
 
 function warExtended:RegisterKeymap(keymapTable)
-  if not chatTextSubstitutions[self.moduleInfo.moduleName] then
-    chatTextSubstitutions[self.moduleInfo.moduleName] = {}
+  if not chatTextSubstitutions[self.mInfo.name] then
+    chatTextSubstitutions[self.mInfo.name] = {}
   end
+  
+  chatTextSubstitutions[self.mInfo.name] = keymapTable
+end
 
-
-  chatTextSubstitutions[self.moduleInfo.oduleName] = keymapTable
+function warExtended:GetModuleKeymap(moduleName)
+  moduleName = moduleName or self.mInfo.name
+  return chatTextSubstitutions[moduleName]
 end
 
 function warExtended:UnregisterKeymap()
-  chatTextSubstitutions[self.moduleInfo.moduleName]=nil
+  chatTextSubstitutions[self.mInfo.name]=nil
+end
+
+function warExtended:IsKeymapText(text)
+  for _, registeredModules in pairs(chatTextSubstitutions) do
+    for textFunction,substituteText in pairs(registeredModules) do
+      local isPattern = string.match(textFunction, "%(%%")
+      local wordBoundary = '%f[%w%p]%'..textFunction..'%f[%A]'
+      local isTextMatch = text:match(wordBoundary)
+      
+      if (isPattern and text:match(textFunction)) or isTextMatch then
+        return true
+      end
+    
+    end
+  end
 end

@@ -33,7 +33,6 @@ macroFunc = {
   setActiveActionButton = function(self, buttonName)
     self.activeActionButtons[buttonName] = self.slot
   end
-
 }
 
 function warExtended:RegisterMacro(macroData, macroSlot, macroStates)
@@ -129,9 +128,9 @@ function warExtended.OnAllModulesInitialized()
 end
 
 function warExtended.OnUpdateActionButtons(self, actionType, actionId)
-  p(self)
   if warExtended:IsMacroType(actionType) then
     local actionName = self:GetName() .. "Action"
+    p(actionName)
     macroCache[actionId]:setActiveActionButton(actionName)
   end
 end
@@ -144,10 +143,9 @@ function warExtended.OnAllModulesInitialized()
   -- warExtended:RegisterEvent("all modules initialized", "warExtended.OnAllModulesInitialized")
 end
 
---warExtended:RegisterEvent("macro updated", "warExtended.OnMacroUpdated")
-RegisterEventHandler(SystemData.Events.MACRO_UPDATED, "warExtended.OnMacroUpdated")
-RegisterEventHandler(SystemData.Events.ALL_MODULES_INITIALIZED, "warExtended.OnAllModulesInitialized")
---warExtended:Hook(ActionButton.SetActionData, warExtended.OnUpdateActionButtons, true)
+warExtended:Hook(ActionButton.SetActionData, warExtended.OnUpdateActionButtons, true)
+
+--RegisterEventHandler(SystemData.Events.ALL_MODULES_INITIALIZED, "warExtended.OnAllModulesInitialized")
 
 
 

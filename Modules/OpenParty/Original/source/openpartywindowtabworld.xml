@@ -1,6 +1,6 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Scripts>
-        <Script file="Source/OpenPartyWindowTabWorld.lua" />
+        <Script file="Original/Source/OpenPartyWindowTabWorld.lua" />
     </Scripts>
     <Windows>
 

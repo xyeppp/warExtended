@@ -1,3 +1,5 @@
+local WAREXT = "warExtended"
+local towstring = towstring
 warExtended = {}
 warExtended.__index = warExtended
 
@@ -5,85 +7,59 @@ warExtended.__index = warExtended
 --TODO: mini war report
 --hook Macro stuff on Core from GatherButton to look for currentmacro getactionbar from macro id
 
-
-local SendChatText = SendChatText
-local strupper = string.upper
-local towstring = towstring
-local ENABLED = "enabled."
-local DISABLED = "disabled."
-
 --Register module with object = warExtended.Register(moduleName, hyperlinkName, hyperlinkColor)
 --Use object:Print to "[hyperlinkName] text" in chosen color or object:Warn to "[hyperlinkName] text" in RED color
 --If color is nil then GREEN is set as default. (use values from DefaultColor)
 
-local function getModuleVersion(moduleName)
-  local ModuleData = ModulesGetData()
-  local addonVersion = ""
-
-  for Addons=1,#ModuleData do
-    local AddonData = ModuleData[Addons]
-     if AddonData.name == moduleName then
-       addonVersion = "v."..AddonData.version
-     break end
-  end
-
-  return addonVersion
+local function getModuleTable(moduleName, hyperlinkText, hyperlinkColor)
+  local moduleTable = {}
+  moduleTable.name = moduleName
+  moduleTable.hyperlink = warExtended.RegisterAddonHyperlink(moduleName, hyperlinkText, hyperlinkColor)
+  moduleTable.warnlink = warExtended.RegisterAddonHyperlink(moduleName, hyperlinkText, "RED")
+  return moduleTable
 end
-
-local function getModuleHyperlink(moduleName, version, hyperlinkText, hyperlinkColor)
-  hyperlinkText = hyperlinkText or "warExt"
-  hyperlinkColor = hyperlinkColor or "GREEN"
-
-  local HyperlinkData = "WAREXT:"  ..  moduleName .." ".. version
-  local HyperlinkText = "["..hyperlinkText.."] "
-  local HyperlinkColor = DefaultColor[strupper(hyperlinkColor)]
-  local moduleHyperlink = CreateHyperLink( towstring(HyperlinkData), towstring(HyperlinkText),
-          {HyperlinkColor.r, HyperlinkColor.g, HyperlinkColor.b}, {} )
-
-  return moduleHyperlink
-end
-
-
 
 function warExtended.Register(moduleName, hyperlinkText, hyperlinkColor)
-
+  if not warExtended.mInfo then
+    warExtended.mInfo = getModuleTable(WAREXT, nil, nil)
+    warExtendedOptions.AddOptionEntry(warExtended.mInfo.name)
+  end
+  
   local self = setmetatable({}, warExtended);
-  local moduleVersion = getModuleVersion(moduleName);
-
-    self.moduleInfo = {
-      moduleName = moduleName,
-      version = moduleVersion,
-      hyperlink =  getModuleHyperlink(moduleName, moduleVersion, hyperlinkText, hyperlinkColor),
-      warnlink = getModuleHyperlink(moduleName, moduleVersion, hyperlinkText, "RED"),
-    }
-
+  self.mInfo = getModuleTable(moduleName, hyperlinkText, hyperlinkColor)
+  warExtendedOptions.AddOptionEntry(moduleName)
   return self
-end
+  end
 
-function warExtended:Print(text)
-  local hyperLink = self.moduleInfo.hyperlink
+function warExtended:Print(text, noHyperlink)
+  local hyperLink = self.mInfo.hyperlink
   text = towstring(text)
-
+  
+  if noHyperlink then
+    hyperLink = L""
+  end
+  
   EA_ChatWindow.Print(hyperLink..text)
 end
 
-
-local function isToggle ( condition )
-  if condition then
-    return ENABLED
-  else
+function warExtended:PrintToggle(text, cond)
+  local ENABLED = "enabled."
+  local DISABLED = "disabled."
+  
+  local function isToggle ( condition )
+    if condition then
+      return ENABLED
+    end
     return DISABLED
   end
-end
-
-function warExtended:PrintToggle(text, cond)
+  
   text = towstring(text..isToggle(cond))
   self:Print(text)
 end
 
 
 function warExtended:Warn(text)
-  local warnLink = self.moduleInfo.warnlink
+  local warnLink = self.mInfo.warnlink
   text = towstring(text)
 
   EA_ChatWindow.Print(warnLink..text)

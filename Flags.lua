@@ -11,15 +11,21 @@ local flagNumberToFlagText = {
   [44] = "isCtrlAltShiftPressed"
 }
 
+local registeredFlags = {
+}
+
+local flagManager = {
+}
+
 
 function warExtended:RegisterFlags(flagCommands)
-  local isSlashModuleTableCreated = flagActions[self.moduleInfo.moduleName]
+  local isSlashModuleTableCreated = flagActions[self.mInfo.name]
 
   if not isSlashModuleTableCreated then
-	flagActions[self.moduleInfo.moduleName] = {}
+	flagActions[self.mInfo.name] = {}
   end
 
-  flagActions[self.moduleInfo.moduleName] = flagCommands
+  flagActions[self.mInfo.name] = flagCommands
 end
 
 
@@ -41,7 +47,7 @@ end
 
 function warExtended:GetFunctionFromFlag(flags, functionType,...)
   local flagText = flagNumberToFlagText[flags]
-  local isFlagMatching = flagActions[self.moduleInfo.moduleName][functionType][flagText]
+  local isFlagMatching = flagActions[self.mInfo.name][functionType][flagText]
 
   if isFlagMatching then
 	isFlagMatching(...)

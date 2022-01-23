@@ -14,10 +14,12 @@ local ICON_SETTINGS			    = 211
 local ICON_KEYS				    = 213
 local ICON_MACROS			    = 248
 local ICON_UPGRADE_NOW		    = 23067
-local ICON_ACCOUNT_ENTITLEMENTS = 206
+local ICON_ACCOUNT_ENTITLEMENTS = 208
+
+local WAR_EXT_OPTIONS_STRING = L"warExtended"
 
 local ICON_CUSTOMIZE_UI         = 00853
-local CUSTOMIZE_UI_STRING = "Mods/Add-ons"
+local CUSTOMIZE_UI_STRING = L"Mods/Add-ons"
 
 MainMenuWindow.numButtons = 0
 
@@ -37,13 +39,13 @@ local function SetMenuItemBase( windowNameBase, text )
     DefaultColor.SetWindowTint( windowNameBase.."Background", DefaultColor.GetRowColor( MainMenuWindow.numButtons ) )
 end
 
-local function SetMenuItem( windowNameBase, iconNum, text ) 
+local function SetMenuItem( windowNameBase, iconNum, text )
     local texture, x, y = GetIconData( iconNum )
     DynamicImageSetTexture( windowNameBase.."Icon", texture, x, y )
     SetMenuItemBase( windowNameBase, text )
 end
 
-local function SetMenuItemWithSlice( windowNameBase, slice, textureName, textDimX, texDimY,  text ) 
+local function SetMenuItemWithSlice( windowNameBase, slice, textureName, textDimX, texDimY,  text )
     DynamicImageSetTexture( windowNameBase.."Icon", textureName, 64, 64 )
     DynamicImageSetTextureDimensions( windowNameBase.."Icon", textDimX, texDimY )
     DynamicImageSetTextureSlice( windowNameBase.."Icon", slice )
@@ -61,14 +63,14 @@ function MainMenuWindow.Initialize()
     -- Label & Button Titles
     LabelSetText("MainMenuWindowTitleBarText", GetString( StringTables.Default.LABEL_MENU ))
     
-    SetMenuItem( "MainMenuWindowLogOutItem", ICON_LOG_OUT, GetString( StringTables.Default.LABEL_LOG_OUT ) ) 
-    SetMenuItem( "MainMenuWindowExitGameItem", ICON_EXIT, GetString( StringTables.Default.LABEL_EXIT_GAME ) ) 
-    SetMenuItem( "MainMenuWindowUserSettingsItem", ICON_SETTINGS, GetString( StringTables.Default.LABEL_USER_SETTINGS ) ) 
+    SetMenuItem( "MainMenuWindowLogOutItem", ICON_LOG_OUT, GetString( StringTables.Default.LABEL_LOG_OUT ) )
+    SetMenuItem( "MainMenuWindowExitGameItem", ICON_EXIT, GetString( StringTables.Default.LABEL_EXIT_GAME ) )
+    SetMenuItem( "MainMenuWindowUserSettingsItem", ICON_SETTINGS, GetString( StringTables.Default.LABEL_USER_SETTINGS ) )
     SetMenuItem( "MainMenuWindowKeyMappingItem", ICON_KEYS, GetString( StringTables.Default.LABEL_KEY_MAPPING ) )
     SetMenuItem( "MainMenuWindowCustomizeInterfaceItem", ICON_SETTINGS, GetStringFromTable( "CustomizeUiStrings", StringTables.CustomizeUi.LABEL_CUSTOMIZE_UI ) )
-    SetMenuItem( "MainMenuWindowUiModsItem", ICON_CUSTOMIZE_UI, towstring(CUSTOMIZE_UI_STRING ))
-    SetMenuItem( "MainMenuWindowMacrosItem", ICON_MACROS, GetString( StringTables.Default.LABEL_MACROS ) )   
-    SetMenuItem( "MainMenuWindowAccountEntitlementsItem", ICON_ACCOUNT_ENTITLEMENTS, GetString( StringTables.Default.LABEL_ACCOUNT_ENTITLEMENTS_TITLE ) )
+    SetMenuItem( "MainMenuWindowUiModsItem", ICON_CUSTOMIZE_UI, CUSTOMIZE_UI_STRING )
+    SetMenuItem( "MainMenuWindowMacrosItem", ICON_MACROS, GetString( StringTables.Default.LABEL_MACROS ) )
+    SetMenuItem( "MainMenuWindowWarExtendedOptionsItem", ICON_ACCOUNT_ENTITLEMENTS, WAR_EXT_OPTIONS_STRING)
 
 
 
@@ -78,7 +80,7 @@ function MainMenuWindow.Initialize()
     local trialUser, _ = GetAccountData()
     if( trialUser )
     then
-        SetMenuItemWithSlice( "MainMenuWindowUpgradeNowItem", "MainMenu-Button-Selected", "EA_Texture_Menu01", 73, 71, GetString( StringTables.Default.LABEL_MAIN_MENU_UPGRADE_NOW ) ) 
+        SetMenuItemWithSlice( "MainMenuWindowUpgradeNowItem", "MainMenu-Button-Selected", "EA_Texture_Menu01", 73, 71, GetString( StringTables.Default.LABEL_MAIN_MENU_UPGRADE_NOW ) )
         WindowSetDimensions( "MainMenuWindow", trialWindowDims.x, trialWindowDims.y )
     else
         WindowSetDimensions( "MainMenuWindow",  windowDims.x, windowDims.y )
@@ -91,24 +93,24 @@ end
 function MainMenuWindow.Shutdown()
 end
 
-function MainMenuWindow.OnLogOut()	
+function MainMenuWindow.OnLogOut()
     -- Broadcast the event
     BroadcastEvent( SystemData.Events.LOG_OUT )
     MainMenuWindow.Hide()
 end
 
-function MainMenuWindow.OnExitGame()	
+function MainMenuWindow.OnExitGame()
     -- Broadcast the event
     BroadcastEvent( SystemData.Events.EXIT_GAME )
     MainMenuWindow.Hide()
 end
 
-function MainMenuWindow.OnOpenUserSettings()	
+function MainMenuWindow.OnOpenUserSettings()
     WindowUtils.ToggleShowing( "SettingsWindowTabbed" )
     MainMenuWindow.Hide()
 end
 
-function MainMenuWindow.OnOpenKeyMapping()	
+function MainMenuWindow.OnOpenKeyMapping()
     WindowUtils.ToggleShowing( "KeyMappingWindow" )
     MainMenuWindow.Hide()
 end
@@ -119,16 +121,11 @@ function MainMenuWindow.OnOpenCustomizeInterfaceWindow()
     MainMenuWindow.Hide()
 end
 
-function MainMenuWindow.OnOpenUiModsWindow()
-    WindowUtils.ToggleShowing( "UiModWindow" )
-    MainMenuWindow.Hide()
-end
-
-function MainMenuWindow.OnOpenMacros()	
+function MainMenuWindow.OnOpenMacros()
     WindowUtils.ToggleShowing( "EA_Window_Macro"  )
 end
 
-function MainMenuWindow.Hide()	
+function MainMenuWindow.Hide()
     --BroadcastEvent( SystemData.Events.TOGGLE_MENU_WINDOW )
     WindowSetShowing( "MainMenuWindow", false )
 end
@@ -137,16 +134,20 @@ function MainMenuWindow.ToggleShowing()
     WindowUtils.ToggleShowing( "MainMenuWindow" )
 end
 
-function MainMenuWindow.ToggleSettingsWindow()	
+function MainMenuWindow.ToggleWarExtOptionsWindow()
+    WindowUtils.ToggleShowing( "OptionsWindow"  )
+end
+
+function MainMenuWindow.ToggleSettingsWindow()
     WindowUtils.ToggleShowing( "SettingsWindowTabbed" )
 end
 
-function MainMenuWindow.ToggleKeyMappingWindow()	
-    WindowUtils.ToggleShowing( "KeyMappingWindow"  )	
+function MainMenuWindow.ToggleKeyMappingWindow()
+    WindowUtils.ToggleShowing( "KeyMappingWindow"  )
 end
 
-function MainMenuWindow.ToggleMacroWindow()	
-    WindowUtils.ToggleShowing( "EA_Window_Macro" )	
+function MainMenuWindow.ToggleMacroWindow()
+    WindowUtils.ToggleShowing( "EA_Window_Macro" )
 end
 
 function MainMenuWindow.OnUpgradeNow()
@@ -186,8 +187,12 @@ function MainMenuWindow.OnMouseOver()
         Tooltips.CreateTextOnlyTooltip( "MainMenuWindowCustomizeInterfaceItem", text )
     elseif( (SystemData.ActiveWindow.name) == "MainMenuWindowUiModsItem" )
     then
-        local text = towstring("Customize Ui Mods/Add-Ons." )
+        local text = L"Customize Ui Mods/Add-Ons"
         Tooltips.CreateTextOnlyTooltip( "MainMenuWindowUiModsItem", text )
+    elseif( (SystemData.ActiveWindow.name) == "MainMenuWindowWarExtendedOptionsItem" )
+    then
+        local text = L"Customize warExtended Modules"
+        Tooltips.CreateTextOnlyTooltip( "MainMenuWindowWarExtendedOptionsItem", text )
     elseif( (SystemData.ActiveWindow.name) == "MainMenuWindowAccountEntitlementsItem" )
     then
         local text = GetString( StringTables.Default.TOOLTIP_MAIN_MENU_ACCOUNT_ENTITLEMENTS )

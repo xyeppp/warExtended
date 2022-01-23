@@ -1,9 +1,9 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Scripts>
-        <Script file="Source/OpenPartyWindow.lua" />
+        <Script file="Original/Source/OpenPartyWindow.lua" />
     </Scripts>
     <Windows>
-    
+
         <Window name="EA_Window_OpenPartyFlyOutAnchor" layer="default" handleinput="false" savesettings="true">
             <Size>
                 <AbsPoint x="300" y="200" />
@@ -48,7 +48,7 @@
                 <Label name="$parentLeader1Text" inherits="EA_Label_DefaultText_Small" autoresize="true" autoresizewidth="true" handleinput="false">
                     <Size>
                         <AbsPoint x="350" y="30" />
-                    </Size>                            
+                    </Size>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentHeader">
                             <AbsPoint x="0" y="5"/>
@@ -107,7 +107,7 @@
                 </Label>
             </Windows>
         </Window>
-        
+
         <Window name="EA_Window_OpenParty" movable="true" layer="default" savesettings="true" >
             <Size>
                 <AbsPoint x="1050" y="670" />
@@ -150,7 +150,7 @@
                         </Anchor>
                     </Anchors>
                 </DynamicImage>
-                
+
                 <!-- TABS Begin -->
                 <Window name="$parentTab" >
                     <Size>
@@ -183,13 +183,13 @@
                                 </Anchor>
                             </Anchors>
                         </Button>
-                        
+
                         <Button name="$parentWorld" inherits="EA_Button_OpenPartyTab" id="2">
                             <Anchors>
                                 <Anchor point="right" relativePoint="left" relativeTo="$parentNearby" />
                             </Anchors>
                         </Button>
-                        
+
                         <HorizontalResizeImage name="$parentSeparatorMiddle" inherits="EA_HorizontalResizeImage_TabSeparatorMiddle" layer="background">
                             <Anchors>
                                 <Anchor point="bottomright" relativePoint="bottomleft" relativeTo="$parentWorld">
@@ -200,13 +200,13 @@
                                 </Anchor>
                             </Anchors>
                         </HorizontalResizeImage>
-                        
+
                         <Button name="$parentLootRollOptions" inherits="EA_Button_OpenPartyTab" id="3">
                             <Anchors>
                                 <Anchor point="left" relativePoint="right" relativeTo="$parentManage" />
                             </Anchors>
                         </Button>
-                        
+
                         <Button name="$parentManage" inherits="EA_Button_OpenPartyTab" id="4">
                             <Anchors>
                                 <Anchor point="topright" relativePoint="topright">
@@ -232,19 +232,19 @@
                     </Windows>
                 </Window>
                 <!-- TABS End -->
-                
+
                 <Window name="$parentSocket" handleinput="false">
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTab" />
                         <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
                     </Anchors>
                 </Window>
-                
+
                 <Window name="$parentNearby" inherits="EA_Window_OpenPartyNearbySocketDef" />
                 <Window name="$parentWorld" inherits="EA_Window_OpenPartyWorldSocketDef" />
                 <Window name="$parentLootRollOptions" inherits="EA_Window_OpenPartyLootRollOptionsSocketDef" />
                 <Window name="$parentManage" inherits="EA_Window_OpenPartyManageSocketDef" />
-                
+
             </Windows>
         </Window>
 

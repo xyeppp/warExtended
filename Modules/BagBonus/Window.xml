@@ -11,18 +11,16 @@
                 </Anchor>
             </Anchors>
             <Windows>
-                <Window name="$parentTitleBar" inherits="EA_TitleBar_Default"/>
-                <DynamicImage name="$parentCornerImage" inherits="EA_Default_BagImage" textureScale="0.58">
+                <Window name="$parentTitleBar" inherits="EA_TitleBar_Default" layer="primary">
                     <Anchors>
-                    <Anchor point="left" relativePoint="center" relativeTo="$parentTitleBar">
-                        <AbsPoint x="0" y="-14"/>
+                    <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                        <AbsPoint x="-10" y="0"/>
                     </Anchor>
                     </Anchors>
-                        <Size>
-                            <AbsPoint x="68" y="68" />
-                        </Size>
-                </DynamicImage>
-
+                    <Size>
+                        <AbsPoint x="175" y="36"/>
+                    </Size>
+                </Window>
                 <Window name="$parentBackground" inherits="EA_Window_DefaultBackgroundFrame">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft">
@@ -36,8 +34,8 @@
 
                 <Button name="$parentClose" inherits="EA_Button_DefaultWindowClose">
                     <Anchors>
-                        <Anchor point="topright" relativePoint="center" relativeTo="$parentBackground">
-                            <AbsPoint x="-5" y="5"/>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parentTitleBar">
+                            <AbsPoint x="0" y="0"/>
                         </Anchor>
                     </Anchors>
                     <EventHandlers>
@@ -45,13 +43,13 @@
                     </EventHandlers>
                 </Button>
 
-                <Label name="$parentTitle" font="font_clear_small_bold" textalign="center">
+                <Label name="$parentTitle" font="font_clear_medium_bold" textalign="center" autoresize="true" layer="primary">
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentTitleBar">
-                            <AbsPoint x="0" y="0"/>
-                        </Anchor>
-                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentTitleBar"> </Anchor>
+                        <Anchor point="center" relativePoint="center" relativeTo="$parentTitleBar"/>
                     </Anchors>
+                    <Size>
+                        <AbsPoint x="80" y="36"/>
+                    </Size>
                 </Label>
 
             </Windows>

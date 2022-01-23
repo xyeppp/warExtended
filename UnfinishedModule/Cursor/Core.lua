@@ -1,4 +1,5 @@
-warExtendedCursor = warExtended.Register("warExtended Curs")
+local warExtended = warExtended
+warExtendedCursor = warExtended.Register("warExtended Cursor")
 local Kursor = warExtendedCursor
 local MOUSEOVER_TARGET = "mouseovertarget"
 
@@ -67,7 +68,7 @@ local flagActions = {
 
 
     isCtrlShiftPressed = function ()
-      local _, _, isMouseoverTarget = Kursor:GetTargetNames()
+      local _, _, isMouseoverTarget = Kursor:GetAllTargets()
       if isMouseoverTarget then
         Kursor:Send(getPingMessage())
       end
@@ -76,7 +77,7 @@ local flagActions = {
 
     isCtrlAltPressed = function()
       local isEnemyEnabled = Kursor.Settings.isEnemyEnabled
-      local _, _, isMouseoverTarget = Kursor:GetTargetNames()
+      local _, _, isMouseoverTarget = Kursor:GetAllTargets()
 
       if isMouseoverTarget and isEnemyEnabled then
         local enemyMarkNumber = Kursor.Settings.EnemyMarkNumber
@@ -87,9 +88,9 @@ local flagActions = {
 
 
     isCtrlAltShiftPressed = function()
-      local _, _, mouseoverTarget = Kursor:GetTargetNames()
+      local _, _, mouseoverTarget = Kursor:GetAllTargets()
        if mouseoverTarget then
-         showPlayerMenu(mouseoverTarget)
+         showPlayerMenu(towstring(mouseoverTarget))
        end
     end
   },
@@ -137,7 +138,7 @@ local function setEnemyMark(enemyMarkNumber)
 end
 
 local function getEnemyAddonEnabledInfo()
-  Kursor.Settings.isEnemyEnabled = Kursor:IsAddonEnabled("Enemy")
+  Kursor.Settings.isEnemyEnabled = warExtended.IsAddonEnabled("Enemy")
 end
 
 
