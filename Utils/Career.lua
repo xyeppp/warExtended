@@ -234,7 +234,6 @@ function warExtended:GetCareerRole(career)
   return careerData.role
 end
 
-
 function warExtended:GetCareerSpecializationPath(career, path)
   local specs = {
     [1] = 3*career-2,
@@ -243,10 +242,6 @@ function warExtended:GetCareerSpecializationPath(career, path)
   }
   
   return specs[path]
-end
-
-function tester3()
-  p(specs)
 end
 
 function warExtended:GetCareerRoleIconString(career, multiple)

@@ -2205,3 +2205,4 @@ local runepriest = {
 }
 
 warExtended:AddAbilityDataDefinition(runepriest, "Runepriest")
+runepriest = nil

@@ -2214,3 +2214,4 @@ local chosen = {
 }
 
 warExtended:AddAbilityDataDefinition(chosen, "Chosen")
+chosen = nil

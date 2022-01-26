@@ -2659,3 +2659,4 @@ local blackguard =  {
 }
 
 warExtended:AddAbilityDataDefinition(blackguard, "Blackguard")
+blackguard = nil

@@ -283,13 +283,13 @@ function warExtended.OnSearchBoxTextChanged(text)
 end
 
 function warExtended:RegisterSearchBox(searchBoxName, func, filters)
-  if not searchFilters[self.mInfo.name] then
-	searchFilters[self.mInfo.name] = {}
+  if not searchFilters[self.moduleName] then
+	searchFilters[self.moduleName] = {}
   end
   
-  searchMap[searchBoxName] = self.mInfo.name
-  filters2[self.mInfo.name] = filters or {}
-  searchFilters[self.mInfo.name][searchBoxName] = func
+  searchMap[searchBoxName] = self.moduleNamee
+  filters2[self.moduleName] = filters or {}
+  searchFilters[self.moduleName][searchBoxName] = func
   LabelSetText(searchBoxName.."SearchLabel", L"Search:")
 end
 

@@ -2152,3 +2152,4 @@ local kotbs = {
 }
 
 warExtended:AddAbilityDataDefinition(kotbs, "Knight of the Blazing Sun")
+kotbs = nil

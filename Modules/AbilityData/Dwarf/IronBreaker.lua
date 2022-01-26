@@ -2219,3 +2219,4 @@ local ironbreaker = {
 
 
 warExtended:AddAbilityDataDefinition(ironbreaker, "Ironbreaker")
+ironbreaker = nil

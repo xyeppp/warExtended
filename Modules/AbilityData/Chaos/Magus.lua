@@ -2229,3 +2229,4 @@ local magus = {
 }
 
 warExtended:AddAbilityDataDefinition(magus, "Magus")
+magus = nil

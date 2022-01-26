@@ -2235,3 +2235,4 @@ local witchhunter = {
 
 
 warExtended:AddAbilityDataDefinition(witchhunter, "Witch Hunter")
+witchhunter = nil

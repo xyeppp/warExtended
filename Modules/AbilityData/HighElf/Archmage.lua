@@ -2545,3 +2545,4 @@ local archmage = {
 
 
 warExtended:AddAbilityDataDefinition(archmage, "Archmage")
+archmage = nil

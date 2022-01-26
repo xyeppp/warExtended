@@ -2180,3 +2180,4 @@ local shaman = {
 }
 
 warExtended:AddAbilityDataDefinition(shaman, "Shaman")
+shaman = nil

@@ -2094,3 +2094,4 @@ local whitelion = {
 }
 
 warExtended:AddAbilityDataDefinition(whitelion, "White Lion")
+whitelion = nil

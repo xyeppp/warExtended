@@ -2671,3 +2671,4 @@ local blackorc =  {
 }
 
 warExtended:AddAbilityDataDefinition(blackorc, "Black Orc")
+blackorc = nil

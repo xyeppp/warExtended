@@ -2543,3 +2543,4 @@ local choppa = {
 }
 
 warExtended:AddAbilityDataDefinition(choppa, "Choppa")
+choppa = nil

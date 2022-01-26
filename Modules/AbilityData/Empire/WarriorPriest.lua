@@ -2292,3 +2292,4 @@ local warriorpriest = {
 }
 
 warExtended:AddAbilityDataDefinition(warriorpriest, "Warrior Priest")
+warriorpriest = nil

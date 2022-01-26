@@ -2432,3 +2432,4 @@ local squigherder = {
 }
 
 warExtended:AddAbilityDataDefinition(squigherder, "Squig Herder")
+squigherder = nil
