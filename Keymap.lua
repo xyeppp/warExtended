@@ -143,20 +143,20 @@ end
 
 
 function warExtended:RegisterKeymap(keymapTable)
-  if not chatTextSubstitutions[self.mInfo.name] then
-    chatTextSubstitutions[self.mInfo.name] = {}
+  if not chatTextSubstitutions[self.moduleName] then
+    chatTextSubstitutions[self.moduleName] = {}
   end
   
-  chatTextSubstitutions[self.mInfo.name] = keymapTable
+  chatTextSubstitutions[self.moduleName] = keymapTable
 end
 
 function warExtended:GetModuleKeymap(moduleName)
-  moduleName = moduleName or self.mInfo.name
+  moduleName = moduleName or self.moduleName
   return chatTextSubstitutions[moduleName]
 end
 
 function warExtended:UnregisterKeymap()
-  chatTextSubstitutions[self.mInfo.name]=nil
+  chatTextSubstitutions[self.moduleName]=nil
 end
 
 function warExtended:IsKeymapText(text)

@@ -1,4 +1,4 @@
-local warExtended = warExtended
+ warExtended = warExtended
 
 local engineer = {
   [245] = {
@@ -2223,3 +2223,4 @@ local engineer = {
 
 
 warExtended:AddAbilityDataDefinition(engineer, "Engineer")
+ engineer = nil

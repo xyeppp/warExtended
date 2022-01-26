@@ -1,4 +1,4 @@
-warExtendedChat = warExtended.Register("warExtended Chat")
+warExtendedChat = warExtended.Register("warExtended Chat", "Chat")
 local Chat = warExtendedChat
 
 function QuickNameActionsRessurected.OnShownText()

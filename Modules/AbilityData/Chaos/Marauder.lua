@@ -2267,3 +2267,4 @@ local marauder = {
 }
 
 warExtended:AddAbilityDataDefinition(marauder, "Marauder")
+marauder = nil

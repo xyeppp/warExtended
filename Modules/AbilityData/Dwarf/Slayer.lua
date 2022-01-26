@@ -2185,3 +2185,4 @@ local slayer = {
 
 
 warExtended:AddAbilityDataDefinition(slayer, "Slayer")
+slayer = nil

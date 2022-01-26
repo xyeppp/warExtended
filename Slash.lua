@@ -1,127 +1,62 @@
 local warExtended = warExtended
 local pairs=pairs
-local next=next
+local StringSplit = StringSplit
+
+slashCommands = {}
 
 --slashCommands = {
---  ["command"] = a
+--  ["command"] = foo
 --    {
---      ["func"] = yourFunction,
---      ["desc"] = "function description"
+--      ["func"] = bar,
+--      ["desc"] = "this is foobar"
 --    }
 --}
 --All arguments get handled via warExt Slash Handler with an argument split on # character
 
-local slashManager = {
-  registeredSlash = {},
+function warExtended:PrintSelfSlash(selfSlash)
+  local slash = slashCommands[selfSlash]
   
-  registerSlash = function(self, moduleTable, slashCommands, selfSlashCommand)
-    
-    if not self:isSelfSlashRegistered(selfSlashCommand) then
-      local selfSlashHandler = function () self:printSlashCommands(moduleTable.name) end
-      LibSlash.RegisterSlashCmd(selfSlashCommand, selfSlashHandler)
-    end
-  
-    for command, _ in pairs(slashCommands) do
-      local slashHandler = function (...) warExtended.SlashHandler(command,...) end
-      LibSlash.RegisterSlashCmd(command, slashHandler)
-    end
-    
-    self.registeredSlash[moduleTable.name] = {
-      hyperlink = moduleTable.hyperlink,
-      selfSlash = selfSlashCommand,
-      commands = slashCommands
-    }
-  end,
-  
-  unregisterSlash = function(self, moduleName)
-    self.registeredSlash[moduleName] = nil
-    
-  end,
-  
-  getModuleSelfSlashCommand = function(self, moduleName)
-    return self.registeredSlash[moduleName].selfSlash
-  end,
-  
-  getModuleSlashCommands = function(self, moduleName)
-    local moduleCommands = {}
-    local commands = self.registeredSlash[moduleName].commands
-    for cmd, cmdData in pairs(commands) do
-      moduleCommands[cmd] = cmdData.desc
-    end
-    return moduleCommands
-  end,
-  
-  getAllSlashCommands = function(self)
-    local allRegisteredSlashCommands = {}
-    for _, moduleData in pairs(self.registeredSlash) do
-      for command, description in pairs(moduleData.commands) do
-        allRegisteredSlashCommands[command] = description
-      end
-    end
-    return allRegisteredSlashCommands
-  end,
-  
-  getHyperlink = function(self, moduleName)
-    return self.registeredSlash[moduleName].hyperlink
-  end,
-  
-  getAllRegisteredSelfSlashCommands = function(self, selfSlash)
-    local allSelfSlashCmds = {}
-    
-    for moduleName, moduleData in pairs(self.registeredSlash) do
-      if moduleData.selfSlash == selfSlash then
-        allSelfSlashCmds[moduleName] = {}
-        for command, description in pairs(moduleData.commands) do
-          allSelfSlashCmds[moduleName][command] = description
-        end
-      end
-    end
-    
-    return allSelfSlashCmds
-  end,
-  
-  isSelfSlashRegistered = function(self, selfSlash)
-    for _, moduleData in pairs(self.registeredSlash) do
-      if moduleData.selfSlash == selfSlash then
-        p("true")
-        return true
-      end
-    end
-    return false
-  end,
-  
-  printSlashCommands = function(self, moduleName)
-    local selfSlash = self:getModuleSelfSlashCommand(moduleName)
-    local slashCommands = self:getAllRegisteredSelfSlashCommands(selfSlash)
-    
-    for moduleName, moduleCommands in pairs(slashCommands) do
-      local hyperlink = tostring(self:getHyperlink(moduleName))
-      for cmd, cmdData in pairs(moduleCommands) do
-        warExtended:Print(hyperlink.." /"..cmd.." - "..cmdData.desc, true)
-      end
-      
-      if next(slashCommands, moduleName) ~= nil then
-        warExtended:Print("-----------------", true)
-      end
-      
+  local item = slash.first
+    while (item)
+    do
+      self:Print(item.key.." - "..item.data)
+      item = item.next
     end
   end
-}
 
-function warExtended:RegisterSlash(slashCommands, selfSlash)
-  slashManager:registerSlash(self.mInfo, slashCommands, selfSlash)
-  warExtendedOptions.AddOptionChildEntry(self.mInfo.name, "Slash Commands", "warExtendedOptionsSlashCommands")
+function warExtended:RegisterSlash(commands, selfSlash)
+  local slash = slashCommands[selfSlash]
+  local randomEventName = warExtended:GetRandomString2(10,24)
+  
+  if (slash == nil) then
+    slash = warExtendedLinkedList.New()
+    slashCommands[selfSlash] = slash
+  end
+  
+  warExtended:AddEventHandler(randomEventName, "RegisterSlash", function()
+    for command,data in pairs(commands) do
+      LibSlash.RegisterSlashCmd(command, function (...) warExtended.SlashHandler(data.func,...) end)
+      slash:Add("/"..command, data.desc)
+    end
+  
+    if not LibSlash.IsSlashCmdRegistered(selfSlash) then
+      LibSlash.RegisterSlashCmd(selfSlash, function() warExtended:PrintSelfSlash(selfSlash) end)
+    end
+  
+    warExtended:RemoveEventHandler(randomEventName, "RegisterSlash")
+  end)
+  
+  warExtended:TriggerEvent("CreateSettingsEntry", randomEventName)
 end
 
-function warExtended.SlashHandler(cmd,...)
-  local slashCommands = slashManager:getAllSlashCommands()
-  local argumentSplit = StringSplit((...), "#")
-  local command = slashCommands[cmd]
-  command.func(unpack(argumentSplit))
+function warExtended.SlashHandler(cmdfunc,...)
+  local argSplit = StringSplit((...), "#")
+  cmdfunc(unpack(argSplit))
 end
 
-function warExtended.GetModuleSlashCommands(moduleName)
-  local slashCommands = slashManager:getModuleSlashCommands(moduleName)
-  return slashCommands
+local function registerAllSlash()
+  warExtended:TriggerEvent("RegisterSlash")
+  warExtended:RemoveEventHandler("RegisterAllSlash", "CoreInitialized")
 end
 
+warExtended:AddEventHandler("RegisterAllSlash", "CoreInitialized", registerAllSlash)

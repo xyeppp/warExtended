@@ -2288,3 +2288,4 @@ local discipleofkhaine = {
 }
 
 warExtended:AddAbilityDataDefinition(discipleofkhaine, "Disciple of Khaine")
+discipleofkhaine = nil

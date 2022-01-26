@@ -1,4 +1,4 @@
-warExtendedMacro = warExtended.Register("warExtended Macro Window")
+warExtendedMacro = warExtended.Register("warExtended Macro Window", "wExtMacro")
 local Macro = warExtendedMacro
 
 

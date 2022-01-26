@@ -1,6 +1,7 @@
 warExtendedMainMenu = warExtended.Register("warExtended Main Menu")
 local MainMenu = warExtendedMainMenu
-local WAREXT_OPTIONS_WINDOW = "warExtendedOptionsWindow"
+
+local WAREXT_OPTIONS_WINDOW = "warExtendedSettings"
 local UI_MOD_WINDOW = "UiModWindow"
 
 function MainMenu.OnOpenWarExtendedOptions()

@@ -380,7 +380,7 @@ end
 
 
 
-function warExtendedAutos.OnChatText()
+--[[function warExtendedAutos.OnChatText()
   local chatText = tostring(GameData.ChatData.text)
   local senderName = GameData.ChatData.name
 
@@ -392,7 +392,7 @@ function warExtendedAutos.OnChatText()
 	processAutoInvite(chatText, senderName)
   end
 
-end
+end]]
 
 
 local function autoAcceptScenario()
@@ -412,7 +412,7 @@ end
 
 
 Autos:RegisterSlash(slashCommands, "warext")
-Autos:RegisterChat("warExtendedAutos.OnChatText")
+--Autos:RegisterChat("warExtendedAutos.OnChatText")
 Autos:RegisterEvent("player death", "warExtendedAutos.OnPlayerDeath")
 Autos:Hook(DialogManager.OnApplicationTwoButtonDialog, onAutoAcceptButtonDialog, true)
 Autos:Hook(EA_Window_ScenarioLobby.ShowJoinPrompt, onScenarioDialogButton, true)

@@ -4,7 +4,6 @@ local WindowGetId = WindowGetId
 local SystemData = SystemData
 local WindowSetOffsetFromParent = WindowSetOffsetFromParent
 local CreateWindowFromTemplate = CreateWindowFromTemplate
-local DestroyWindow = DestroyWindow
 
 function warExtended:GetMouseOverWindow()
   local mouseoverWindow = SystemData.MouseOverWindow.name
@@ -54,6 +53,4 @@ function warExtended:SetWindowOffset(windowName, x, y)
   WindowSetOffsetFromParent(windowName, x, y)
 end
 
-function warExtended:DestroyWindow(windowName)
-  DestroyWindow(windowName)
-end
+

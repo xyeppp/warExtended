@@ -2300,3 +2300,4 @@ local witchelf = {
 }
 
 warExtended:AddAbilityDataDefinition(witchelf, "Witch Elf")
+witchelf = nil

@@ -32,17 +32,6 @@ local bagData = {
   }
 }
 
-
-local function titleCase( first, rest )
-  return first:upper()..rest:lower()
-end
-
-local function getCapitalizedBagNameString(str)
-    str = str:gsub("(%a)([%w_']*)", titleCase)
-  return str
-end
-
-
 local bagBonus = {
 
   getWindowName = function (self)
@@ -147,7 +136,10 @@ function BagBonus.RegisterBagTable(bagTable, bagName, bagId)
 end
 
 function BagBonus.GetBagTable(bagName)
-  local bagName = getCapitalizedBagNameString(bagName)
+  local asd = warExtended:toString(bagName)
+  p(asd)
+  local bagName = warExtended:Capitalize(warExtended:toString(bagName))
+  p(bagName)
   local bagTable = bagData[bagName]
   return bagTable
 end
@@ -156,7 +148,7 @@ function BagBonus.GetInitialBagBonus()
   local isFirstInitialize = not BagBonus.Settings.IsBonusCached
 
   if isFirstInitialize then
-    BagBonus:Send(".bag")
+   -- BagBonus:Send(".bag")
     BagBonus.Settings.IsBonusCached = true;
   end
 

@@ -2102,3 +2102,4 @@ local sorcerer =  {
 }
 
 warExtended:AddAbilityDataDefinition(sorcerer, "Sorcerer")
+sorcerer = nil

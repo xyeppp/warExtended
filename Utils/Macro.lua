@@ -136,16 +136,12 @@ function warExtended.OnUpdateActionButtons(self, actionType, actionId)
 end
 
 
-function warExtended.OnAllModulesInitialized()
- -- warExtended:RegisterEvent("macro updated", "warExtended.OnMacroUpdated")
-  RegisterEventHandler(SystemData.Events.MACRO_UPDATED, "warExtended.OnMacroUpdated")
+local function setActionButtonHooks()
+  warExtended:RegisterEvent("macro updated", "warExtended.OnMacroUpdated")
   warExtended:Hook(ActionButton.SetActionData, warExtended.OnUpdateActionButtons, true)
-  -- warExtended:RegisterEvent("all modules initialized", "warExtended.OnAllModulesInitialized")
 end
 
-warExtended:Hook(ActionButton.SetActionData, warExtended.OnUpdateActionButtons, true)
-
---RegisterEventHandler(SystemData.Events.ALL_MODULES_INITIALIZED, "warExtended.OnAllModulesInitialized")
+warExtended:AddEventHandler("setActionButtonHooks", "CoreInitialized", setActionButtonHooks)
 
 
 

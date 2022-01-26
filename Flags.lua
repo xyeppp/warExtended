@@ -19,13 +19,13 @@ local flagManager = {
 
 
 function warExtended:RegisterFlags(flagCommands)
-  local isSlashModuleTableCreated = flagActions[self.mInfo.name]
+  local isSlashModuleTableCreated = flagActions[self.moduleName]
 
   if not isSlashModuleTableCreated then
-	flagActions[self.mInfo.name] = {}
+	flagActions[self.moduleName] = {}
   end
 
-  flagActions[self.mInfo.name] = flagCommands
+  flagActions[self.moduleName] = flagCommands
 end
 
 
@@ -47,7 +47,7 @@ end
 
 function warExtended:GetFunctionFromFlag(flags, functionType,...)
   local flagText = flagNumberToFlagText[flags]
-  local isFlagMatching = flagActions[self.mInfo.name][functionType][flagText]
+  local isFlagMatching = flagActions[self.moduleName][functionType][flagText]
 
   if isFlagMatching then
 	isFlagMatching(...)

@@ -1,53 +1,36 @@
-local warExtended = warExtended
+local warExtended    = warExtended
 local ModulesGetData = ModulesGetData
 
 local function getAddonData(addonName, addonData)
   local addonsData = ModulesGetData()
-  
-  for Addons=1,#addonsData do
+  for Addons = 1, #addonsData do
 	local addon = addonsData[Addons]
-	
 	if addon.name == addonName then
 	  if addonData == "desc" then
-		local addonDescription = towstring(addon.description.text)
-		return addonDescription
+		local data = addon.description.text
+		return data
 	  elseif addonData == "enabled" then
-		local isEnabled = addon.isEnabled
-		return isEnabled
+		local data = addon.isEnabled
+		return data
 	  elseif addonData == "version" then
-		local addonVersion = "v."..addon.version
-		return addonVersion
+		local data = addon.version
+		return data
 	  end
 	end
-	
   end
 end
 
-
 function warExtended.IsAddonEnabled(addonName)
- local isEnabled = getAddonData(addonName, "enabled")
+  local isEnabled = getAddonData(addonName, "enabled")
   return isEnabled
 end
 
 function warExtended.GetAddonDescription(addonName)
-  local noDescriptionText = L"No Addon Description."
-  local addonDescription = getAddonData(addonName, "desc")
-  return addonDescription or noDescriptionText
+  local addonDescription  =  getAddonData(addonName, "desc") or L"No Addon Description."
+  return addonDescription
 end
 
 function warExtended.GetAddonVersion(addonName)
-  local addonVersion = getAddonData(addonName, "version")
+  local addonVersion =  "v."..getAddonData(addonName, "version")
   return addonVersion
-end
-
-function warExtended.RegisterAddonHyperlink(addonName, hyperlinkText, hyperlinkColor)
-  hyperlinkText = hyperlinkText or "warExt"
-  hyperlinkColor = hyperlinkColor or "GREEN"
-  local version = warExtended.GetAddonVersion(addonName)
-  local HyperlinkData = "WAREXT:"  ..  addonName .." ".. version
-  local HyperlinkText = "["..hyperlinkText.."] "
-  local HyperlinkColor = DefaultColor[string.upper(hyperlinkColor)]
-  local moduleHyperlink = CreateHyperLink( towstring(HyperlinkData), towstring(HyperlinkText),
-		  {HyperlinkColor.r, HyperlinkColor.g, HyperlinkColor.b}, {} )
-  return moduleHyperlink
 end

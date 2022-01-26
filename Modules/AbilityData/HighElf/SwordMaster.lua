@@ -2197,3 +2197,4 @@ local swordmaster = {
 }
 
 warExtended:AddAbilityDataDefinition(swordmaster, "Swordmaster")
+swordmaster = nil

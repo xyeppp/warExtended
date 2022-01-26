@@ -2238,3 +2238,4 @@ local shadowwarrior = {
 }
 
 warExtended:AddAbilityDataDefinition(shadowwarrior, "Shadow Warrior")
+shadowwarrior = nil

@@ -2209,3 +2209,4 @@ local zealot =  {
 }
 
 warExtended:AddAbilityDataDefinition(zealot, "Zealot")
+zealot = nil

@@ -1,4 +1,6 @@
 local warExtended = warExtended
+local tostring = tostring
+local GetDatabaseGuildData = GetDatabaseGuildData
 
 function warExtended:GetPlayerLevel()
   local playerLevel = GameData.Player.level
@@ -25,10 +27,31 @@ function warExtended:GetPlayerName()
   return playerName
 end
 
+function warExtended:GetPlayerHPCurrent()
+  local currentPlayerHP = GameData.Player.hitPoints.current
+  return currentPlayerHP
+end
+
+function warExtended:GetPlayerHPMax()
+  local maxPlayerHP = GameData.Player.hitPoints.maximum
+  return maxPlayerHP
+end
+
+function warExtended:GetPlayerWorldObjNum()
+  local playerWorldObj = GameData.Player.worldObjNum
+  return playerWorldObj
+end
+
 function warExtended:GetPlayerMasteryLevels()
-  local Specialty = EA_Window_InteractionSpecialtyTraining.initialSpecializationLevels or warExtendedSpecialtyTraining.initialSpecializationLevels
+  local Specialty = warExtendedSpecialtyTraining.initialSpecializationLevels or EA_Window_InteractionSpecialtyTraining.initialSpecializationLevels
   return Specialty[1], Specialty[2], Specialty[3]
 end
+
+function warExtended:GetPlayerPetWorldObjNum()
+  local playerPetWorldObjNum = GameData.Player.Pet.objNum
+  return playerPetWorldObjNum
+end
+
 
 function warExtended:GetPlayerGuildData()
     local guildData = GetDatabaseGuildData( GameData.Guild.m_GuildID)

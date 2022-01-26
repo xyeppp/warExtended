@@ -2494,3 +2494,4 @@ local brightwizard = {
 }
 
 warExtended:AddAbilityDataDefinition(brightwizard, "Bright Wizard")
+brightwizard = nil
