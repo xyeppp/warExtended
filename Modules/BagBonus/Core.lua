@@ -40,9 +40,9 @@ local function isBagBonusMessage(chatText)
   end
 end
 
+
 local function bagBonusOnChatText(chatType, from, text)
 	local bagName, bonusAmount = isBagBonusMessage(text)
-	
   	if not bagName then
 	  return
 	end

@@ -1,11 +1,8 @@
 -- LinkedList from Enemy addon
-
 local pairs = pairs
-local g = {}
 
 warExtendedLinkedList = {}
 warExtendedLinkedList.__index = warExtendedLinkedList
-
 
 function warExtendedLinkedList.New (copySource)
   local obj = {}

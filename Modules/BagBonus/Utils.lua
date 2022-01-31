@@ -136,10 +136,7 @@ function BagBonus.RegisterBagTable(bagTable, bagName, bagId)
 end
 
 function BagBonus.GetBagTable(bagName)
-  local asd = warExtended:toString(bagName)
-  p(asd)
   local bagName = warExtended:Capitalize(warExtended:toString(bagName))
-  p(bagName)
   local bagTable = bagData[bagName]
   return bagTable
 end

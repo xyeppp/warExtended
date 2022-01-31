@@ -101,7 +101,6 @@ function warExtended:CreateHyperlink(hyperlinkData, hyperlinkText, hyperlinkColo
   
  	 local moduleHyperlink = CreateHyperLink( warExtended:toWStringOrEmpty(hyperlinkData), warExtended:toWString("["..hyperlinkText.."] "),
 			{warExtended:UnpackRGB(hyperlinkColor)}, {} )
-  p(moduleHyperlink)
 	return moduleHyperlink
   end
 

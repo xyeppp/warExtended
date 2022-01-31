@@ -14,11 +14,16 @@ if not warExtendedSettings.Config then
   warExtendedSettings.Config = {}
 end
 
-local function initializeSettings ()
+function warExtendedSettings.Initialize()
   warExtendedSettings.configurationWindow = g
   
   g.onChangeHandlers = {}
   g.properties = {}
+  
+  --table.sort (Enemy.Fonts)
+ -- Enemy.extendTable (Enemy.Settings, Enemy.DefaultSettings)
+  --	RegisterEventHandler (SystemData.Events.PLAYER_CAREER_LINE_UPDATED, "Enemy._PlayerCareerLineUpdated")???
+  --Enemy.TriggerEvent ("SettingsChanged", Enemy.Settings)
   
   warExtended:TriggerEvent ("SettingsInitialized")
   warExtended:RemoveEventHandler("InitializeSettings", "CoreInitialized")
@@ -46,6 +51,168 @@ function warExtendedSettings.ConfigurationWindow_OnChange ()
 	onchange (SystemData.ActiveWindow.name)
   end
 end
+
+function warExtendedSettings.ConfigurationWindow_OnBoolClick ()
+local wn, pkey = GetDataFromActiveWindowName ()
+if (not wn or not pkey) then return end
+
+local wn = SystemData.ActiveWindow.name
+if (ButtonGetDisabledFlag (wn.."Value")) then return end
+
+local v = ButtonGetPressedFlag (wn.."Value")
+ButtonSetPressedFlag (wn.."Value", not v)
+
+warExtendedSettings.ConfigurationWindow_OnChange ()
+end
+
+
+function warExtendedSettings.ConfigurationWindow_OnMacroMouseDrag ()
+
+if (Cursor.IconOnCursor()) then return end
+
+local wn, pkey = GetDataFromActiveWindowName ()
+if (not wn or not pkey) then return end
+
+local properties = g.properties[wn]
+if (not properties) then return end
+
+local p = properties[pkey]
+if (not p or not p.macroId or not p.macroIconNum) then return end
+
+Cursor.PickUp (Cursor.SOURCE_MACRO, p.macroId, p.macroId, p.macroIconNum, false)
+EA_Window_Macro.UpdateDetails (p.macroId)
+end
+
+
+function warExtendedSettings.ConfigurationWindow_ShowTooltip ()
+local wn, pkey = GetDataFromActiveWindowName ()
+if (not wn or not pkey) then return end
+
+local properties = g.properties[wn]
+if (not properties) then return end
+
+local p = properties[pkey]
+if (p and p.tooltip)
+then
+Tooltips.CreateTextOnlyTooltip (SystemData.MouseOverWindow.name)
+
+if (type (p.tooltip) == "function")
+then
+p.tooltip ()
+
+elseif (type (p.tooltip) == "table")
+then
+local k = 0
+
+for _, v in pairs (p.tooltip)
+do
+Tooltips.SetTooltipText (k, 1, towstring (v))
+k = k + 1
+end
+else
+Tooltips.SetTooltipText (1, 1, towstring (p.tooltip))
+end
+
+Tooltips.AnchorTooltip (Tooltips.ANCHOR_CURSOR)
+Tooltips.Finalize()
+end
+end
+
+
+function warExtendedSettings.ConfigurationWindow_OnButtonClick ()
+
+if (ButtonGetDisabledFlag (SystemData.ActiveWindow.name)) then return end
+
+local wn, pkey = GetDataFromActiveWindowName ()
+if (not wn or not pkey) then return end
+
+local properties = g.properties[wn]
+if (not properties) then return end
+
+local p = properties[pkey]
+if (p.onClick)
+then
+if (p.onClick ())
+then
+warExtendedSettings.ConfigurationWindow_OnChange ()
+end
+else
+warExtendedSettings.ConfigurationWindow_OnChange ()
+end
+end
+
+function warExtendedSettings.ConfigurationWindowGetSelectValuesHelper (data, textPropertyName, valuePropertyName, sort, emptyItem)
+
+local res = {}
+
+for k, v in pairs (data)
+do
+local obj = {}
+
+if (textPropertyName == "$value")
+then
+obj.text = v
+elseif (textPropertyName == "$key")
+then
+obj.text = k
+else
+obj.text = v[textPropertyName]
+end
+
+if (valuePropertyName == "$value")
+then
+obj.value = v
+elseif (valuePropertyName == "$key")
+then
+obj.value = k
+else
+obj.value = v[valuePropertyName]
+end
+
+tinsert (res, obj)
+end
+
+if (sort)
+then
+tsort (res, function (a, b)
+return a.text < b.text
+end)
+end
+
+if (emptyItem)
+then
+tinsert (res, 1, { text = emptyItem, value = nil })
+end
+
+return res
+
+end
+
+
+function warExtendedSettings.ConfigurationWindowGetLayersSelectValues (emptyItem)
+return warExtendedSettings.ConfigurationWindowGetSelectValuesHelper (Window.Layers, "$key", "$value", true, emptyItem)
+end
+
+
+function warExtendedSettings.ConfigurationWindowGetAnchorsSelectValues (emptyItem)
+return warExtendedSettings.ConfigurationWindowGetSelectValuesHelper (warExtendedSettings.Anchors, "$value", "$value", false, emptyItem)
+end
+
+
+function warExtendedSettings.ConfigurationWindowGetFontsSelectValues (emptyItem)
+return warExtendedSettings.ConfigurationWindowGetSelectValuesHelper (warExtendedSettings.Fonts, "$value", "$value", true, emptyItem)
+end
+
+
+function warExtendedSettings.ConfigurationWindowGetTextAlignsSelectValues (emptyItem)
+return warExtendedSettings.ConfigurationWindowGetSelectValuesHelper (warExtendedSettings.TextAligns, "$value", "$value", true, emptyItem)
+end
+
+
+function warExtendedSettings.ConfigurationWindowGetSoundsSelectValues (emptyItem)
+return warExtendedSettings.ConfigurationWindowGetSelectValuesHelper (GameData.Sound, "$key", "$value", true, emptyItem)
+end
+
 
 local config_dlg = {}
 config_dlg.section =  {
@@ -155,20 +322,24 @@ config_dlg.properties =
       name = L"Replace standard scenario ending window",
       type = "bool",
     },
-    bmnbjb =
+    groupIconsScale =
     {
-      key = "bmnbjb",
+      key = "groupIconsScale",
       order = 38,
-      name = L"Tester",
-      type = "bool",
-      paddingTop = 5
+      name = L"Scale",
+      type = "float",
+     -- default = warE.DefaultSettings.groupIconsScale,
+      min = 0,
+      max = 5
     },
-    ghumghuhb =
+    groupIconsLayer =
     {
-      key = "ghumghuhb",
+      key = "groupIconsLayer",
       order = 39,
-      name = L"Replace standard scenario ending window",
-      type = "bool",
+      name = L"Layer",
+      type = "select",
+     -- default = Enemy.DefaultSettings.groupIconsLayer,
+      values = warExtendedSettings.ConfigurationWindowGetLayersSelectValues
     },
     ghmguhu =
     {
@@ -236,166 +407,10 @@ function wext123()
   local cwn = root
   
   warExtendedSettings.CreateConfigurationWindow (cwn, root, config_dlg.properties, nil)
+  warExtended:ExtendTable (warExtendedSettings.Config, config_dlg.DefaultSettings)
   ScrollWindowUpdateScrollRect (windowName.."Content")
 end
 
-
-function warExtendedSettings.CreateConfigurationWindow (wn, root, properties, onChange)
-  
-  CreateWindowFromTemplate (wn, "warExtendedSettingsTemplate", root)
-  
-  local onchange_handlers = {}
-  g.onChangeHandlers[wn] = onchange_handlers
-  
-  local pp = {}
-  g.properties[wn] = pp
-  
-  local window_width = 0
-  local window_height = 0
-  local prev_wnp = nil
-  
-  local sorted_properties = {}
-  for _, p in pairs (properties)
-  do
-    tinsert (sorted_properties, p)
-  end
-  
-  table.sort (sorted_properties, function (a, b)
-    return a.order < b.order
-  end)
-  
-  local tab_order = 1
-  
-  for _, p in ipairs (sorted_properties)
-  do
-    local wnp = wn.."___"..p.key.."___"
-    
-    if (p.onCreate)
-    then
-      p.onCreate (wnp, p)
-    else
-      if (p.type == "int" or p.type == "float")
-      then
-        CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_PropertyNumberTemplate", wn)
-        LabelSetText (wnp.."Label", p.name)
-        
-        WindowSetTabOrder (wnp.."Value", tab_order)
-        tab_order = tab_order + 1
-      
-      elseif (p.type == "int[]")
-      then
-        CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_PropertyNumberArray"..p.size.."Template", wn)
-        LabelSetText (wnp.."Label", p.name)
-        
-        for k = 1, p.size
-        do
-          WindowSetTabOrder (wnp.."Value"..k, tab_order)
-          tab_order = tab_order + 1
-        end
-      
-      elseif (p.type == "color")
-      then
-        CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_PropertyColorTemplate", wn)
-        LabelSetText (wnp.."Label", p.name)
-        
-        for k = 1, 3
-        do
-          WindowSetTabOrder (wnp.."Value"..k, tab_order)
-          tab_order = tab_order + 1
-        end
-      
-      elseif (p.type == "select")
-      then
-        CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_PropertySelectTemplate", wn)
-        
-        local select_values = p.values
-        if (type (select_values) == "function")
-        then
-          select_values = select_values ()
-        end
-        
-        for _, v in ipairs (select_values)
-        do
-          ComboBoxAddMenuItem (wnp.."Value", warExtended:toWStringOrEmpty (v.text))
-        end
-        
-        LabelSetText (wnp.."Label", p.name)
-        
-        WindowSetTabOrder (wnp.."Value", tab_order)
-        tab_order = tab_order + 1
-      
-      elseif (p.type == "bool")
-      then
-        CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_PropertyBoolTemplate", wn)
-        ButtonSetStayDownFlag (wnp.."Value", true)
-        LabelSetText (wnp.."Label", p.name)
-        
-        WindowSetTabOrder (wnp.."Value", tab_order)
-        tab_order = tab_order + 1
-      
-      elseif (p.type == "title")
-      then
-        CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_TitleTemplate", wn)
-        LabelSetText (wnp.."Label", p.name)
-      
-      elseif (p.type == "button")
-      then
-        CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_ButtonTemplate", wn)
-        ButtonSetText (wnp.."Value", p.name)
-        
-        WindowSetTabOrder (wnp.."Value", tab_order)
-        tab_order = tab_order + 1
-      
-      elseif (p.type == "macro")
-      then
-        CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_MacroTemplate", wn)
-        LabelSetText (wnp.."Label", p.name)
-      
-      else
-        CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_PropertyStringTemplate", wn)
-        LabelSetText (wnp.."Label", p.name)
-        
-        WindowSetTabOrder (wnp.."Value", tab_order)
-        tab_order = tab_order + 1
-      end
-    end
-    
-    local width, height = WindowGetDimensions (wnp)
-    
-    if (p.windowWidth ~= nil)
-    then
-      width = p.windowWidth
-     -- WindowSetDimensions (wnp, width, height)
-    end
-    
-    if (p.windowHeight ~= nil)
-    then
-      height = p.windowHeight
-     -- WindowSetDimensions (wnp, width, height)
-    end
-    
-    window_width = math.max (window_width, width)
-    
-    if (prev_wnp)
-    then
-      WindowAddAnchor (wnp, "bottomleft", prev_wnp, "topleft", p.paddingLeft or 0, p.paddingTop or 10)
-      window_height = window_height + height + (p.paddingTop or 10)
-    else
-      WindowAddAnchor (wnp, "topleft", wn, "topleft", p.paddingLeft or 0, p.paddingTop or 0)
-      window_height = window_height + height + (p.paddingTop or 0)
-    end
-    
-    prev_wnp = wnp
-    
-    onchange_handlers[p.key] = p.onChange or onChange
-    pp[p.key] = p
-  end
-  
-  window_height = window_height + 30
- -- WindowSetDimensions (wn, window_width, window_height)
-  
-  return window_width, window_height
-end
 
 function warExtendedSettings.ConfigurationWindowLoadData (wn, data)
   
@@ -667,6 +682,7 @@ function warExtendedSettings.ConfigurationWindowReset (wn, data)
   end
 end
 
+
 -------------------------------------------------------------- UI: Config dialog
 local config_dlg = nil
 
@@ -824,6 +840,3 @@ function warExtendedSettings.UI_ConfigDialog_ResetAll ()
           L"Yes", warExtendedSettings.ResetSettings,
           L"No")
 end
-
-
-warExtended:AddEventHandler("InitializeSettings", "CoreInitialized", initializeSettings)

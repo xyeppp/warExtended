@@ -2,23 +2,16 @@ local warExtendedSettings         = warExtendedSettings
 local OPTIONS_WINDOW              = "warExtendedSettings"
 local OPTIONS_WINDOW_SCROLL_CHILD = OPTIONS_WINDOW .. "MainScrollChild"
 local SLASH_WINDOW                = "warExtendedSettingsSlashCommands"
-local TITLE_BAR_TEXT              = L"warExtended Settings"
-local DEFAULT_TOPIC               = L"Settings"
-local DESCRIPTION_TEXT			  = L"Description"
-local DEFAULT_TEXT                = L"Select an addon from the list on the left to open it's settings."
-local EMPTY_TEXT                  = L"No warExtended modules registered."
-local CLOSE_TEXT                  = L"Close"
-local RESET_TEXT				  = L"Reset"
-local RESET_ALL					  = L"Reset All"
-local OK					  	   = L"Ok"
 
 function warExtendedSettings.WindowOnInitialize()
-  LabelSetText(OPTIONS_WINDOW .. "TitleBarText", TITLE_BAR_TEXT)
-  ButtonSetText(OPTIONS_WINDOW .. "ExitButton", CLOSE_TEXT)
-  LabelSetText(OPTIONS_WINDOW .. "HeaderText", DEFAULT_TOPIC)
-  ButtonSetText(OPTIONS_WINDOW .. "ResetButton", RESET_TEXT)
-  ButtonSetText(OPTIONS_WINDOW .. "ResetAllButton", RESET_ALL)
-  ButtonSetText(OPTIONS_WINDOW .. "OkButton", OK)
+  LabelSetText(OPTIONS_WINDOW .. "TitleBarText", L"warExtended Settings")
+  ButtonSetText(OPTIONS_WINDOW .. "ExitButton", L"Close")
+  LabelSetText(OPTIONS_WINDOW .. "HeaderText", L"Settings")
+  ButtonSetText(OPTIONS_WINDOW .. "ResetButton",  L"Reset")
+  ButtonSetText(OPTIONS_WINDOW .. "ResetAllButton", L"Reset All")
+  ButtonSetText(OPTIONS_WINDOW .. "OkButton", L"Ok")
+  LabelSetText(OPTIONS_WINDOW .. "MainScrollChildLabel", L"Settings")
+  LabelSetText(OPTIONS_WINDOW .. "MainScrollChildText", L"Select an addon from the list on the left to open it's settings.")
 end
 
 function warExtendedSettings.WindowHide()
@@ -45,20 +38,34 @@ end
 function warExtendedSettings.OnVertScrollLButtonUp()
 end
 
+
+
+
 function warExtendedSettings.WindowOnShown()
-  if #warExtendedSettings.data == 0 then
-	LabelSetText(OPTIONS_WINDOW .. "MainScrollChildLabel", DEFAULT_TOPIC)
-	LabelSetText(OPTIONS_WINDOW .. "MainScrollChildText", EMPTY_TEXT)
-  else
-	LabelSetText(OPTIONS_WINDOW .. "MainScrollChildLabel", DEFAULT_TOPIC)
-	LabelSetText(OPTIONS_WINDOW .. "MainScrollChildText", DEFAULT_TEXT)
-  end
+ 
+  
+  
+  
+  
+  
+  
+  
+  
   
   WindowUtils.OnShown()
   warExtendedSettings.PrepareData()
   warExtendedSettings.UpdateOptionsWindowRow()
   warExtendedSettings.SetListRowTints()
 end
+
+
+
+
+
+
+
+
+
 
 local index       = 0
 local cmdTemplate = "warExtendedSettingsSlashCommandTemplate"
@@ -87,7 +94,7 @@ local function displaySlashWindow(entryData)
 end
 
 local function displayDescriptionWindow(entryData)
-  LabelSetText(OPTIONS_WINDOW_SCROLL_CHILD.."Label", DESCRIPTION_TEXT)
+  LabelSetText(OPTIONS_WINDOW_SCROLL_CHILD.."Label", L"Description")
   LabelSetText(OPTIONS_WINDOW_SCROLL_CHILD .. "Text", warExtended.GetAddonDescription(entryData.addonName))
 end
 

@@ -1,5 +1,9 @@
 local warExtendedSettings = warExtendedSettings
 local OPTIONS_WINDOW = "warExtendedSettings"
+local g = {}
+local tinsert = table.insert
+g.onChangeHandlers = {}
+g.properties = {}
 
 local childEntry = {
   createNew = function(self, name, parentWindow, id)
@@ -55,6 +59,8 @@ local optionManager = {
   end
 }
 
+
+
 function warExtendedSettings.AddOptionEntry(name)
   p(name)
   optionManager:registerNewOption(name)
@@ -73,9 +79,9 @@ function warExtendedSettings.GetOptionParent(parentId)
   end
 end
 
-function Enemy.CreateConfigurationWindow (wn, root, properties, onChange)
+function warExtendedSettings.CreateConfigurationWindow (wn, root, properties, onChange)
   
-  CreateWindowFromTemplate (wn, "EA_Window_Default", root)
+  CreateWindowFromTemplate (wn, "warExtendedSettingsTemplate", root)
   
   local onchange_handlers = {}
   g.onChangeHandlers[wn] = onchange_handlers
@@ -109,7 +115,7 @@ function Enemy.CreateConfigurationWindow (wn, root, properties, onChange)
 	else
 	  if (p.type == "int" or p.type == "float")
 	  then
-		CreateWindowFromTemplate (wnp, p.template or "EnemyConfigurationWindow_PropertyNumberTemplate", wn)
+		CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_PropertyNumberTemplate", wn)
 		LabelSetText (wnp.."Label", p.name)
 		
 		WindowSetTabOrder (wnp.."Value", tab_order)
@@ -117,7 +123,7 @@ function Enemy.CreateConfigurationWindow (wn, root, properties, onChange)
 	  
 	  elseif (p.type == "int[]")
 	  then
-		CreateWindowFromTemplate (wnp, p.template or "EnemyConfigurationWindow_PropertyNumberArray"..p.size.."Template", wn)
+		CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_PropertyNumberArray"..p.size.."Template", wn)
 		LabelSetText (wnp.."Label", p.name)
 		
 		for k = 1, p.size
@@ -128,7 +134,7 @@ function Enemy.CreateConfigurationWindow (wn, root, properties, onChange)
 	  
 	  elseif (p.type == "color")
 	  then
-		CreateWindowFromTemplate (wnp, p.template or "EnemyConfigurationWindow_PropertyColorTemplate", wn)
+		CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_PropertyColorTemplate", wn)
 		LabelSetText (wnp.."Label", p.name)
 		
 		for k = 1, 3
@@ -139,7 +145,7 @@ function Enemy.CreateConfigurationWindow (wn, root, properties, onChange)
 	  
 	  elseif (p.type == "select")
 	  then
-		CreateWindowFromTemplate (wnp, p.template or "EnemyConfigurationWindow_PropertySelectTemplate", wn)
+		CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_PropertySelectTemplate", wn)
 		
 		local select_values = p.values
 		if (type (select_values) == "function")
@@ -149,7 +155,7 @@ function Enemy.CreateConfigurationWindow (wn, root, properties, onChange)
 		
 		for _, v in ipairs (select_values)
 		do
-		  ComboBoxAddMenuItem (wnp.."Value", Enemy.toWStringOrEmpty (v.text))
+		  ComboBoxAddMenuItem (wnp.."Value", warExtended:toWStringOrEmpty (v.text))
 		end
 		
 		LabelSetText (wnp.."Label", p.name)
@@ -159,7 +165,7 @@ function Enemy.CreateConfigurationWindow (wn, root, properties, onChange)
 	  
 	  elseif (p.type == "bool")
 	  then
-		CreateWindowFromTemplate (wnp, p.template or "EnemyConfigurationWindow_PropertyBoolTemplate", wn)
+		CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_PropertyBoolTemplate", wn)
 		ButtonSetStayDownFlag (wnp.."Value", true)
 		LabelSetText (wnp.."Label", p.name)
 		
@@ -168,12 +174,12 @@ function Enemy.CreateConfigurationWindow (wn, root, properties, onChange)
 	  
 	  elseif (p.type == "title")
 	  then
-		CreateWindowFromTemplate (wnp, p.template or "EnemyConfigurationWindow_TitleTemplate", wn)
+		CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_TitleTemplate", wn)
 		LabelSetText (wnp.."Label", p.name)
 	  
 	  elseif (p.type == "button")
 	  then
-		CreateWindowFromTemplate (wnp, p.template or "EnemyConfigurationWindow_ButtonTemplate", wn)
+		CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_ButtonTemplate", wn)
 		ButtonSetText (wnp.."Value", p.name)
 		
 		WindowSetTabOrder (wnp.."Value", tab_order)
@@ -181,11 +187,11 @@ function Enemy.CreateConfigurationWindow (wn, root, properties, onChange)
 	  
 	  elseif (p.type == "macro")
 	  then
-		CreateWindowFromTemplate (wnp, p.template or "EnemyConfigurationWindow_MacroTemplate", wn)
+		CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_MacroTemplate", wn)
 		LabelSetText (wnp.."Label", p.name)
 	  
 	  else
-		CreateWindowFromTemplate (wnp, p.template or "EnemyConfigurationWindow_PropertyStringTemplate", wn)
+		CreateWindowFromTemplate (wnp, p.template or "warExtendedSettings_PropertyStringTemplate", wn)
 		LabelSetText (wnp.."Label", p.name)
 		
 		WindowSetTabOrder (wnp.."Value", tab_order)
@@ -198,13 +204,13 @@ function Enemy.CreateConfigurationWindow (wn, root, properties, onChange)
 	if (p.windowWidth ~= nil)
 	then
 	  width = p.windowWidth
-	  WindowSetDimensions (wnp, width, height)
+	  -- WindowSetDimensions (wnp, width, height)
 	end
 	
 	if (p.windowHeight ~= nil)
 	then
 	  height = p.windowHeight
-	  WindowSetDimensions (wnp, width, height)
+	  -- WindowSetDimensions (wnp, width, height)
 	end
 	
 	window_width = math.max (window_width, width)
@@ -225,7 +231,8 @@ function Enemy.CreateConfigurationWindow (wn, root, properties, onChange)
   end
   
   window_height = window_height + 30
-  WindowSetDimensions (wn, window_width, window_height)
+  -- WindowSetDimensions (wn, window_width, window_height)
+  
   return window_width, window_height
 end
 

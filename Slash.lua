@@ -2,7 +2,7 @@ local warExtended = warExtended
 local pairs=pairs
 local StringSplit = StringSplit
 
-slashCommands = {}
+local slashCommands = {}
 
 --slashCommands = {
 --  ["command"] = foo

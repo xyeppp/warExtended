@@ -1,4 +1,4 @@
- warExtended = warExtended
+ local warExtended = warExtended
 
 local engineer = {
   [245] = {

@@ -2,6 +2,11 @@ local towstring     = towstring
 warExtended         = {}
 warExtended.__index = warExtended
 
+--Register module with object = warExtended.Register(moduleName, hyperlinkName, hyperlinkColor)
+--Color uses values from DefaultColor or {r,g,b} table
+--Use object:Print to "[hyperlinkName] text" in chosen color or object:Warn to "[hyperlinkName] text" in RED color
+--If color is nil then GREEN is set as default.
+
 local function getModuleTable(moduleName, hyperlinkText, hyperlinkColor)
   local self     = {}
   self.moduleName      = moduleName
@@ -11,16 +16,12 @@ local function getModuleTable(moduleName, hyperlinkText, hyperlinkColor)
   return self
 end
 
---Register module with object = warExtended.Register(moduleName, hyperlinkName, hyperlinkColor)
---Color uses values from DefaultColor or {r,g,b} table
---Use object:Print to "[hyperlinkName] text" in chosen color or object:Warn to "[hyperlinkName] text" in RED color
---If color is nil then GREEN is set as default.
-
 function warExtended.Register(moduleName, hyperlinkText, hyperlinkColor)
   local self = setmetatable(getModuleTable(moduleName, hyperlinkText, hyperlinkColor), warExtended);
   warExtended:TriggerEvent("CreateSettingsEntry", moduleName)
   return self
 end
+
 
 function warExtended.Initialize()
   warExtended:ExtendTable (warExtended, getModuleTable("warExtended"))
@@ -28,17 +29,19 @@ function warExtended.Initialize()
 end
 
 function warExtended._Initialize()
+  warExtendedSettings.Initialize()
   warExtended:TriggerEvent("CoreInitialized")
 end
 
 function warExtended:Print(text, noHyperlink)
-  local hyperLink = warExtended:CreateHyperlink("WAREXT:"..self.moduleHyperlinkData, self.moduleHyperlink, self.moduleHyperlinkColor)
   text            = towstring(text)
   
   if noHyperlink then
-	hyperLink = L""
+    EA_ChatWindow.Print(text)
+	return
   end
   
+  local hyperLink = warExtended:CreateHyperlink("WAREXT:"..self.moduleHyperlinkData, self.moduleHyperlink, self.moduleHyperlinkColor)
   EA_ChatWindow.Print(hyperLink .. text)
 end
 
@@ -72,10 +75,9 @@ function warExtended:Alert(text, alertType)
 end
 
 function warExtended:Send(text, channelType)
-  channelType = warExtended:FormatChannel(channelType)
+  channelType = towstring(warExtended:FormatChannel(channelType))
   text        = towstring(text)
-  channelType = towstring(channelType)
-  
+
   SendChatText(text, channelType)
 end
 
