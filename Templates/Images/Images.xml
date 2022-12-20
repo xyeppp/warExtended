@@ -1,0 +1,18 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+
+    <!-- Bottom tab disabled -->
+    <Windows>
+        <HorizontalResizeImage name="EA_Button_BottomTabDisabled" texture="EA_HUD_01">
+            <Size>
+                <AbsPoint x="129" y="47" />
+            </Size>
+            <Sizes left="18" middle="93" right="18" />
+            <TexSlices>
+                <Left   id="BottomTab-Normal-Left"   />
+                <Middle id="BottomTab-Normal-Center" />
+                <Right  id="BottomTab-Normal-Right"  />
+            </TexSlices>
+        </HorizontalResizeImage>
+
+    </Windows>
+</Interface>

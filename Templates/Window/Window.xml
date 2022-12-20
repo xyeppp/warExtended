@@ -1,0 +1,82 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+
+        <!-- TitleBar -->
+        <Window name="warExtendedDefaultTitleBar" inherits="EA_TitleBar_Default" handleinput="true">
+            <Anchors>
+                <Anchor point="topleft" relativePoint="topleft">
+                    <AbsPoint x="-14" y="-10"/>
+                </Anchor>
+                <Anchor point="topright" relativePoint="topright">
+                    <AbsPoint x="14" y="-10"/>
+                </Anchor>
+            </Anchors>
+            <Windows>
+                <HorizontalResizeImage name="$parentBackground" inherits="EA_HorizontalResizeImage_DefaultTopFrame">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="0" y="1"/>
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                            <AbsPoint x="0" y="1"/>
+                        </Anchor>
+                    </Anchors>
+                </HorizontalResizeImage>
+                <Label name="$parentLabel" font="font_default_war_heading" layer="popup" maxchars="256"
+                       handleinput="false" textalign="center">
+                    <Size>
+                        <AbsPoint x="160" y="30"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" >
+                            <AbsPoint x="74" y="5" />
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="topright" >
+                            <AbsPoint x="-74" y="5" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Button name="$parentClose" inherits="warExtendedCloseButton">
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="">
+                            <AbsPoint x="-5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="warExtended.OnCloseButton"/>
+                    </EventHandlers>
+                </Button>
+            </Windows>
+        </Window>
+
+        <Window name="warExtendedDefaultBackground" inherits="EA_Window_DefaultFrame">
+            <Anchors>
+                <Anchor point="topleft" relativePoint="topleft" >
+                    <AbsPoint x="0" y="0"/>
+                </Anchor>
+                <Anchor point="bottomright" relativePoint="bottomright">
+                    <AbsPoint x="0" y="0"/>
+                </Anchor>
+            </Anchors>
+        </Window>
+
+        <!--Default Window-->
+        <Window name="warExtendedDefaultWindow" movable="true" layer="secondary" savesettings="true">
+            <Anchors>
+                <Anchor point="center" relativePoint="center" relativeTo="Root">
+                    <AbsPoint x="0" y="0"/>
+                </Anchor>
+            </Anchors>
+            <Size>
+                <AbsPoint x="400" y="400"/>
+            </Size>
+            <Windows>
+                <Window name="$parentTitleBar" inherits="warExtendedDefaultTitleBar"/>
+                <Window name="$parentBackground" inherits="warExtendedDefaultBackground"/>
+                <Button name="$parentResizeButton" inherits="warExtendedDefaultResizeButton" />
+            </Windows>
+        </Window>
+
+
+    </Windows>
+</Interface>

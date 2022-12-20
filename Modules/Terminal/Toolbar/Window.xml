@@ -1,0 +1,31 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Button name="DebugWindowToolbarButton" inherits="DefaultIconButton" layer="popup">
+            <EventHandlers>
+                <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver" />
+                <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp" />
+            </EventHandlers>
+        </Button>
+
+        <Window name="DebugWindowToolbar" movable="false" layer="popup" savesettings="true">
+            <Size>
+                <AbsPoint x="48" y="48" />
+            </Size>
+            <Anchors>
+                <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="DebugWindow">
+                    <AbsPoint x="0" y="52" />
+                </Anchor>
+            </Anchors>
+
+            <Windows>
+                <Window name="$parentBackground" inherits="EA_Window_DefaultFrame" handleinput="false" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent" />
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </Window>
+            </Windows>
+        </Window>
+
+    </Windows>
+</Interface>

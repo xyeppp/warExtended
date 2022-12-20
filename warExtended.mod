@@ -1,57 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ModuleFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <UiMod name="warExtended" version="0.1" date="25/01/22">
-    <VersionSettings gameVersion="1.4.9" windowsVersion="1.0" savedVariablesVersion="1.0" />
-    <Author name="xyeppp" />
-    <Description text="Addon framework designed to bring Quality of Life improvements to Warhammer Online." />
+    <UiMod name="warExtended" version="0.2" date="21/10/22">
+        <VersionSettings gameVersion="1.4.9" windowsVersion="1.0"/>
+        <Author name="xyeppp"/>
+        <Description
+                text="Addon framework for all warExtended addons designed to bring Quality of Life improvements and more to Warhammer Online: Return of Reckoning."/>
+        <Dependencies>
+            <Dependency name="EASystem_WindowUtils" />
+        </Dependencies>
         <Files>
-            <File name="Libs/LibStub/LibStub.lua" />
-            <File name="Libs/CustomSearch/CustomSearch-1.0.lua" />
+            <File name="Core.lua"/>
+            <File name="Chat.lua"/>
+            <File name="LinkedList.lua"/>
+            <File name="Events.lua"/>
+            <File name="Flags.lua"/>
+            <File name="Globals.lua"/>
+            <File name="Hooks.lua"/>
+            <File name="Hyperlinks.lua"/>
+            <File name="Keymap.lua"/>
+            <File name="Sets.lua"/>
+            <File name="Slash.lua"/>
+            <File name="TableSerializator.lua"/>
 
-            <File name="Core.lua" />
-            <File name="Utils.lua" />
-            <File name="LinkedList.lua" />
-            <File name="ManagerList.lua" />
-            <File name="Events.lua" />
-            <File name="Flags.lua" />
-            <File name="Globals.lua" />
-            <File name="Hooks.lua" />
-            <File name="Hyperlinks.lua" />
-            <File name="Keymap.lua" />
-            <File name="Chat.lua" />
-            <File name="Slash.lua" />
-            <File name="Search.lua" />
-            <File name="StateMachine.lua" />
-            <File name="Templates.xml" />
+            <File name="Utils/Game/Addons.lua"/>
+            <File name="Utils/Game/Career.lua"/>
+            <File name="Utils/Game/Combat.lua"/>
+            <File name="Utils/Game/Constants.lua"/>
+            <File name="Utils/Game/Group.lua"/>
+            <File name="Utils/Game/Icons.lua"/>
+            <File name="Utils/Game/Macro.lua"/>
+            <File name="Utils/Game/Player.lua"/>
+            <File name="Utils/Game/RORCommands.lua"/>
+            <File name="Utils/Game/Sound.lua"/>
+            <File name="Utils/Game/Target.lua"/>
+            <File name="Utils/Game/Window.lua"/>
 
-            <File name="Settings/Templates.xml" />
-            <File name="Settings/ListBox.lua" />
-            <File name="Settings/Core.lua" />
-            <File name="Settings/Templates.lua" />
-            <File name="Settings/ChildEntries.lua" />
-            <File name="Settings/Window.lua" />
-            <File name="Settings/Window.xml" />
+            <File name="Utils/General.lua"/>
+            <File name="Utils/Id.lua"/>
+           <!-- <File name="Utils/Search.lua"/>-->
+            <File name="Utils/String.lua"/>
+            <File name="Utils/Table.lua"/>
+            <File name="Utils/Time.lua"/>
 
-            <File name="Utils/Addons.lua" />
-            <File name="Utils/Career.lua" />
-            <File name="Utils/Group.lua" />
-            <File name="Utils/Target.lua" />
-            <File name="Utils/Macro.lua" />
-            <File name="Utils/Window.lua" />
-            <File name="Utils/Icon.lua" />
-            <File name="Utils/Player.lua" />
-            <File name="Utils/Combat.lua" />
-            <!--<File name="Utils/BackpackUtils.lua" />-->
-          </Files>
+            <File name="Templates/Button/ButtonFrame.xml"/>
+            <File name="Templates/Button/ButtonFrame.lua"/>
 
-       <OnInitialize>
-           <CreateWindow name="warExtendedSettings" show="false" />
-           <CallFunction name="warExtended.Initialize" />
+            <File name="Templates/CircleImage/CircleImage.xml"/>
+            <File name="Templates/CircleImage/CircleImage.lua"/>
+
+            <File name="Templates/ComboBox/ComboBox.xml"/>
+
+            <File name="Templates/Dialog/Dialogs.xml"/>
+            <File name="Templates/Dialog/Dialogs.lua"/>
+
+            <File name="Templates/EditBox/EditBox.lua"/>
+            <File name="Templates/EditBox/EditBox.xml"/>
+
+            <!--<File name="Templates/Frame/Frame.lua"/>-->
+
+            <File name="Templates/Images/Images.xml"/>
+            <!--<File name="Templates/IncrementButtons/IncrementButtons.lua"/>
+            <File name="Templates/IncrementButtons/IncrementButtons.xml"/>-->
+
+            <File name="Templates/Label/Label.xml"/>
+
+            <File name="Templates/ListBox/ListBox.xml"/>
+            <File name="Templates/ListBox/ListBox.lua"/>
+
+            <File name="Templates/LogDisplay/LogDisplay.lua"/>
+
+            <File name="Templates/RadioGroup/RadioGroup.lua"/>
+
+            <File name="Templates/SearchBox/SearchBox.xml"/>
+            <File name="Templates/SearchBox/SearchBox.lua"/>
+
+            <File name="Templates/TextLog/TextLog.lua"/>
+
+            <File name="Templates/SimpleCheckButton/SimpleCheckButton.lua"/>
+
+            <File name="Templates/StatusBar/StatusBar.lua"/>
+
+            <File name="Templates/TabGroup/TabGroup.lua"/>
+          <!--  <File name="Templates/TabGroup/TabGroup.xml"/>-->
+
+            <File name="Templates/Tooltips/Tooltips.lua"/>
+
+            <File name="Templates/Window/Window.xml"/>
+        </Files>
+
+        <OnInitialize>
+            <CallFunction name="warExtended.Initialize"/>
         </OnInitialize>
-
-        <SavedVariables>
-           <SavedVariable name="warExtendedSettings.Config" />
-        </SavedVariables>
     </UiMod>
 </ModuleFile>

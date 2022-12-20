@@ -59,8 +59,8 @@ local function setHyperlinkHooks()
 	originalEA_ChatWindow_OnHyperLinkRButtonUpChatWindowOnly(...)
   end
   
-  warExtended:AddHyperlink("OnLButtonUp", "WAREXT", p)
-  warExtended:AddHyperlink("OnLButtonUp", "WAREXT:", p("das"))
+  warExtended:AddHyperlink("OnLButtonUp", "WAREXT") --p)
+  warExtended:AddHyperlink("OnLButtonUp", "WAREXT:") --p("das"))
 end
 
 function warExtended:GetHyperlink(key, name)
@@ -94,6 +94,7 @@ function warExtended:AddHyperlink(onButtonType, hyperlinkText, hyperlinkCallback
   links:Add(hyperlinkText, hyperlinkCallback)
 end
 
+
 function warExtended:CreateHyperlink(hyperlinkData, hyperlinkText, hyperlinkColor)
  	 if type (hyperlinkColor) == "string" then
 		hyperlinkColor = DefaultColor[warExtended:toStringUpper(hyperlinkColor)]
@@ -101,7 +102,6 @@ function warExtended:CreateHyperlink(hyperlinkData, hyperlinkText, hyperlinkColo
   
  	 local moduleHyperlink = CreateHyperLink( warExtended:toWStringOrEmpty(hyperlinkData), warExtended:toWString("["..hyperlinkText.."] "),
 			{warExtended:UnpackRGB(hyperlinkColor)}, {} )
-  p(moduleHyperlink)
 	return moduleHyperlink
   end
 

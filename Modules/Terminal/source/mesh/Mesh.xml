@@ -1,0 +1,13 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Scripts>
+		<Script file="Source/mesh/Mesh.lua" />
+	</Scripts>
+	<Windows>
+		<Window name="Mesh" handleinput="false" layer="background">
+			<Anchors>
+				<Anchor point="topleft" relativePoint="topleft" relativeTo="Root" />
+				<Anchor point="bottomright" relativePoint="bottomright" relativeTo="Root" />
+			</Anchors>
+		</Window>
+	</Windows>
+</Interface>

@@ -1,131 +1,186 @@
-local warExtended                      = warExtended
-local RegisterEventHandler             = RegisterEventHandler
-local UnregisterEventHandler           = UnregisterEventHandler
-local WindowRegisterEventHandler       = WindowRegisterEventHandler
-local WindowUnregisterEventHandler     = WindowUnregisterEventHandler
-local WindowRegisterCoreEventHandler   = WindowUnregisterCoreEventHandler
+local warExtended = warExtended
+local RegisterEventHandler = RegisterEventHandler
+local UnregisterEventHandler = UnregisterEventHandler
+local WindowRegisterEventHandler = WindowRegisterEventHandler
+local WindowUnregisterEventHandler = WindowUnregisterEventHandler
+local WindowRegisterCoreEventHandler = WindowUnregisterCoreEventHandler
 local WindowUnregisterCoreEventHandler = WindowUnregisterCoreEventHandler
-local TextLogGetUpdateEventId          = TextLogGetUpdateEventId
-local BroadcastEvent                   = BroadcastEvent
-local Events                           = SystemData.Events
+local TextLogGetUpdateEventId = TextLogGetUpdateEventId
+local BroadcastEvent = BroadcastEvent
+local Events = SystemData.Events
 local select = select
 
 local events = {}
 
 local function fixString(str)
-  str = warExtended:toStringOrEmpty(str)
-  
-  str = warExtended:toStringUpper(str)
-  str = str:gsub("%s", "_")
-  return str
+	str = warExtended:toStringOrEmpty(str)
+	str = warExtended:toStringUpper(str)
+	str = str:gsub("%s", "_")
+	return str
 end
 
 local function getEventFromName(event)
-  event = fixString(event)
-  
-  if not Events[event] then
-	d("Invalid event name. Event " .. event .. " does not exist.")
-	return
-  end
-  
-  return Events[event]
+	event = fixString(event)
+
+	if not Events[event] then
+		error("Invalid event name. Event " .. event .. " does not exist.")
+		return
+	end
+
+	return Events[event]
 end
 
 function warExtended:Broadcast(event)
-  event = getEventFromName(event)
-  
-  if not event then
-    return
-  end
-  
-  BroadcastEvent(event)
+	event = getEventFromName(event)
+
+	if not event then
+		return
+	end
+
+	BroadcastEvent(event)
 end
 
-function warExtended:AddEventHandler (key, name, callback)
-  if (not callback)
-  then
-    d("Wrong arguments for AddEventHandler: " .. key .. ", " .. name .. ", " .. type(callback))
-  end
-  
-  warExtended:RemoveEventHandler(key, name)
-  
-  local e = events[name]
-  if (e == nil)
-  then
-    e            = warExtendedLinkedList.New()
-    events[name] = e
-  end
-  
-  e:Add(key, callback)
+function warExtended:AddEventHandler(key, name, callback)
+	if not callback then
+		d("Wrong arguments for AddEventHandler: " .. key .. ", " .. name .. ", " .. type(callback))
+	end
+
+	warExtended:RemoveEventHandler(key, name)
+
+	local e = events[name]
+	if e == nil then
+		e = warExtendedLinkedList.New()
+		events[name] = e
+	end
+
+	e:Add(key, callback)
 end
 
-function warExtended:TriggerEvent (name, ...)
-  local e = events[name]
-  if (e == nil) then return end
-  
-  local item = e.first
-  while (item)
-  do
-    item.data(select(1, ...))
-    item = item.next
-  end
+function warExtended:TriggerEvent(name, ...)
+	local e = events[name]
+	if e == nil then
+		return
+	end
+
+	local item = e.first
+	while item do
+		item.data(select(1, ...))
+		item = item.next
+	end
 end
 
 function warExtended:GetEvent(key, name)
-  local e = events[name]
-  if (e == nil) then return end
-  local item = e:Get(key)
-  return item
+	local e = events[name]
+	if e == nil then
+		return
+	end
+	local item = e:Get(key)
+	return item
 end
 
-function warExtended:RemoveEventHandler (key, name)
-  local e = events[name]
-  if (e == nil) then return end
-  e:Remove(key)
-end
-
-function warExtended:RegisterTextLogEvent(textLog, func)
-  RegisterEventHandler(TextLogGetUpdateEventId(textLog), func)
-end
-
-function warExtended:UnregisterTextLogEvent(textLog, func)
-  UnregisterEventHandler(TextLogGetUpdateEventId(textLog), func)
-end
-
-function warExtended:RegisterEvent(event, func)
-  event = getEventFromName(event)
-  RegisterEventHandler(event, func)
-end
-
-function warExtended:UnregisterEvent(event, func)
-  event = getEventFromName(event)
-  UnregisterEventHandler(event, func)
-end
-
-function warExtended:RegisterWindowEvent(windowName, event, func, core)
-  if core then
-	WindowRegisterCoreEventHandler(windowName, event, func)
-	return
-  end
+function warExtended:RemoveEventHandler(key, name, func)
+	local e = events[name]
+	if e == nil then
+		return
+	end
+	e:Remove(key)
   
-  event = getEventFromName(event)
-  WindowRegisterEventHandler(windowName, event, func)
-end
-
-function warExtended:UnregisterWindowEvent(windowName, event, func, core)
-  if core then
-	WindowUnregisterCoreEventHandler(windowName, event, func)
-	return
+  if func ~= nil then
+	func = nil
   end
-  
-  event = getEventFromName(event)
-  WindowUnregisterEventHandler(windowName, event)
 end
 
-function warExtended:RegisterUpdate(func)
-  self:RegisterEvent("update processed", func)
+function warExtended:RegisterTextLogEvent(textLog, ...)
+  local args={...}
+	for func = 1, #args do
+	  RegisterEventHandler(TextLogGetUpdateEventId(textLog), args[func])
+	end
 end
 
-function warExtended:UnregisterUpdate(func)
-  self:UnregisterEvent("update processed", func)
+function warExtended:UnregisterTextLogEvent(textLog, ...)
+  local args={...}
+  for func = 1, #args do
+	UnregisterEventHandler(TextLogGetUpdateEventId(textLog), args[func])
+  end
+end
+
+function warExtended:WindowRegisterTextLogEvent(windowName, textLog, ...)
+  local args={...}
+  for func = 1, #args do
+	WindowRegisterEventHandler(windowName, TextLogGetUpdateEventId(textLog), args[func])
+  end
+end
+
+function warExtended:GetTextLogUpdateEventId(textLog)
+  local textLogUpdateEventId = TextLogGetUpdateEventId(textLog)
+  return textLogUpdateEventId
+end
+
+function warExtended:RegisterGameEvent(eventsTable, ...)
+  local args={...}
+  for event=1,#eventsTable do
+	event = getEventFromName(eventsTable[event])
+	
+	for func = 1, #args do
+	  RegisterEventHandler(event, args[func])
+	end
+  end
+end
+
+
+function warExtended:UnregisterGameEvent(eventsTable, ...)
+  local args={...}
+  for event=1,#eventsTable do
+	event = getEventFromName(eventsTable[event])
+	
+	for func = 1, #args do
+	  UnregisterEventHandler(event, args[func])
+	end
+  end
+end
+
+
+function warExtended:RegisterWindowCoreEvent(windowName, eventsTable, ...)
+  local args= { ... }
+  for event=1,#eventsTable do
+	for func = 1, #args do
+	  WindowRegisterCoreEventHandler(windowName, event, args[func])
+	end
+  end
+end
+
+
+function warExtended:UnregisterWindowCoreEvent(windowName, eventsTable)
+  for event=1,#eventsTable do
+	WindowUnregisterCoreEventHandler(windowName, eventsTable[event])
+  end
+end
+
+
+
+function warExtended:RegisterWindowEvent(windowName, eventsTable, ...)
+  local args= { ... }
+  for event=1,#eventsTable do
+	for func = 1, #args do
+	  if eventsTable[event] ~= nil then
+	  event=getEventFromName(eventsTable[event])
+		WindowRegisterEventHandler(windowName, event, args[func])
+	  end
+	end
+  end
+end
+
+function warExtended:UnregisterWindowEvent(windowName, eventsTable)
+  for event=1,#eventsTable do
+	  event=getEventFromName(eventsTable[event])
+	  WindowUnregisterEventHandler(windowName, event)
+	end
+end
+
+function warExtended:RegisterUpdate(...)
+	self:RegisterGameEvent({"update processed"}, ...)
+end
+
+function warExtended:UnregisterUpdate(...)
+	self:UnregisterGameEvent({"update processed"}, ...)
 end

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- NOTE: This file is documented with NaturalDocs style comments. All comments beginning with '#' will
+     be included in the output.
+ -->
+
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Windows>
+        <EditBox name="warExtendedDefaultSearchBox" inherits="EA_EditBox_DefaultFrame" maxchars="100">
+            <Size>
+                <AbsPoint x="430" y="30"/>
+            </Size>
+            <TextOffset x="38" y="3"/>
+          <EventHandlers>
+                <EventHandler event="OnTextChanged" function="FrameManager.OnTextChanged"/>
+            </EventHandlers>
+            <Windows>
+                <Label name="$parentLabel" font="font_default_text"
+                       textalign="left" autoresize="false" wordwrap="false">
+                    <Size>
+                        <AbsPoint x="120" y="45"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left" relativeTo="$parent">
+                            <AbsPoint x="6" y="13"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="255" g="204" b="102" />
+                    <EventHandlers>
+                        <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver"/>
+                    </EventHandlers>
+                </Label>
+            </Windows>
+
+        </EditBox>
+
+    </Windows>
+</Interface>

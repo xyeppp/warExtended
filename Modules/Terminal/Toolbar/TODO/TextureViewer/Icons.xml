@@ -1,0 +1,125 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+<Window name="TerminalTextureViewerIcons" savesettings="false">
+    <Size>
+        <AbsPoint x="500" y="300"/>
+    </Size>
+    <Anchors>
+        <Anchor point="topleft" relativePoint="topleft" relativeTo="TerminalTextureViewer">
+            <AbsPoint x="3" y="59" />
+        </Anchor>
+        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="TerminalTextureViewer">
+            <AbsPoint x="0" y="-166" />
+        </Anchor>
+    </Anchors>
+    <EventHandlers>
+        <EventHandler event="OnShown"   function="warExtendedTerminal.TextureViewerOnShown" />
+    </EventHandlers>
+    <Windows>
+
+        <ScrollWindow name="$parentIconSelection" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="40">
+            <Anchors>
+                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                    <AbsPoint x="7" y="6" />
+                </Anchor>
+                <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentSeparator">
+                    <AbsPoint x="-7" y="-18" />
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnMouseWheel" function="warExtendedTerminal.TextureViewerOnMouseWheel" />
+            </EventHandlers>
+            <Windows>
+
+                <VerticalScrollbar name="$parentScrollbar" inherits="EA_ScrollBar_ChatVertical" layer="popup">
+                    <Size>
+                        <AbsPoint x="20" y="238"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                            <AbsPoint x="-7" y="-3" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnScrollPosChanged" function="warExtendedTerminal.TextureViewerOnScrollPos" />
+                    </EventHandlers>
+                </VerticalScrollbar>
+
+                <Window name="$parentScrollChild">
+                    <Size>
+                        <AbsPoint x="650" y="1000"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="1" y="-0" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnMouseWheel" function="warExtendedTerminal.TextureViewerOnMouseWheel" />
+                    </EventHandlers>
+                    <Windows>
+                    </Windows>
+                </Window>
+            </Windows>
+        </ScrollWindow>
+
+        <Window name="$parentSeparator" inherits="EA_Window_DefaultSeparator" handleinput="false">
+            <Anchors>
+                <Anchor point="bottomleft" relativePoint="bottomleft" parent="$parent" >
+                    <AbsPoint x="0" y="-120" />
+                </Anchor>
+                <Anchor point="bottomright" relativePoint="bottomright" parent="$parent">
+                    <AbsPoint x="0" y="-120" />
+                </Anchor>
+            </Anchors>
+        </Window>
+
+
+        <Window name ="$parentDisplay" handleinput="true" >
+            <Size>
+                <AbsPoint x="128" y="128"/>
+            </Size>
+            <Anchors>
+                <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parent">
+                    <AbsPoint x="60" y="80" />
+                </Anchor>
+            </Anchors>
+            <Windows>
+                <FullResizeImage name="$parentFrame" inherits="EA_FullResizeImage_DefaultFrame" >
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent" />
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="7" y="6" />
+                        </Anchor>
+                    </Anchors>
+                </FullResizeImage>
+                <FullResizeImage name="$parentBackground" inherits="EA_FullResizeImage_TintableSolidBackground" handleinput="true">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="10" y="6" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="0" y="-2" />
+                        </Anchor>
+                    </Anchors>
+                    <TintColor r="0" g="0" b="0" />
+                </FullResizeImage>
+                <DynamicImage name="$parentIcon">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="11" y="7" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="-2" y="-4" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnRButtonUp" function="IconViewer.OnIconRButtonUp" />
+                    </EventHandlers>
+                </DynamicImage>
+            </Windows>
+        </Window>
+    </Windows>
+</Window>
+    </Windows>
+</Interface>

@@ -1,58 +1,51 @@
-local warExtended = warExtended
-local flagActions = {}
+local warExtended  = warExtended
+--local flagIds      = SystemData.ButtonFlags
 
-local flagNumberToFlagText = {
-  [4] = "isShiftPressed",
-  [8] = "isCtrlPressed",
-  [12] = "isCtrlShiftPressed",
-  [32] = "isAltPressed",
-  [36] = "isAltShiftPressed",
-  [40] = "isCtrlAltPressed",
-  [44] = "isCtrlAltShiftPressed"
+local flagIds      = {
+  ["SHIFT"] = 4,
+  ["CTRL"] = 8,
+  ["CTRL + SHIFT"] = 12,
+  ["ALT"] = 32,
+  ["ALT + SHIFT"] = 36,
+  ["CTRL + ALT"] = 40,
+  ["CTRL + ALT + SHIFT"] = 44,
 }
 
-local registeredFlags = {
+local flagIdToText = {
+  [4] = "SHIFT",
+  [8] = "CTRL",
+  [12] = "CTRL + SHIFT",
+  [32] = "ALT",
+  [36] = "ALT + SHIFT",
+  [40] = "CTRL + ALT",
+  [44] = "CTRL + ALT + SHIFT"
 }
 
-local flagManager = {
-}
-
-
-function warExtended:RegisterFlags(flagCommands)
-  local isSlashModuleTableCreated = flagActions[self.moduleName]
-
-  if not isSlashModuleTableCreated then
-	flagActions[self.moduleName] = {}
-  end
-
-  flagActions[self.moduleName] = flagCommands
+function warExtended:GetFlagText(flagId)
+  local flagText = flagIdToText[flagId]
+  return flagText
 end
 
-
-
-function warExtended:GetFlagName(flag)
-  local flagName = flagNumberToFlagText[flag]
-  return flagName
+function warExtended:IsFlagText(flagName, flag)
+  local isFlagText = flagIdToText[flag] == flagName
+  return isFlagText
 end
 
-function warExtended:IsFlagName(flagName, flag)
-  local isFlagName = flagNumberToFlagText[flag] == flagName
-  return isFlagName
+function warExtended:IsShiftPressed (flags)
+  return (flags == flagIds["SHIFT"] or flags == flagIds["CTRL + SHIFT"] or flags == flagIds["ALT + SHIFT"] or flags == flagIds["CTRL + ALT + SHIFT"])
 end
 
-function warExtended:UnregisterFlags()
-
+function warExtended:IsControlPressed (flags)
+  return (flags == SystemData.ButtonFlags.CONTROL or
+		  flags == SystemData.ButtonFlags.CONTROL + SystemData.ButtonFlags.SHIFT or
+		  flags == SystemData.ButtonFlags.CONTROL + SystemData.ButtonFlags.ALT or
+		  flags == SystemData.ButtonFlags.CONTROL + SystemData.ButtonFlags.SHIFT + SystemData.ButtonFlags.ALT)
 end
 
-
-function warExtended:GetFunctionFromFlag(flags, functionType,...)
-  local flagText = flagNumberToFlagText[flags]
-  local isFlagMatching = flagActions[self.moduleName][functionType][flagText]
-
-  if isFlagMatching then
-	isFlagMatching(...)
-	return isFlagMatching
-  end
-
-  return isFlagMatching
+function warExtended:IsAltPressed (flags)
+  return (flags == SystemData.ButtonFlags.ALT or
+		  flags == SystemData.ButtonFlags.ALT + SystemData.ButtonFlags.SHIFT or
+		  flags == SystemData.ButtonFlags.ALT + SystemData.ButtonFlags.CONTROL or
+		  flags == SystemData.ButtonFlags.ALT + SystemData.ButtonFlags.SHIFT + SystemData.ButtonFlags.CONTROL)
 end
+

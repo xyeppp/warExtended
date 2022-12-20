@@ -1,0 +1,178 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+
+        <Button name="DebugLogRowItem" inherits="EA_Button_DefaultListRow" >
+            <Size>
+                <AbsPoint x="600" y="34"/>
+            </Size>
+            <Anchors>
+                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDebugLogSortButton1">
+                    <AbsPoint x="10" y="10"/>
+                </Anchor>
+                <Anchor point="topright" relativePoint="topright" relativeTo="$parentSeparator2">
+                    <AbsPoint x="10" y="50"/>
+                </Anchor>
+            </Anchors>
+            <Windows>
+                <FullResizeImage name="$parentBackground" inherits="EA_FullResizeImage_TintableSolidBackground">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" />
+                        <Anchor point="bottomright" relativePoint="bottomright" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <Label name="$parentTimeStamp" font="font_clear_small_bold" textalign="center">
+                    <Size>
+                        <AbsPoint x="140" y="26"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left" relativeTo="">
+                            <AbsPoint x="10" y="6"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Label name="$parentAddonName" font="font_clear_small_bold" >
+                    <Size>
+                        <AbsPoint x="350" y="26"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentTimeStamp">
+                            <AbsPoint x="5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Label name="$parentErrorCount" font="font_clear_small_bold" textalign="center">
+                    <Size>
+                        <AbsPoint x="125" y="26"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentAddonName">
+                            <AbsPoint x="5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+            </Windows>
+        </Button>
+
+        <Window name="TerminalDebugLog" inherits="warExtendedDefaultWindow" savesettings="false">
+            <Size>
+                <AbsPoint x="800" y="600"/>
+            </Size>
+            <EventHandlers>
+            <EventHandler event="OnInitialize" function="warExtendedTerminal.DebugLogOnInitialize" />
+                <EventHandler event="OnShown" function="warExtendedTerminal.DebugLogOnShown" />
+
+                <!--  <EventHandler event="OnShutdown" function="warExtendedTerminal.AreaSpyWindowOnHidden" />
+                 <EventHandler event="OnShown" function="warExtendedTerminal.AreaSpyWindowOnShown" />
+                 <EventHandler event="OnHidden" function="warExtendedTerminal.AreaSpyWindowOnHidden" />-->
+            </EventHandlers>
+            <Windows>
+                <Window name="$parentTitleBar" inherits="warExtendedDefaultTitleBar" />
+                <Window name="$parentBackground" inherits="warExtendedDefaultBackground" />
+
+                <Button name="$parentSortButton1" inherits="TerminalAreaSpySortButton" id="1" textalign="center">
+                    <Size>
+                        <AbsPoint x="160" y="31" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topright" relativeTo="$parentSortButton2">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Button>
+                <Button name="$parentSortButton2" inherits="TerminalAreaSpySortButton" id="2" textalign="center">
+                    <Size>
+                        <AbsPoint x="220" y="31" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="bottomleft" relativeTo="$parent">
+                            <AbsPoint x="168" y="48" />
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="bottomright" parent="$parent">
+                            <AbsPoint x="-162" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Button>
+                <Button name="$parentSortButton3" inherits="TerminalAreaSpySortButton" id="3" textalign="center">
+                    <Size>
+                        <AbsPoint x="155" y="31" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentSortButton2">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Button>
+
+                <ListBox name="$parentErrorList" scrollbar="EA_ScrollBar_ChatVertical" rowdef="AreaRowItem" visiblerows="6" rowspacing="2">
+                    <Size>
+                        <AbsPoint x="600" y="210" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSortButton1">
+                            <AbsPoint x="10" y="10"/>
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parentSeparator">
+                            <AbsPoint x="10" y="50"/>
+                        </Anchor>
+                    </Anchors>
+                    <ListData table="errors" populationfunction="warExtendedTerminal.DebugLogPopulateErrorList">
+                        <ListColumns>
+                            <ListColumn windowname="TimeStamp" variable="timeStamp" format="number" />
+                            <ListColumn windowname="AddonName" variable="addonName" format="wstring" />
+                            <ListColumn windowname="ErrorCount" variable="errorCount" format="number" />
+                        </ListColumns>
+                    </ListData>
+                </ListBox>
+
+                <Window name="$parentSeparator" inherits="EA_Window_DefaultSeparator" handleinput="false">
+                    <Size>
+                        <AbsPoint x="800" y="27"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" parent="$parent" >
+                            <AbsPoint x="0" y="-300" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" parent="$parent">
+                            <AbsPoint x="0" y="-300" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <EditBox name="$parentText" inherits="warExtendedMultiLineEditBox">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentSeparator">
+                            <AbsPoint x="12" y="14"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright"
+                                relativeTo="$parent">
+                            <AbsPoint x="-12" y="-75"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnTextChanged" function="warExtendedTerminal.PreventType"/>
+                    </EventHandlers>
+                </EditBox>
+
+                <Window name="$parentButtonBackground" inherits="EA_Window_DefaultButtonBottomFrame" layer="background" >
+                    <Size>
+                        <AbsPoint x="0" y="75" />
+                    </Size>
+                </Window>
+
+                <Button name="$parentInspectObjectButton" inherits="EA_Button_DefaultResizeable" >
+                    <Anchors>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentButtonBackground">
+                            <AbsPoint x="-35" y="-12"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="warExtendedTerminal.CareerCacherRefreshData" />
+                    </EventHandlers>
+                </Button>
+
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>
+

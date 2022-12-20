@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Scripts>
+        <Script file="Punctuality.lua" />
+    </Scripts>
+    <Windows>
+        <Window name="Punctuality" movable="true" layer="popup">
+            <Size>
+                <AbsPoint x="330" y="140" />
+            </Size>
+            <Anchors>
+                <Anchor point="top" relativePoint="top" relativeTo="">
+                    <AbsPoint x="0" y="100" />
+                </Anchor>
+            </Anchors>
+            <Windows>
+                <Window name="$parentBackground" inherits="EA_Window_DefaultFrame" >
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" >
+                            <AbsPoint x="0" y="32" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" />
+                    </Anchors>
+                </Window>
+                <Window name="$parentTitleBar" inherits="EA_TitleBar_Default" />
+
+                <Window name="$parentTimerBackground" inherits="EA_Window_DefaultFrame" >
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentCurrentTime" />
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentCurrentTime" />
+                    </Anchors>
+                </Window>
+
+                <Button name="$parentClose" inherits="EA_Button_DefaultWindowClose" >
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="Punctuality.Toggle" />
+                    </EventHandlers>
+                </Button>
+
+                <Label name="$parentCurrentTime" font="font_default_text_huge" textalign="center" maxchars="16" handleinput="false">
+                    <Size>
+                        <AbsPoint x="200" y="45"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="top" relativePoint="bottom" relativeTo="$parentStart">
+                            <AbsPoint x="0" y="-5"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Button name="$parentStop" inherits="EA_Button_DefaultResizeable" font="font_chat_text" textalign="center">
+                    <Size>
+                        <AbsPoint x="100" y="39" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" >
+                            <AbsPoint x="10" y="-15" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="Punctuality.Stop"/>
+                    </EventHandlers>
+                </Button>
+                <Button name="$parentStart" inherits="EA_Button_DefaultResizeable"  font="font_chat_text" textalign="center">
+                    <Size>
+                        <AbsPoint x="100" y="39" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentStop">
+                            <AbsPoint x="5" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="Punctuality.Start"/>
+                    </EventHandlers>
+                </Button>
+                <Button name="$parentReset" inherits="EA_Button_DefaultResizeable"  font="font_chat_text" textalign="center">
+                    <Size>
+                        <AbsPoint x="100" y="39" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentStart">
+                            <AbsPoint x="5" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="Punctuality.Reset"/>
+                    </EventHandlers>
+                </Button>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

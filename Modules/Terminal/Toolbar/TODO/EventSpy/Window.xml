@@ -1,0 +1,115 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Button name="EventRowItem" inherits="EA_Button_DefaultListRow" >
+            <Size>
+                <AbsPoint x="600" y="34"/>
+            </Size>
+            <Windows>
+                <FullResizeImage name="$parentBackground" inherits="EA_FullResizeImage_TintableSolidBackground">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" />
+                        <Anchor point="bottomright" relativePoint="bottomright" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <Label name="$parentEventID" font="font_clear_small_bold" textalign="center">
+                    <Size>
+                        <AbsPoint x="140" y="26"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left" relativeTo="">
+                            <AbsPoint x="10" y="6"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Label name="$parentEventName" font="font_clear_small_bold" >
+                    <Size>
+                        <AbsPoint x="350" y="26"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentEventID">
+                            <AbsPoint x="5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+            </Windows>
+        </Button>
+
+        <Window name="TerminalEventSpy" inherits="warExtendedDefaultWindow" savesettings="false">
+            <Size>
+                <AbsPoint x="600" y="600" />
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="warExtendedTerminal.EventSpyOnInitialize" />
+            </EventHandlers>
+            <Windows>
+                <!-- Title Bar, close button block -->
+                <Window name="$parentTitleBar" inherits="warExtendedDefaultTitleBar" />
+                <Window name="$parentBackground" inherits="warExtendedDefaultBackground" />
+
+
+            <Window name="$parentSeparator" inherits="EA_Window_DefaultSeparator" handleinput="false">
+                <Anchors>
+                <Anchor point="topleft" relativePoint="topleft" parent="$parent" >
+                    <AbsPoint x="0" y="220" />
+                </Anchor>
+                <Anchor point="topright" relativePoint="topright" parent="$parent">
+                    <AbsPoint x="0" y="220" />
+                </Anchor>
+            </Anchors>
+        </Window>
+
+                <ListBox name="$parentEventsList" scrollbar="EA_ScrollBar_ChatVertical" rowdef="EventRowItem" visiblerows="6" rowspacing="2">
+                    <Size>
+                        <AbsPoint x="600" y="210" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="10" y="10"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentSeparator">
+                            <AbsPoint x="10" y="10"/>
+                        </Anchor>
+                    </Anchors>
+                    <ListData table="warExtendedTerminal.Settings.activeToolbarWindows.TerminalEventSpy.events" populationfunction="warExtendedTerminal.EventSpyEventsPopulateList">
+                        <ListColumns>
+                            <ListColumn windowname="EventID" variable="eventId" format="number" />
+                            <ListColumn windowname="EventName" variable="eventName" format="wstring" />
+                        </ListColumns>
+                    </ListData>
+                </ListBox>
+
+
+                <Window name="$parentWhitelist" inherits="warExtendedDefaultBackground" handleinput="true">
+                    <Size>
+                        <AbsPoint x="300" y="200"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parent">
+                            <AbsPoint x="10" y="-10" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentSeparator">
+                            <AbsPoint x="-310" y="10" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Window name="$parentBlacklist" inherits="warExtendedDefaultBackground"  handleinput="true">
+                    <Size>
+                        <AbsPoint x="300" y="200"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                            <AbsPoint x="10" y="10"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentSeparator">
+                            <AbsPoint x="10" y="10"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

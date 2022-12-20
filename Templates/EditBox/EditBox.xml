@@ -1,0 +1,40 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+
+    <Windows>
+
+        <EditBox name="warExtendedMultiLineEditBox" inherits="EA_EditBox_NoFrame" maxchars="163840"
+                 font="font_clear_small_bold"
+                 scrollbar="EA_ScrollBar_ChatVertical" autoHideScrollBar="true" handleinput="true" alpha="1"
+                 scrolling="vert">
+            <TextOffset x="0" y="2"/>
+            <EventHandlers>
+                <EventHandler event="OnTextChanged" function="FrameManager.OnTextChanged"/>
+            </EventHandlers>
+        </EditBox>
+
+
+        <Window name="warExtendedSmallEditBoxLabelDuo">
+            <Size>
+                <AbsPoint x="200" y="55" />
+            </Size>
+            <Windows>
+                <Label name="$parentLabel" font="font_clear_small_bold" handleinput="false" sticky="false" textalign="right">
+                    <Size>
+                        <AbsPoint x="15" y="0"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left" />
+                    </Anchors>
+                </Label>
+                <EditBox name="$parentEdit" inherits="AA_SmallEditBox">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="right" relativeTo="$parentLabel">
+                            <AbsPoint x="0" y="5" />
+                        </Anchor>
+                    </Anchors>
+                </EditBox>
+            </Windows>
+        </Window>
+
+    </Windows>
+</Interface>

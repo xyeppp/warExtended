@@ -1,0 +1,19 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+
+        <ListBox name="warExtendedDefaultListBox" scrollbar="EA_ScrollBar_ChatVertical">
+            <Size>
+                <AbsPoint x="600" y="210"/>
+            </Size>
+            <Anchors>
+                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parent">
+                    <AbsPoint x="10" y="10"/>
+                </Anchor>
+                <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                    <AbsPoint x="10" y="50"/>
+                </Anchor>
+            </Anchors>
+        </ListBox>
+    </Windows>
+</Interface>
+

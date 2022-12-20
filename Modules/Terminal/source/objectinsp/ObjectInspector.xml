@@ -1,0 +1,187 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Scripts>
+		<Script file="Source/objectinsp/ObjectInspector.lua" />
+	</Scripts>
+	<Windows>
+		<!-- Templates Begin --> <!-- Templates End -->
+		<Window name="ObjectInspector" inherits="EA_Window_Default" layer="secondary" movable="true" savesettings="true">
+			<Size><AbsPoint x="600" y="700"/></Size>
+			<Anchors>
+				<Anchor point="center" relativePoint="center"/>
+			</Anchors>
+			<Windows>
+				<Window name="$parentNameSeperator" inherits="EA_Window_DefaultFrame" handleinput="false" >
+									<Size>
+											<AbsPoint x="750" y="35"/>
+									</Size>
+									 <Anchors>
+											 <Anchor point="topleft" relativePoint="bottomleft" relativeTo="ObjectInspector" >
+													 <AbsPoint x="0" y="40" />
+											 </Anchor>
+											 <Anchor point="topright" relativePoint="bottomright" relativeTo="ObjectInspector" >
+													 <AbsPoint x="0" y="40" />
+											 </Anchor>
+									 </Anchors>
+							 </Window>
+							 <Label name="$parentName" font="font_clear_small_bold" maxchars="256" handleinput="false">
+	                             <Size>
+	                                 <AbsPoint x="160" y="30"/>
+	                             </Size>
+	                             <Anchors>
+	                                 <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parentNameSeperator">
+	                                     <AbsPoint x="15" y="2"/>
+	                                 </Anchor>
+	                             </Anchors>
+	                         </Label>
+						<!-- Main Window Background -->
+				<Window name="$parentBackground" inherits="EA_Window_DefaultBackgroundFrame" handleinput="true">
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+							<AbsPoint x="0" y="32" />
+						</Anchor>
+						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent"/>
+					</Anchors>
+				</Window>
+				<!-- Horizontal Divider that seperates tabbed section and buttons at the bottom of the window -->
+				<Window name="$parentHorizDivide" inherits="EA_Window_DefaultSeparator" layer="default">
+					<Anchors>
+						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parent" >
+							<AbsPoint x="0" y="-82" />
+						</Anchor>
+						<Anchor point="bottomright" relativePoint="topright" relativeTo="$parent" >
+							<AbsPoint x="0" y="-82" />
+						</Anchor>
+					</Anchors>
+				</Window>
+				<Button name="$parentClearButton" inherits="EA_Button_DefaultText" textalign="center" font="font_clear_small_bold">
+					<Size>
+						<AbsPoint y="32" x="60"/>
+					</Size>
+					<Anchors>
+						<Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parent">
+							<AbsPoint x="15" y="-4"/>
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="ObjectInspector.ClearObjects"/>
+					</EventHandlers>
+				</Button>
+				<!-- Submit Button -->
+				<Button name="$parentInspectButton" inherits="EA_Button_DefaultText" textalign="center" font="font_clear_small_bold">
+					<Size>
+						<AbsPoint y="32" x="80"/>
+					</Size>
+					<Anchors>
+						<Anchor point="right" relativePoint="right" relativeTo="$parentClearButton">
+							<AbsPoint x="100" y="0"/>
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="ObjectInspector.InspectObject"/>
+					</EventHandlers>
+				</Button>
+				<Button name="$parentCloseButton" inherits="EA_Button_DefaultText" textalign="center" font="font_clear_small_bold">
+					<Size>
+						<AbsPoint y="32" x="60"/>
+					</Size>
+					<Anchors>
+						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+							<AbsPoint x="-15" y="-4"/>
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="ObjectInspector.CloseWindow"/>
+					</EventHandlers>
+				</Button>
+				<!-- Object Contents Edit Box -->
+				<EditBox name="$parentObjectEditBox" inherits="EA_EditBox_DefaultFrame_Multiline" font="font_clear_small_bold" maxchar="79000" scrollbar="$parentObjectScrollbar">
+					<Size><AbsPoint x="570" y="615"/></Size>
+					<Anchors>
+ 					 <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentBackground" >
+ 						 <AbsPoint x="8" y="2" />
+ 					 </Anchor>
+ 					 <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentBackground" >
+ 						 <AbsPoint x="-8" y="-72" />
+ 					 </Anchor>
+ 				 </Anchors>
+				</EditBox>
+				<VerticalScrollbar name="$parentObjectScrollbar" inherits="EA_ScrollBar_ChatVertical" layer="popup">
+					<Size>
+						<AbsPoint x="20" y="600"/>
+					</Size>
+					<Anchors>
+						<Anchor point="topright" relativePoint="topright" relateiveTo="$parentObjectEditBox">
+							<AbsPoint x="-25" y="2"/>
+						</Anchor>
+						<Anchor point="bottomright" relativePoint="bottomright" relateiveTo="$parentObjectEditBox">
+							<AbsPoint x="-25" y="-106"/>
+						</Anchor>
+					</Anchors>
+				</VerticalScrollbar>
+				<!-- Horizontal Divider that seperates the Object editboc from the command line -->
+				<!-- Command Line -->
+				<EditBox name="$parentCommandEditBox" inherits="EA_EditBox_DefaultFrame" font="font_clear_small_bold" scrolling="none" maxChars="300" history="30">
+					<!--<Size><AbsPoint x="480" y="24" /></Size>-->
+					<TextOffset x="4" y="3" />
+					<Anchors>
+							<Anchor point="topleft" relativePoint="topleft" relativeTo="$parentHorizDivide">
+							<AbsPoint x="8" y="18" />
+						</Anchor>
+							<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentHorizDivide">
+								<AbsPoint x="-110" y="18" />
+							</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnKeyEnter" function="ObjectInspector.InspectObject"/>
+					</EventHandlers>
+				</EditBox>
+				<!-- Maximum number of levels to traverse -->
+				<EditBox name="$parentDepthEditBox" inherits="EA_EditBox_DefaultFrame" scrolling="none" maxChars="3" input="numbers">
+					<Size><AbsPoint x="40" y="26" /></Size>
+					<TextOffset x="8" y="3" />
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentCommandEditBox">
+							<AbsPoint x="30" y="0"/>
+						</Anchor>
+					</Anchors>
+				</EditBox>
+				<Button name="$parentDepthPlusButton" inherits="EA_Button_DefaultPlus" textureScale="1.4">
+					<Size>
+						<AbsPoint x="24" y="24"/>
+					</Size>
+					<Anchors>
+						<Anchor point="right" relativePoint="right" relativeTo="$parentDepthEditBox" >
+							<AbsPoint x="23" y="0"/>
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp"  function="ObjectInspector.DepthPlus" />
+					</EventHandlers>
+				</Button>
+				<Button name="$parentDepthMinusButton" inherits="EA_Button_DefaultMinus" textureScale="1.4" >
+					<Size>
+						<AbsPoint x="24" y="24"/>
+					</Size>
+					<Anchors>
+						<Anchor point="left" relativePoint="left" relativeTo="$parentDepthEditBox" >
+							<AbsPoint x="-23" y="0"/>
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp"  function="ObjectInspector.DepthMinus" />
+					</EventHandlers>
+				</Button>
+				<Button name="$parentResizeButton" inherits="CoreWindowResizeButtonBottomRight" layer="popup" >
+						<Anchors>
+								<Anchor point="bottomright" relativePoint="bottomright" relativeTo="" >
+										<AbsPoint x="0" y="0" />
+								</Anchor>
+						</Anchors>
+						<EventHandlers>
+								<EventHandler event="OnLButtonDown" function="ObjectInspector.OnResizeBegin" />
+						</EventHandlers>
+				</Button>
+			</Windows>
+		</Window>
+	</Windows>
+</Interface>

@@ -1,0 +1,457 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Assets>
+        <Icon id="70000" texture="Icons\Anchor.tga" name="Window Helper Icon"/>
+    </Assets>
+
+    <Windows>
+        <EditBox name="AA_LargeEditBox" inherits="EA_EditBox_DefaultFrame" font="font_clear_small_bold" maxchars="512" input="nospaces">
+            <Size>
+                <AbsPoint x="575" y="25" />
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnMouseOver"   function="FrameManager.OnMouseOver" />
+                <EventHandler event="OnMouseWheel"  function="FrameManager.OnMouseWheel" />
+            </EventHandlers>
+            <TextColor r="255" g="255" b="255" a="255" />
+        </EditBox>
+
+        <EditBox name="AA_MediumEditBox" inherits="AA_LargeEditBox">
+            <Size>
+                <AbsPoint x="257" y="25" />
+            </Size>
+        </EditBox>
+
+        <EditBox name="AA_SmallEditBox" inherits="AA_LargeEditBox">
+            <Size>
+                <AbsPoint x="125" y="25" />
+            </Size>
+        </EditBox>
+
+        <Window name="AA_VerticalLabelEditDuo">
+            <Size>
+                <AbsPoint x="200" y="55" />
+            </Size>
+            <Windows>
+                <Label name="$parentLabel" font="font_clear_small_bold" handleinput="false" sticky="false">
+                    <Size>
+                        <AbsPoint x="200" y="25"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" />
+                    </Anchors>
+                </Label>
+                <EditBox name="$parentEdit" inherits="AA_MediumEditBox">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLabel">
+                            <AbsPoint x="0" y="5" />
+                        </Anchor>
+                    </Anchors>
+                </EditBox>
+            </Windows>
+        </Window>
+
+        <Window name="AA_VerticalLabelSmallEditDuo">
+            <Size>
+                <AbsPoint x="200" y="55" />
+            </Size>
+            <Windows>
+                <Label name="$parentLabel" font="font_clear_small_bold" handleinput="false" sticky="false">
+                    <Size>
+                        <AbsPoint x="200" y="25"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" />
+                    </Anchors>
+                </Label>
+                <EditBox name="$parentEdit" inherits="AA_SmallEditBox">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLabel">
+                            <AbsPoint x="0" y="5" />
+                        </Anchor>
+                    </Anchors>
+                </EditBox>
+            </Windows>
+        </Window>
+
+        <Window name="AA_VerticalLabelComboDuo">
+            <Size>
+                <AbsPoint x="125" y="60" />
+            </Size>
+            <Windows>
+                <Label name="$parentLabel" font="font_clear_small_bold" handleinput="false" sticky="false">
+                    <Size>
+                        <AbsPoint x="200" y="25"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <ComboBox name="$parentCombo" inherits="EA_ComboBox_DefaultResizableSmall" >
+                    <Size>
+                        <AbsPoint x="125" y="28"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLabel">
+                            <AbsPoint x="0" y="5" />
+                        </Anchor>
+                    </Anchors>
+                </ComboBox>
+            </Windows>
+        </Window>
+
+        <Window name="AA_Dimensions">
+            <Size>
+                <AbsPoint x="280" y="120" />
+            </Size>
+            <Windows>
+                <Window name="$parentBackground" inherits="EA_Window_DefaultBackgroundFrame" />
+                <Label name="$parentLabel" font="font_default_text" handleinput="false">
+                    <Size>
+                        <AbsPoint x="200" y="25"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="15" y="50" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Window name="$parentX" inherits="AA_VerticalLabelSmallEditDuo">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft">
+                            <AbsPoint x="12" y="-12" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <Window name="$parentY" inherits="AA_VerticalLabelSmallEditDuo">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentX">
+                            <AbsPoint x="-18" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+            </Windows>
+        </Window>
+
+        <Window name="AA_SingleAnchor">
+            <Size>
+                <AbsPoint x="280" y="220" />
+            </Size>
+            <Windows>
+                <Window name="$parentBackground" inherits="EA_Window_DefaultBackgroundFrame" />
+                <Window name="$parentRelativeWindow" inherits="AA_VerticalLabelEditDuo">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="12" y="12" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <DynamicImage name="$parentHighlightWindow" inherits="AA_CheckBox">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentRelativeWindow">
+                            <AbsPoint x="5" y="8" />
+                        </Anchor>
+                    </Anchors>
+                </DynamicImage>
+                <Window name="$parentPoint" inherits="AA_VerticalLabelComboDuo">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentHighlightWindow">
+                            <AbsPoint x="0" y="10" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <Window name="$parentRelativePoint" inherits="AA_VerticalLabelComboDuo">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentPoint">
+                            <AbsPoint x="7" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <EditBox name="$parentXOffs" inherits="AA_SmallEditBox">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentPoint">
+                            <AbsPoint x="0" y="10" />
+                        </Anchor>
+                    </Anchors>
+                </EditBox>
+                <EditBox name="$parentYOffs" inherits="AA_SmallEditBox">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentRelativePoint">
+                            <AbsPoint x="0" y="10" />
+                        </Anchor>
+                    </Anchors>
+                </EditBox>
+            </Windows>
+        </Window>
+
+        <Button name="AA_RadioButton" inherits="EA_Button_DefaultToggleCircle" handleinput="true">
+            <EventHandlers>
+                <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp" />
+            </EventHandlers>
+            <Windows>
+                <Label name="$parentLabel" font="font_clear_small_bold" handleinput="false" sticky="false">
+                    <Size>
+                        <AbsPoint x="300" y="25"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left">
+                            <AbsPoint x="5" y="5" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+            </Windows>
+        </Button>
+
+        <DynamicImage name="AA_CheckBox" texture="EA_HUD_01">
+            <Size>
+                <AbsPoint x="22" y="22" />
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver" />
+                <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp" />
+            </EventHandlers>
+            <TexCoords x="84" y="41" />
+            <Windows>
+                <DynamicImage name="$parentCheck" texture="shared_01" slice="Check" handleinput="false">
+                    <Size>
+                        <AbsPoint x="18" y="19" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="bottom">
+                            <AbsPoint x="0" y="-4" />
+                        </Anchor>
+                    </Anchors>
+                </DynamicImage>
+                <Label name="$parentLabel" font="font_clear_small_bold" handleinput="false" sticky="false">
+                    <Size>
+                        <AbsPoint x="300" y="25"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentCheck">
+                            <AbsPoint x="8" y="8" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+            </Windows>
+        </DynamicImage>
+
+        <Window name="YaaarTemplate" popable="true" movable="true">
+            <Anchors>
+                <Anchor point="center" relativePoint="center" relativeTo="Root">
+                    <AbsPoint x="0" y="0" />
+                </Anchor>
+            </Anchors>
+            <Size>
+                <AbsPoint x="610" y="600" />
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnRButtonDown" function="AnchorMover.Apply" />
+                <EventHandler event="OnInitialize" function="warExtendedTerminal.WindowHelperOnInitialize" />
+                <EventHandler event="OnUpdate"      function="AnchorMover.Update" />
+            </EventHandlers>
+
+            <Windows>
+                <Window name="$parentTitleBar" inherits="warExtendedDefaultTitleBar" />
+                <Window name="$parentBackground" inherits="warExtendedDefaultBackground" />
+
+                <Label name="$parentCurrentMouseOverLabel" font="font_clear_small_bold" textalign="left" handleinput="false">
+                    <Size>
+                        <AbsPoint x="200" y="30"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="0" y="20" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Label name="$parentCurrentMouseOverWindow" font="font_clear_small_bold" textalign="left" handleinput="false">
+                    <Size>
+                        <AbsPoint x="300" y="25"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentCurrentMouseOverLabel">
+                            <AbsPoint x="-25" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <TextColor r="255" g="255" b="0" a="255" />
+                </Label>
+
+                <Label name="$parentCurrentMousePointLabel" font="font_clear_small_bold" textalign="left" handleinput="false">
+                    <Size>
+                        <AbsPoint x="130" y="30"/>
+                    </Size>
+                        <Anchors>
+                            <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentCurrentMouseOverLabel">
+                                <AbsPoint x="0" y="16" />
+                            </Anchor>
+                        </Anchors>
+                </Label>
+                <Label name="$parentCurrentMousePointText" font="font_clear_small_bold"  textalign="left" handleinput="false">
+                    <Size>
+                        <AbsPoint x="140" y="30"/>
+                    </Size>
+                    <Anchors>
+
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentCurrentMousePointLabel">
+                            <AbsPoint x="-15" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Label name="$parentWindowMousePointLabel" font="font_clear_small_bold" maxchars="256" textalign="left" handleinput="false">
+                    <Size>
+                        <AbsPoint x="240" y="30"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentCurrentMousePointLabel">
+                            <AbsPoint x="0" y="16" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Label name="$parentWindowMousePointText" font="font_clear_small_bold" textalign="left" maxchars="256" handleinput="false">
+                    <Size>
+                        <AbsPoint x="140" y="30"/>
+                    </Size>
+                    <Anchors>
+
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentWindowMousePointLabel">
+                            <AbsPoint x="-5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+
+
+
+                <Window name="$parentSeparator" inherits="EA_Window_DefaultSeparator" handleinput="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" >
+                            <AbsPoint x="0" y="60" />
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="topright">
+                            <AbsPoint x="0" y="60" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Label name="$parentMainWindowLabel" font="font_default_text" handleinput="false">
+                    <Size>
+                        <AbsPoint x="200" y="25"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentSeparator">
+                            <AbsPoint x="15" y="50" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <EditBox name="$parentMain" inherits="AA_LargeEditBox">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentMainWindowLabel">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </EditBox>
+
+                <DynamicImage name="$parentHighlightWindow" inherits="AA_CheckBox">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentMain">
+                            <AbsPoint x="5" y="8" />
+                        </Anchor>
+                    </Anchors>
+                </DynamicImage>
+
+                <Label name="$parentFormattedAnchorString" font="font_clear_small" wordwrap="true" maxchars="512" handleinput="false">
+                    <Size>
+                        <AbsPoint x="575" y="200"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="bottom">
+                            <AbsPoint x="0" y="-75" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Window name="$parentOutputType">
+                    <Size>
+                        <AbsPoint x="200" y="80" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentAnchor1">
+                            <AbsPoint x="10" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <Windows>
+                        <Button name="$parentAnchorAsXML" inherits="AA_RadioButton">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="bottomleft">
+                                    <AbsPoint x="0" y="0" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentAnchorAsSingleLineTable" inherits="AA_RadioButton">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="bottomleft" relativeTo="$parentAnchorAsXML">
+                                    <AbsPoint x="0" y="-5" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentAnchorAsMultiLineTable" inherits="AA_RadioButton">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="bottomleft" relativeTo="$parentAnchorAsSingleLineTable">
+                                    <AbsPoint x="0" y="-5" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+                    </Windows>
+                </Window>
+
+                <DynamicImage name="$parentAutoCopyToClipboard" inherits="AA_CheckBox">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentAnchor2">
+                            <AbsPoint x="5" y="8" />
+                        </Anchor>
+                    </Anchors>
+                </DynamicImage>
+
+                <DynamicImage name="$parentPerformParentReplacement" inherits="AA_CheckBox">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentAutoCopyToClipboard">
+                            <AbsPoint x="0" y="10" />
+                        </Anchor>
+                    </Anchors>
+                </DynamicImage>
+
+                <Window name="$parentSeparator2" inherits="EA_Window_DefaultSeparator" handleinput="false">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" >
+                            <AbsPoint x="0" y="-100" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright">
+                            <AbsPoint x="0" y="-100" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <EditBox name="$parentAnchorText" inherits="warExtendedMultiLineEditBox" >
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentSeparator2">
+                            <AbsPoint x="12" y="14"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright"
+                                relativeTo="$parent">
+                            <AbsPoint x="-12" y="-8"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnTextChanged" function="warExtendedTerminal.PreventType"/>
+                    </EventHandlers>
+                </EditBox>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

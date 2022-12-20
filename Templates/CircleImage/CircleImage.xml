@@ -1,0 +1,54 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+
+    <Windows>
+        <CircleImage name="warExtendedDefaultCircleImage" handleinput="false" layer="background" textureScale="1"
+                     numsegments="14">
+            <Size>
+                <AbsPoint x="64" y="64"/>
+            </Size>
+            <Windows>
+                <DynamicImage name="$parentFrame" texture="EA_RoundFrame" textureScale="1" handleinput="false"
+                              layer="background">
+                    <Size>
+                        <AbsPoint x="64" y="64"/>
+                    </Size>
+                </DynamicImage>
+            </Windows>
+        </CircleImage>
+
+
+        <Window name="warExtendedCircleImageLabelDuoSmall">
+            <Size>
+                <AbsPoint x="160" y="120"/>
+            </Size>
+            <Windows>
+            <CircleImage name="$parentImage" inherits="warExtendedDefaultCircleImage">
+                <Size>
+                    <AbsPoint x="32" y="32"/>
+                </Size>
+                <Windows>
+                    <DynamicImage name="$parentFrame"  texture="EA_RoundFrame" textureScale="0.5" handleinput="false"
+                                  layer="background">
+                        <Size>
+                            <AbsPoint x="32" y="32"/>
+                        </Size>
+                    </DynamicImage>
+                    <Label name="$parentLabel" font="font_clear_small_bold" maxchars="256" wordwrap="true"
+                           handleinput="false" textalign="left">
+                        <Size>
+                            <AbsPoint x="160" y="24"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="right" relativePoint="right" relativeTo="$parent">
+                                <AbsPoint x="180" y="0"/>
+                            </Anchor>
+                        </Anchors>
+                    </Label>
+                </Windows>
+            </CircleImage>
+                </Windows>
+        </Window>
+
+
+    </Windows>
+</Interface>

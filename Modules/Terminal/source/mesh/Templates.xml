@@ -1,0 +1,15 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Windows>
+		<Window name="MeshLineTemplate" handleinput="false" layer="background">
+			<Windows>
+				<FullResizeImage name="$parentBackground" inherits="EA_FullResizeImage_TintableSolidBackground" alpha="1">
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent" />
+						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+					</Anchors>
+					<TintColor r="0" g="0" b="0" />
+				</FullResizeImage>
+			</Windows>
+		</Window>
+	</Windows>
+</Interface>

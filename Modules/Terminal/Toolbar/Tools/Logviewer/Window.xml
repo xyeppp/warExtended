@@ -1,0 +1,231 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <!--Templates -->
+        <Button name="LogDumpRowItem" inherits="EA_Button_DefaultListRow" >
+            <Size>
+                <AbsPoint x="240" y="34"/>
+            </Size>
+            <Anchors>
+                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLogSortButton1">
+                    <AbsPoint x="10" y="10"/>
+                </Anchor>
+                <Anchor point="topright" relativePoint="topright" relativeTo="$parentSeparator2">
+                    <AbsPoint x="10" y="50"/>
+                </Anchor>
+            </Anchors>
+            <Windows>
+                <FullResizeImage name="$parentBackground" inherits="EA_FullResizeImage_TintableSolidBackground">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" />
+                        <Anchor point="bottomright" relativePoint="bottomright" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <Label name="$parentDate" font="font_clear_small_bold" textalign="center">
+                    <Size>
+                        <AbsPoint x="140" y="26"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left" relativeTo="">
+                            <AbsPoint x="10" y="6"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Label name="$parentName" font="font_clear_small_bold" >
+                    <Size>
+                        <AbsPoint x="350" y="26"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentTimestamp">
+                            <AbsPoint x="5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Label name="$parentContents" font="font_clear_small_bold" textalign="center">
+                    <Size>
+                        <AbsPoint x="360" y="25"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLogName">
+                            <AbsPoint x="0" y="3" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+            </Windows>
+        </Button>
+
+        <Button name="TerminalLogDumpSortButton" inherits="EA_Button_ListSort" >
+            <Size>
+                <AbsPoint x="550" y="31" />
+            </Size>
+            <EventHandlers>
+                <!-- <EventHandler event="OnLButtonUp" function="UiModWindow.OnClickModListSortButton" />
+                 <EventHandler event="OnMouseOver" function="UiModWindow.OnMouseOverModListSortButton" />-->
+            </EventHandlers>
+        </Button>
+
+        <!--Templates -->
+
+        <!--*******************************************************************-->
+        <!--                       Main Window Definition                      -->
+        <!--*******************************************************************-->
+
+        <Window name="TerminalLogViewer" inherits="warExtendedDefaultWindow" savesettings="false">
+            <Size>
+                <AbsPoint x="800" y="700" />
+            </Size>
+            <Anchors>
+                <Anchor point="center" relativePoint="center" relativeTo="Root">
+                    <AbsPoint x="0" y="0" />
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="warExtendedTerminal.LogDumpOnInitialize" />
+                <!--     <EventHandler event="OnShutdown" function="warExtendedTerminal.AreaSpyWindowOnHidden" />
+                     <EventHandler event="OnShown" function="warExtendedTerminal.AreaSpyWindowOnShown" />
+                     <EventHandler event="OnHidden" function="warExtendedTerminal.AreaSpyWindowOnHidden" />
+                     <EventHandler event="OnRButtonUp" function="warExtendedTerminal.AreaSpyWindowOnRButtonUp" /> -->
+            </EventHandlers>
+            <Windows>
+                <Window name="$parentTitleBar" inherits="warExtendedDefaultTitleBar"/>
+                <Window name="$parentBackground" inherits="warExtendedDefaultBackground"/>
+
+
+                <Button name="$parentLogSortButton1" inherits="TerminalLogDumpSortButton" id="1">
+                    <Size>
+                        <AbsPoint x="112" y="31" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topright" relativeTo="$parentLogSortButton2">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Button>
+                <Button name="$parentLogSortButton2" inherits="TerminalLogDumpSortButton" id="2">
+                    <Size>
+                        <AbsPoint x="220" y="31" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="bottomleft" relativeTo="$parent">
+                            <AbsPoint x="119" y="54" />
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="-475" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Button>
+
+                <ListBox name="$parentLogList" scrollbar="EA_ScrollBar_ChatVertical" rowdef="LogDumpRowItem" visiblerows="6" rowspacing="2">
+                    <Size>
+                        <AbsPoint x="600" y="360" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLogSortButton1">
+                            <AbsPoint x="4" y="-1" />
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parentSeparator">
+                            <AbsPoint x="-14" y="50" />
+                        </Anchor>
+                    </Anchors>
+                    <ListData table="warExtendedTerminal.Settings.Toolbar.TerminalLogViewer.savedLogs" populationfunction="TerminalLogViewer.OnPopulateLogs">
+                        <ListColumns>
+                            <ListColumn windowname="Date" variable="totalSeconds" format="number" />
+                            <ListColumn windowname="Name" variable="name" format="wstring" />
+                        </ListColumns>
+                    </ListData>
+                </ListBox>
+
+                <Window name="$parentSeparator" inherits="EA_Window_DefaultSeparator" handleinput="true">
+                    <Size>
+                        <AbsPoint x="800" y="28"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parent">
+                            <AbsPoint x="0" y="-274" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="-471" y="-28" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Window name="$parentSeparator2" inherits="EA_Window_DefaultSeparator" handleinput="true">
+                    <Size>
+                        <AbsPoint x="800" y="28"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parentSearch">
+                            <AbsPoint x="-8" y="18" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="-472" y="-20" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Button name="$parentRemove" inherits="EA_Button_DefaultResizeable" >
+                    <Size>
+                        <AbsPoint x="166" y="39"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentSeparator2">
+                            <AbsPoint x="-15" y="32"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp" />
+                    </EventHandlers>
+                </Button>
+
+                <Button name="$parentAdd" inherits="EA_Button_DefaultResizeable" >
+                    <Size>
+                        <AbsPoint x="130" y="39"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left" relativeTo="$parentRemove">
+                            <AbsPoint x="-140" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp" />
+                    </EventHandlers>
+                </Button>
+
+                <EditBox name="$parentSearch" inherits="warExtendedDefaultSearchBox">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentSeparator">
+                            <AbsPoint x="8" y="18" />
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parentSeparator">
+                            <AbsPoint x="-8" y="18" />
+                        </Anchor>
+                    </Anchors>
+                </EditBox>
+
+                <Window name="$parentVertSeparator" inherits="EA_Window_DefaultVerticalSeparatorWithoutTop" handleinput="true" layer="default">
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parentLogSortButton2">
+                            <AbsPoint x="13" y="1" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentSeparator">
+                            <AbsPoint x="0" y="274" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+
+                <EditBox name="$parentText" inherits="warExtendedMultiLineEditBox" >
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentVertSeparator">
+                            <AbsPoint x="22" y="0" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="-15" y="-10" />
+                        </Anchor>
+                    </Anchors>
+                </EditBox>
+
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>
