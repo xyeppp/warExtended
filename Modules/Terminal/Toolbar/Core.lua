@@ -4,8 +4,6 @@ local TOOLBAR_WINDOW          = "DebugWindowToolbar"
 local TOOLBAR_BUTTON_TEMPLATE = "DebugWindowToolbarButton"
 local DEBUG_WINDOW            = "DebugWindow"
 
---TODO: compare save tables for keys remove oldf ones retain new ones
-
 TerminalToolbar               = warExtended.Register("warExtended Terminal Toolbar")
 local TOOLBAR_FRAME           = Frame:CreateFrameForExistingWindow(TOOLBAR_WINDOW)
 local MOD_BUTTON              = ButtonFrame:Subclass(TOOLBAR_BUTTON_TEMPLATE)

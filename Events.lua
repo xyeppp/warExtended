@@ -19,19 +19,19 @@ local function fixString(str)
 	return str
 end
 
-local function getEventFromName(event)
-	event = fixString(event)
-
-	if not Events[event] then
-		error("Invalid event name. Event " .. event .. " does not exist.")
-		return
-	end
-
-	return Events[event]
+function warExtended:GetGameEvent(event)
+  event = fixString(event)
+  
+  if not Events[event] then
+	error("Invalid event name. Event " .. event .. " does not exist.")
+	return
+  end
+  
+  return Events[event]
 end
 
 function warExtended:Broadcast(event)
-	event = getEventFromName(event)
+	event = self:GetGameEvent(event)
 
 	if not event then
 		return
@@ -119,7 +119,7 @@ end
 function warExtended:RegisterGameEvent(eventsTable, ...)
   local args={...}
   for event=1,#eventsTable do
-	event = getEventFromName(eventsTable[event])
+	event = self:GetGameEvent(eventsTable[event])
 	
 	for func = 1, #args do
 	  RegisterEventHandler(event, args[func])
@@ -131,7 +131,7 @@ end
 function warExtended:UnregisterGameEvent(eventsTable, ...)
   local args={...}
   for event=1,#eventsTable do
-	event = getEventFromName(eventsTable[event])
+	event = self:GetGameEvent(eventsTable[event])
 	
 	for func = 1, #args do
 	  UnregisterEventHandler(event, args[func])
@@ -163,7 +163,7 @@ function warExtended:RegisterWindowEvent(windowName, eventsTable, ...)
   for event=1,#eventsTable do
 	for func = 1, #args do
 	  if eventsTable[event] ~= nil then
-	  event=getEventFromName(eventsTable[event])
+	  event=self:GetGameEvent(eventsTable[event])
 		WindowRegisterEventHandler(windowName, event, args[func])
 	  end
 	end
@@ -172,7 +172,7 @@ end
 
 function warExtended:UnregisterWindowEvent(windowName, eventsTable)
   for event=1,#eventsTable do
-	  event=getEventFromName(eventsTable[event])
+	  event=self:GetGameEvent(eventsTable[event])
 	  WindowUnregisterEventHandler(windowName, event)
 	end
 end

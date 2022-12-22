@@ -94,7 +94,7 @@
         </Files>
 
         <OnInitialize>
-           <CreateWindow name="DebugWindowToolbar" show="false"/>
+            <CreateWindow name="DebugWindowToolbar" show="false"/>
             <CallFunction name="TerminalToolbar.OnInitialize"/>
         </OnInitialize>
     </UiMod>

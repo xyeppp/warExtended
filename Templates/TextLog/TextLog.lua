@@ -1,11 +1,8 @@
 TextLog = {}
 
 function TextLog:Subclass(name)
-  local derivedObject = setmetatable ({}, self)
-  
-  derivedObject.__index       = derivedObject
+  local derivedObject = setmetatable ({}, { __index = self })
   derivedObject.m_Name = name
-  
   return derivedObject
 end
 
@@ -13,8 +10,8 @@ function TextLog:GetName()
   return self.m_Name
 end
 
-function TextLog:Create()
-  TextLogCreate(self:GetName())
+function TextLog:Create(entryLimit)
+  TextLogCreate(self:GetName(), entryLimit or 50000)
 end
 
 function TextLog:Destroy()
@@ -33,24 +30,24 @@ function TextLog:AddSingleByteEntry(filterId, entry)
   TextLogAddSingleByteEntry(self:GetName(), filterId, entry )
 end
 
-function TextLog:SetIncrementalSaving(flag, fileName)
-  --TextLogSetIncrementalSaving( self:GetName(), flag, L"logs/"..warExtended:toWString(fileName)raidlog1.txt" )
+function TextLog:SetIncrementalSaving(isIncrementalSaving, logName)
+  TextLogSetIncrementalSaving( self:GetName(), isIncrementalSaving, L"logs/"..logName..L".log" )
 end
 
 function TextLog:GetIncrementalSaving()
---local logFileOn = TextLogGetIncrementalSaving( self:GetName())
+ return TextLogGetIncrementalSaving(self:GetName())
 end
 
 function TextLog:Clear()
   TextLogClear(self:GetName())
 end
 
-function TextLog:Save(path)
---TextLogSaveLog( self:GetName(), "logs/SomeDungon_July5th.txt" )
+function TextLog:Save(logName)
+ TextLogSaveLog( self:GetName(), L"logs/"..logName..L".log" )
 end
 
-function TextLog:LoadFromFile(path)
---TextLogLoadFromFile( self:GetName(), "logs/SomeDungon_July5th.txt" )
+function TextLog:LoadFromFile(logName)
+ TextLogLoadFromFile( self:GetName(), L"logs/"..logName..L".log" )
 end
 
 function TextLog:SetEnabled(flag)

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ModuleFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <UiMod name="warExtended" version="0.2" date="21/10/22">
-        <VersionSettings gameVersion="1.4.9" windowsVersion="1.0"/>
+    <UiMod name="warExtended" version="0.3" date="21/10/22">
+        <VersionSettings gameVersion="1.4.8"/>
         <Author name="xyeppp"/>
         <Description
                 text="Addon framework for all warExtended addons designed to bring Quality of Life improvements and more to Warhammer Online: Return of Reckoning."/>
@@ -57,7 +57,7 @@
             <File name="Templates/EditBox/EditBox.lua"/>
             <File name="Templates/EditBox/EditBox.xml"/>
 
-            <!--<File name="Templates/Frame/Frame.lua"/>-->
+            <File name="Templates/Frame/Frame.lua"/>
 
             <File name="Templates/Images/Images.xml"/>
             <!--<File name="Templates/IncrementButtons/IncrementButtons.lua"/>
