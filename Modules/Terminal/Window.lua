@@ -191,7 +191,7 @@ end
 
 -- OnShutdown Handler
 function Terminal.Shutdown()
-  warExtended:FixSettings (warExtendedTerminal.Settings)
+  --warExtended:FixSettings (warExtendedTerminal.Settings)
   Terminal.Settings.history = TextEditBoxGetHistory("DebugWindowTextBox")
 end
 

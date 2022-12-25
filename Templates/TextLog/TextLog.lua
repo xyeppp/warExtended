@@ -47,6 +47,7 @@ function TextLog:Save(logName)
 end
 
 function TextLog:LoadFromFile(logName)
+  self:Clear()
  TextLogLoadFromFile( self:GetName(), L"logs/"..logName..L".log" )
 end
 
@@ -64,6 +65,24 @@ end
 
 function TextLog:GetEntry(entry)
   return TextLogGetEntry(self:GetName(), entry)
+end
+
+function TextLog:GetEntriesAsString()
+  local entries = {}
+  for i = 0, self:GetNumEntries() - 1 do
+    local _, _, text = self:GetEntry(i)
+    entries[#entries+1] = warExtended:toString(text)
+  end
+  return table.concat(entries, "\n")
+end
+
+function TextLog:GetEntriesTable()
+  local entries = {}
+  for i = 0, self:GetNumEntries() - 1 do
+    local timestamp, filterId, text = self:GetEntry(i)
+    entries[#entries+1] = timestamp, filterId, text
+  end
+  return entries
 end
 
 function TextLog:GetUpdateEventId()

@@ -1,5 +1,5 @@
 local warExtended             = warExtended
-local warExtendedTerminal     = warExtendedTerminal
+
 local TOOLBAR_WINDOW          = "DebugWindowToolbar"
 local TOOLBAR_BUTTON_TEMPLATE = "DebugWindowToolbarButton"
 local DEBUG_WINDOW            = "DebugWindow"
@@ -52,12 +52,13 @@ end
 function TOOLBAR_FRAME:RegisterTool(name, description, activationFunction, icon, settings, savedSettings)
   local modData = self:AddTool(name, description, activationFunction, icon, settings)
   local newMod  = setmetatable({}, { __index = modData })
-  
-  if savedSettings ~= nil and modData:GetSavedSettings() == nil then
-	if not warExtendedTerminal.Settings.Toolbar[modData.m_Activator] then
-	  warExtendedTerminal.Settings.Toolbar[modData.m_Activator] = {}
-	end
-    warExtended:ExtendTable(warExtendedTerminal.Settings.Toolbar[self.m_Activator], savedSettings)
+
+  if savedSettings and modData:GetSavedSettings() == nil then
+    if not warExtendedTerminal.Settings.Toolbar[modData.m_Activator] then
+      warExtendedTerminal.Settings.Toolbar[modData.m_Activator] = savedSettings
+    else
+      warExtended:ExtendTable(warExtendedTerminal.Settings.Toolbar[modData.m_Activator], savedSettings)
+    end
   end
 
   return newMod
@@ -168,7 +169,8 @@ end
 -- CORE --
 
 function TerminalToolbar:RegisterTool(name, desc, activationFunc, icon, settings, savedSettings)
-  return TOOLBAR_FRAME:RegisterTool(name, desc, activationFunc, icon, settings, savedSettings)
+  local newTool = TOOLBAR_FRAME:RegisterTool(name, desc, activationFunc, icon, settings, savedSettings)
+  return newTool
 end
 
 function TerminalToolbar.Toggle()

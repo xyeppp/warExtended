@@ -5,40 +5,34 @@ local PRINT                                                               = 10
 local EVENT                                                               = 11
 
 warExtendedTerminal.currentMouseoverWindow                                = nil
-warExtendedTerminal.Settings                                              = {
-  logsOn = true,
-  history = {},
-  showTimestamp = true,
-  Toolbar = {},
-  LogFilters = {
-    [SystemData.UiLogFilters.SYSTEM]   = { enabled = true, color = DefaultColor.MAGENTA },
-    [SystemData.UiLogFilters.WARNING]  = { enabled = true, color = DefaultColor.ORANGE },
-    [SystemData.UiLogFilters.ERROR]    = { enabled = true, color = DefaultColor.RED },
-    [SystemData.UiLogFilters.DEBUG]    = { enabled = true, color = DefaultColor.YELLOW },
-    [SystemData.UiLogFilters.LOADING]  = { enabled = false, color = DefaultColor.LIGHT_GRAY},
-    [SystemData.UiLogFilters.FUNCTION] = { enabled = false, color = DefaultColor.GREEN },
-    [INPUT]                            = { enabled = true, color = DefaultColor.MAGENTA },
-    [PRINT]                            = { enabled = true, color = DefaultColor.LIGHT_BLUE },
-    [EVENT]                            = { enabled = true, color = DefaultColor.GOLD },
-  },
-}
+
+if not warExtendedTerminal.Settings then
+  warExtendedTerminal.Settings                                              = {
+    logsOn = true,
+    history = {},
+    showTimestamp = true,
+    Toolbar = {},
+    LogFilters = {
+      [SystemData.UiLogFilters.SYSTEM]   = { enabled = true, color = DefaultColor.MAGENTA },
+      [SystemData.UiLogFilters.WARNING]  = { enabled = true, color = DefaultColor.ORANGE },
+      [SystemData.UiLogFilters.ERROR]    = { enabled = true, color = DefaultColor.RED },
+      [SystemData.UiLogFilters.DEBUG]    = { enabled = true, color = DefaultColor.YELLOW },
+      [SystemData.UiLogFilters.LOADING]  = { enabled = false, color = DefaultColor.LIGHT_GRAY},
+      [SystemData.UiLogFilters.FUNCTION] = { enabled = false, color = DefaultColor.GREEN },
+      [INPUT]                            = { enabled = true, color = DefaultColor.MAGENTA },
+      [PRINT]                            = { enabled = true, color = DefaultColor.LIGHT_BLUE },
+      [EVENT]                            = { enabled = true, color = DefaultColor.GOLD },
+    },
+  }
+end
 
 
 local function addFilterTypes()
   TextLogAddFilterType("UiLog", 11, L"[Event]:")
 end
 
-local function toggleVisibleMods()
-  if warExtendedTerminal.Settings.visibleMods == nil then
-    return
-  end
-  
-  for modName, state in pairs(warExtendedTerminal.Settings.visibleMods) do
-  end
-end
 
 function warExtendedTerminal.OnInitialize()
-  toggleVisibleMods()
   SetLoadLuaDebugLibrary(false)
   --warExtendedTerminal.OnInitializeWindow()
   addFilterTypes()

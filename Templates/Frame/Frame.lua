@@ -57,3 +57,8 @@ function Frame:SetHandleInput(doesHandleInput)
   WindowSetHandleInput(self:GetName(), doesHandleInput)
 end
 
+function Frame:OnScrollPosChanged (scrollPos)            end
+function Frame:OnShown ()            end
+function Frame:OnHidden ()            end
+function Frame:OnMouseDrag ()            end
+

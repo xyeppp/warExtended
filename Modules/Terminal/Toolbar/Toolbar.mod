@@ -7,8 +7,8 @@
         <Description
                 text="Adds a set of development tools to the Debug Window/Terminal."/>
         <Dependencies>
-            <Dependency name="warExtended"/>
             <Dependency name="warExtended Terminal"/>
+            <Dependency name="warExtended"/>
         </Dependencies>
 
         <Files>
@@ -34,6 +34,13 @@
             <File name="Tools/Logviewer/Window.xml"/>
             <File name="Tools/Logviewer/Core.lua"/>
             <File name="Tools/Logviewer/Window.lua"/>
+
+
+            <File name="Tools/TextureViewer/Window.xml"/>
+            <File name="Tools/TextureViewer/Core.lua"/>
+            <File name="Tools/TextureViewer/Icons.lua"/>
+            <File name="Tools/TextureViewer/Textures.lua"/>
+            <File name="Tools/TextureViewer/Window.lua"/>
 
 
             <!--

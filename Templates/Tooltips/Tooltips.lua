@@ -1,7 +1,7 @@
 local warExtended = warExtended
 local pairs       = pairs
 
-function warExtended:CreateTextTooltip(windowName, tooltipDef, extraText, anchor, alpha)
+function warExtended:CreateTextTooltip(windowName, tooltipDef, extraText, anchor, alpha, callback)
   Tooltips.CreateTextOnlyTooltip(windowName)
   
   for row, columnData in pairs(tooltipDef) do
@@ -27,6 +27,10 @@ function warExtended:CreateTextTooltip(windowName, tooltipDef, extraText, anchor
   
   if alpha then
 	Tooltips.SetTooltipAlpha(alpha)
+  end
+  
+  if callback then
+	Tooltips.SetUpdateCallback(callback)
   end
 
 end

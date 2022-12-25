@@ -33,7 +33,7 @@ function TabButton:OnLButtonUp(flags, x, y)
 end
 
 function TabButton:OnMouseOver()
-  local anchor = { Point = "bottom", RelativeTo = self:GetName(), RelativePoint = "top", XOffset = 0, YOffset = -32 }
+  local anchor = { Point = "bottom", RelativeTo = self:GetName(), RelativePoint = "top", XOffset = 0, YOffset = -64 }
   
   if self:GetName():match("BottomTab") then
 	anchor = { Point = "top", RelativeTo = self:GetName(), RelativePoint = "bottom", XOffset = 0, YOffset = 74 }

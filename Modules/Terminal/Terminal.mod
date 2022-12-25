@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ModuleFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <UiMod name="warExtended Terminal" version="2.0" date="21/10/22">
+    <UiMod name="warExtended Terminal" version="1.0" date="21/10/22">
         <Replaces name="EA_UiDebugTools"/>
-        <VersionSettings gameVersion="1.4.9" windowsVersion="1.0" savedVariablesVersion="1.3"/>
+        <VersionSettings gameVersion="1.4.9" windowsVersion="1.0" savedVariablesVersion="1.0"/>
         <Author name="xyeppp" email=""/>
         <Description
                 text="Overhauls the default debug window into a more terminal-like experience & adds tools aiding add-on development and debugging."/>
@@ -22,7 +22,6 @@
 
             <!--<File name="VerticalScroll.xml"/>
            -->
-                     <!--      -->
         </Files>
 
         <OnInitialize>

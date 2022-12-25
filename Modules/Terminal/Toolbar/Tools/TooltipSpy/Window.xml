@@ -107,7 +107,7 @@
             </Size>
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="TerminalTooltipSpy.OnInitialize"/>
-                <EventHandler event="OnShown" function="TerminalTooltipSpy.OnShown"/>
+              <!--  <EventHandler event="OnShown" function="TerminalTooltipSpy.OnShown"/>-->
             </EventHandlers>
 
             <Windows>

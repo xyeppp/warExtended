@@ -3,7 +3,7 @@ local WINDOW_NAME      = "TerminalTooltipSpy"
 local TOOL_NAME        = L"Tooltip Spy"
 local TOOL_DESCRIPTION = L"Intercepts tooltip creations to display hidden data about the tooltipped object."
 
-TerminalTooltipSpy     = TerminalToolbar:RegisterTool(TOOL_NAME, TOOL_DESCRIPTION, WINDOW_NAME, 13322)
+TerminalTooltipSpy     = TerminalToolbar:RegisterTool(TOOL_NAME, TOOL_DESCRIPTION, WINDOW_NAME, 13322, {selectedTab=false}, {selectedTab=false})
 
 local function tooltipHook(tooltipData)
   TerminalTooltipSpy:SetObjectData(tooltipData)
@@ -21,6 +21,8 @@ local function setTooltipHooks()
   warExtended:Hook(Tooltips.CreateCustomItemTooltip, tooltipHook, true)
   warExtended:Hook(ActionButton.OnMouseOver, actionButtonHook, true)
   warExtended:RegisterGameEvent({ "player target updated" }, "TerminalTooltipSpy.OnUpdateTarget")
+  
+  warExtended:RemoveEventHandler("SetTooltipSpyHook", "CoreInitialized", setTooltipHooks)
 end
 
 function TerminalTooltipSpy.OnInitialize()

@@ -1,7 +1,7 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
         <!--Templates -->
-        <Button name="LogDumpRowItem" inherits="EA_Button_DefaultListRow" >
+        <Button name="LogDumpRowItem" inherits="EA_Button_DefaultListRow" handleinput="true" >
             <Size>
                 <AbsPoint x="240" y="34"/>
             </Size>
@@ -13,6 +13,12 @@
                     <AbsPoint x="10" y="50"/>
                 </Anchor>
             </Anchors>
+
+            <EventHandlers>
+                <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver" />
+                <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp" />
+            </EventHandlers>
+
             <Windows>
                 <FullResizeImage name="$parentBackground" inherits="EA_FullResizeImage_TintableSolidBackground">
                     <Anchors>
@@ -36,7 +42,7 @@
                         <AbsPoint x="350" y="26"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="right" relativePoint="left" relativeTo="$parentTimestamp">
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentDate">
                             <AbsPoint x="5" y="0"/>
                         </Anchor>
                     </Anchors>
@@ -46,7 +52,7 @@
                         <AbsPoint x="360" y="25"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLogName">
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentName">
                             <AbsPoint x="0" y="3" />
                         </Anchor>
                     </Anchors>
@@ -129,7 +135,6 @@
                     </Anchors>
                     <ListData table="warExtendedTerminal.Settings.Toolbar.TerminalLogViewer.savedLogs" populationfunction="TerminalLogViewer.OnPopulateLogs">
                         <ListColumns>
-                            <ListColumn windowname="Date" variable="totalSeconds" format="number" />
                             <ListColumn windowname="Name" variable="name" format="wstring" />
                         </ListColumns>
                     </ListData>

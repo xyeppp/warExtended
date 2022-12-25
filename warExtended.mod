@@ -7,7 +7,7 @@
         <Description
                 text="Addon framework for all warExtended addons designed to bring Quality of Life improvements and more to Warhammer Online: Return of Reckoning."/>
         <Dependencies>
-            <Dependency name="EASystem_WindowUtils" />
+            <Dependency name="EASystem_WindowUtils"/>
         </Dependencies>
         <Files>
             <File name="Core.lua"/>
@@ -38,7 +38,7 @@
 
             <File name="Utils/General.lua"/>
             <File name="Utils/Id.lua"/>
-           <!-- <File name="Utils/Search.lua"/>-->
+            <!-- <File name="Utils/Search.lua"/>-->
             <File name="Utils/String.lua"/>
             <File name="Utils/Table.lua"/>
             <File name="Utils/Time.lua"/>
@@ -58,6 +58,7 @@
             <File name="Templates/EditBox/EditBox.xml"/>
 
             <File name="Templates/Frame/Frame.lua"/>
+            <File name="Templates/FrameManager/FrameManager.lua"/>
 
             <File name="Templates/Images/Images.xml"/>
             <!--<File name="Templates/IncrementButtons/IncrementButtons.lua"/>
@@ -75,6 +76,8 @@
             <File name="Templates/SearchBox/SearchBox.xml"/>
             <File name="Templates/SearchBox/SearchBox.lua"/>
 
+            <File name="Templates/ScrollWindow/ScrollWindow.lua"/>
+
             <File name="Templates/TextLog/TextLog.lua"/>
 
             <File name="Templates/SimpleCheckButton/SimpleCheckButton.lua"/>
@@ -82,9 +85,11 @@
             <File name="Templates/StatusBar/StatusBar.lua"/>
 
             <File name="Templates/TabGroup/TabGroup.lua"/>
-          <!--  <File name="Templates/TabGroup/TabGroup.xml"/>-->
+            <File name="Templates/TabGroup/TabGroup.xml"/>
 
             <File name="Templates/Tooltips/Tooltips.lua"/>
+
+            <File name="Templates/VerticalScrollbar/VerticalScrollbar.lua"/>
 
             <File name="Templates/Window/Window.xml"/>
         </Files>
