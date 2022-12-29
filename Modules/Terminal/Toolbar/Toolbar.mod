@@ -35,12 +35,17 @@
             <File name="Tools/Logviewer/Core.lua"/>
             <File name="Tools/Logviewer/Window.lua"/>
 
-
+            <File name="Tools/TextureViewer/Icons.xml"/>
+            <File name="Tools/TextureViewer/Textures.xml"/>
             <File name="Tools/TextureViewer/Window.xml"/>
             <File name="Tools/TextureViewer/Core.lua"/>
             <File name="Tools/TextureViewer/Icons.lua"/>
             <File name="Tools/TextureViewer/Textures.lua"/>
             <File name="Tools/TextureViewer/Window.lua"/>
+
+            <File name="Tools/TestUnit/Window.xml"/>
+            <File name="Tools/TestUnit/Core.lua"/>
+            <File name="Tools/TestUnit/Window.lua"/>
 
 
             <!--

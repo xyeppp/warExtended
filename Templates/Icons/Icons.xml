@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Assets>
+        <Icon id="00092" texture="Templates/Icons/Textures/LMB.tga" name=" "/>
+        <Icon id="00093" texture="Templates/Icons/Textures/RMB.tga" name=" "/>
+        <Icon id="00094" texture="Templates/Icons/Textures/MMB.tga" name=" "/>
+    </Assets>
+</Interface>

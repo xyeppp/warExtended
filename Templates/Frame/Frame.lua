@@ -57,8 +57,23 @@ function Frame:SetHandleInput(doesHandleInput)
   WindowSetHandleInput(self:GetName(), doesHandleInput)
 end
 
+function Frame:GetDimensions(override)
+  if override then
+	self:SetDimensions(WindowGetDimensions (self:GetName ()))
+	return self:GetDimensions()
+  elseif (self.m_Width == nil)	then
+	  self.m_Width, self.m_Height = WindowGetDimensions (self:GetName ())
+	end
+	
+	return self.m_Width, self.m_Height
+end
+
 function Frame:OnScrollPosChanged (scrollPos)            end
 function Frame:OnShown ()            end
 function Frame:OnHidden ()            end
 function Frame:OnMouseDrag ()            end
+function Frame:OnInitialize ()            end
+function Frame:OnShutdown ()            end
+function Frame:OnUpdate (elapsedTime)            end
+function Frame:OnSelChanged (idx)            end
 

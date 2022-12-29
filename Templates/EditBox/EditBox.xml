@@ -12,8 +12,26 @@
             </EventHandlers>
         </EditBox>
 
+        <EditBox name="warExtendedLargeEditBox" inherits="EA_EditBox_DefaultFrame" maxchars="512" input="nospaces">
+            <Size>
+                <AbsPoint x="575" y="25" />
+            </Size>
+            <TextColor r="255" g="255" b="255" a="255" />
+        </EditBox>
 
-        <Window name="warExtendedSmallEditBoxLabelDuo">
+        <EditBox name="warExtendedMediumEditBox" inherits="warExtendedLargeEditBox">
+            <Size>
+                <AbsPoint x="257" y="25" />
+            </Size>
+        </EditBox>
+
+        <EditBox name="warExtendedSmallEditBox" inherits="warExtendedLargeEditBox">
+            <Size>
+                <AbsPoint x="125" y="25" />
+            </Size>
+        </EditBox>
+
+        <Window name="warExtendedSmallVerticalLabelEditDuo">
             <Size>
                 <AbsPoint x="200" y="55" />
             </Size>
@@ -26,7 +44,7 @@
                         <Anchor point="left" relativePoint="left" />
                     </Anchors>
                 </Label>
-                <EditBox name="$parentEdit" inherits="AA_SmallEditBox">
+                <EditBox name="$parentEdit" inherits="warExtendedSmallEditBox">
                     <Anchors>
                         <Anchor point="right" relativePoint="right" relativeTo="$parentLabel">
                             <AbsPoint x="0" y="5" />
@@ -36,5 +54,27 @@
             </Windows>
         </Window>
 
+        <Window name="warExtendedMediumLabelEditDuo" >
+            <Size>
+                <AbsPoint x="300" y="55" />
+            </Size>
+            <Windows>
+         <Label name="$parentLabel" textalign="rightcenter" font="font_clear_small_bold" handleinput="false" sticky="false">
+            <Size>
+                <AbsPoint x="15" y="0"/>
+            </Size>
+            <Anchors>
+                <Anchor point="left" relativePoint="left" />
+            </Anchors>
+        </Label>
+        <EditBox name="$parentTextureNameEditBox" inherits="warExtendedMediumEditBox">
+            <Anchors>
+                <Anchor point="topright" relativePoint="topleft" relativeTo="$parentLabel">
+                    <AbsPoint x="5" y="0"/>
+                </Anchor>
+            </Anchors>
+        </EditBox>
+            </Windows>
+        </Window>
     </Windows>
 </Interface>

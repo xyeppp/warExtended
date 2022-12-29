@@ -36,20 +36,39 @@ function FrameManager.OnMouseDrag ()
   end
 end
 
---[[function FrameManager.OnMouseOverEnd (flags, mouseX, mouseY)
+function FrameManager.OnInitialize ()
   local frame = FrameManager:GetActiveWindow ()
   
   if (frame)
   then
-	frame:OnMouseOverEnd (flags, mouseX, mouseY)
+	frame:OnInitialize ()
   end
 end
 
-function FrameManager.OnMouseOverEnd (flags, mouseX, mouseY)
+function FrameManager.OnShutdown ()
   local frame = FrameManager:GetActiveWindow ()
   
   if (frame)
   then
-	frame:OnMouseOverEnd (flags, mouseX, mouseY)
+	frame:OnShutdown ()
   end
-end]]
+end
+
+function FrameManager.OnUpdate (elapsedTime)
+  local frame = FrameManager:GetActiveWindow ()
+  
+  if (frame)
+  then
+	frame:OnUpdate (elapsedTime)
+  end
+end
+
+function FrameManager.OnSelChanged (idx)
+  local frame = FrameManager:GetActiveWindow ()
+  
+  if (frame)
+  then
+	frame:OnSelChanged (idx)
+  end
+end
+

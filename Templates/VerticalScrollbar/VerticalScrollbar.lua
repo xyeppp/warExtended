@@ -12,10 +12,6 @@ function VerticalScrollbar:SetMaxScrollPos(scrollPos)
   VerticalScrollbarSetMaxScrollPosition(self:GetName(), scrollPos)
 end
 
-function VerticalScrollbar:SetMaxScrollPos(scrollPos)
-  VerticalScrollbarSetMaxScrollPosition(self:GetName(), scrollPos)
-end
-
 function VerticalScrollbar:GetMaxScrollPos()
   return VerticalScrollbarGetMaxScrollPosition(self:GetName())
 end

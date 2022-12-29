@@ -15,6 +15,7 @@
             <File name="LinkedList.lua"/>
             <File name="Events.lua"/>
             <File name="Flags.lua"/>
+          <!--  <File name="Functions.lua"/>-->
             <File name="Globals.lua"/>
             <File name="Hooks.lua"/>
             <File name="Hyperlinks.lua"/>
@@ -49,6 +50,7 @@
             <File name="Templates/CircleImage/CircleImage.xml"/>
             <File name="Templates/CircleImage/CircleImage.lua"/>
 
+            <File name="Templates/ComboBox/ComboBox.lua"/>
             <File name="Templates/ComboBox/ComboBox.xml"/>
 
             <File name="Templates/Dialog/Dialogs.xml"/>
@@ -57,10 +59,15 @@
             <File name="Templates/EditBox/EditBox.lua"/>
             <File name="Templates/EditBox/EditBox.xml"/>
 
+            <File name="Templates/ExpandableListBox/ExpandableListBox.lua"/>
+            <File name="Templates/ExpandableListBox/ExpandableListBox.xml"/>
+
             <File name="Templates/Frame/Frame.lua"/>
             <File name="Templates/FrameManager/FrameManager.lua"/>
 
             <File name="Templates/Images/Images.xml"/>
+
+            <File name="Templates/Icons/Icons.xml"/>
             <!--<File name="Templates/IncrementButtons/IncrementButtons.lua"/>
             <File name="Templates/IncrementButtons/IncrementButtons.xml"/>-->
 

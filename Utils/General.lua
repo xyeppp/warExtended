@@ -25,6 +25,7 @@ local math = math
 local GetTodaysDate = GetTodaysDate
 local GetComputerTime = GetComputerTime
 local lastID = 0
+local type = type
 
 function warExtended:CompareString(stringToCompare, stringToCheck)
 	local stringBoundary = "%f[%w%p]%" .. stringToCompare .. "%f[%A]"
@@ -186,6 +187,18 @@ function warExtended:ConvertToInteger(str)
 	return tonumber(str)
 end
 
+function warExtended:toNumber(str)
+  if str ~= nil then
+	return tonumber(str)
+  end
+  
+  return nil
+end
+
+function warExtended:IsType(val, _type)
+  return type(val) == _type
+end
+
 function warExtended:FixSettings (tbl)
   
   --[[for k, v in pairs (tbl)
@@ -240,11 +253,6 @@ function warExtended:CombineTable(t1, t2)
   end
   
   return res
-end
-
-function warExtended:GetIconString(iconId)
-  local iconString = "<icon" .. iconId .. ">"
-  return iconString
 end
 
 function warExtended:Clone(t)

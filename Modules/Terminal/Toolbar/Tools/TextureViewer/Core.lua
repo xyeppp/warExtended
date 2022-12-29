@@ -26,6 +26,11 @@ function TerminalTextureViewer.OnInitialize()
   p('-----')]]
 end
 
+function TerminalTextureViewer.OnResizeBegin()
+  local currentTab = GetFrame(WINDOW_NAME.."Icons") or GetFrame(WINDOW_NAME.."Textures")
+  warExtended:OnResizeWindow(630, 600, currentTab.OnResizeEnd)
+end
+
 function TerminalTextureViewer.OnShown()
 
 end
