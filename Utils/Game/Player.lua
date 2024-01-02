@@ -1,5 +1,6 @@
 local warExtended = warExtended
 local tostring = tostring
+local mfloor = math.floor
 local GetDatabaseGuildData = GetDatabaseGuildData
 
 function warExtended:GetPlayerLevel()
@@ -23,13 +24,18 @@ function warExtended:GetPlayerCareerLine()
 end
 
 function warExtended:GetPlayerName()
-  local playerName = tostring(GameData.Player.name)
+  local playerName = self:FixString(GameData.Player.name)
   return playerName
 end
 
 function warExtended:GetPlayerHPCurrent()
   local currentPlayerHP = GameData.Player.hitPoints.current
   return currentPlayerHP
+end
+
+function warExtended:GetPlayerHPPercentage()
+  local hpPercentage = mfloor((self:GetPlayerHPCurrent()/self:GetPlayerHPMax()) * 100)
+  return hpPercentage
 end
 
 function warExtended:GetPlayerHPMax()
@@ -48,9 +54,17 @@ function warExtended:GetPlayerAdvanceData()
 end
 
 function warExtended:GetPlayerMasteryLevels()
-  local Specialty = warExtendedSpecialtyTraining.initialSpecializationLevels or EA_Window_InteractionSpecialtyTraining.initialSpecializationLevels
+  local Specialty
+
+  if warExtendedSpecialtyTraining then
+    Specialty = warExtendedSpecialtyTraining.initialSpecializationLevels
+  else
+    Specialty = EA_Window_InteractionSpecialtyTraining.initialSpecializationLevels
+  end
+
   return Specialty[1], Specialty[2], Specialty[3]
 end
+
 
 function warExtended:GetPlayerPetWorldObjNum()
   local playerPetWorldObjNum = GameData.Player.Pet.objNum
@@ -64,13 +78,15 @@ function warExtended:GetPlayerGuildData()
 end
 
 function warExtended:GetPlayerLevelString()
-  local iconShorthandle = warExtended:GetCareerIconShorthandleString(warExtended:GetPlayerCareerLine())
-  local playerLevel = warExtended:GetPlayerLevel()
-  local message = iconShorthandle.." "..warExtended:GetIconString(41).." "..playerLevel.." "..warExtended:GetIconString(45).." "..warExtended:GetPlayerRenownLevel()
+  local iconShorthandle = self:toWString(self:GetCareerIconShorthandleString(self:GetPlayerCareerLine()))
+
+
+  local playerLevel = self:GetPlayerLevel()
+  local message = iconShorthandle..L" "..self:GetIconString(41)..L" "..playerLevel..L" "..self:GetIconString(45)..L" "..self:GetPlayerRenownLevel()
   
   if playerLevel == 40 then
-     message = iconShorthandle.." "..warExtended:GetIconString(45).." "..warExtended:GetPlayerRenownLevel()
+     message = iconShorthandle..L" "..self:GetIconString(45)..L" "..self:GetPlayerRenownLevel()
   end
-  
-return message
+
+return self:toString(message)
 end

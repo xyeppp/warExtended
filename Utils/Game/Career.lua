@@ -1,80 +1,74 @@
 local warExtended      = warExtended
 
-local careerNameToLine = {
-  ["Ironbreaker"] = 1,
-  ["Slayer"] = 2,
-  ["Runepriest"] = 3,
-  ["Engineer"] = 4,
-  ["Black Orc"] = 5,
-  ["Choppa"] = 6,
-  ["Shaman"] = 7,
-  ["Squig Herder"] = 8,
-  ["Witch Hunter"] = 9,
-  ["Knight of the Blazing Sun"] = 10,
-  ["Bright Wizard"] = 11,
-  ["Warrior Priest"] = 12,
-  ["Chosen"] = 13,
-  ["Marauder"] = 14,
-  ["Zealot"] = 15,
-  ["Magus"] = 16,
-  ["Swordmaster"] = 17,
-  ["Shadow Warrior"] = 18,
-  ["White Lion"] = 19,
-  ["Archmage"] = 20,
-  ["Blackguard"] = 21,
-  ["Witch Elf"] = 22,
-  ["Disciple of Khaine"] = 23,
-  ["Sorcerer"] = 24
-}
+local TANK_ROLE = 1
+local DPS_ROLE = 2
+local HEALER_ROLE = 3
+
+local TANK_ROLE_ICON = 22724
+local DPS_ROLE_ICON = 22657
+local HEALER_ROLE_ICON = 22706
+
+local DWARF_RACE = 1
+local ORC_RACE = 2
+local GOBLIN_RACE = 3
+local HE_RACE = 4
+local DE_RACE = 5
+local EMPIRE_RACE = 6
+local CHAOS_RACE = 7
+
+local TANK_ROLE_STRING = L"Tank"
+local TANK_MULTIPLE_STRING = L"Tanks"
+
+local DPS_ROLE_STRING = L"DPS"
+local HEALER_ROLE_STRING = L"Heal"
+local HEALER_MULTIPLE_ROLE_STRING = L"Healers"
 
 local roles            = {
-  [1] = {
-	icon = 22724,
-	text = "Tank",
-	multiple = "Tanks"
-  },
-  [2] = {
-	icon = 22657,
-	text = "DPS",
-  },
-  [3] = {
-	icon = 22706,
-	text = "Heal",
-	multiple = "Healers",
-  }
+	[TANK_ROLE] = {
+		icon = TANK_ROLE_ICON,
+		text = TANK_ROLE_STRING,
+		multiple = TANK_MULTIPLE_STRING
+	},
+	[DPS_ROLE] = {
+		icon = DPS_ROLE_ICON,
+		text = DPS_ROLE_STRING,
+	},
+	[HEALER_ROLE] = {
+		icon = HEALER_ROLE_ICON,
+		text = HEALER_ROLE_STRING,
+		multiple = HEALER_MULTIPLE_ROLE_STRING,
+	}
 }
 
-
 local races = {
-  [1] =  {
-	name = "Dwarf",
+  [DWARF_RACE] =  {
+	name = L"Dwarf",
 	icon = 23004,
   },
-  [2] =  {
-	name = "Orc",
+  [ORC_RACE] =  {
+	name = L"Orc",
 	icon = 23008,
   },
-  [3] =  {
-	name = "Goblin",
+  [GOBLIN_RACE] =  {
+	name = L"Goblin",
 	icon = 23008,
   },
-  [4] =  {
-	name = "High Elf",
+  [HE_RACE] =  {
+	name = L"High Elf",
 	icon = 23010,
   },
-  [5] =  {
-	name = "Dark Elf",
+  [DE_RACE] =  {
+	name = L"Dark Elf",
 	icon = 23002,
   },
-  [6] =  {
-	name = "Empire",
+  [EMPIRE_RACE] =  {
+	name = L"Empire",
 	icon = 23006,
   },
-  [7] =  {
-	name = "Chaos",
+  [CHAOS_RACE] =  {
+	name = L"Chaos",
 	icon = 23000,
   },
-  
 }
 --[[Enemy.ScenarioCareerIdToLine =
 {
@@ -114,197 +108,226 @@ local CareersWithPet   = {
 }]]
 
 
+local careerNameToLine = {
+	["Ironbreaker"] = 1,
+	["Slayer"] = 2,
+	["Runepriest"] = 3,
+	["Engineer"] = 4,
+	["Black Orc"] = 5,
+	["Choppa"] = 6,
+	["Shaman"] = 7,
+	["Squig Herder"] = 8,
+	["Witch Hunter"] = 9,
+	["Knight of the Blazing Sun"] = 10,
+	["Bright Wizard"] = 11,
+	["Warrior Priest"] = 12,
+	["Chosen"] = 13,
+	["Marauder"] = 14,
+	["Zealot"] = 15,
+	["Magus"] = 16,
+	["Swordmaster"] = 17,
+	["Shadow Warrior"] = 18,
+	["White Lion"] = 19,
+	["Archmage"] = 20,
+	["Blackguard"] = 21,
+	["Witch Elf"] = 22,
+	["Disciple of Khaine"] = 23,
+	["Sorcerer"] = 24
+}
+
+
+
 
 local careers          = {
   [1] = {
-	name = "Ironbreaker",
+	name = L"Ironbreaker",
 	line = 20,
-	short = "IB",
+	short = L"IB",
 	icon = 20189,
 	role = 1,
 	race = 1,
   },
   [2] = {
-	name = "Slayer",
+	name = L"Slayer",
 	line = 21,
 	icon = 20188,
-	short = "SLA",
+	short = L"SLA",
 	role = 2,
 	race = 1,
   },
   [3] = {
-	name = "Runepriest",
+	name = L"Runepriest",
 	line = 22,
 	icon = 20193,
-	short = "RP",
+	short = L"RP",
 	role = 3,
 	race = 1,
   },
   [4] = {
-	name = "Engineer",
+	name = L"Engineer",
 	line = 4,
 	icon = 20187,
-	short = "ENG",
+	short = L"ENG",
 	role = 2,
 	race = 1,
   },
   [5] = {
-	name = "Black Orc",
+	name = L"Black Orc",
 	id = 24,
 	icon = 20182,
-	short = "BO",
+	short = L"BO",
 	role = 1,
 	race = 2,
   },
   [6] = {
-	name = "Choppa",
+	name = L"Choppa",
 	id = 25,
 	icon = 20184,
-	short = "CHP",
+	short = L"CHP",
 	role = 2,
 	race = 2,
   },
   [7] = {
-	name = "Shaman",
+	name = L"Shaman",
 	id = 26,
 	icon = 20195,
-	short = "SHA",
+	short = L"SHA",
 	role = 3,
 	race = 3,
   },
   [8] = {
-	name = "Squig Herder",
+	name = L"Squig Herder",
 	id = 27,
 	icon = 20197,
-	short = "SH",
+	short = L"SH",
 	role = 2,
 	race = 3,
   },
   [9] = {
-	name = "Witch Hunter",
+	name = L"Witch Hunter",
 	id = 60,
 	icon = 20202,
-	short = "WH",
+	short = L"WH",
 	role = 2,
 	race = 6,
   },
   [10] = {
-	name = "Knight of the Blazing Sun",
+	name = L"Knight of the Blazing Sun",
 	id = 61,
 	icon = 20190,
-	short = "KOTBS",
+	short = L"KOTBS",
 	role = 1,
 	race = 6,
   },
   [11] = {
-	name = "Bright Wizard",
+	name = L"Bright Wizard",
 	id = 62,
 	icon = 20183,
-	short = "BW",
+	short = L"BW",
 	role = 2,
 	race = 6,
   },
   [12] = {
-	name = "Warrior Priest",
+	name = L"Warrior Priest",
 	id = 63,
 	icon = 20199,
-	short = "WP",
+	short = L"WP",
 	role = 3,
 	race = 6,
   },
   [13] = {
-	name = "Chosen",
+	name = L"Chosen",
 	id = 64,
 	icon = 20185,
-	short = "CH",
+	short = L"CH",
 	role = 1,
 	race = 7,
   },
   [14] = {
-	name = "Marauder",
+	name = L"Marauder",
 	id = 65,
 	icon = 20192,
-	short = "MRD",
+	short = L"MRD",
 	role = 2,
 	race = 7,
   },
   [15] = {
-	name = "Zealot",
+	name = L"Zealot",
 	id = 66,
 	icon = 20203,
-	short = "ZEL",
+	short = L"ZEL",
 	role = 3,
 	race = 7,
   },
   [16] = {
-	name = "Magus",
+	name = L"Magus",
 	id = 67,
 	icon = 20191,
-	short = "MAG",
+	short = L"MAG",
 	role = 2,
 	race = 7,
   },
   [17] = {
-	name = "Swordmaster",
+	name = L"Swordmaster",
 	id = 100,
 	icon = 20198,
-	short = "SM",
+	short = L"SM",
 	role = 1,
 	race = 4,
   },
   [18] = {
-	name = "Shadow Warrior",
+	name = L"Shadow Warrior",
 	id = 101,
 	icon = 20194,
-	short = "SW",
+	short = L"SW",
 	role = 2,
 	race = 4,
   },
   [19] = {
-	name = "White Lion",
+	name = L"White Lion",
 	id = 102,
 	icon = 20200,
-	short = "WL",
+	short = L"WL",
 	role = 2,
 	race = 4,
   },
   [20] = {
-	name = "Archmage",
+	name = L"Archmage",
 	id = 103,
 	icon = 20180,
-	short = "AM",
+	short = L"AM",
 	role = 3,
 	race = 4,
   },
   [21] = {
-	name = "Blackguard",
+	name = L"Blackguard",
 	id = 104,
 	icon = 20181,
-	short = "BG",
+	short = L"BG",
 	role = 1,
 	race = 5,
   },
   [22] = {
-	name = "Witch Elf",
+	name = L"Witch Elf",
 	id = 105,
 	icon = 20201,
-	short = "WE",
+	short = L"WE",
 	role = 2,
 	race = 5,
   },
   [23] = {
-	name = "Disciple of Khaine",
+	name = L"Disciple of Khaine",
 	id = 106,
 	icon = 20186,
-	short = "DOK",
+	short = L"DOK",
 	role = 3,
 	race = 5,
   },
   [24] = {
-	name = "Sorcerer",
+	name = L"Sorcerer",
 	id = 107,
 	icon = 20196,
-	short = "SRC",
+	short = L"SRC",
 	role = 2,
 	race = 5,
   },
@@ -361,20 +384,24 @@ function warExtended:GetCareerSpecializationPath(career, path)
 	[2] = 3 * career - 1,
 	[3] = 3 * career,
   }
-  
+
   return specs[path]
+end
+
+function warExtended:GetRoleString(career, multiple)
+	return roles[self:GetCareerRole(career)]
 end
 
 function warExtended:GetCareerRoleIconString(career, multiple)
   local careerRole = roles[warExtended:GetCareerRole(career)]
-  
+
   if multiple then
-	local roleIconString = warExtended:GetIconString(careerRole.icon) .. " " .. careerRole.multiple
-	return roleIconString
+	local roleIconString = warExtended:GetIconString(careerRole.icon) .. L" " .. careerRole.multiple
+	return self:toString(roleIconString)
   end
-  
-  local roleIconString = warExtended:GetIconString(careerRole.icon) .. " " .. careerRole.text
-  return roleIconString
+
+  local roleIconString = warExtended:GetIconString(careerRole.icon) .. L" " .. careerRole.text
+  return self:toString(roleIconString)
 end
 
 function warExtended:GetCareerRoleIcon(career)
@@ -384,19 +411,18 @@ end
 
 function warExtended:GetCareerIcon(career)
   local isNPC = career == 0
-  
+
   if isNPC then
 	local NPCicon = 75
 	return NPCicon
   end
-  
+
   local careerData = getCareerData(career)
   return careerData.icon
 end
 
 function warExtended:GetCareerIconString(career)
-  local careerData = getCareerData(career)
-  local icon       = warExtended:GetIconString(careerData.icon)
+  local icon       = self:GetIconString(self:GetCareerIcon(career))
   return icon
 end
 
@@ -406,9 +432,9 @@ function warExtended:GetCareerShorthandle(career)
 end
 
 function warExtended:GetCareerIconShorthandleString(career)
-  local careerIcon       = warExtended:GetCareerIconString(career)
-  local shorthandle      = warExtended:GetCareerShorthandle(career)
-  local careerIconString = careerIcon .. " " .. shorthandle
-  return careerIconString
+  local careerIcon       = self:GetCareerIconString(career)
+  local shorthandle      = self:GetCareerShorthandle(career) or career
+  local careerIconString = careerIcon .. L" " .. shorthandle
+  return self:toString(careerIconString)
 end
 

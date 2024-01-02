@@ -1,104 +1,41 @@
 local warExtended = warExtended
 local towstring = towstring
+local DataUtils = DataUtils
+local SetMacroData= SetMacroData
 
+local macroCache = warExtendedSet:New()
 
-
-macroFunc = {
-  updateSelf = function(self, macroData)
-    self.name = macroData.name
-    self.text = macroData.text
-    self.iconNum = macroData.iconNum
-  end,
-
-  getNextState = function(self)
-    if self.activeState == #self.macroStates then
-      self.activeState = 1
-      return self.macroStates[1]
+-- Data types: "iconNum", "name", "text"
+function warExtended:GetMacroData(macroSlot, dataType)
+    local currentMacros = DataUtils.GetMacros()
+    if not dataType then
+        return currentMacros[macroSlot]
+    elseif currentMacros[macroSlot][dataType] == (0) or currentMacros[macroSlot][dataType] == L"" then
+        return nil
     else
-      self.activeState = self.activeState + 1
-      return self.macroStates[self.activeState]
+        return currentMacros[macroSlot][dataType]
     end
-  end,
-
-  setNextState = function(self)
-    self.text = self:getNextState()
-    self:setMacroData()
-  end,
-
-  setMacroData = function(self)
-    SetMacroData (self.name, self.text, self.iconNum, self.slot)
-    EA_Window_Macro.UpdateDetails (self.slot)
-  end,
-
-  setActiveActionButton = function(self, buttonName)
-    self.activeActionButtons[buttonName] = self.slot
-  end
-}
-
-function warExtended:RegisterMacro(macroData, macroSlot, macroStates)
-  macroData = setmetatable(macroData, {__index = macroFunc})
-  macroData.activeActionButtons = {}
-  macroData.slot = macroSlot
-  macroData.macroStates = macroStates
-  macroData.activeState = 1
-  return macroData
-
 end
 
-
-
-
-macroCache = {
-}
-
-function warExtended:GetMacroDataFromSlot(slot)
-  local macro = macroCache[slot]
-  return macro
-end
-
-function warExtended:GetMacroTextFromSlot(slot)
-  local macroText = tostring(macroCache[slot].text)
-  return macroText
-end
-
-function warExtended:GetMacroNameFromSlot(slot)
-  local macroName = tostring(macroCache[slot].name)
-  return macroName
-end
-
-function warExtended:GetMacroIconFromSlot(slot)
-  return macroCache[slot].iconNum
-end
-
-function warExtended:GetMacroSlotFromName(macroName)
-  macroName = towstring(macroName)
-  for macroSlot=1,#macroCache do
-    local isMacroNameMatch = macroCache[macroSlot].name == macroName
-
-    if isMacroNameMatch then
-      return macroSlot
+function warExtended:GetMacroSlot(dataSearch, dataType)
+    local currentMacros = DataUtils.GetMacros()
+    for macroSlot=1,#currentMacros do
+        if self:GetMacroData(macroSlot, dataType) == dataSearch then
+            return macroSlot
+        end
     end
-
-  end
 end
 
-function warExtended:GetMacroSlotFromText(macroText)
-  macroText = towstring(macroText)
-  for macroSlot=1,#macroCache do
-    local isMacroTextMatch = macroCache[macroSlot].text == macroText
-
-    if isMacroTextMatch then
-      return macroSlot
-    end
-
-  end
-end
-
-function warExtended:IsMacroType(abilityType)
-  local isMacroType = abilityType == 4
+function warExtended:IsMacro(buttonAbilityType)
+  local isMacroType = buttonAbilityType == 4
   return isMacroType
 end
 
+function warExtended:SetMacro(macroName, macroText, iconNum, macroSlot)
+    SetMacroData (macroName, macroText, iconNum, macroSlot)
+end
+
+--[[
 function warExtended.OnMacroUpdated(macroSlot)
   local macroData = DataUtils.GetMacros()[macroSlot]
 
@@ -107,12 +44,16 @@ function warExtended.OnMacroUpdated(macroSlot)
   end
 
   macroCache[macroSlot]:updateSelf(macroData)
-end
+end]]
 
-function warExtended:GetMacros()
+
+--[[
+function warExtended:GetRegisteredMacros()
   return macroCache
-end
+end]]
 
+
+--[[
 function warExtended.OnAllModulesInitialized()
   macroCache = DataUtils.GetMacros()
 
@@ -123,25 +64,24 @@ function warExtended.OnAllModulesInitialized()
     }
 
     macroCache[macroIndex] = warExtended:RegisterMacro(macroCache[macroIndex], macroIndex, macroState)
-  end
+  end]]
 
-end
-
+--[[
 function warExtended.OnUpdateActionButtons(self, actionType, actionId)
   if warExtended:IsMacroType(actionType) then
     local actionName = self:GetName() .. "Action"
     p(actionName)
     macroCache[actionId]:setActiveActionButton(actionName)
   end
-end
+end]]
 
-
+--[[
 local function setActionButtonHooks()
   warExtended:RegisterGameEvent({"macro updated"}, "warExtended.OnMacroUpdated")
   warExtended:Hook(ActionButton.SetActionData, warExtended.OnUpdateActionButtons, true)
 end
 
-warExtended:AddEventHandler("setActionButtonHooks", "CoreInitialized", setActionButtonHooks)
+warExtended:AddEventHandler("setActionButtonHooks", "CoreInitialized", setActionButtonHooks)]]
 
 
 

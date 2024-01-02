@@ -1,0 +1,66 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Scripts>
+        <Script file="Source/MacroWindow.lua"/>
+    </Scripts>
+    <Windows>
+        <Window name="warExtendedDefaultSets" handleinput="true">
+            <Size>
+                <AbsPoint x="350" y="40"/>
+            </Size>
+            <Windows>
+                <ComboBox name="$parentComboBox" inherits="EA_ComboBox_DefaultResizableSmall">
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnSelChanged" function="FrameManager.OnSelChanged"/>
+                        <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver"/>
+                    </EventHandlers>
+                </ComboBox>
+
+                <Label name="$parentLabel" font="font_default_text" textalign="right" handleinput="false"
+                       wordwrap="false">
+                    <Size>
+                        <AbsPoint x="140" y="32"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="left" relativePoint="right" relativeTo="$parentComboBox">
+                            <AbsPoint x="-5" y="5" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Button name="$parentAdd" inherits="EA_Button_DefaultText" textalign="center">
+                    <Size>
+                        <AbsPoint x="60" y="32"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentComboBox">
+                            <AbsPoint x="10" y="35" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp"/>
+                    </EventHandlers>
+                </Button>
+
+                <Button name="$parentRemove" inherits="EA_Button_DefaultText" textalign="center">
+                    <Size>
+                        <AbsPoint x="100" y="32"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parentLabel">
+                            <AbsPoint x="30" y="28" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp"/>
+                    </EventHandlers>
+                </Button>
+
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

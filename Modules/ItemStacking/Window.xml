@@ -1,0 +1,159 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Scripts>
+        <Script file="Window.lua"/>
+    </Scripts>
+    <Windows>
+        <Window name="ItemStackingWindow" layer="secondary" movable="true">
+            <Size>
+                <AbsPoint x="310" y="280"/>
+            </Size>
+            <Anchors>
+                <Anchor point="center" relativePoint="center" relativeTo="">
+                    <AbsPoint x="0" y="0"/>
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="ItemStackingWindow.OnInitialize"/>
+                <EventHandler event="OnKeyEscape" function="FrameManager.OnKeyEscape"/>
+                <EventHandler event="OnHidden" function="FrameManager.OnHidden"/>
+            </EventHandlers>
+            <Windows>
+                <Window name="$parentWindowBackground" inherits="warExtendedDefaultBackground"/>
+                <Window name="$parentTitleBar" inherits="warExtendedDefaultTitleBar"/>
+
+                <DynamicImage name="$parentItemIcon" inherits="EA_Image_DefaultIcon" handleinput="true">
+                    <Size>
+                        <AbsPoint x="55" y="55"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="35" y="42" />
+                        </Anchor>
+                    </Anchors>
+                    <Windows>
+                        <DynamicImage name="$parentFrame" inherits="EA_Image_DefaultIconFrame" handleinput="false"
+                                      layer="background">
+                            <Size>
+                                <AbsPoint x="55" y="55"/>
+                            </Size>
+                        </DynamicImage>
+                    </Windows>
+                    <EventHandlers>
+                        <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver"/>
+                    </EventHandlers>
+                </DynamicImage>
+
+                <Label name="$parentItemText" inherits="EA_Label_DefaultText" maxchars="128" wordwrap="true"
+                       autoresize="true"
+                       textalign="left">
+                    <Size>
+                        <AbsPoint x="185" y="40"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentItemIcon">
+                            <AbsPoint x="10" y="-1" />
+                        </Anchor>
+                    </Anchors>
+                    <Color r="255" g="255" b="0"/>
+                </Label>
+
+
+                <!-- Text Input for the number of items to split -->
+                <EditBox name="$parentTextInput" inherits="EA_EditBox_DefaultFrame" maxchars="5" history="5"
+                         textalign="right"
+                         input="numbers" taborder="0">
+                    <Size>
+                        <AbsPoint x="200" y="35"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="center" relativePoint="center" relativeTo="$parent">
+                            <AbsPoint x="0" y="-5"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnKeyEnter" function="FrameManager.OnKeyEnter"/>
+                        <EventHandler event="OnKeyEscape" function="FrameManager.OnKeyEscape"/>
+                        <EventHandler event="OnTextChanged" function="FrameManager.OnTextChanged"/>
+                    </EventHandlers>
+                </EditBox>
+
+                <SliderBar name="$parentAmountSlider" inherits="warExtendedDefaultSliderBar">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTextInput">
+                            <AbsPoint x="0" y="15"/>
+                        </Anchor>
+                    </Anchors>
+                </SliderBar>
+
+                <Button name="$parentPlusButton" inherits="PlusButton">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentAmountSlider">
+                            <AbsPoint x="2" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonDown" function="FrameManager.OnLButtonDown" />
+                        <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver" />
+                    </EventHandlers>
+                </Button>
+                <Button name="$parentMinusButton" inherits="MinusButton" >
+                    <Anchors>
+                        <Anchor point="left" relativePoint="right" relativeTo="$parentAmountSlider">
+                            <AbsPoint x="-5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonDown" function="FrameManager.OnLButtonDown" />
+                        <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver" />
+                    </EventHandlers>
+                </Button>
+
+                <Label name="$parentItemCostLabel" inherits="EA_Label_DefaultText" handleinput="false" textalign="left" autoresize="true">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentAmountSlider">
+                            <AbsPoint x="-50" y="12"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Window name="$parentItemCost" inherits="MoneyFrame" handleinput="true">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="right" relativeTo="$parentItemCostLabel">
+                            <AbsPoint x="10" y="2"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Window name="$parentItemAltCost" inherits="AltCurrencyFrame" handleinput="true">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="right" relativeTo="$parentItemCostLabel">
+                            <AbsPoint x="10" y="2"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Button name="$parentOkay" inherits="EA_Button_DefaultResizeable">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parent">
+                            <AbsPoint x="16" y="-18" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp"/>
+                    </EventHandlers>
+                </Button>
+                <Button name="$parentCancel" inherits="EA_Button_DefaultResizeable">
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentOkay">
+                            <AbsPoint x="10" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp"/>
+                    </EventHandlers>
+                </Button>
+            </Windows>
+
+        </Window>
+    </Windows>
+</Interface>

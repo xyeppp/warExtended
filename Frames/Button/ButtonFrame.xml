@@ -1,0 +1,36 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+
+    <Windows>
+        <!--Title Bar Close Button-->
+        <Button name="warExtendedDefaultCloseButton" inherits="EA_Button_Default" backgroundtexture="shared_01"
+                highlighttexture="shared_01" layer="popup">
+            <Size>
+                <AbsPoint x="37" y="37"/>
+            </Size>
+            <Anchors>
+                <Anchor point="topright" relativePoint="topright" relativeTo="">
+                    <AbsPoint x="5" y="0"/>
+                </Anchor>
+            </Anchors>
+            <TexCoords>
+                <Normal x="274" y="46"/>
+                <NormalHighlit x="274" y="83"/>
+                <Pressed x="274" y="120"/>
+                <PressedHighlit x="274" y="120"/>
+                <Disabled x="274" y="46"/>
+            </TexCoords>
+        </Button>
+
+      <!--Resize Button -->
+        <Button name="warExtendedDefaultResizeButton" inherits="CoreWindowResizeButtonBottomRight" layer="popup">
+            <Anchors>
+                <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentBackground">
+                    <AbsPoint x="0" y="0"/>
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnLButtonDown" function="FrameManager.OnResizeBegin"/>
+            </EventHandlers>
+        </Button>
+    </Windows>
+</Interface>

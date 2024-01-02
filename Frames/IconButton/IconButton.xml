@@ -1,0 +1,12 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Button name="warExtendedDefaultIconButton" inherits="DefaultIconButton">
+            <EventHandlers>
+                <EventHandler event="OnLButtonDown" function="FrameManager.OnLButtonDown" />
+                 <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp" />
+                 <EventHandler event="OnRButtonDown" function="FrameManager.OnRButtonDown" />
+                 <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver" />
+            </EventHandlers>
+        </Button>
+    </Windows>
+</Interface>

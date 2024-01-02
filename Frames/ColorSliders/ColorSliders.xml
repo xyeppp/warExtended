@@ -1,0 +1,94 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Window name="warExtendedDefaultColorSlider">
+            <Size>
+                <AbsPoint x="210" y="90"/>
+            </Size>
+            <Windows>
+            <Label name="$parentText" font="font_clear_small_bold" autoresize="true">
+                <Size>
+                    <AbsPoint x="60" y="50"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentSlider">
+                        <AbsPoint x="0" y="-15"/>
+                    </Anchor>
+                </Anchors>
+            </Label>
+            <Label name="$parentValue" font="font_clear_small_bold" autoresize="true">
+                <Size>
+                    <AbsPoint x="60" y="50"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="right" relativePoint="right" relativeTo="$parentText">
+                        <AbsPoint x="110" y="0"/>
+                    </Anchor>
+                </Anchors>
+            </Label>
+            <SliderBar name="$parentSlider" inherits="warExtendedDefaultSliderBar">
+                <Size>
+                    <AbsPoint x="140" y="33"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parent">
+                        <AbsPoint x="0" y="0"/>
+                    </Anchor>
+                </Anchors>
+            </SliderBar>
+            </Windows>
+        </Window>
+
+
+        <Window name="warExtendedDefaultColorSliders" layer="default" movable="false" popable="false" sticky="false"
+                savesettings="false" handleinput="true">
+            <Anchors>
+                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                    <AbsPoint x="0" y="0"/>
+                </Anchor>
+                <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                    <AbsPoint x="0" y="0"/>
+                </Anchor>
+            </Anchors>
+            <!--<EventHandlers>
+                <EventHandler event="OnLButtonDown" function="WindowUtils.TrapClick"/>
+            </EventHandlers>-->
+            <Windows>
+                <Window name="$parentR" inherits="warExtendedDefaultColorSlider">
+                    <Anchors>
+                    <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                        <AbsPoint x="0" y="30"/>
+                    </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Window name="$parentG" inherits="warExtendedDefaultColorSlider">
+                    <Anchors>
+                    <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentRSlider">
+                        <AbsPoint x="0" y="0"/>
+                    </Anchor>
+                </Anchors>
+                </Window>
+
+                <Window name="$parentB" inherits="warExtendedDefaultColorSlider">
+                    <Anchors>
+                    <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentGSlider">
+                        <AbsPoint x="0" y="30"/>
+                    </Anchor>
+                </Anchors>
+                </Window>
+
+                <FullResizeImage name="$parentColorSwatch" inherits="EA_FullResizeImage_WhiteTransparent" alpha="1.0">
+                    <Size>
+                        <AbsPoint x="50" y="50" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="right" relativeTo="$parentG">
+                            <AbsPoint x="55" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </FullResizeImage>
+            </Windows>
+        </Window>
+
+    </Windows>
+</Interface>

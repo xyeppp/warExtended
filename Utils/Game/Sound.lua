@@ -143,11 +143,23 @@ Sound.GROUP_PLAYER_ADDED                  = GameData.Sound.GROUP_PLAYER_ADDED   
 Sound.SCENARIO_FANFARE_END                = GameData.Sound.SCENARIO_FANFARE_END        -- 998
 Sound.BETA_WARNING                        = GameData.Sound.BETA_WARNING                -- 999
 
+local function fixString(str)
+  str = warExtended:toStringOrEmpty(str)
+  str = warExtended:toStringUpper(str)
+  str = str:gsub("%s", "_")
+  return str
+end
+
 function warExtended.GetSoundList(deprecated)
   local soundList = GameData.Sound
   return soundList
 end
 
 function warExtended:PlaySound(id)
+  if self:IsType(id, "string") or self:IsType(id, "wstring") then
+    local SOUND_PATH = fixString(id)
+    id = Sound[SOUND_PATH]
+  end
+
   Sound.Play(id)
 end

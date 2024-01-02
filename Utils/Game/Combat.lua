@@ -1,6 +1,9 @@
 local warExtended = warExtended
+local HEALING = "Healing"
+local DAMAGE = "Damage"
+local DEFENSIVE = "Defensive"
 
-local siegeAbilities = {
+ siegeAbilities = {
   [14435] = "Oil",
   [24684] = "Ram",
   [24694] = "ST Cannon",
@@ -33,44 +36,37 @@ local eventTypes = {
   },
 }
 
-function warExtended:CombatGetHitTypeAndValue(hitValue)
+function warExtended:GetHitTypeAndValue(hitValue)
 	if hitValue > 0 then
-	  return "Healing", hitValue
+	  return HEALING, hitValue
 	end
 
   hitValue = hitValue * (-1)
-	return "Damage", hitValue
+	return DAMAGE, hitValue
 end
 
-function warExtended:CombatIsRessurectionAbility(abilityId)
-  local isRessurectionAbility = ressurectionAbilities[abilityId]
-  return isRessurectionAbility
+function warExtended:IsRessurectionAbility(abilityId)
+    return ressurectionAbilities[abilityId]
 end
 
-function warExtended:CombatIsSiegeAbility(abilityId)
-  local isRessurectionAbility = siegeAbilities[abilityId]
-  return isRessurectionAbility
+function warExtended:IsSiegeAbility(abilityId)
+    return siegeAbilities[abilityId]
 end
 
-function warExtended:CombatGetEventType(combatEventId)
+function warExtended:GetCombatEventType(combatEventId)
   local damageEvent = eventTypes.Damage[combatEventId]
   local defensiveEvent = eventTypes.Defensive[combatEventId]
 
   if damageEvent then
-	return "Damage", damageEvent
+    return DAMAGE, damageEvent
+  elseif defensiveEvent then
+    return "Defensive", defensiveEvent
   end
-
-  return "Defensive", defensiveEvent
 end
 
-function warExtended:CombatGetStartTime()
-  local startTime = GetGameTime()
-  return startTime
-end
 
 function warExtended:IsPlayerInCombat(combatState)
-  local combatState = GameData.Player.inCombat == combatState
-  return combatState
+    return GameData.Player.inCombat == combatState
 end
 
 

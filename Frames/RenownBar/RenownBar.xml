@@ -1,0 +1,93 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+
+        <!-- Left Status Window -->
+        <Window name="warExtendedDefaultRenownBar" movable="false" layer="background" popable="false" handleinput="true"
+                savesettings="true">
+            <Size>
+                <AbsPoint x="522" y="24"/>
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnMouseOver"       function="FrameManager.OnMouseOver" />
+                <EventHandler event="OnMouseOverEnd"    function="FrameManager.OnMouseOverEnd" />
+                <EventHandler event="OnSizeUpdated"     function="FrameManager.OnSizeUpdated" />
+            </EventHandlers>
+            <Windows>
+                <!-- This child window contains all the visible contents -->
+                <Window name="$parentContents" handleinput="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <Windows>
+
+                        <!-- End Images -->
+                        <DynamicImage name="$parentLeftCap" inherits="EA_DynamicImage_HUDStatusBar_SquareEndCap_Left"
+                                      handleinput="false" layer="secondary">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                                    <AbsPoint x="0" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                        </DynamicImage>
+                        <DynamicImage name="$parentRightCap" inherits="EA_DynamicImage_HUDStatusBar_SquareEndCap_Right"
+                                      handleinput="false" layer="secondary">
+                            <Anchors>
+                                <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                                    <AbsPoint x="0" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                        </DynamicImage>
+
+
+                        <!-- Background Image -->
+                        <HorizontalResizeImage name="$parentBackground"
+                                               inherits="EA_HorizontalResizeImage_HUDStatusBarBackgroundWide"
+                                               handleinput="false" popable="false">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft" relativeTo="">
+                                    <AbsPoint x="10" y="0"/>
+                                </Anchor>
+                                <Anchor point="topright" relativePoint="topright" relativeTo="">
+                                    <AbsPoint x="-10" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                        </HorizontalResizeImage>
+
+                        <!-- Status Bar -->
+                        <StatusBar name="$parentProgressBar" inherits="EA_StatusBar_Rp" handleinput="false" popable="false">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentBackground">
+                                    <AbsPoint x="0" y="2"/>
+                                </Anchor>
+                                <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentBackground">
+                                    <AbsPoint x="0" y="2"/>
+                                </Anchor>
+                            </Anchors>
+                        </StatusBar>
+
+                        <Label name="$parentLabel" font="font_clear_small_bold" maxchars="64" textalign="center"
+                               layer="overlay" autoresize="true" handleinput="false" popable="false">
+                            <Size>
+                                <AbsPoint x="200" y="20"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="top" relativePoint="top" relativeTo="">
+                                    <AbsPoint x="0" y="2"/>
+                                </Anchor>
+                            </Anchors>
+                            <Color r="255" g="255" b="255" a="255"/>
+                        </Label>
+
+                    </Windows>
+
+                </Window>
+            </Windows>
+        </Window>
+    </Windows>
+
+</Interface>

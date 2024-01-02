@@ -1,0 +1,38 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+    <ScrollWindow name="warExtendedDefaultScrollWindow" childscrollwindow="$parentScrollChild"
+                      scrollbar="$parentScrollbar" lineheight="60">
+            <EventHandlers>
+                <EventHandler event="OnShown" function="FrameManager.OnShown"/>
+                <EventHandler event="OnHidden" function="FrameManager.OnHidden"/>
+            </EventHandlers>
+            <Windows>
+                <VerticalScrollbar name="$parentScrollbar" inherits="EA_ScrollBar_ChatVertical"
+                                   layer="popup">
+                    <Size>
+                        <AbsPoint x="20" y="295"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                            <AbsPoint x="-7" y="-3"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnScrollPosChanged"
+                                      function="FrameManager.OnScrollPosChanged"/>
+                    </EventHandlers>
+                </VerticalScrollbar>
+                <Window name="$parentScrollChild">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="1" y="0"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="-1" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+            </Windows>
+        </ScrollWindow>
+    </Windows>
+</Interface>

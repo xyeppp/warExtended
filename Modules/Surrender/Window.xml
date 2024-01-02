@@ -1,0 +1,150 @@
+<Interface
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Scripts>
+	 <Script file="Window.lua" />
+	</Scripts>
+	<Assets>
+		<Texture name="warExtendedSurrenderCornerImage" file="textures/wext_icon_corner_surr.dds" />
+	</Assets>
+	<Windows>
+		<Window name="warExtendedSurrenderVoteTemplate" sticky="false" handleinput="true" layer="default">
+			<Anchors>
+				<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+					<AbsPoint x="5" y="5" />
+				</Anchor>
+			</Anchors>
+			<Size>
+				<AbsPoint x="24" y="24" />
+			</Size>
+			<EventHandlers>
+				<EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver"/>
+			</EventHandlers>
+			<Windows>
+				<FullResizeImage name="$parentShadow" inherits="EA_FullResizeImage_TintableSolidBackground" layer="background" alpha="0.5" handleinput="false">
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+							<AbsPoint x="-2" y="-2"/>
+						</Anchor>
+						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+							<AbsPoint x="2" y="2"/>
+						</Anchor>
+					</Anchors>
+					<TintColor r="75" g="75" b="75"/>
+				</FullResizeImage>
+
+				<FullResizeImage name="$parentBackground" inherits="EA_FullResizeImage_TintableSolidBackground" layer="default" alpha="0.9" handleinput="false">
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+							<AbsPoint x="1" y="1"/>
+						</Anchor>
+						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+							<AbsPoint x="-1" y="-1"/>
+						</Anchor>
+					</Anchors>
+					<TintColor r="255" g="255" b="125" a="1"/>
+				</FullResizeImage>
+
+				<CircleImage name="$parentCareerIcon" handleinput="false" layer="default" textureScale="0.5"
+							 numsegments="14" alpha="0.5">
+					<Size>
+						<AbsPoint x="20" y="20"/>
+					</Size>
+					<Anchors>
+						<Anchor point="center" relativePoint="center" relativeTo="$parent">
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+					<Windows>
+					<!--	<DynamicImage name="$parentFrame" texture="EA_RoundFrame" textureScale="0.3" handleinput="false"
+									  layer="background">
+							<Size>
+								<AbsPoint x="20" y="20"/>
+							</Size>
+						</DynamicImage>-->
+					</Windows>
+				</CircleImage>
+			</Windows>
+		</Window>
+
+
+		<Window name="warExtendedSurrenderVote" savesettings="true" layer="default" movable="true">
+			<EventHandlers>
+					<EventHandler event="OnInitialize" function="warExtendedSurrender.OnInitialize" />
+			</EventHandlers>
+			<Anchors>
+				<Anchor point="left" relativePoint="left" relativeTo="Root">
+					<AbsPoint x="5" y="5" />
+				</Anchor>
+			</Anchors>
+			<Size>
+				<AbsPoint x="373" y="160" />
+			</Size>
+			<Windows>
+				<Window name="$parentTitleBar" inherits="warExtendedDefaultTitleBarNoButton"/>
+				<Window name="$parentBackground" inherits="warExtendedDefaultBackground"/>
+				<DynamicImage name="$parentCornerImage" inherits="EA_Default_CornerImage" texture="warExtendedSurrenderCornerImage" layer="popup" handleinput="true">
+					<Size>
+						<AbsPoint x="64" y="64"/>
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+							<AbsPoint x="-30" y="-28" />
+						</Anchor>
+					</Anchors>
+				</DynamicImage>
+
+				<Window name="$parentTimer" inherits="EA_Window_DefaultFrameStatusBar_Interpolate">
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+							<AbsPoint x="20" y="78" />
+						</Anchor>
+						<Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+							<AbsPoint x="-20" y="70" />
+						</Anchor>
+					</Anchors>
+				</Window>
+
+				<FullResizeImage name="$parentVoteBorder" inherits="EA_Button_ResizeIconFramePressed" handleinput="true" layer="background">
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parentTimer">
+							<AbsPoint x="0" y="-46" />
+						</Anchor>
+						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentTimer">
+							<AbsPoint x="0" y="-34" />
+						</Anchor>
+					</Anchors>
+				</FullResizeImage>
+
+				<Button name="$parentYes" inherits="EA_Button_DefaultResizeable" id="1" textalign="center">
+					<Size>
+						<AbsPoint x="140" y="40" />
+					</Size>
+					<Anchors>
+						<Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parent">
+							<AbsPoint x="14" y="-12" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp"/>
+					</EventHandlers>
+				</Button>
+
+				<Button name="$parentNo" inherits="EA_Button_DefaultResizeable" id="2" textalign="center">
+					<Size>
+						<AbsPoint x="140" y="40" />
+					</Size>
+					<Anchors>
+						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+							<AbsPoint x="-14" y="-12" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp"/>
+					</EventHandlers>
+				</Button>
+
+			</Windows>
+		</Window>
+	</Windows>
+</Interface>
+

@@ -1,28 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ModuleFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <UiMod name="warExtended" version="0.3" date="21/10/22">
+    <UiMod name="warExtended" version="0.4" date="21/10/22">
         <VersionSettings gameVersion="1.4.8"/>
         <Author name="xyeppp"/>
         <Description
                 text="Addon framework for all warExtended addons designed to bring Quality of Life improvements and more to Warhammer Online: Return of Reckoning."/>
         <Dependencies>
             <Dependency name="EASystem_WindowUtils"/>
+            <Dependency name="EA_ActionBars"/>
         </Dependencies>
         <Files>
             <File name="Core.lua"/>
+            <File name="Buttons.lua"/>
+            <File name="Sets.lua"/>
+
+            <File name="Utils/General.lua"/>
+            <File name="Utils/Id.lua"/>
+            <File name="Utils/Mouse.lua"/>
+            <!-- <File name="Utils/Search.lua"/>-->
+            <File name="Utils/String.lua"/>
+            <File name="Utils/Table.lua"/>
+            <File name="Utils/Time.lua"/>
+
             <File name="Chat.lua"/>
             <File name="LinkedList.lua"/>
+            <File name="StateMachine.lua"/>
             <File name="Events.lua"/>
+            <File name="Emotes.lua"/>
             <File name="Flags.lua"/>
-          <!--  <File name="Functions.lua"/>-->
+            <File name="GameEvents.lua"/>
             <File name="Globals.lua"/>
             <File name="Hooks.lua"/>
             <File name="Hyperlinks.lua"/>
             <File name="Keymap.lua"/>
-            <File name="Sets.lua"/>
             <File name="Slash.lua"/>
             <File name="TableSerializator.lua"/>
+
+            <File name="Textures/Textures.xml"/>
 
             <File name="Utils/Game/Addons.lua"/>
             <File name="Utils/Game/Career.lua"/>
@@ -37,68 +52,109 @@
             <File name="Utils/Game/Target.lua"/>
             <File name="Utils/Game/Window.lua"/>
 
-            <File name="Utils/General.lua"/>
-            <File name="Utils/Id.lua"/>
-            <!-- <File name="Utils/Search.lua"/>-->
-            <File name="Utils/String.lua"/>
-            <File name="Utils/Table.lua"/>
-            <File name="Utils/Time.lua"/>
+            <File name="Frames/AnimatedImage/AnimatedImage.lua"/>
 
-            <File name="Templates/Button/ButtonFrame.xml"/>
-            <File name="Templates/Button/ButtonFrame.lua"/>
+            <File name="Frames/SliderBar/SliderBar.xml"/>
+            <File name="Frames/SliderBar/SliderBar.lua"/>
 
-            <File name="Templates/CircleImage/CircleImage.xml"/>
-            <File name="Templates/CircleImage/CircleImage.lua"/>
+            <File name="Frames/VerticalScrollbar/VerticalScrollbar.xml"/>
+            <File name="Frames/VerticalScrollbar/VerticalScrollbar.lua"/>
 
-            <File name="Templates/ComboBox/ComboBox.lua"/>
-            <File name="Templates/ComboBox/ComboBox.xml"/>
+            <File name="Frames/Button/ButtonFrame.xml"/>
+            <File name="Frames/Button/ButtonFrame.lua"/>
 
-            <File name="Templates/Dialog/Dialogs.xml"/>
-            <File name="Templates/Dialog/Dialogs.lua"/>
+            <File name="Frames/IconButton/IconButton.xml"/>
+            <File name="Frames/IconButton/IconButton.lua"/>
 
-            <File name="Templates/EditBox/EditBox.lua"/>
-            <File name="Templates/EditBox/EditBox.xml"/>
+            <File name="Frames/CircleImage/CircleImage.xml"/>
+            <File name="Frames/CircleImage/CircleImage.lua"/>
 
-            <File name="Templates/ExpandableListBox/ExpandableListBox.lua"/>
-            <File name="Templates/ExpandableListBox/ExpandableListBox.xml"/>
+            <File name="Frames/ColorPicker/ColorPicker.xml"/>
+            <File name="Frames/ColorPicker/ColorPicker.lua"/>
 
-            <File name="Templates/Frame/Frame.lua"/>
-            <File name="Templates/FrameManager/FrameManager.lua"/>
+            <File name="Frames/ColorSliders/ColorSliders.xml"/>
+            <File name="Frames/ColorSliders/ColorSliders.lua"/>
 
-            <File name="Templates/Images/Images.xml"/>
+            <File name="Frames/ComboBox/ComboBox.xml"/>
+            <File name="Frames/ComboBox/ComboBox.lua"/>
 
-            <File name="Templates/Icons/Icons.xml"/>
-            <!--<File name="Templates/IncrementButtons/IncrementButtons.lua"/>
-            <File name="Templates/IncrementButtons/IncrementButtons.xml"/>-->
+            <File name="Frames/ContextMenu/ContextMenu.lua"/>
+            <File name="Frames/ContextMenu/FontContextMenu.lua"/>
+          <!--  <File name="Frames/ContextMenu/ContextMenu.xml"/>-->
 
-            <File name="Templates/Label/Label.xml"/>
+            <File name="Frames/Dialog/Dialogs.xml"/>
+            <File name="Frames/Dialog/Dialogs.lua"/>
 
-            <File name="Templates/ListBox/ListBox.xml"/>
-            <File name="Templates/ListBox/ListBox.lua"/>
+            <File name="Frames/DynamicImage/DynamicImage.lua"/>
 
-            <File name="Templates/LogDisplay/LogDisplay.lua"/>
+            <File name="Frames/Frame/Frame.lua"/>
+            <File name="Frames/FrameManager/FrameManager.lua"/>
 
-            <File name="Templates/RadioGroup/RadioGroup.lua"/>
+            <File name="Frames/ExperienceBar/ExperienceBar.xml"/>
+            <File name="Frames/ExperienceBar/ExperienceBar.lua"/>
 
-            <File name="Templates/SearchBox/SearchBox.xml"/>
-            <File name="Templates/SearchBox/SearchBox.lua"/>
+            <File name="Frames/HorizontalScrollbar/HorizontalScrollbar.lua"/>
 
-            <File name="Templates/ScrollWindow/ScrollWindow.lua"/>
+            <File name="Frames/HorizontalScrollWindow/HorizontalScrollWindow.lua"/>
 
-            <File name="Templates/TextLog/TextLog.lua"/>
+            <File name="Frames/Images/Images.xml"/>
 
-            <File name="Templates/SimpleCheckButton/SimpleCheckButton.lua"/>
+            <!--<File name="Frames/IncrementButtons/IncrementButtons.lua"/>
+            <File name="Frames/IncrementButtons/IncrementButtons.xml"/>-->
 
-            <File name="Templates/StatusBar/StatusBar.lua"/>
+            <File name="Frames/Label/Label.xml"/>
 
-            <File name="Templates/TabGroup/TabGroup.lua"/>
-            <File name="Templates/TabGroup/TabGroup.xml"/>
+            <File name="Frames/ListBox/ListBox.xml"/>
+            <File name="Frames/ListBox/ListBox.lua"/>
 
-            <File name="Templates/Tooltips/Tooltips.lua"/>
+            <File name="Frames/ExpandableListBox/ExpandableListBox.xml"/>
+            <File name="Frames/ExpandableListBox/ExpandableListBox.lua"/>
 
-            <File name="Templates/VerticalScrollbar/VerticalScrollbar.lua"/>
+            <File name="Frames/LogDisplay/LogDisplay.lua"/>
 
-            <File name="Templates/Window/Window.xml"/>
+            <File name="Frames/RadioGroup/RadioGroup.lua"/>
+
+            <File name="Frames/RenownBar/RenownBar.xml"/>
+            <File name="Frames/RenownBar/RenownBar.lua"/>
+
+            <File name="Frames/ScrollWindow/ScrollWindow.xml"/>
+            <File name="Frames/ScrollWindow/ScrollWindow.lua"/>
+
+            <File name="Frames/IconScrollWindow/IconScrollWindow.lua"/>
+
+            <File name="Frames/SearchBox/SearchBox.xml"/>
+            <File name="Frames/SearchBox/SearchBox.lua"/>
+
+            <File name="Frames/Sets/Sets.xml"/>
+            <File name="Frames/Sets/Sets.lua"/>
+
+            <File name="Frames/SimpleCheckButton/SimpleCheckButton.xml"/>
+            <File name="Frames/SimpleCheckButton/SimpleCheckButton.lua"/>
+
+            <File name="Frames/StatusBar/StatusBar.lua"/>
+
+            <File name="Frames/TabGroup/TabGroup.xml"/>
+            <File name="Frames/TabGroup/TabGroup.lua"/>
+
+          <!--  <File name="Frames/TabManager/TabManager.xml"/>
+            <File name="Frames/TabManager/TabManager.lua"/>-->
+
+            <File name="Frames/TextEditBox/TextEditBox.xml"/>
+            <File name="Frames/TextEditBox/TextEditBox.lua"/>
+
+            <File name="Frames/TextLog/TextLog.lua"/>
+
+            <File name="Frames/Tooltips/Tooltips.lua"/>
+
+            <File name="Frames/Window/Window.xml"/>
+
+            <File name="Frames/WindowUtils/WindowUtils.lua"/>
+
+            <File name="Settings/Templates.xml"/>
+            <File name="Settings/Window.xml"/>
+            <File name="Settings/Core.lua"/>
+            <File name="Settings/Test.lua"/>
+            <File name="Settings/Window.lua"/>
         </Files>
 
         <OnInitialize>

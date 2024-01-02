@@ -1,0 +1,36 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Scripts>
+        <Script file="Window.lua" />
+    </Scripts>
+    <Windows>
+        <Window name="warExtendedLogOutWindow" inherits="warExtendedDefaultWindow" movable="false" savesettings="false">
+            <Size>
+                <AbsPoint x="340" y="90" />
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="warExtendedLogOut.OnInitialize"/>
+                <EventHandler event="OnShown" function="FrameManager.OnShown"/>
+                <EventHandler event="OnHidden" function="FrameManager.OnHidden"/>
+            </EventHandlers>
+            <Anchors>
+                <Anchor point="center" relativePoint="center" relativeTo="Root">
+                    <AbsPoint x="0" y="0" />
+                </Anchor>
+            </Anchors>
+            <Windows>
+                <Window name="$parentBackground" inherits="warExtendedDefaultBackground"/>
+                <Window name="$parentTitleBar" inherits="warExtendedDefaultTitleBarNoButton"/>
+                <Label name="$parentLabel" font="font_default_text_small" textalign="center" wordwrap="true">
+                    <Size>
+                        <AbsPoint x="240" y="80"/>
+                    </Size>
+                        <Anchors>
+                        <Anchor point="center" relativePoint="center" relativeTo="$parentBackground">
+                            <AbsPoint x="0" y="8"/>
+                        </Anchor>
+                        </Anchors>
+                </Label>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

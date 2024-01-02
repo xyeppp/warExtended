@@ -1,2 +1,0 @@
-ColorPicker = Frame:Subclass()
-

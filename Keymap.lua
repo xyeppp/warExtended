@@ -1,175 +1,113 @@
-local chatTextSubstitutions = {}
-local URLfilters = {}
-local tostring=tostring
-local towstring=towstring
+
 local pairs=pairs
 local warExtended = warExtended
 
-local keymapManager = {
-  registeredMap = {}
-  
-}
+local URL_PATTERN = "[a-zA-Z@:%._\+~#=%/]+%.[a-zA-Z0-9@:_\+~#=%/%?&]"
 
---Register your keymap with the following table format and object:RegisterKeymap
---
---local keymapTable = {
---  [text] = function,
---  [text2] = function,
---}
---
---[[ if isMatch then
---        if isURL then
---          p(SubstituteText("google"))
---        end
---       -- local isWString = type(SubstituteText) == "wstring" or type(SubstituteText()) == "wstring"
---       -- if isWString and not isPattern then
---       --   SubstituteText = tostring(SubstituteText())
---      --  end
---       -- p(isWString)
---       -- p(SubstituteText)
---       -- text:gsub(wordBoundary, SubstituteText)
---      end
---
---
---      local isWString = type(SubstituteText) == "wstring" or type(SubstituteText()) == "wstring"
---       if isWString and not isPattern then
---         SubstituteText = tostring(SubstituteText())
---        end
---
---      text = text:gsub(wordBoundary, SubstituteText)
---
---      if isFunction then --and not isPattern then
---        --local functionCallback = SubstituteText()
---        --SubstituteText = tostring(functionCallback)
---      end
---
---      if isWString then
---        --SubstituteText=tostring(SubstituteText)
---      end
---
---     --text = text:gsub(wordBoundary, SubstituteText)]]
+local keymaps = warExtendedSet:New()
+local macroKeymaps = warExtendedSet:New()
 
-
---Everything else will get handled automatically for you.
-
-local function substituteChatText(text)
-
-  for _, registeredModules in pairs(chatTextSubstitutions) do
-    for textFunction,substituteText in pairs(registeredModules) do
-      local isPattern = string.match(textFunction, "%(%%")
-      local wordBoundary = '%f[%w%p]%'..textFunction..'%f[%A]'
-      local isTextMatch = text:match(wordBoundary)
-
-      if isPattern then
-        local isPatternMatch = text:match(textFunction)
-        if isPatternMatch then
-          text = text:gsub(textFunction, substituteText)
-        end
-      elseif isTextMatch then
-        text = text:gsub(wordBoundary, substituteText)
-      end
-
-    end
+local function checkTextType(text)
+  if not warExtended:IsType(text, "string") then
+    text = warExtended:toString(text)
   end
-
-  text = towstring(text)
   return text
 end
 
-
-function ChatMacro(chatText,chatChannel)
-  if not chatChannel then chatChannel = "/s" end
-
-  chatText  =  substituteChatText(chatText)
-  chatChannel = towstring(chatChannel)
-
-  SendChatText(chatText, chatChannel)
-end
-
-oldSendChatText = SendChatText
+local _SendChatText = SendChatText
 SendChatText = function(text, channel)
-  text = substituteChatText(tostring(text))
-  oldSendChatText(text, channel)
+  text = warExtended:SubKeymapText(text)
+  _SendChatText(text, channel)
 end
 
+function warExtended:SubKeymapText(text)
+  text = checkTextType(text)
 
-local abuttons = {
-  add = function(self, buttonNumber, text)
-     self.active[buttonNumber] = text
-  end,
-  
-  getActive = function(self)
-    return self.active
-  end,
-  
-  clear = function(self)
-    if next(self.active) == 0 then
-      return
-    end
-  end,
-  
-  active = {}
-}
-switchedMacros = {}
+  for textSub, textFunction in pairs(keymaps) do
+    local wordBoundary = '%f[%w%p]%'..textSub..'%f[%A]'
 
-local function testFFFF(macroData)
-  if not switchedMacros[macroData.m_ActionId] then
-    return
-  end
-  
-  SetMacroData(switchedMacros[macroData.m_ActionId].name, switchedMacros[macroData.m_ActionId].text, switchedMacros[macroData.m_ActionId].iconNum, macroData.m_ActionId)
-  EA_Window_Macro.UpdateDetails (macroData.m_ActionId)
-  switchedMacros[macroData.m_ActionId] = nil
-end
-
-
-local function testFFF(macroData)
-  if macroData.m_ActionType == 4 then
-    local macros = GetMacrosData()
-    local macro = macros[macroData.m_ActionId]
-    if warExtended:IsKeymapText(tostring(macro.text)) then
-      p('is keymap')
-      switchedMacros[macroData.m_ActionId] = macro
-      SetMacroData (macro.name, substituteChatText(tostring(macro.text)), macro.iconNum, macroData.m_ActionId)
-      EA_Window_Macro.UpdateDetails (macroData.m_ActionId)
+    if (string.match(textSub, "%(%%") and text:match(textSub)) or text:match(URL_PATTERN) then
+      text = text:gsub(textSub, textFunction)
+    elseif text:match(wordBoundary) then
+      text = text:gsub(wordBoundary, textFunction)
     end
   end
-end
 
-function testMacro()
-    warExtended:Hook(ActionButton.OnLButtonDown,testFFF, true)
-    warExtended:Hook(ActionButton.OnLButtonUp,testFFFF, true)
-end
-
-
-function warExtended:RegisterKeymap(keymapTable)
-  if not chatTextSubstitutions[self.moduleName] then
-    chatTextSubstitutions[self.moduleName] = {}
-  end
-  
-  chatTextSubstitutions[self.moduleName] = keymapTable
-end
-
-function warExtended:GetModuleKeymap(moduleName)
-  moduleName = moduleName or self.moduleName
-  return chatTextSubstitutions[moduleName]
-end
-
-function warExtended:UnregisterKeymap()
-  chatTextSubstitutions[self.moduleName]=nil
+  return self:toWString(text)
 end
 
 function warExtended:IsKeymapText(text)
-  for _, registeredModules in pairs(chatTextSubstitutions) do
-    for textFunction,substituteText in pairs(registeredModules) do
-      local isPattern = string.match(textFunction, "%(%%")
-      local wordBoundary = '%f[%w%p]%'..textFunction..'%f[%A]'
-      local isTextMatch = text:match(wordBoundary)
-      
-      if (isPattern and text:match(textFunction)) or isTextMatch then
+ text = checkTextType(text)
+
+  for textSub, _ in pairs(keymaps) do
+      local wordBoundary = '%f[%w%p]%'..textSub..'%f[%A]'
+
+      if (string.match(textSub, "%(%%") and text:match(textSub)) or text:match(wordBoundary) or text:match(URL_PATTERN) then
         return true
       end
-    
-    end
+
   end
 end
+
+function warExtended:RegisterKeymap(keymapTable)
+  if not self:GetModuleData().keymap then
+    self:GetModuleData().keymap = keymapTable
+  end
+
+  for text, textFunction in pairs(keymapTable) do
+    if keymaps:Has(text) then
+      error("Unable to add "..text.." - the keymap is already registered.")
+    else
+      keymaps:Add(text, textFunction)
+    end
+  end
+
+  warExtended._Settings.AddChildEntry(self:toWString(self.moduleName), L"Keymap Functions", "warExtendedSettings_KeymapTemplate")
+end
+
+
+function warExtended:UnregisterKeymap()
+  local keymap = self:GetSelfKeymap()
+
+  for text,_ in pairs(keymap) do
+    keymaps:Remove(text)
+  end
+
+  keymap = nil
+end
+
+function warExtended:GetSelfKeymap()
+  return self:GetModuleData().keymap
+end
+
+function warExtended.GetModuleKeymap(moduleName)
+  return warExtended.modules[moduleName].keymap
+end
+
+warExtended:AddEventHandler("InitializeActionButtonKeymapHook", "CoreInitialized", function()
+  local _ActionButtonOnLButtonDown = ActionButton.OnLButtonDown
+  local _ActionButtonOnLButtonUp = ActionButton.OnLButtonUp
+
+ ActionButton.OnLButtonDown = function(actionButtonData, flags, x, y)
+    if warExtended:IsMacro(actionButtonData.m_ActionType) then
+      local macro = warExtended:GetMacroData(actionButtonData.m_ActionId)
+
+      if warExtended:IsKeymapText(macro.text) then
+        macroKeymaps:Add(actionButtonData.m_ActionId, macro)
+        warExtended:SetMacro(macro.name, warExtended:SubKeymapText(macro.text), macro.iconNum, actionButtonData.m_ActionId)
+      end
+    end
+
+    _ActionButtonOnLButtonDown(actionButtonData, flags, x, y)
+  end
+
+  ActionButton.OnLButtonUp = function(actionButtonData, flags, x, y)
+    _ActionButtonOnLButtonUp(actionButtonData, flags, x, y)
+
+    if macroKeymaps:Has(actionButtonData.m_ActionId) then
+      local macroData = macroKeymaps:Get(actionButtonData.m_ActionId)
+      warExtended:SetMacro(macroData.name, macroData.text, macroData.iconNum, actionButtonData.m_ActionId)
+      macroKeymaps:Remove(actionButtonData.m_ActionId)
+    end
+  end
+end)

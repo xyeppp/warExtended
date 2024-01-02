@@ -1,0 +1,90 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Window name="warExtendedRespawnTimerFrame" >
+            <Size>
+                <AbsPoint x="223" y="23" />
+            </Size>
+            <Windows>
+                <FullResizeImage name="$parentBackground" inherits="EA_Button_ResizeIconFrameNormal" handleinput="false" layer="background" >
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </FullResizeImage>
+                <FullResizeImage name="$parentMouseover" inherits="EA_Button_ResizeIconFrameHighlight" handleinput="false" layer="secondary" >
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </FullResizeImage>
+                <StatusBar name="$parentBar" inherits="EA_StatusBar_DefaultTintable" interpolate="true" handleinput="false" interpolaterate="21">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="5" y="5" />
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                            <AbsPoint x="-5" y="5" />
+                        </Anchor>
+                    </Anchors>
+                    <Windows>
+
+                    </Windows>
+                </StatusBar>
+                <Label name="$parentBarText" font="font_clear_small_bold" maxchars="64" textalign="center" layer="overlay" autoresize="true" handleinput="false">
+                    <Size>
+                        <AbsPoint x="150" y="20" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="center" relativePoint="center" relativeTo="">
+                            <AbsPoint x="0" y="4" />
+                        </Anchor>
+                    </Anchors>
+                    <Color r="255" g="255" b="255" a="255" />
+                </Label>
+            </Windows>
+        </Window>
+
+        <Window name="warExtendedRespawnTimerWindow" popable="false" savesettings="true">
+            <Size>
+                <AbsPoint x="320" y="80"/>
+            </Size>
+            <Anchors>
+                <Anchor point="center" relativePoint="center" relativeTo="Root">
+                    <AbsPoint x="0" y="245"/>
+                </Anchor>
+            </Anchors>
+            <Windows>
+                <Window name="$parentBackground" inherits="warExtendedDefaultBackground" alpha="0.75"/>
+                <Label name="$parentLabel" font="font_clear_small_bold" maxchars="64" textalign="center" layer="overlay" autoresize="true" handleinput="false">
+                    <Size>
+                        <AbsPoint x="150" y="20" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="top" relativePoint="top" relativeTo="$parent">
+                            <AbsPoint x="0" y="15" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Window name="$parentTimer" inherits="warExtendedRespawnTimerFrame" handleinput="false" alpha="0.9">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="20" y="38" />
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                            <AbsPoint x="-20" y="38" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

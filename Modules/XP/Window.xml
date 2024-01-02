@@ -1,0 +1,16 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Scripts>
+        <Script file="Window.lua" />
+    </Scripts>
+    <Windows>
+        <Window name="warExtendedExperienceBar" inherits="warExtendedDefaultExperienceBar" savesettings="false">
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="warExtendedExperienceBar.OnInitialize" />
+                <EventHandler event="OnMouseOver"       function="FrameManager.OnMouseOver" />
+                <EventHandler event="OnMouseOverEnd"    function="FrameManager.OnMouseOverEnd" />
+                <EventHandler event="OnSizeUpdated"     function="FrameManager.OnSizeUpdated" />
+            </EventHandlers>
+        </Window>
+    </Windows>
+
+</Interface>

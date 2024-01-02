@@ -1,0 +1,131 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+
+        <!-- Left Status Window -->
+        <Window name="warExtendedDefaultExperienceBar" movable="false" layer="background" popable="false" handleinput="true" savesettings="true">
+            <Size>
+                <AbsPoint x="200" y="24" />
+            </Size>
+            <Anchors>
+                <Anchor point="topleft" relativePoint="topleft" relativeTo="" >
+                    <AbsPoint x="5" y="0" />
+                </Anchor>
+                <Anchor point="topright" relativePoint="topright" relativeTo="" >
+                    <AbsPoint x="-5" y="0" />
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnMouseOver"       function="FrameManager.OnMouseOver" />
+                <EventHandler event="OnMouseOverEnd"    function="FrameManager.OnMouseOverEnd" />
+                <EventHandler event="OnSizeUpdated"     function="FrameManager.OnSizeUpdated" />
+            </EventHandlers>
+            <Windows>
+
+                <!-- This child window contains all the visible contents -->
+                <Window name="$parentContents" handleinput="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent" />
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                    <Windows>
+
+                        <!-- End Images -->
+                        <DynamicImage name="$parentLeftEndCap" inherits="EA_DynamicImage_HUDStatusBar_AngledEndCap_Left" handleinput="false" layer="secondary">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                                    <AbsPoint x="0" y="0" />
+                                </Anchor>
+                            </Anchors>
+                        </DynamicImage>
+                        <DynamicImage name="$parentRightEndCap" inherits="EA_DynamicImage_HUDStatusBar_AngledEndCap_Right" handleinput="false" layer="secondary">
+                            <Anchors>
+                                <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                                    <AbsPoint x="0" y="0" />
+                                </Anchor>
+                            </Anchors>
+                        </DynamicImage>
+
+                        <DynamicImage name="$parentLeftEndCapRest" inherits="EA_DynamicImage_HUDStatusBar_AngledEndCap_LeftBright" handleinput="false" layer="secondary">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                                    <AbsPoint x="0" y="0" />
+                                </Anchor>
+                            </Anchors>
+                        </DynamicImage>
+                        <DynamicImage name="$parentRightEndCapRest" inherits="EA_DynamicImage_HUDStatusBar_AngledEndCap_RightBright" handleinput="false" layer="secondary">
+                            <Anchors>
+                                <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                                    <AbsPoint x="0" y="0" />
+                                </Anchor>
+                            </Anchors>
+                        </DynamicImage>
+
+
+
+
+                        <!-- Background Image -->
+                        <HorizontalResizeImage name="$parentBackground" inherits="EA_HorizontalResizeImage_HUDStatusBarBackgroundNarrow" handleinput="false"  popable="false" >
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft" relativeTo="">
+                                    <AbsPoint x="12" y="0" />
+                                </Anchor>
+                                <Anchor point="topright" relativePoint="topright" relativeTo="">
+                                    <AbsPoint x="-12" y="0" />
+                                </Anchor>
+                            </Anchors>
+                        </HorizontalResizeImage>
+
+
+                        <!-- Rest Status Bar -->
+                        <StatusBar name="$parentRestBarBackground" foreground="EA_HorizontalResizeImage_HUDStatusBarBackgroundNarrowBright" handleinput="false"  popable="false" sticky="false">
+                            <Size>
+                                <AbsPoint x="200" y="12" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentProgressBar">
+                                    <AbsPoint x="0" y="-3" />
+                                </Anchor>
+                                <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentProgressBar">
+                                    <AbsPoint x="0" y="-3" />
+                                </Anchor>
+                            </Anchors>
+                        </StatusBar>
+
+                        <!-- Current Status Bar -->
+                        <StatusBar name="$parentProgressBar" inherits="EA_StatusBar_Xp" handleinput="false" layer="secondary" popable="false" interpolate="true" interpolaterate="1">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentBackground">
+                                    <AbsPoint x="8" y="3" />
+                                </Anchor>
+                                <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentBackground">
+                                    <AbsPoint x="-8" y="3" />
+                                </Anchor>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnSizeUpdated"     function="FrameManager.OnSizeUpdated" />
+                            </EventHandlers>
+                        </StatusBar>
+
+                        <DynamicImage name="$parentRestXpLimitMarker" inherits="EA_DynamicImage_BonusLimitMarker" layer="secondary" sticky="false" />
+
+
+                        <Label name="$parentLabel" font="font_clear_small_bold" maxchars="64" textalign="center" layer="overlay" autoresize="true" handleinput="false">
+                            <Size>
+                                <AbsPoint x="200" y="20" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="top" relativePoint="top" relativeTo="">
+                                    <AbsPoint x="0" y="2" />
+                                </Anchor>
+                            </Anchors>
+                            <Color r="255" g="255" b="255" a="255" />
+                        </Label>
+
+                    </Windows>
+                </Window>
+
+            </Windows>
+        </Window>
+    </Windows>
+
+</Interface>

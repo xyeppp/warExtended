@@ -1,0 +1,60 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+
+    <Windows>
+
+        <SliderBar name="warExtendedDefaultSliderBar" inherits="EA_Default_SliderBar" >
+            <Size>
+                <AbsPoint x="185" y="33" />
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnSlide" function="FrameManager.OnSlide" />
+                <EventHandler event="OnMouseWheel" function="FrameManager.OnMouseWheel" />
+            </EventHandlers>
+        </SliderBar>
+
+        <Window name="warExtendedDefaultSliderBarWithButtons" >
+            <Size>
+                <AbsPoint x="240" y="33" />
+            </Size>
+            <Windows>
+                <Button name="$parentMinusButton" inherits="MinusButton" handleinput="true">
+                    <Anchors>
+                        <Anchor point="left" relativePoint="right" relativeTo="$parentSliderBar">
+                            <AbsPoint x="-5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonDown" function="FrameManager.OnLButtonDown" />
+                        <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver" />
+                    </EventHandlers>
+                </Button>
+            <SliderBar name="$parentSliderBar" inherits="EA_Default_SliderBar" >
+                <Size>
+                    <AbsPoint x="185" y="33" />
+                </Size>
+                <Anchors>
+                    <Anchor point="center" relativePoint="center" relativeTo="$parent">
+                        <AbsPoint x="0" y="0"/>
+                    </Anchor>
+                </Anchors>
+                <EventHandlers>
+                    <EventHandler event="OnSlide" function="FrameManager.OnSlide" />
+                    <EventHandler event="OnMouseWheel" function="FrameManager.OnMouseWheel" />
+                </EventHandlers>
+            </SliderBar>
+                <Button name="$parentPlusButton" inherits="PlusButton">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentSliderBar">
+                            <AbsPoint x="2" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonDown" function="FrameManager.OnLButtonDown" />
+                        <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver" />
+                    </EventHandlers>
+                </Button>
+            </Windows>
+        </Window>
+
+    </Windows>
+</Interface>

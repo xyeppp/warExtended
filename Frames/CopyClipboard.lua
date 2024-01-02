@@ -1,0 +1,1 @@
+--[[DialogManager.MakeTextEntryDialog( L"Copy URL", L"CTRL+C to copy the URL into your clipboard.", linkData, nil, nil )]]

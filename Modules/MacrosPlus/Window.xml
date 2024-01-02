@@ -1,0 +1,247 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Scripts>
+        <Script file="Core.lua" />
+        <Script file="Window.lua" />
+    </Scripts>
+    <Windows>
+
+        <Button name="EA_Window_MacroIconButton" inherits="DefaultIconButton">
+            <EventHandlers>
+                <EventHandler event="OnMouseDrag" function="FrameManager.OnMouseDrag" />
+                <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp" />
+                <EventHandler event="OnRButtonDown" function="FrameManager.OnRButtonDown" />
+                <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver" />
+            </EventHandlers>
+        </Button>
+
+        <Button name="EA_Window_MacroDetailIconButton" inherits="DefaultIconButton">
+            <EventHandlers>
+                <EventHandler event="OnLButtonDown" function="FrameManager.OnLButtonDown" />
+            <!--    <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp" />
+                <EventHandler event="OnRButtonDown" function="FrameManager.OnRButtonDown" />-->
+                <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver" />
+            </EventHandlers>
+        </Button>
+
+        <Button name="MacroIconSelectionWindowIconButton" inherits="DefaultIconButton">
+            <EventHandlers>
+                <EventHandler event="OnLButtonDown" function="FrameManager.OnLButtonDown" />
+               <!-- <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp" />
+                <EventHandler event="OnRButtonDown" function="FrameManager.OnRButtonDown" />
+                <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver" />-->
+            </EventHandlers>
+        </Button>
+
+        <Window name="warExtendedMacroPlusWindowIconSelection" movable="false" layer="popup" inherits="warExtendedDefaultWindow">
+            <Size>
+                <AbsPoint x="422" y="340" />
+            </Size>
+            <Anchors>
+                <Anchor point="topright" relativePoint="topleft" relativeTo="warExtendedMacroPlusWindow">
+                    <AbsPoint x="20" y="0" />
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnInitialize"  function="FrameManager.OnInitialize" />
+            </EventHandlers>
+            <Windows>
+
+                <Window name="$parentBackground" inherits="warExtendedDefaultBackground" />
+                <Window name="$parentTitleBar" inherits="warExtendedDefaultTitleBar" />
+
+                <ScrollWindow name="$parentIcons" inherits="warExtendedDefaultScrollWindow" lineheight="180">
+                    <Size>
+                        <AbsPoint x="380" y="291" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentTitleBar">
+                            <AbsPoint x="0" y="6" />
+                        </Anchor>
+                    </Anchors>
+                </ScrollWindow>
+            </Windows>
+        </Window>
+
+        <Window name="warExtendedMacroPlusWindow" movable="false" savesettings="false" layer="secondary" inherits="warExtendedDefaultWindow">
+            <Size>
+                <AbsPoint x="600" y="765" />
+            </Size>
+            <Anchors>
+                <Anchor point="center" relativePoint="center" relativeTo="">
+                    <AbsPoint x="0" y="0" />
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnInitialize"  function="FrameManager.OnInitialize" />
+                <EventHandler event="OnShutdown"    function="FrameManager.Shutdown" />
+                <EventHandler event="OnShown"       function="FrameManager.OnShown" />
+                <EventHandler event="OnHidden"      function="FrameManager.OnHidden" />
+            </EventHandlers>
+            <Windows>
+                <Window name="$parentBackground" inherits="warExtendedDefaultBackground" />
+                <Window name="$parentTitleBar" inherits="warExtendedDefaultTitleBar" />
+
+                <Window name="$parentMacrosBackground" skipinput="true" inherits="warExtendedDefaultBackground">
+                    <Size>
+                        <AbsPoint x="390" y="525" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="42" y="50" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="-42" y="-345" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <ScrollWindow name="$parentMacros" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="90">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentMacrosBackground">
+                            <AbsPoint x="7" y="5" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentMacrosBackground">
+                            <AbsPoint x="-7" y="-5" />
+                        </Anchor>
+                    </Anchors>
+                    <Windows>
+
+                        <VerticalScrollbar name="$parentScrollbar" inherits="EA_ScrollBar_DefaultVerticalChain" layer="popup">
+                            <Anchors>
+                                <Anchor point="topright" relativePoint="topright">
+                                    <AbsPoint x="0" y="0"/>
+                                </Anchor>
+                                <Anchor point="bottomleft" relativePoint="bottomright">
+                                    <AbsPoint x="-20" y="0" />
+                                </Anchor>
+                            </Anchors>
+                        </VerticalScrollbar>
+                        <Window name="$parentScrollChild">
+                            <Size>
+                                <AbsPoint x="480" y="0"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft">
+                                    <AbsPoint x="5" y="5"/>
+                                </Anchor>
+                            </Anchors>
+                        </Window>
+                    </Windows>
+                </ScrollWindow>
+
+                <Window name="$parentSets" inherits="warExtendedDefaultSets" handleinput="true">
+                    <Size>
+                        <AbsPoint x="260" y="70"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomright" relativePoint="bottom" relativeTo="$parentMacrosBackground">
+                            <AbsPoint x="-130" y="75" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Window name="$parentDetails">
+                    <Size>
+                        <AbsPoint x="580" y="260" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft">
+                            <AbsPoint x="10" y="-13" />
+                        </Anchor>
+                    </Anchors>
+                    <Windows>
+
+                        <Button name="$parentIcon" inherits="EA_Window_MacroDetailIconButton" id="1">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft" relativeTo="" >
+                                    <AbsPoint x="0" y="0" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Label name="$parentNameTitle" inherits="DefaultWindowSubTitle" textalign="left">
+                            <Size>
+                                <AbsPoint x="260" y="25" />
+                            </Size>
+                            <Anchors>
+                                <Anchor>
+                                    <AbsPoint x="60" y="10" />
+                                </Anchor>
+                            </Anchors>
+                        </Label>
+
+                        <EditBox name="$parentName" inherits="EA_EditBox_DefaultFrame"  taborder="1" maxchars="63">
+                            <Size>
+                                <AbsPoint x="320" y="30" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentIcon" >
+                                    <AbsPoint x="8" y="16" />
+                                </Anchor>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnKeyEnter" function="" />
+                                <EventHandler event="OnKeyEscape" function="" />
+                            </EventHandlers>
+                        </EditBox>
+
+                        <Label name="$parentTextTitle" inherits="DefaultWindowSubTitle" textalign="left">
+                            <Size>
+                                <AbsPoint x="260" y="25" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft" relativeTo="" >
+                                    <AbsPoint x="0" y="65" />
+                                </Anchor>
+                            </Anchors>
+                        </Label>
+
+                        <EditBox name="$parentText" inherits="EA_EditBox_DefaultFrame_Multiline" taborder="2" maxchars="4096" linecount="9">
+                            <Size>
+                                <AbsPoint x="580" y="180" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentIcon" >
+                                    <AbsPoint x="0" y="30" />
+                                </Anchor>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnKeyEnter" function="" />
+                                <EventHandler event="OnKeyEscape" function="" />
+                            </EventHandlers>
+                        </EditBox>
+
+                        <Button name="$parentSave" inherits="EA_Button_DefaultResizeable" textalign="center" text="Save">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentName">
+                                    <AbsPoint x="35" y="0" />
+                                </Anchor>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp"/>
+                            </EventHandlers>
+                        </Button>
+
+                     <!--   <ComboBox name="$parentSetCombo" inherits="EA_ComboBox_DefaultResizableSmall">
+                            <Size>
+                                <AbsPoint x="300" y="50" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="bottom" relativePoint="top" relativeTo="$parentSave">
+                                    <AbsPoint x="87" y="10" />
+                                </Anchor>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnSelChanged" function="warExtendedMacro.OnMacroComboBoxSelect" />
+                            </EventHandlers>
+                        </ComboBox>-->
+
+
+                    </Windows>
+                </Window>
+
+            </Windows>
+        </Window>
+
+    </Windows>
+</Interface>

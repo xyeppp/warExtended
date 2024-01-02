@@ -1,20 +1,24 @@
 local warExtended = warExtended
 local tostring=tostring
+local IsWarBandActive = IsWarBandActive
+local GetNumGroupmates = GetNumGroupmates
 
-local function isPlayerGroupLeader()
-  local isPlayerLeader = GameData.Player.isGroupLeader
-  return isPlayerLeader, playerName
+local WARBAND = L"Warband"
+local GROUP = L"Group"
+local SOLO = nil
+
+function warExtended:IsGroupLeader()
+  return GameData.Player.isGroupLeader
 end
 
-
 function warExtended:GetGroupType()
-  if IsWarBandActive() then
-	return "BATTLEGROUP"
-  end
-  if GetNumGroupmates() > 0 then
-	return "GROUP"
-  end
-  return nil
+    if IsWarBandActive() then
+        return WARBAND
+    elseif GetNumGroupmates() > 0 then
+        return GROUP
+    else
+        return SOLO
+    end
 end
 
 local function getLeaderNameFromGroupData()
@@ -33,15 +37,13 @@ end
 
 
 function warExtended:GetLeaderName()
-  local gType =  warExtended:GetGroupType()
-  local isPlayerLeader, playerName = isPlayerGroupLeader()
+  local gType =  self:GetGroupType()
 
-  if isPlayerLeader or not gType then
-	return playerName
-  elseif gType == "BATTLEGROUP" then
-	local leaderName = PartyUtils.GetWarbandLeader().name
-	return leaderName
-  elseif gType == "GROUP" then
+  if self:IsGroupLeader() or gType == SOLO then
+	return self:GetPlayerName()
+  elseif gType == WARBAND then
+	return PartyUtils.GetWarbandLeader().name
+  elseif gType == GROUP then
 	local leaderName = getLeaderNameFromGroupData()
 	return leaderName
   end
@@ -130,7 +132,6 @@ function warExtended:GetPlayerMemberNumber(playerName)
 end
 
 
-
 function warExtended:GetPlayerGroupNumber(playerName)
   local gType =  warExtended:GetGroupType()
   local groupNumber
@@ -143,26 +144,19 @@ function warExtended:GetPlayerGroupNumber(playerName)
 end
 
 
-
 function warExtended:GetGroupRoleCount(groupData)
-  local isLeaderAlone = groupData.Group == nil
-  local groupRoleCount = {
-	tank = 0,
-	dps = 0,
-	heal = 0
-  }
+  local groupRoleCount = {0,0,0}
 
-  if isLeaderAlone then
-	local leaderCareer = groupData.leaderCareer
-	local leaderRole = warExtended:GetCareerRoleFromLine(leaderCareer)
-	groupRoleCount[leaderRole] = groupRoleCount[leaderRole] + 1
-	return groupRoleCount.tank, groupRoleCount.dps, groupRoleCount.heal
-  end
+    if groupData.Group == nil then
+        local leaderRole = self:GetCareerRole(groupData.leaderCareer)
+        groupRoleCount[leaderRole] = groupRoleCount[leaderRole] + 1
+    else
+        for member=1,#groupData.Group do
+            local memberCareer=groupData.Group[member].m_careerID
+            local careerRole = self:GetCareerRole(memberCareer)
+            groupRoleCount[careerRole] = groupRoleCount[careerRole] + 1
+        end
+    end
 
-  for member=1,#groupData.Group do
-	local memberCareer=groupData.Group[member].m_careerID
-	local careerRole = warExtended:GetCareerRoleFromLine(memberCareer)
-	groupRoleCount[careerRole] = groupRoleCount[careerRole] + 1
-  end
-  return groupRoleCount.tank, groupRoleCount.dps, groupRoleCount.heal
+    return unpack(groupRoleCount)
 end

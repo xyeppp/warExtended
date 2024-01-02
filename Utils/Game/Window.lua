@@ -34,14 +34,14 @@ end
 function warExtended:IsMouseOverWindow(...)
   local windows = {...}
   local matches = {}
-  
+
   for windowName=1,#windows do
      local isMatch = warExtended:GetMouseOverWindow():match(windows[windowName])
      if isMatch ~= nil then
        matches[#matches+1] = isMatch
      end
    end
-  
+
    return unpack(matches)
 end
 
@@ -70,22 +70,26 @@ end
 
 function warExtended:OnCloseButton()
   local parentWindow = warExtended:IsMouseOverWindow("(.*)TitleBarClose")
-  
   if not parentWindow then
     return
   end
-  
-  WindowSetShowing(parentWindow, false)
+
+  local frame = GetFrame(parentWindow)
+  if frame then
+    frame:Show(not frame:IsShowing())
+  else
+    WindowSetShowing(parentWindow, false)
+  end
 end
 
 
 function warExtended:OnResizeWindow(minX, minY, endCallback)
   local parentWindow = warExtended:IsMouseOverWindow("(.*)ResizeButton")
-  
+
   if not parentWindow then
     return
   end
-  
+
   WindowUtils.BeginResize( parentWindow, "topleft", minX, minY, endCallback)
 end
 
@@ -125,49 +129,6 @@ function warExtended:SetWindowOffset(windowName, x, y)
   WindowSetOffsetFromParent(windowName, x, y)
 end
 
-function warExtended:WindowSetRelativeAnchor(windowName, parentName, direction)
-  -- direction == left//right or up//down
-  -- positions your additional window based on the first window's position on screen eg. options display on left/right depending on where the window is
-  local rootWidth,rootHeight = WindowGetDimensions("Root")
-  local half = rootWidth / 2
-  local mglX,mglY = WindowGetScreenPosition(parentName)
-  local wX, wY = WindowGetDimensions(windowName)
-  local anchor = nil
 
-  if mglX*2+wX > half then
-    anchor = { Point = "topleft",  RelativeTo = parentName, RelativePoint = "topright",   XOffset = 7, YOffset = 0 }
-  else
-    anchor = { Point = "topright",  RelativeTo = parentName, RelativePoint = "topleft",   XOffset = -7, YOffset = 0 }
-  end
-  
-  warExtendedTerminal:WindowSetAnchor (windowName, anchor)
-end
-
-function warExtended:WindowSetAnchor (windowName, anchor, anchor2)
-  if (anchor)
-  then
-    WindowClearAnchors (windowName)
-    
-    local relativeTo    = anchor.RelativeTo or "Root"
-    local point         = anchor.Point or "topleft"
-    local relativePoint = anchor.RelativePoint or "topleft"
-    local x             = anchor.XOffset or 0
-    local y             = anchor.YOffset or 0
-    
-    WindowAddAnchor (windowName, point, relativeTo, relativePoint, x, y)
-    
-    -- Only set anchor2 if anchor was valid.
-    if (anchor2)
-    then
-      relativeTo    = anchor2.RelativeTo or "Root"
-      point         = anchor2.Point or "topleft"
-      relativePoint = anchor2.RelativePoint or "topleft"
-      x             = anchor2.XOffset or 0
-      y             = anchor2.YOffset or 0
-      
-      WindowAddAnchor (windowName, point, relativeTo, relativePoint, x, y)
-    end
-  end
-end
 
 

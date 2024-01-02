@@ -1,3 +1,5 @@
+-- Courtesy of Hecksa, slightly modified with postHook
+
 local warExtended = warExtended
 local pairs = pairs
 local ipairs = ipairs
@@ -41,32 +43,35 @@ end
 
 
 function warExtended:Hook(func, newFunc, postHook)
-
-    if not GlobalFunctionPaths[func] then
-        addFunctionNamesToTable(_G)
-    end
-
-    if not HookedFunctions[newFunc] then
-        HookedFunctions[newFunc] = {}
-    end
-
     if(type(func) == "function") then
+        if not GlobalFunctionPaths[func] then
+            addFunctionNamesToTable(_G)
+        end
+
+        if not HookedFunctions[newFunc] then
+            HookedFunctions[newFunc] = {}
+        end
 
         local globalFunctionPath = GlobalFunctionPaths[func]
+        local wrapperFunction
 
         if(globalFunctionPath ~= nil) then
 
-            local wrapperFunction = function(...)
-				newFunc(...)
-                func(...)
-            end
-
             if postHook then
-                 wrapperFunction = function(...)
+                wrapperFunction = function(...)
                     func(...)
                     newFunc(...)
                 end
-           end
+                elseif postHook == false then
+                wrapperFunction = function(...)
+                    newFunc(...)
+                    func(...)
+                end
+                elseif postHook == nil then
+                wrapperFunction = function(...)
+                    newFunc(...)
+                end
+            end
 
             if(#globalFunctionPath == 1) then
                 HookedFunctions[newFunc][wrapperFunction] = _G[globalFunctionPath[1]]

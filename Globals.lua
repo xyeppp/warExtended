@@ -8,6 +8,27 @@ local function getLastWhisperPlayerName()
   end
 end
 
+--[[function ChatMacro(chatText,chatChannel)
+    if not chatChannel then chatChannel = "/s" end
+
+    chatText  =  substituteChatText(chatText)
+    chatChannel = towstring(chatChannel)
+
+    SendChatText(chatText, chatChannel)
+end]]
+
+function ChatMacro(chatText,chatChannel)
+    if not chatChannel then chatChannel = L"/s" end
+
+    if not warExtended:IsType(chatText, "wstring")
+            or not warExtended:IsType(chatChannel, "wstring") then
+        chatText  =  warExtended:toWString(chatText)
+        chatChannel = warExtended:toWString(chatChannel)
+    end
+
+    SendChatText(chatText, chatChannel)
+end
+
 function TellTarget(text)
   local friendlyTargetName = warExtended:GetTargetName("friendly")
 
