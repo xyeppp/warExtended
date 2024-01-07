@@ -1,0 +1,60 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+
+        <Button name="DebugWindowToolbarButtonTemplate" inherits="DefaultButton" texturescale="0.759" font="font_default_text" textalign="bottomright" drawchildrenfirst="true" layer="popup" >
+            <Size>
+                <AbsPoint x="48" y="48" />
+            </Size>
+            <Windows>
+                <DynamicImage name="$parentIconBase" textureScale="0.759" handleinput="false" layer="background">
+                    <Size>
+                        <AbsPoint x="48" y="48" />
+                    </Size>
+                </DynamicImage>
+            </Windows>
+            <TexCoords>
+                <Normal texture="icon_frame_square" x="0" y="0" />
+                <NormalHighlit texture="icon_frame_square_highlight" x="0" y="0" />
+                <Pressed texture="icon_frame_square_pressed" x="0" y="0" />
+                <Disabled texture="icon_frame_square" x="0" y="0" />
+            </TexCoords>
+            <TextOffset x="5" />
+            <Sounds>
+                <Sound event="OnLButtonDown" script="Sound.Play( Sound.BUTTON_CLICK )" />
+                <Sound event="OnMouseOver" script="Sound.Play( Sound.BUTTON_OVER )" />
+            </Sounds>
+        </Button>
+
+        <Button name="DebugWindowToolbarButton" inherits="DebugWindowToolbarButtonTemplate" layer="popup">
+            <EventHandlers>
+                <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver" />
+                <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp" />
+            </EventHandlers>
+        </Button>
+
+        <Window name="DebugWindowToolbar" movable="false" layer="popup">
+            <Size>
+                <AbsPoint x="48" y="48" />
+            </Size>
+            <Anchors>
+                <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="DebugWindow">
+                    <AbsPoint x="0" y="57" />
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="FrameManager.OnInitialize" />
+            </EventHandlers>
+            <Windows>
+                <Window name="$parentBackground" inherits="EA_Window_DefaultFrame" handleinput="false" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent" />
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" >
+                            <AbsPoint x="5" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+            </Windows>
+        </Window>
+
+    </Windows>
+</Interface>

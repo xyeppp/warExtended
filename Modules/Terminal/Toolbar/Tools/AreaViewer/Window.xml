@@ -1,0 +1,357 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+  <Windows>
+<!--Templates -->
+    <Button name="AreaViewerObjectiveRowItem" inherits="EA_Button_DefaultListRow" >
+      <Size>
+        <AbsPoint x="256" y="80" />
+      </Size>
+
+      <EventHandlers>
+        <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver" />
+      </EventHandlers>
+
+      <Windows>
+        <FullResizeImage name="$parentBackground" inherits="EA_FullResizeImage_TintableSolidBackground">
+          <Anchors>
+            <Anchor point="topleft" relativePoint="topleft" relativeTo="">
+              <AbsPoint x="4" y="4" />
+            </Anchor>
+            <Anchor point="bottomright" relativePoint="bottomright" relativeTo="">
+              <AbsPoint x="-4" y="-4" />
+            </Anchor>
+          </Anchors>
+        </FullResizeImage>
+
+        <Label name="$parentName" wordwrap="false" font="font_clear_medium_bold" maxchars="80" textalign="left">
+          <Size>
+            <AbsPoint x="360" y="25" />
+          </Size>
+          <Anchors>
+            <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+              <AbsPoint x="4" y="4" />
+            </Anchor>
+          </Anchors>
+          <Color r="255" g="255" b="255" a="255" />
+        </Label>
+        <Label name="$parentDetails1" wordwrap="false" font="font_clear_small_bold" maxchars="200" handleinput="false">
+          <Size>
+            <AbsPoint x="360" y="25" />
+          </Size>
+          <Anchors>
+            <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentName">
+              <AbsPoint x="0" y="3" />
+            </Anchor>
+          </Anchors>
+        </Label>
+        <Label name="$parentDetails2" wordwrap="false" font="font_clear_small_bold" maxchars="200" handleinput="false">
+          <Size>
+            <AbsPoint x="360" y="25" />
+          </Size>
+          <Anchors>
+            <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDetails1">
+              <AbsPoint x="0" y="3" />
+            </Anchor>
+          </Anchors>
+        </Label>
+      </Windows>
+    </Button>
+
+    <Button name="AreaViewerAreaRowItem" inherits="EA_Button_DefaultListRow" >
+      <Size>
+        <AbsPoint x="560" y="34"/>
+      </Size>
+
+      <EventHandlers>
+        <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver" />
+      </EventHandlers>
+      <Windows>
+        <FullResizeImage name="$parentBackground" inherits="EA_FullResizeImage_TintableSolidBackground">
+          <Anchors>
+            <Anchor point="topleft" relativePoint="topleft" />
+            <Anchor point="bottomright" relativePoint="bottomright" />
+          </Anchors>
+        </FullResizeImage>
+
+        <Label name="$parentAreaID" font="font_clear_small_bold" handleinput="false" textalign="center">
+          <Size>
+            <AbsPoint x="100" y="26"/>
+          </Size>
+          <Anchors>
+            <Anchor point="left" relativePoint="left" relativeTo="">
+              <AbsPoint x="10" y="6"/>
+            </Anchor>
+          </Anchors>
+        </Label>
+        <Label name="$parentAreaName" handleinput="false" textalign="left" font="font_clear_small_bold" >
+          <Size>
+            <AbsPoint x="350" y="26"/>
+          </Size>
+          <Anchors>
+            <Anchor point="right" relativePoint="left" relativeTo="$parentAreaID">
+              <AbsPoint x="5" y="0"/>
+            </Anchor>
+          </Anchors>
+        </Label>
+        <Label name="$parentAreaInfluenceID" handleinput="false" font="font_clear_small_bold" textalign="center">
+          <Size>
+            <AbsPoint x="125" y="26"/>
+          </Size>
+          <Anchors>
+            <Anchor point="right" relativePoint="left" relativeTo="$parentAreaName">
+              <AbsPoint x="5" y="0"/>
+            </Anchor>
+          </Anchors>
+        </Label>
+      </Windows>
+    </Button>
+
+    <Button name="TerminalAreaSpySortButton" inherits="EA_Button_DefaultListSort" >
+      <Size>
+        <AbsPoint x="550" y="31" />
+      </Size>
+      <EventHandlers>
+     <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp" />
+         <!--<EventHandler event="OnMouseOver" function="UiModWindow.OnMouseOverModListSortButton" />-->
+      </EventHandlers>
+    </Button>
+
+    <Window name="AreaSpyOutputDisplayWindow">
+      <Anchors>
+        <Anchor point="topleft" relativePoint="topleft" parent="TerminalAreaSpyBackground">
+          <AbsPoint x="0" y="32"/>
+        </Anchor>
+        <Anchor point="bottomright" relativePoint="bottomright" parent="TerminalAreaSpyBackground">
+          <AbsPoint x="0" y="-16"/>
+        </Anchor>
+      </Anchors>
+      <Windows>
+        <Window name="$parentSeparator" inherits="EA_Window_DefaultSeparator" handleinput="false">
+          <Anchors>
+            <Anchor point="bottomleft" relativePoint="bottomleft" parent="$parent" >
+              <AbsPoint x="0" y="-460" />
+            </Anchor>
+            <Anchor point="bottomright" relativePoint="bottomright" parent="$parent">
+              <AbsPoint x="0" y="-460" />
+            </Anchor>
+          </Anchors>
+        </Window>
+
+        <Window name="$parentCircle" handleinput="false">
+          <Size>
+            <AbsPoint x="67" y="67" />
+          </Size>
+          <Anchors>
+            <Anchor point="left" relativePoint="left" relativeTo="$parentSeparator2">
+              <AbsPoint x="15" y="-38" />
+            </Anchor>
+          </Anchors>
+          <Windows>
+            <DynamicImage name="$parentControlIcon" inherits="EA_DynamicImage_LargeControlIconWithLock">
+
+              <Anchors>
+                <Anchor point="topleft" relativePoint="topleft">
+                  <AbsPoint x="0" y="0" />
+                </Anchor>
+              </Anchors>
+              <Windows>
+                <DynamicImage name="$parentLock" inherits="EA_DynamicImage_BigLock">
+                  <Anchors>
+                    <Anchor point="right" relativePoint="center">
+                      <AbsPoint x="0" y="0" />
+                    </Anchor>
+                  </Anchors>
+                </DynamicImage>
+              </Windows>
+            </DynamicImage>
+            <DynamicImage name="$parentLock1" inherits="EA_DynamicImage_SmallLock" handleinput="false">
+              <Anchors>
+                <Anchor point="left" relativePoint="top" relativeTo="$parentControlIcon">
+                  <AbsPoint x="10" y="0" />
+                </Anchor>
+              </Anchors>
+            </DynamicImage>
+            <DynamicImage name="$parentLock2" inherits="EA_DynamicImage_SmallLock" handleinput="false">
+              <Anchors>
+                <Anchor point="left" relativePoint="bottom" relativeTo="$parentControlIcon">
+                  <AbsPoint x="10" y="0" />
+                </Anchor>
+              </Anchors>
+            </DynamicImage>
+          </Windows>
+        </Window>
+
+        <Window name="$parentAreaName" inherits="warExtendedColumnDuoLabelMedium" wordwrap="true" handleinput="false">
+          <Anchors>
+            <Anchor point="top" relativePoint="center" relativeTo="$parent">
+              <AbsPoint x="0" y="84" />
+            </Anchor>
+          </Anchors>
+        </Window>
+
+        <Window name="$parentSeparator2" inherits="EA_Window_DefaultSeparator" handleinput="false">
+          <Anchors>
+            <Anchor point="topleft" relativePoint="topleft" parent="$parent" >
+              <AbsPoint x="0" y="100" />
+            </Anchor>
+            <Anchor point="topright" relativePoint="topright" parent="$parent">
+              <AbsPoint x="0" y="101" />
+            </Anchor>
+          </Anchors>
+        </Window>
+
+        <Button name="$parentAreaSortButton1" inherits="TerminalAreaSpySortButton">
+          <Size>
+            <AbsPoint x="160" y="31" />
+          </Size>
+          <Anchors>
+            <Anchor point="topleft" relativePoint="topright" relativeTo="$parentAreaSortButton2">
+              <AbsPoint x="0" y="0" />
+            </Anchor>
+          </Anchors>
+        </Button>
+        <Button name="$parentAreaSortButton2" inherits="TerminalAreaSpySortButton">
+          <Size>
+            <AbsPoint x="220" y="31" />
+          </Size>
+          <Anchors>
+            <Anchor point="topleft" relativePoint="bottomleft" relativeTo="$parentSeparator2">
+              <AbsPoint x="168" y="48" />
+            </Anchor>
+            <Anchor point="topright" relativePoint="bottomright" parent="$parentSeparator2">
+              <AbsPoint x="-162" y="0" />
+            </Anchor>
+          </Anchors>
+        </Button>
+        <Button name="$parentAreaSortButton3" inherits="TerminalAreaSpySortButton">
+          <Size>
+            <AbsPoint x="155" y="31" />
+          </Size>
+          <Anchors>
+            <Anchor point="topright" relativePoint="topleft" relativeTo="$parentAreaSortButton2">
+              <AbsPoint x="0" y="0" />
+            </Anchor>
+          </Anchors>
+        </Button>
+
+        <ListBox name="$parentAreaList" inherits="warExtendedDefaultListBox" rowdef="AreaViewerAreaRowItem" visiblerows="6" rowspacing="2">
+          <Size>
+            <AbsPoint x="600" y="210" />
+          </Size>
+          <Anchors>
+            <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentSeparator2">
+              <AbsPoint x="9" y="45" />
+            </Anchor>
+            <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentSeparator">
+              <AbsPoint x="-14" y="-17" />
+            </Anchor>
+          </Anchors>
+          <ListData table="TerminalAreaViewer.m_Settings.areaData" populationfunction="TerminalAreaViewer.OnPopulateArea">
+            <ListColumns>
+              <ListColumn windowname="AreaID" variable="areaID" format="number" />
+              <ListColumn windowname="AreaName" variable="areaName" format="wstring" />
+              <ListColumn windowname="AreaInfluenceID" variable="influenceID" format="number" />
+            </ListColumns>
+          </ListData>
+        </ListBox>
+
+        <Button name="$parentRefreshButton" inherits="EA_Button_DefaultResizeable" >
+          <Anchors>
+            <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentSeparator3">
+              <AbsPoint x="0" y="31" />
+            </Anchor>
+          </Anchors>
+          <EventHandlers>
+            <EventHandler event="OnLButtonUp"    function="FrameManager.OnLButtonUp" />
+          </EventHandlers>
+        </Button>
+
+        <Button name="$parentObjectiveSortButton1" inherits="TerminalAreaSpySortButton" textalign="center">
+          <Size>
+            <AbsPoint x="280" y="31" />
+          </Size>
+          <Anchors>
+            <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentSeparator">
+              <AbsPoint x="6" y="18" />
+            </Anchor>
+          </Anchors>
+        </Button>
+
+        <ListBox name="$parentObjectivesList" inherits="warExtendedDefaultListBox" rowdef="AreaViewerObjectiveRowItem" visiblerows="5" rowcount="150" rowspacing="0">
+          <Size>
+            <AbsPoint x="300" y="690" />
+          </Size>
+          <Anchors>
+            <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentObjectiveSortButton1">
+              <AbsPoint x="0" y="27" />
+            </Anchor>
+            <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentVertSeparator">
+              <AbsPoint x="-24" y="-8" />
+            </Anchor>
+          </Anchors>
+          <ListData table="TerminalAreaViewer.m_Settings.objectivesData" populationfunction="TerminalAreaViewer.OnPopulateObjectives">
+            <ListColumns>
+              <ListColumn windowname="Name"   variable="name"                format="wstring"/>
+            </ListColumns>
+          </ListData>
+        </ListBox>
+
+        <Window name="$parentVertSeparator" inherits="EA_Window_DefaultVerticalSeparator">
+          <Anchors>
+            <Anchor point="topleft" relativePoint="topright" relativeTo="$parentObjectiveSortButton1">
+              <AbsPoint x="301" y="-8" />
+            </Anchor>
+            <Anchor point="bottomleft" relativePoint="bottomright" relativeTo="$parent">
+              <AbsPoint x="0" y="-33" />
+            </Anchor>
+          </Anchors>
+        </Window>
+
+        <EditBox name="$parentText" inherits="warExtendedMultiLineEditBox" >
+          <Anchors>
+            <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentVertSeparator">
+              <AbsPoint x="21" y="7" />
+            </Anchor>
+            <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentSeparator3">
+              <AbsPoint x="-15" y="-17" />
+            </Anchor>
+          </Anchors>
+        </EditBox>
+
+        <Window name="$parentSeparator3" inherits="EA_Window_DefaultSeparator" handleinput="false">
+          <Anchors>
+            <Anchor point="bottomleft" relativePoint="bottomleft" parent="$parent" >
+              <AbsPoint x="0" y="-24" />
+            </Anchor>
+            <Anchor point="bottomright" relativePoint="bottomright" parent="$parent">
+              <AbsPoint x="0" y="-24" />
+            </Anchor>
+          </Anchors>
+        </Window>
+
+      </Windows>
+    </Window>
+
+
+    <Window name="TerminalAreaViewer" inherits="warExtendedDefaultWindow" savesettings="false">
+      <Size>
+        <AbsPoint x="600" y="900" />
+      </Size>
+      <Anchors>
+        <Anchor point="center" relativePoint="center" relativeTo="Root">
+          <AbsPoint x="0" y="0" />
+        </Anchor>
+      </Anchors>
+      <EventHandlers>
+        <EventHandler event="OnShown" function="FrameManager.OnShown" />
+        <EventHandler event="OnHidden" function="FrameManager.OnHidden" />
+        <EventHandler event="OnRButtonUp" function="FrameManager.OnDefaultRButtonUp" />
+        <EventHandler event="OnShutdown" function="FrameManager.OnShutdown" />
+      </EventHandlers>
+      <Windows>
+        <Window name="$parentTitleBar" inherits="warExtendedDefaultTitleBar"/>
+        <Window name="$parentBackground" inherits="warExtendedDefaultBackground"/>
+        <Window name="$parentOutput" inherits="AreaSpyOutputDisplayWindow"/>
+      </Windows>
+    </Window>
+  </Windows>
+</Interface>

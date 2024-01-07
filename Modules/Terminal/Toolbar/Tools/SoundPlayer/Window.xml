@@ -1,0 +1,45 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+   <!-- <Scripts>
+        <Script file="Tools/SoundPlayer/Window.lua"/>
+    </Scripts>-->
+    <Windows>
+        <Window name="TerminalSoundPlayer" inherits="warExtendedDefaultWindow" savesettings="false">
+            <Size>
+                <AbsPoint x="380" y="120"/>
+            </Size>
+            <Anchors>
+                <Anchor point="center" relativePoint="center" relativeTo="Root">
+                    <AbsPoint x="0" y="0"/>
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnShown" function="FrameManager.OnShown"/>
+                <EventHandler event="OnHidden" function="FrameManager.OnHidden"/>
+            </EventHandlers>
+            <Windows>
+                <Window name="$parentTitleBar" inherits="warExtendedDefaultTitleBar"/>
+                <Window name="$parentBackground" inherits="warExtendedDefaultBackground"/>
+                <ComboBox name="$parentSoundComboBox" inherits="EA_ComboBox_DefaultResizable3">
+                    <Anchors>
+                        <Anchor point="center" relativePoint="center" relativeTo="$parent">
+                            <AbsPoint x="0" y="-13"/>
+                        </Anchor>
+                    </Anchors>
+                </ComboBox>
+                <Button name="$parentPlayButton" inherits="EA_Button_DefaultResizeable">
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp"/>
+                    </EventHandlers>
+                    <Size>
+                        <AbsPoint x="100" y="40"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="bottom" relativeTo="$parent">
+                            <AbsPoint x="0" y="-13"/>
+                        </Anchor>
+                    </Anchors>
+                </Button>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

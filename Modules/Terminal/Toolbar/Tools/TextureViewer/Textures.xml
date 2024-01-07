@@ -1,0 +1,223 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Button name="TextureViewerToggleButtonTemplate" inherits="EA_Button_DefaultResizeable" font="font_chat_text"
+                textalign="center" sticky="false">
+            <Size>
+                <AbsPoint x="150" y="39"/>
+            </Size>
+        </Button>
+
+        <FullResizeImage name="TextureViewerTrackFrameTemplate" inherits="EA_FullResizeImage_TintableSolidBackground"
+                         handleinput="false" layer="overlay" alpha="0.2" sticky="false">
+            <TintColor r="255" g="255" b="255"/>
+        </FullResizeImage>
+
+        <Window name="TerminalTextureViewerTexturesTemplate" savesettings="false">
+            <Size>
+                <AbsPoint x="800" y="600"/>
+            </Size>
+            <Anchors>
+                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                    <AbsPoint x="3" y="59"/>
+                </Anchor>
+                <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                    <AbsPoint x="0" y="0"/>
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnShown" function="FrameManager.OnShown"/>
+                <EventHandler event="OnHidden" function="FrameManager.OnHidden"/>
+                <EventHandler event="OnInitialize" function="FrameManager.OnInitialize"/>
+                <EventHandler event="OnUpdate" function="FrameManager.OnUpdate"/>
+                <EventHandler event="OnShutdown" function="FrameManager.OnShutdown"/>
+            </EventHandlers>
+            <Windows>
+                <Label name="$parentTextureEditLabel" wordwrap="false" textalign="rightcenter" font="font_journal_text"
+                       maxchars="24" inherits="EA_Label_DefaultText" handleinput="false" sticky="false">
+                    <Size>
+                        <AbsPoint x="150" y="30"/>
+                    </Size>
+                    <Color r="255" g="255" b="255" a="255"/>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="10" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <EditBox name="$parentTextureEditBox" inherits="EA_EditBox_DefaultFrame" history="15" maxchars="200"
+                         taborder="1" sticky="false">
+                    <Size>
+                        <AbsPoint x="200" y="30"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentTextureEditLabel">
+                            <AbsPoint x="5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </EditBox>
+                <ComboBox name="$parentTextureComboBox" inherits="EA_ComboBox_DefaultResizable3" maxvisibleitems="5">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTextureEditBox">
+                            <AbsPoint x="0" y="5"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnSelChanged" function="FrameManager.OnSelChanged"/>
+                    </EventHandlers>
+                </ComboBox>
+                <Label name="$parentTextureSliceEditLabel" wordwrap="false" textalign="rightcenter"
+                       font="font_journal_text" maxchars="24" inherits="EA_Label_DefaultText" handleinput="true"
+                       sticky="false">
+                    <Size>
+                        <AbsPoint x="150" y="30"/>
+                    </Size>
+                    <Color r="255" g="255" b="255" a="255"/>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTextureComboBox">
+                            <AbsPoint x="-150" y="5"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <EditBox name="$parentTextureSliceEditBox" inherits="EA_EditBox_DefaultFrame" history="15"
+                         maxchars="200" taborder="2" sticky="false">
+                    <Size>
+                        <AbsPoint x="200" y="30"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentTextureSliceEditLabel">
+                            <AbsPoint x="5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </EditBox>
+                <ComboBox name="$parentSliceComboBox" inherits="EA_ComboBox_DefaultResizable3" maxvisibleitems="5">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTextureSliceEditBox">
+                            <AbsPoint x="0" y="5"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnSelChanged" function="FrameManager.OnSelChanged"/>
+                    </EventHandlers>
+                </ComboBox>
+                <Label name="$parentTextureXEditLabel" wordwrap="false" textalign="rightcenter" font="font_journal_text"
+                       maxchars="24" inherits="EA_Label_DefaultText" handleinput="false" sticky="false">
+                    <Size>
+                        <AbsPoint x="30" y="30"/>
+                    </Size>
+                    <Color r="255" g="255" b="255" a="255"/>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentTextureEditBox">
+                            <AbsPoint x="10" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <EditBox name="$parentTextureXEditBox" inherits="EA_EditBox_DefaultFrame" history="15" maxchars="200"
+                         taborder="3" sticky="false">
+                    <Size>
+                        <AbsPoint x="60" y="30"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentTextureXEditLabel">
+                            <AbsPoint x="5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </EditBox>
+                <Label name="$parentTextureYEditLabel" wordwrap="false" textalign="rightcenter" font="font_journal_text"
+                       maxchars="24" inherits="EA_Label_DefaultText" handleinput="false" sticky="false">
+                    <Size>
+                        <AbsPoint x="30" y="30"/>
+                    </Size>
+                    <Color r="255" g="255" b="255" a="255"/>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentTextureSliceEditBox">
+                            <AbsPoint x="10" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <EditBox name="$parentTextureYEditBox" inherits="EA_EditBox_DefaultFrame" history="15" maxchars="200"
+                         taborder="4" sticky="false">
+                    <Size>
+                        <AbsPoint x="60" y="30"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentTextureYEditLabel">
+                            <AbsPoint x="5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </EditBox>
+                <Button name="$parentSetTexture" inherits="EA_Button_DefaultResizeable" sticky="false">
+                    <Anchors>
+                        <Anchor point="bottomright" relativePoint="bottomleft" relativeTo="$parentTextureYEditBox">
+                            <AbsPoint x="20" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp"/>
+                    </EventHandlers>
+                </Button>
+                <Window name="$parentControlsBackground" inherits="EA_Window_DefaultButtonBottomFrame"
+                        layer="background" sticky="false" handleinput="false">
+                    <Size>
+                        <AbsPoint x="0" y="75"/>
+                    </Size>
+                </Window>
+                <Window name="$parentSeperator" inherits="EA_Window_DefaultSeparator" handleinput="false"
+                        sticky="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="0" y="75"/>
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                            <AbsPoint x="0" y="75"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <DynamicImage name="$parentTexture" layer="background" handleinput="true" sticky="false">
+                    <Size>
+                        <AbsPoint x="64" y="64"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSeperator">
+                            <AbsPoint x="10" y="-8"/>
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="bottomright" relativeTo="$parentControlsBackground">
+                            <AbsPoint x="-10" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnMouseWheel" function="FrameManager.OnMouseWheel"/>
+                        <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp"/>
+                        <EventHandler event="OnMButtonUp" function="FrameManager.OnMButtonUp"/>
+                        <EventHandler event="OnRButtonUp" function="FrameManager.OnRButtonUp"/>
+                    </EventHandlers>
+                </DynamicImage>
+                <Label name="$parentTextureXYTrackLabel" wordwrap="false" textalign="leftcenter"
+                       font="font_journal_text" maxchars="50" inherits="EA_Label_DefaultText" handleinput="false"
+                       sticky="false">
+                    <Size>
+                        <AbsPoint x="300" y="30"/>
+                    </Size>
+                    <Color r="255" g="255" b="255" a="255"/>
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left" relativeTo="$parentControlsBackground">
+                            <AbsPoint x="20" y="5"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Label name="$parentTextureWHTrackLabel" wordwrap="false" textalign="leftcenter"
+                       font="font_journal_text" maxchars="50" inherits="EA_Label_DefaultText" handleinput="false"
+                       sticky="false">
+                    <Size>
+                        <AbsPoint x="300" y="30"/>
+                    </Size>
+                    <Color r="255" g="255" b="255" a="255"/>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentTextureXYTrackLabel">
+                            <AbsPoint x="40" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

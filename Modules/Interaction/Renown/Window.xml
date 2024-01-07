@@ -1,0 +1,191 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Button name="warExtendedRenownTrainingTabButton" inherits="warExtendedTopTab">
+            <Size>
+                <AbsPoint x="168" y="35"/>
+            </Size>
+            <TextOffset x="0" y="0"/>
+        </Button>
+
+        <Window name="warExtendedRenownTrainingTabWindow" layer="background">
+            <Size>
+                <AbsPoint x="800" y="455"/>
+            </Size>
+            <Anchors>
+                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                    <AbsPoint x="3" y="59"/>
+                </Anchor>
+                <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                    <AbsPoint x="0" y="0"/>
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="FrameManager.OnInitialize"/>
+                <EventHandler event="OnShown" function="FrameManager.OnShown"/>
+            </EventHandlers>
+        </Window>
+
+        <Window name="warExtendedRenownTraining" inherits="warExtendedDefaultWindow" savesettings="false">
+            <Size>
+                <AbsPoint x="782" y="910"/>
+            </Size>
+
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="FrameManager.OnInitialize"/>
+                <EventHandler event="OnShutdown" function="FrameManager.OnShutdown"/>
+                <EventHandler event="OnShown" function="FrameManager.OnShown"/>
+                <EventHandler event="OnHidden" function="FrameManager.OnHidden"/>
+            </EventHandlers>
+
+            <Windows>
+                <Window name="$parentTitleBar" inherits="warExtendedDefaultTitleBar"/>
+                <Window name="$parentBackground" inherits="warExtendedDefaultBackground"/>
+                <DynamicImage name="$parentCornerImage" inherits="EA_Default_TrainingImage"/>
+                <Window name="$parentTab">
+                    <Size>
+                        <AbsPoint x="500" y="35"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitleBar"/>
+                        <Anchor point="bottomright" relativePoint="topright" relativeTo="$parentTitleBar"/>
+                    </Anchors>
+                    <Windows>
+                        <Window name="$parentSeparatorLeft" inherits="EA_Window_TabSeparatorLeftSide" layer="background"
+                                popable="false">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="bottomleft">
+                                    <AbsPoint x="18" y="-6"/>
+                                </Anchor>
+                                <Anchor point="bottomleft" relativePoint="topright" relativeTo="$parentBasic">
+                                    <AbsPoint x="0" y="-6"/>
+                                </Anchor>
+                            </Anchors>
+                        </Window>
+
+                        <Button name="$parentBasic" inherits="warExtendedRenownTrainingTabButton">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft">
+                                    <AbsPoint x="80" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+                        <Button name="$parentAdvanced" inherits="warExtendedRenownTrainingTabButton">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentBasic">
+                                    <AbsPoint x="0" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+                        <Button name="$parentAbilities" inherits="warExtendedRenownTrainingTabButton">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentAdvanced">
+                                    <AbsPoint x="0" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+                        <Button name="$parentDefensive" inherits="warExtendedRenownTrainingTabButton">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentAbilities">
+                                    <AbsPoint x="0" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Window name="$parentSeparatorRight" inherits="EA_Window_TabSeparatorRightSide"
+                                layer="background" popable="false">
+                            <Anchors>
+                                <Anchor point="bottomright" relativePoint="topleft" relativeTo="$parentDefensive">
+                                    <AbsPoint x="0" y="-6"/>
+                                </Anchor>
+                                <Anchor point="bottomright" relativePoint="bottomright">
+                                    <AbsPoint x="-18" y="-6"/>
+                                </Anchor>
+                            </Anchors>
+                        </Window>
+                    </Windows>
+                </Window>
+
+                <Window name="$parentBottomPointsSeparator" inherits="EA_Window_DefaultSeparator" handleinput="true">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" parent="$parent">
+                            <AbsPoint x="0" y="-90"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" parent="$parent">
+                            <AbsPoint x="0" y="-90"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Label name="$parentPurseLabel" wordwrap="false" font="font_default_text" maxchars="30"
+                       inherits="DefaultWindowText" handleinput="false" textalign="center">
+                    <Size>
+                        <AbsPoint x="245" y="27"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentBottomPointsSeparator">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="255" g="255" b="255"/>
+                </Label>
+
+                <Window name="$parentBottomSeparator" inherits="EA_Window_DefaultSeparator" handleinput="true">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" parent="$parent">
+                            <AbsPoint x="0" y="-40"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" parent="$parent">
+                            <AbsPoint x="0" y="-40"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <FullResizeImage name="$parentButtonBackground" inherits="EA_FullResizeImage_MetalFill"
+                                 handleinput="true" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentBottomSeparator">
+                            <AbsPoint x="8" y="18"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="-8" y="-8"/>
+                        </Anchor>
+                    </Anchors>
+                </FullResizeImage>
+
+                <Button name="$parentTrainButton" inherits="EA_Button_DefaultResizeable">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="bottom" relativeTo="$parent">
+                            <AbsPoint x="-15" y="-12"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp"/>
+                    </EventHandlers>
+                </Button>
+
+                <Button name="$parentRespecializeButton" inherits="EA_Button_DefaultResizeable">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parent">
+                            <AbsPoint x="15" y="-12"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp"/>
+                    </EventHandlers>
+                </Button>
+
+                <Button name="$parentCancelButton" inherits="EA_Button_DefaultResizeable">
+                    <Anchors>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="-15" y="-12"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp"/>
+                    </EventHandlers>
+                </Button>
+
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

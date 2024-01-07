@@ -1,0 +1,80 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Button name="TerminalTextureViewerTabButton" inherits="warExtendedTopTab">
+            <Size>
+                <AbsPoint x="124" y="35"/>
+            </Size>
+            <TextOffset x="0" y="0"/>
+        </Button>
+
+        <Window name="TerminalTextureViewer" inherits="warExtendedDefaultWindow" savesettings="false">
+            <Size>
+                <AbsPoint x="800" y="860"/>
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="TerminalTextureViewer.OnInitialize"/>
+            <!--    <EventHandler event="OnHidden" function="warExtendedTerminal.TextureViewerOnHidden"/>-->
+            </EventHandlers>
+            <Windows>
+                <Window name="$parentTitleBar" inherits="warExtendedDefaultTitleBar"/>
+                <Window name="$parentBackground" inherits="warExtendedDefaultBackground"/>
+                <Button name="$parentResizeButton" inherits="warExtendedDefaultResizeButton" />
+
+                <Window name="$parentTab">
+                    <Size>
+                        <AbsPoint x="500" y="35"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitleBar"/>
+                        <Anchor point="bottomright" relativePoint="topright" relativeTo="$parentTitleBar"/>
+                    </Anchors>
+                    <Windows>
+                        <Window name="$parentSeparatorLeft" inherits="EA_Window_TabSeparatorLeftSide" layer="background"
+                                popable="false">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="bottomleft">
+                                    <AbsPoint x="18" y="-6"/>
+                                </Anchor>
+                                <Anchor point="bottomleft" relativePoint="topright" relativeTo="$parentIcons">
+                                    <AbsPoint x="0" y="-6"/>
+                                </Anchor>
+                            </Anchors>
+                        </Window>
+
+                        <Button name="$parentIcons" inherits="TerminalTextureViewerTabButton">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft">
+                                    <AbsPoint x="40" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+                        <Button name="$parentTextures" inherits="TerminalTextureViewerTabButton">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentIcons">
+                                    <AbsPoint x="0" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Window name="$parentSeparatorRight" inherits="EA_Window_TabSeparatorRightSide"
+                                layer="background" popable="false">
+                            <Anchors>
+                                <Anchor point="bottomright" relativePoint="topleft" relativeTo="$parentTextures">
+                                    <AbsPoint x="0" y="-6"/>
+                                </Anchor>
+                                <Anchor point="bottomright" relativePoint="bottomright">
+                                    <AbsPoint x="-18" y="-6"/>
+                                </Anchor>
+                            </Anchors>
+                        </Window>
+                    </Windows>
+                </Window>
+
+
+                <Window name="$parentIcons" inherits="TerminalTextureViewerIconsTemplate"/>
+                <Window name="$parentTextures" inherits="TerminalTextureViewerTexturesTemplate" />
+            </Windows>
+        </Window>
+    </Windows>
+
+</Interface>

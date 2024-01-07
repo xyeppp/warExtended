@@ -1,0 +1,42 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Window name="TerminalWindowHelperHighlight" movable="false" handleinput="false" layer="overlay" savesettings="false">
+            <Anchors>
+                <Anchor point="topleft" relativePoint="topleft"/>
+                <Anchor point="bottomright" relativePoint="bottomright"/>
+            </Anchors>
+            <Windows>
+                <FullResizeImage name="$parentBackground" texture="EA_HUD_01" handleinput="false" layer="background" >
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                    <Sizes>
+                        <TopLeft x="19" y="19" />
+                        <BottomRight x="19" y="19" />
+                        <Middle x="26" y="16" />
+                    </Sizes>
+                    <TexSlices>
+                        <TopLeft      id="HelpTipFrame-TopLeft" />
+                        <TopCenter    id="HelpTipFrame-TopCenter" />
+                        <TopRight     id="HelpTipFrame-TopRight" />
+                        <MiddleLeft   id="HelpTipFrame-MiddleLeft" />
+                        <MiddleCenter id="HelpTipFrame-MiddleCenter" />
+                        <MiddleRight  id="HelpTipFrame-MiddleRight" />
+                        <BottomLeft   id="HelpTipFrame-BottomLeft" />
+                        <BottomCenter id="HelpTipFrame-BottomCenter" />
+                        <BottomRight  id="HelpTipFrame-BottomRight" />
+                    </TexSlices>
+                </FullResizeImage>
+                <FullResizeImage name="$parentBackgroundLayer" inherits="EA_FullResizeImage_TintableSolidBackground"
+                                 handleinput="false" layer="background" alpha="0.3">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                    <TintColor r="0" g="0" b="150" />
+                </FullResizeImage>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

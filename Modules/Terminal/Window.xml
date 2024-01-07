@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Include file="VerticalScroll.xml"/>
+    <Windows>
+
+        <Button name="warExtendedTerminalLogsOptionContextMenu" inherits="EA_Button_DefaultMenuButton" id="1" handleinput="true">
+            <Size>
+                <AbsPoint x="250" y="25" />
+            </Size>
+            <Windows>
+                <DynamicImage name="$parentCheck" texture="shared_01" layer="popup" popable="false" sticky="false" handleinput="false" >
+                    <Size>
+                        <AbsPoint x="18" y="19" />
+                    </Size>
+                    <TexCoords x="390" y="78" />
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </DynamicImage>
+                <Label name="$parentLabel" font="font_default_text" maxchars="256" textalign="left" autoresize="true" handleinput="false">
+                    <Size>
+                        <AbsPoint x="250" y="25" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="25" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+            </Windows>
+            <EventHandlers>
+                <EventHandler event="OnLButtonUp" function="warExtendedTerminal.ToggleLogging"/>
+            </EventHandlers>
+        </Button>
+
+        <Window name="EA_LabelCheckButtonSmallCopy" inherits="EA_LabelCheckButton" showing="false">
+            <Size>
+                <AbsPoint x="280" y="28"/>
+            </Size>
+            <Windows>
+                <Button name="$parentButton" inherits="EA_CheckButtonButton"/>
+                <Label name="$parentLabel" inherits="EA_CheckButtonLabel" handleinput="false"
+                       textAutoFitMinScale="0.5" font="font_clear_small_bold">
+                    <Size>
+                        <AbsPoint x="255" y="28"/>
+                    </Size>
+                    .
+                </Label>
+            </Windows>
+        </Window>
+
+        <Window name="LogFilterButton" inherits="EA_LabelCheckButtonSmallCopy" id="1" showing="false">
+            <EventHandlers>
+                <EventHandler event="OnLButtonUp" function="warExtendedTerminal.UpdateDisplayFilter"/>
+            </EventHandlers>
+        </Window>
+
+        <Window name="DebugWindow" movable="true" layer="popup" savesettings="true" handleinput="true">
+            <Size>
+                <AbsPoint x="800" y="650"/>
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="DebugWindow.WindowOnInitialize"/>
+                <EventHandler event="OnLButtonUp" function="warExtendedTerminal.WindowOnLButtonUp"/>
+                <EventHandler event="OnLButtonDown" function="warExtendedTerminal.WindowOnLButtonDown"/>
+                <EventHandler event="OnRButtonUp" function="warExtendedTerminal.WindowOnRButtonUp"/>
+                <EventHandler event="OnShutdown" function="warExtendedTerminal.WindowOnShutdown"/>
+                <EventHandler event="OnKeyEscape" function="warExtendedTerminal.WindowOnKeyEscape"/>
+                <EventHandler event="OnShown" function="warExtendedTerminal.WindowOnShown"/>
+                <EventHandler event="OnHidden" function="warExtendedTerminal.WindowOnHidden"/>
+            </EventHandlers>
+
+            <Windows>
+                <Window name="$parentBackground" inherits="EA_Window_DefaultFrame">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="0" y="20"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright">
+                        <AbsPoint x="6" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <Window name="$parentTitleBar" inherits="EA_TitleBar_Default">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="-14" y="-10"/>
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="topright">
+                            <AbsPoint x="14" y="-10"/>
+                        </Anchor>
+                    </Anchors>
+                    <Windows>
+                        <HorizontalResizeImage name="$parentBackground" inherits="EA_HorizontalResizeImage_DefaultTopFrame">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                                    <AbsPoint x="0" y="1"/>
+                                </Anchor>
+                                <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                                    <AbsPoint x="0" y="1"/>
+                                </Anchor>
+                            </Anchors>
+                        </HorizontalResizeImage>
+                        <Label name="$parentLabel" font="font_default_war_heading" layer="popup" maxchars="256"
+                               handleinput="false" textalign="center">
+                            <Size>
+                                <AbsPoint x="160" y="30"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft" >
+                                    <AbsPoint x="74" y="5" />
+                                </Anchor>
+                                <Anchor point="topright" relativePoint="topright" >
+                                    <AbsPoint x="-74" y="5" />
+                                </Anchor>
+                            </Anchors>
+                        </Label>
+
+                        <Button name="$parentToggleSettings" inherits="EA_Button_DefaultText" font="font_clear_medium_bold" textalign="leftcenter" alpha="1">
+                            <Size>
+                                <AbsPoint y="46" x="40"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft"  >
+                                    <AbsPoint x="40" y="-5" />
+                                </Anchor>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnLButtonUp" function="warExtendedTerminal.SettingsOnLButtonUp"/>
+                            </EventHandlers>
+                        </Button>
+
+                        <Button name="$parentClose" inherits="EA_Button_DefaultWindowClose">
+                            <Size>
+                                <AbsPoint x="37" y="37"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="topright" relativePoint="topright" relativeTo="">
+                                    <AbsPoint x="5" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnLButtonUp" function="warExtendedTerminal.WindowOnCloseButton"/>
+                            </EventHandlers>
+                        </Button>
+                    </Windows>
+                </Window>
+
+                <Window name="$parentLogDisplaySeperatorTop" inherits="EA_Window_DefaultSeparator" handleinput="true">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="bottomleft" relativeTo="DebugWindow">
+                            <AbsPoint x="0" y="36"/>
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="bottomright" relativeTo="DebugWindow">
+                            <AbsPoint x="6" y="36" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+
+                <LogDisplay name="$parentText" font="font_clear_small_bold" autoHideScrollBar="true"
+                            scrollbar="$parentScrollbar" scrollbarPosition="right" background="" maxchars="4096"
+                            maxentries="-1" textFadeTime="30" handleinput="true">
+                    <Size>
+                        <AbsPoint x="780" y="390"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentBackground">
+                            <AbsPoint x="10" y="10"/>
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="bottomright" relativeTo="$parentLogDisplaySeperator">
+                            <AbsPoint x="-10" y="10"/>
+                        </Anchor>
+                    </Anchors>
+
+                    <Windows>
+
+                        <VerticalScrollbar name="$parentScrollbar" inherits="EA_ScrollBar_ChatVertical" alpha="0.97">
+                            <Anchors>
+                                <Anchor point="bottomright" relativePoint="bottomleft">
+                                    <AbsPoint x="-24" y="-26"/>
+                                </Anchor>
+                                <Anchor point="topright" relativePoint="topright">
+                                <AbsPoint x="0" y="-4"/>
+                                </Anchor>
+                            </Anchors>
+
+                        </VerticalScrollbar>
+                        <Button name="$parentToBottomButton" inherits="EA_Button_DefaultChatScrollToBottom"
+                                sticky="false">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentScrollbar">
+                                    <AbsPoint x="0" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnLButtonUp" function="warExtendedTerminal.LogDisplayScrollToBottom"/>
+                            </EventHandlers>
+                        </Button>
+
+                    </Windows>
+                </LogDisplay>
+
+                <Window name="$parentLogDisplaySeperator" inherits="EA_Window_DefaultSeparator" handleinput="false">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="DebugWindow">
+                            <AbsPoint x="0" y="-54"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="topright" relativeTo="DebugWindow">
+                            <AbsPoint x="6" y="-54"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <EditBox name="$parentTextBox" inherits="EA_EditBox_DefaultFrame" maxchars="4096" history="30"
+                         font="font_clear_small_bold" alpha="0.97">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentLogDisplaySeperator">
+                            <AbsPoint x="8" y="18"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentLogDisplaySeperator">
+                            <AbsPoint x="-8" y="18"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnKeyEnter" function="warExtendedTerminal.TextBoxOnKeyEnterTextSend"/>
+                        <EventHandler event="OnKeyEscape" function="warExtendedTerminal.TextBoxOnKeyEscape"/>
+                        <EventHandler event="OnTextChanged" function="warExtendedTerminal.TextBoxOnTextChanged"/>
+                        <EventHandler event="OnShown" function="warExtendedTerminal.TextBoxOnShown"/>
+                    </EventHandlers>
+                </EditBox>
+
+                <Button name="$parentResizeButton" inherits="CoreWindowResizeButtonBottomRight" layer="popup">
+                    <Anchors>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonDown" function="warExtendedTerminal.WindowOnResizeBegin"/>
+                    </EventHandlers>
+                </Button>
+
+            </Windows>
+        </Window>
+
+        <!--- Options Window -->
+        <Window name="DebugWindowOptions" layer="overlay" movable="false" alpha="0.97">
+            <Size>
+                <AbsPoint x="310" y="530"/>
+            </Size>
+            <Anchors>
+                <Anchor point="right" relativePoint="right" relativeTo="DebugWindow">
+                    <AbsPoint x="320" y="-5"/>
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnShown" function="warExtendedTerminal.TextBoxOnShown"/>
+                <EventHandler event="OnHidden" function="warExtendedTerminal.TextBoxOnShown"/>
+            </EventHandlers>
+            <Windows>
+
+                <Window name="$parentBackground" inherits="EA_Window_DefaultFrame">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="0" y="32"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </Window>
+
+                <Button name="$parentClose" inherits="EA_Button_DefaultWindowClose">
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                            <AbsPoint x="14" y="16" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="warExtendedTerminal.HideOptions"/>
+                    </EventHandlers>
+                </Button>
+
+                <Button name="$parentClearLogText" inherits="EA_Button_DefaultText" textalign="center" alpha="0"
+                        font="font_clear_small_bold">
+                    <Size>
+                        <AbsPoint y="32" x="80"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="-9" y="-7" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="warExtendedTerminal.ClearTextLog"/>
+                    </EventHandlers>
+                </Button>
+
+                <Label name="$parentFiltersTitle" inherits="EA_Settings_SectionTitle" font="font_clear_small_bold"
+                       textalign="left">
+                    <Size>
+                        <AbsPoint x="400" y="15"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="25" y="45"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Window name="$parentFilterType1" font="font_clear_small_bold" inherits="LogFilterButton" id="1">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFiltersTitle">
+                            <AbsPoint x="20" y="10"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <Window name="$parentFilterType2" font="font_clear_small_bold" inherits="LogFilterButton" id="2">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFilterType1">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <Window name="$parentFilterType3" font="font_clear_small_bold" inherits="LogFilterButton" id="3">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFilterType2">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <Window name="$parentFilterType4" font="font_clear_small_bold" inherits="LogFilterButton" id="4">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFilterType3">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <Window name="$parentFilterType5" font="font_clear_small_bold" inherits="LogFilterButton" id="5">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFilterType4">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <Window name="$parentFilterType6" font="font_clear_small_bold" inherits="LogFilterButton" id="6">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFilterType5">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <Window name="$parentFilterType9" font="font_clear_small_bold" inherits="LogFilterButton" id="9">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFilterType6">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <Window name="$parentFilterType10" font="font_clear_small_bold" inherits="LogFilterButton" id="10"
+                        visible="false">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFilterType9">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                <Window name="$parentFilterType11" font="font_clear_small_bold" inherits="LogFilterButton" id="11">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFilterType10">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Label name="$parentErrorHandlingTitle" inherits="EA_Settings_SectionTitle" font="font_clear_small_bold"
+                       textalign="left">
+                    <Size>
+                        <AbsPoint x="400" y="15"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="25" y="330"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Window name="$parentErrorOption1" inherits="EA_LabelCheckButtonSmallCopy" id="1">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentErrorHandlingTitle">
+                            <AbsPoint x="20" y="10"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="warExtendedTerminal.UpdateLuaErrorHandling"/>
+                    </EventHandlers>
+                </Window>
+                <Window name="$parentErrorOption2" inherits="EA_LabelCheckButtonSmallCopy" id="1">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentErrorOption1">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="warExtendedTerminal.UpdateCodeErrorHandling"/>
+                    </EventHandlers>
+                </Window>
+
+                <Window name="$parentLuaDebugLibrary" inherits="EA_LabelCheckButtonSmallCopy" id="1">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentErrorOption2">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="warExtendedTerminal.UpdateLoadLuaDebugLibrary"/>
+                    </EventHandlers>
+                </Window>
+
+                <Label name="$parentOtherTitle" inherits="EA_Settings_SectionTitle" font="font_clear_small_bold"
+                       textalign="left">
+                    <Size>
+                        <AbsPoint x="400" y="15"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="25" y="444"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Window name="$parentShowTimestamps" inherits="EA_LabelCheckButtonSmallCopy" id="1">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentOtherTitle">
+                            <AbsPoint x="20" y="10"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="warExtendedTerminal.UpdateTimestamps"/>
+                    </EventHandlers>
+                </Window>
+
+            </Windows>
+        </Window>
+
+    </Windows>
+
+
+</Interface>

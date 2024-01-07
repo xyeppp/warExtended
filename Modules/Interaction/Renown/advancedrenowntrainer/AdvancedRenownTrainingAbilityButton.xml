@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+		<Window name ="AbilityButtonTemplate" handleinput = "true">
+			<Size>
+					<AbsPoint x="64" y="64" />
+			</Size>
+			<Windows>
+				<DynamicImage name="$parentSquare" handleinput="false" textureScale="1.0" layer="background">
+					<Size>
+						<AbsPoint x="64" y="64" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="">
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+					<Windows>
+						<DynamicImage name="$parentFrame" texture="EA_SquareFrame" textureScale="1.0" handleinput="false">
+							<Size>
+								<AbsPoint x="64" y="64"/>
+							</Size>
+						</DynamicImage>
+					</Windows>
+				</DynamicImage>
+			</Windows>
+			<EventHandlers>
+				<EventHandler event="OnLButtonDown" function="AdvancedRenownTraining.Select" />
+				<EventHandler event="OnMouseOver" function="AdvancedRenownTraining.AbilityTooltip" />
+			</EventHandlers>
+		</Window>
+	</Windows>
+</Interface>
