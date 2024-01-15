@@ -61,6 +61,29 @@ local pcall = pcall
 	  return self.m_Article
 	end
 
+--[[
+
+
+function SearchEditBox:OnTextChanged(text)
+		self.m_Results = {}
+
+		if text == L"" or text:len()<1 then
+			return self.m_Callback(self.m_articleIndex or self.m_Article)
+		end
+
+		for id=1,#self.m_Article do
+			local obj = self.m_Article[id]
+			local matches = self:Matches(id, obj, text)
+			if matches == true then
+				--tinsert(self.m_Results, self.m_Id)
+				self.m_Results[#self.m_Results+1] = self.m_Id
+				elseif matches==false then
+				--trem(self.m_Results, )
+			end
+		end
+
+		return self.m_Callback(self.m_Results)
+	end]]
 
 	function SearchEditBox:OnTextChanged(text)
 		self.m_Results = {}
@@ -195,14 +218,14 @@ local pcall = pcall
 	end
 
 	function SearchEditBox:Clean(string)
-
-	  string = string:lower()
+		string = string:lower()
 
 	  if string == "" then
 		string = L""
 	  end
 
-	  string = string:gsub(L'[%(%)%.%%%+%-%*%?%[%]%^%$]', function(c) return L'%'..c end)
+
+		string = string:gsub(L'[%(%)%.%%%+%-%*%?%[%]%^%$]', function(c) return L'%'..c end)
 	  string = warExtended:isEmpty(string, L"")
 	  for accent, char in pairs(self.ACCENTS) do
 		if string == "" then

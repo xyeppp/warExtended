@@ -33,11 +33,9 @@ function warExtended:GetCurrentDateInSeconds ()
   return (d.todaysDay + (d.todaysMonth + d.todaysYear * 12) * 31) * 86400
 end
 
-
 function warExtended:GetCurrentDateInSecondsWithTime ()
   return self:GetCurrentDateInSeconds () + GetComputerTime ()
 end
-
 
 function warExtended:GetCurrentDateTime ()
   
@@ -57,7 +55,6 @@ function warExtended:GetCurrentDateTime ()
     totalSeconds = ts
   }
 end
-
 
 function warExtended:DateTimeToString (dt)
   

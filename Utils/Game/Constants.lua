@@ -131,6 +131,8 @@ local constants = {
     ["Hatred's Way"] = 29,
     ["Wrath's Resolve"] = 30,
   },
+
+  events = SystemData.Events
 }
 
 function warExtended:GetConstants(constant)

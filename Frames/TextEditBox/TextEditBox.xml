@@ -2,7 +2,7 @@
 
     <Windows>
 
-        <EditBox name="warExtendedMultiLineEditBox" inherits="EA_EditBox_NoFrame" maxchars="764248"
+        <EditBox name="warExtendedMultiLineEditBox" inherits="EA_EditBox_NoFrame" maxchars="1528496"
                  font="font_clear_small_bold"
                  scrollbar="EA_ScrollBar_ChatVertical" autoHideScrollBar="true" handleinput="true" alpha="1"
                  scrolling="vert">

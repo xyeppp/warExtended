@@ -13,10 +13,6 @@ local WINDOW                = Frame:Subclass(WINDOW_NAME)
 local SEARCH_LIST           = ListBox:CreateFrameForExistingWindow(WINDOW_NAME .. "AbilityList")
 local SEARCH_BOX            = SearchEditBox:Create(WINDOW_NAME .. "AbilitySearch")
 
---function SEARCH_BOX:OnTextChanged(...)
---	p(...)
---end
-
 local searchFilters         = {
   isAbility = {
 	canSearch = function(self, operator, search)
@@ -41,22 +37,22 @@ function WINDOW:Create()
 	[TITLEBAR] = Label:CreateFrameForExistingWindow(WINDOW_NAME .. "TitleBarLabel")
   }
 
+	local abilitySort = {
+		[1] = {text=L"ID",  sortFunc = function (a, b) return a < b end},
+		[2] = {text = L"Ability Name", sortFunc =  function (a, b) return(WStringsCompare(a, b) == -1) end},
+	}
+
   local win      = self.m_Windows
 
-  win[SORT_BUTTON_1]:SetText(L"ID")
-  win[SORT_BUTTON_2]:SetText(L"Name")
   win[TITLEBAR]:SetText(L"Ability Finder")
 
   win[SEARCH_EDITBOX].m_Windows[SEARCH_LABEL]:SetText(L"Search:")
   win[SEARCH_EDITBOX]:AddCallback(SEARCH_LIST.OnTextChangedSearch)
   win[SEARCH_EDITBOX]:AddFilters(searchFilters)
-  win[SEARCH_EDITBOX]:AddFilters(searchFilters)
-
 
   win[SEARCH_LIST_WINDOW]:SetRowDefinition()
+	win[SEARCH_LIST_WINDOW]:SetSortButtons(abilitySort, WINDOW_NAME, 2)
 end
-
-local a = {}
 
 function SEARCH_LIST.OnTextChangedSearch(searchResults)
    SEARCH_LIST:SetDisplayOrder(searchResults)
@@ -76,7 +72,7 @@ function SEARCH_LIST:SetRowDefinition()
 	["AbilityDescription"] = { subclass = Label, callback = function(self, index)
 	  local abilityDescription = GetAbilityDescription(index, 40)
 
-	  if abilityDescription == L"" then
+	  if abilityDescription == L"" or abilityDescription == nil then
 		abilityDescription = L"No description."
 	  end
 
@@ -101,7 +97,6 @@ function TerminalAbilityFinder.UpdateDisplay()
 	local abilityCache = TerminalAbilityFinder:GetSettings().abilityCache
 	SEARCH_LIST:SetDisplayOrder(abilityCache, function(a, b) return a < b end)
   end
-
 end
 
 WINDOW:Create()

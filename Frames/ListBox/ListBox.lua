@@ -128,52 +128,73 @@ function ListBox:GetSortFunc(sortId)
   return self.m_sortButtons[sortId].m_sortFunc
 end
 
+--[[	--if not self.m_listDataTable then
+----		self.m_listDataTable = tbl
+--
+----	end
+--	self.m_displayOrder  = {}
+--
+--	for index, state in pairs(tbl)
+--	do
+--		if state then
+--			self.m_displayOrder[#self.m_displayOrder + 1] = state
+--		end
+--	end
+--
+--	-- tbl from search results gets turned into displayorder based on false/true - pointless, should return table with object and display order so there's no need to turn it
+--- for index, state in pairs(tbl)
+--  do
+--	if state then
+--	  displayOrder[#displayOrder + 1] = index
+--	end
+--  end
+--
+--  --if ListBox:IsDisplayOrder(displayOrder, self:GetDisplayOrder()) then
+--	--return
+-- -- end
+--
+--  --self.m_displayOrder = displayOrder
+--
+----fix : search returns table of [1] = index whereas listDataTable can be original set in displayorder
+--  ------WORKS BUT YOU NEED TO FIGURE OUT HOW IT INTERACTS WITH SEARCH
+--]]
+
 function ListBox:SetDisplayOrder(tbl, orderFunction)
   if not tbl then
 	return
   end
 
 	self.m_listDataTable = tbl
-	--if not self.m_listDataTable then
---		self.m_listDataTable = tbl
 
---	end
 	self.m_displayOrder  = {}
 
 	for index, state in pairs(tbl)
 	do
-		if state then
+		if warExtended:IsType(state, "number") then
 			self.m_displayOrder[#self.m_displayOrder + 1] = state
+		else
+			self.m_displayOrder[#self.m_displayOrder + 1] = index
 		end
 	end
 
-	-- tbl from search results gets turned into displayorder based on false/true - pointless, should return table with object and display order so there's no need to turn it
---[[  for index, state in pairs(tbl)
-  do
-	if state then
-	  displayOrder[#displayOrder + 1] = index
-	end
-  end]]
-
-  --if ListBox:IsDisplayOrder(displayOrder, self:GetDisplayOrder()) then
-	--return
- -- end
-
-  --self.m_displayOrder = displayOrder
-
---fix : search returns table of [1] = index whereas listDataTable can be original set in displayorder
-  ------WORKS BUT YOU NEED TO FIGURE OUT HOW IT INTERACTS WITH SEARCH
-
-  local sortingOrder  = {}
   if orderFunction or self.m_sortColumnId then
+	  local sortingOrder  = {}
 	orderFunction = orderFunction or self:GetSortFunc(self.m_sortColumnId)
 	tsort(self.m_listDataTable, orderFunction)
 
 	for index, id in pairs(self.m_listDataTable ) do
 	  if self.m_reverseDisplayOrder then
-		tins(sortingOrder, 1, id)
+		  if warExtended:IsType(id, "number") then
+			  tins(sortingOrder, 1, id)
+		  else
+			  tins(sortingOrder, 1, index)
+		  end
 	  else
-		tins(sortingOrder, id)
+		  if warExtended:IsType(id, "number") then
+			  tins(sortingOrder, id)
+		  else
+			  tins(sortingOrder, index)
+		  end
 	  end
 	end
 
@@ -181,6 +202,7 @@ function ListBox:SetDisplayOrder(tbl, orderFunction)
 	return
   end
 
+	p("no sorting order")
   ListBoxSetDisplayOrder(self:GetName(), self.m_displayOrder)
 end
 

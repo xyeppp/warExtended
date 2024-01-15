@@ -4,6 +4,10 @@ local pairs = pairs
 local mfloor = math.floor
 local type = type
 
+function warExtended:IsTableEmpty(t)
+	return next(t) == nil
+end
+
 function warExtended:ExtendTable(t1, t2)
   for key, val in pairs(t2) do
 	if type(val) == "table" then

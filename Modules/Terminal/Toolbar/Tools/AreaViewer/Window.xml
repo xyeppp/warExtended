@@ -136,15 +136,18 @@
           </Anchors>
         </Window>
 
-        <Window name="$parentCircle" handleinput="false">
+        <Window name="$parentCircle" handleinput="true">
           <Size>
             <AbsPoint x="67" y="67" />
           </Size>
           <Anchors>
             <Anchor point="left" relativePoint="left" relativeTo="$parentSeparator2">
-              <AbsPoint x="15" y="-38" />
+              <AbsPoint x="35" y="-65" />
             </Anchor>
           </Anchors>
+          <EventHandlers>
+            <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver" />
+          </EventHandlers>
           <Windows>
             <DynamicImage name="$parentControlIcon" inherits="EA_DynamicImage_LargeControlIconWithLock">
 

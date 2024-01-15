@@ -42,6 +42,7 @@ function warExtended.GetAddonDescription(addonName)
 end
 
 function warExtended.GetAddonVersion(addonName)
+	p(addonName)
   local addonVersion = "v." .. getAddonData(addonName, "version")
   return addonVersion
 end

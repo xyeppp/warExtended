@@ -26,7 +26,7 @@ local SORT_BTN_2          = ButtonFrame:CreateFrameForExistingWindow(WINDOW_NAME
 function WINDOW:Create()
   self:CreateFromTemplate(WINDOW_NAME)
   LOGS_FRAME:SetSelfTable(TerminalLogViewerLogList)
-  LOAD_LOG:Create(9999999999)
+  LOAD_LOG:Create(65535)
   
   self.m_Windows = {
 	[TITLEBAR] = Label:CreateFrameForExistingWindow(WINDOW_NAME .. "TitleBarLabel"),
@@ -145,7 +145,8 @@ function TerminalLogViewer.AddExternalLog(logObjects)
 end
 
 function ADD_BUTTON_FRAME:OnLButtonUp(...)
-  DialogManager.MakeDoubleTextEntryDialog(L"Add Log", L"Log name:", L"", L"Log objects:\n(Separate objects by ;)", L"", TerminalLogViewer.AddLog, nil, nil, nil)
+    TerminalLogViewer.AddExternalLog("")
+  --DialogManager.MakeDoubleTextEntryDialog(L"Add Log", L"Log name:", L"", L"Log objects:\n(Separate objects by ;)", L"", TerminalLogViewer.AddLog, nil, nil, nil)
 end
 
 function REMOVE_BUTTON_FRAME:OnLButtonUp(...)
@@ -159,6 +160,7 @@ end
 function LOGS_FRAME.OnLButtonUpLog(idx, _, ...)
   local log = TerminalLogViewer:GetSavedSettings().savedLogs[idx]
   LOAD_LOG:LoadFromFile(log.name)
+   -- p(LOAD_LOG:GetEntriesTable())
   OUTPUT_FRAME:SetOutputText(LOAD_LOG:GetEntriesAsString())
 end
 
@@ -178,7 +180,7 @@ function LOGS_FRAME:SetRowDefintion()
 	subclass = Label, 
 	callback = function(self, index)
 	  local log  = TerminalLogViewer:GetSavedSettings().savedLogs[index]
-	  local date = log.date .. L"\n" .. log.time
+	  local date = log.time..L"\n"..log.date
 	  self:SetText(date)
 	end },
 	
@@ -196,11 +198,11 @@ function LOGS_FRAME:SetRowDefintion()
 end
 
 function OUTPUT_FRAME:SetOutputText(data)
-  local str = objToString(data)
-  self:SetTextCache(str)
+  self:SetTextCache(data)
 end
 
 function TerminalLogViewer.UpdateDisplay()
+    p(TerminalLogViewer:GetSavedSettings().savedLogs)
   local logs = TerminalLogViewer:GetSavedSettings().savedLogs
   
   LOGS_FRAME:SetDisplayOrder(logs)

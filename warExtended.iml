@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$USER_HOME$/OneDrive/Documents/Addons Dev/wExt Ideas" />
+    <content url="file://$USER_HOME$/OneDrive/Documents/Addons Dev/wExt Resources">
+      <sourceFolder url="file://$USER_HOME$/OneDrive/Documents/Addons Dev/wExt Resources/AddOns Collection/MoneyShotCamera/src" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/OneDrive/Documents/Addons Dev/wExt To Do" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/warExtended/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

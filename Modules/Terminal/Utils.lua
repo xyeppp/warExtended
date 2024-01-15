@@ -111,7 +111,7 @@ local function better_toString(data, depth)
   end
 end
 
-local function eventTableConcat(list, sep, i, j, ...)
+function EventTableConcat(list, sep, i, j, ...)
   -- Usual parameters are followed by a list of value converters
   local first_conv_idx, converters, t = 4, { sep, i, j, ... }, {}
   local conv_types                    = {
@@ -175,7 +175,8 @@ function eve(...)
   for k in pairs(recursions) do
 	recursions[k] = nil
   end
-  printOutput("event", eventTableConcat(t))
+
+  printOutput("event", EventTableConcat(t))
 
 end
 

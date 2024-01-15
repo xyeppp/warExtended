@@ -10,6 +10,8 @@ if not warExtendedTerminal.Settings then
     history = {},
     showTimestamp = true,
     useDevErrorHandling = false,
+    autoCommands = false,
+    registeredSpyEvents = {},
     loadLuaDebugLibrary = true,
     LogFilters = {
       [SystemData.UiLogFilters.SYSTEM]   = { enabled = true, color = DefaultColor.MAGENTA },
@@ -28,7 +30,9 @@ end
 function warExtendedTerminal.OnInitialize()
   SetLoadLuaDebugLibrary(false)
   SetCheckForCircularDependencies(false)
-  p(GetCheckForCircularDependencies())
+
+  warExtendedTerminal.OnInitializeEventSpy()
+
   TextLogAddFilterType("UiLog", EVENT, L"[Event]:")
 end
 

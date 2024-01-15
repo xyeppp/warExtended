@@ -55,9 +55,9 @@ local commands = {
 
 local function addInputAndScrollToBottom()
     inp(TextEditBoxGetText("DebugWindowTextBox"))
+    TextEditBoxSetText(SystemData.ActiveWindow.name, L"")
 
     Terminal.LogDisplayScrollToBottom()
-    TextEditBoxSetText(SystemData.ActiveWindow.name, L"")
 end
 
 function Terminal:AddCommand(cmd, callback)

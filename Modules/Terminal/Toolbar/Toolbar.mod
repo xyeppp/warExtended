@@ -7,6 +7,7 @@
         <Description
                 text="Adds a set of development tools to the Debug Window/Terminal."/>
         <Dependencies>
+            <Dependency name="EA_ActionBars" />
             <Dependency name="warExtended Terminal"/>
             <Dependency name="warExtended"/>
         </Dependencies>
@@ -23,9 +24,17 @@
             <File name="Tools/AreaViewer/Core.lua"/>
             <File name="Tools/AreaViewer/Window.lua"/>
 
+            <File name="Tools/CareerCacher/Window.xml"/>
+            <File name="Tools/CareerCacher/Core.lua"/>
+            <File name="Tools/CareerCacher/Window.lua"/>
+
             <File name="Tools/DevPad/Window.xml"/>
             <File name="Tools/DevPad/Core.lua"/>
             <File name="Tools/DevPad/Window.lua"/>
+
+            <File name="Tools/Logviewer/Window.xml"/>
+            <File name="Tools/Logviewer/Core.lua"/>
+            <File name="Tools/Logviewer/Window.lua"/>
 
             <!--<File name="Tools/ObjectInspector/Window.xml"/>
             <File name="Tools/ObjectInspector/Core.lua"/>
@@ -96,10 +105,6 @@
        <File name="Tools/EventSpy/Window.xml"/>
             <File name="Tools/EventSpy/Core.lua"/>
             <File name="Tools/EventSpy/Window.lua"/>
-
-            <File name="Tools/Logviewer/Window.xml"/>
-            <File name="Tools/Logviewer/Core.lua"/>
-            <File name="Tools/Logviewer/Window.lua"/>
 
 
              <File name="Tools/TextureViewer/Core.lua"/>

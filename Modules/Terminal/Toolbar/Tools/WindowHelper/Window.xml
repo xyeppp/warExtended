@@ -1,6 +1,6 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Assets>
-        <Icon id="70000" texture="Tools\WindowHelper\Icon\Anchor.tga" name="Window Helper Icon"/>
+        <Icon id="70000" texture="Tools\WindowHelper\Textures\Anchor.tga" name="Window Helper Icon"/>
     </Assets>
 
     <Windows>

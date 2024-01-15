@@ -9,22 +9,27 @@ local function tooltipHook(tooltipData)
   TerminalTooltipSpy:SetObjectData(tooltipData)
 end
 
-local function actionButtonHook(actionButtonData)
-  TerminalTooltipSpy:SetActionButtonData(actionButtonData)
-end
-
 local function setTooltipHooks()
+  local originalActionButtonOnMouseOver = ActionButton.OnMouseOver
+
   warExtended:Hook(Tooltips.CreateAbilityTooltip, tooltipHook, true)
   warExtended:Hook(Tooltips.CreateItemTooltip, tooltipHook, true)
   warExtended:Hook(Tooltips.CreateMacroTooltip, tooltipHook, true)
   warExtended:Hook(Tooltips.CreateTradeskillTooltip, tooltipHook, true)
   warExtended:Hook(Tooltips.CreateCustomItemTooltip, tooltipHook, true)
-  warExtended:Hook(ActionButton.OnMouseOver, actionButtonHook, true)
+
+  ActionButton.OnMouseOver = function (buttonData, flags, x, y)
+    TerminalTooltipSpy:SetActionButtonData(buttonData)
+    originalActionButtonOnMouseOver(buttonData, flags, x, y)
+  end
+
   warExtended:RegisterGameEvent({ "player target updated" }, "TerminalTooltipSpy.OnUpdateTarget")
 end
 
 function TerminalTooltipSpy.OnInitialize()
+ -- warExtended:AddEventHandler("SetTooltipSpyHook", "CoreInitialized", setTooltipHooks)
   setTooltipHooks()
+
 end
 
 function TerminalTooltipSpy.OnUpdateTarget(targetClassification, entityId, _)

@@ -200,6 +200,10 @@ function Frame:CreateFrameForExistingWindow (windowName)
 		WindowSetId (newFrame.m_Name, newFrame.m_Id)
 	end
 
+	if newFrame.OnInitialize then
+		newFrame:OnInitialize()
+	end
+
 	FrameManager:Add (newFrame.m_Name, newFrame)
 
 	return newFrame

@@ -15,10 +15,11 @@
 
             <File name="Debug.lua"/>
             <File name="Core.lua"/>
+            <File name="Commands.lua"/>
+            <File name="Events.lua"/>
             <File name="Window.lua"/>
             <File name="Settings.lua"/>
             <File name="Utils.lua"/>
-            <File name="Commands.lua"/>
             <File name="Window.xml"/>
 
         </Files>

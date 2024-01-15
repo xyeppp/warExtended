@@ -3,7 +3,7 @@
         <!--Templates -->
         <Button name="LogDumpRowItem" inherits="EA_Button_DefaultListRow" handleinput="true" >
             <Size>
-                <AbsPoint x="240" y="34"/>
+                <AbsPoint x="365" y="88"/>
             </Size>
             <Anchors>
                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLogSortButton1">
@@ -27,33 +27,33 @@
                     </Anchors>
                 </FullResizeImage>
 
-                <Label name="$parentDate" font="font_clear_small_bold" textalign="center">
+                <Label name="$parentDate" font="font_clear_small_bold" textalign="center" wordwrap="true">
                     <Size>
-                        <AbsPoint x="140" y="26"/>
+                        <AbsPoint x="125" y="84"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="left" relativePoint="left" relativeTo="">
-                            <AbsPoint x="10" y="6"/>
+                        <Anchor point="left" relativePoint="left" relativeTo="$parent">
+                            <AbsPoint x="-5" y="-10" />
                         </Anchor>
                     </Anchors>
                 </Label>
-                <Label name="$parentName" font="font_clear_small_bold" >
+                <Label name="$parentName" font="font_clear_medium_bold" >
                     <Size>
                         <AbsPoint x="350" y="26"/>
                     </Size>
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentDate">
-                            <AbsPoint x="5" y="0"/>
+                            <AbsPoint x="0" y="-15" />
                         </Anchor>
                     </Anchors>
                 </Label>
-                <Label name="$parentContents" font="font_clear_small_bold" textalign="center">
+                <Label name="$parentContents" font="font_clear_small_bold" textalign="topleft" wordwrap="true">
                     <Size>
-                        <AbsPoint x="360" y="25"/>
+                        <AbsPoint x="245" y="64"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentName">
-                            <AbsPoint x="0" y="3" />
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parentName">
+                            <AbsPoint x="0" y="55" />
                         </Anchor>
                     </Anchors>
                 </Label>
@@ -78,7 +78,7 @@
 
         <Window name="TerminalLogViewer" inherits="warExtendedDefaultWindow" savesettings="false">
             <Size>
-                <AbsPoint x="800" y="700" />
+                <AbsPoint x="880" y="700" />
             </Size>
             <Anchors>
                 <Anchor point="center" relativePoint="center" relativeTo="Root">
@@ -123,7 +123,7 @@
 
                 <ListBox name="$parentLogList" scrollbar="EA_ScrollBar_ChatVertical" rowdef="LogDumpRowItem" visiblerows="6" rowspacing="2">
                     <Size>
-                        <AbsPoint x="600" y="360" />
+                        <AbsPoint x="600" y="545" />
                     </Size>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLogSortButton1">
@@ -146,7 +146,7 @@
                     </Size>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parent">
-                            <AbsPoint x="0" y="-274" />
+                            <AbsPoint x="0" y="-83" />
                         </Anchor>
                         <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
                             <AbsPoint x="-471" y="-28" />
@@ -213,7 +213,7 @@
                             <AbsPoint x="13" y="1" />
                         </Anchor>
                         <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentSeparator">
-                            <AbsPoint x="0" y="274" />
+                            <AbsPoint x="0" y="83" />
                         </Anchor>
                     </Anchors>
                 </Window>

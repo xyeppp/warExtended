@@ -6,7 +6,6 @@ local tostring = tostring
 local towstring = towstring
 local math = math
 
-
 function warExtended:CompareString(stringToCompare, stringToCheck)
   local stringBoundary = "%f[%w%p]%" .. stringToCompare .. "%f[%A]"
   local isMatch = stringToCheck:match(stringBoundary)

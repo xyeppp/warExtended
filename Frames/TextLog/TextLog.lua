@@ -11,7 +11,7 @@ function TextLog:GetName()
 end
 
 function TextLog:Create(entryLimit)
-  TextLogCreate(self:GetName(), entryLimit or 50000)
+  TextLogCreate(self:GetName(), entryLimit or 65535)
 end
 
 function TextLog:Destroy()
@@ -73,10 +73,12 @@ end
 
 function TextLog:GetEntriesAsString()
   local entries = {}
+
   for i = 0, self:GetNumEntries() - 1 do
     local _, _, text = self:GetEntry(i)
     entries[#entries+1] = warExtended:toString(text)
   end
+
   return table.concat(entries, "\n")
 end
 
@@ -84,7 +86,7 @@ function TextLog:GetEntriesTable()
   local entries = {}
   for i = 0, self:GetNumEntries() - 1 do
     local timestamp, filterId, text = self:GetEntry(i)
-    entries[#entries+1] = timestamp, filterId, text
+    entries[#entries+1] = {timestamp, filterId, text}
   end
   return entries
 end

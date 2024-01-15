@@ -1,0 +1,216 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+
+        <!-- List row template -->
+        <Button name="CareerCacherRowItem" inherits="EA_Button_DefaultListRow" handleinput="true">
+            <Size>
+                <AbsPoint x="420" y="76" />
+            </Size>
+
+            <EventHandlers>
+                <EventHandler event="OnMouseOver" function="FrameManager.OnMouseOver" />
+                <EventHandler event="OnRButtonUp" function="FrameManager.OnRButtonUp" />
+                <EventHandler event="OnRButtonDown" function="FrameManager.OnRButtonDown" />
+            </EventHandlers>
+
+            <Windows>
+                <FullResizeImage name="$parentBackground" inherits="EA_FullResizeImage_TintableSolidBackground">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" />
+                        <Anchor point="bottomright" relativePoint="bottomright" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <DynamicImage name="$parentSquare" textureScale="0.859" handleinput="false" layer="background">
+                    <Size>
+                        <AbsPoint x="55" y="55" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left" relativeTo="">
+                            <AbsPoint x="5" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </DynamicImage>
+
+                <DynamicImage name="$parentFrame" texture="EA_SquareFrame" textureScale="0.859" handleinput="false" >
+                    <Size>
+                        <AbsPoint x="55" y="55" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentSquare"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentSquare" />
+                    </Anchors>
+                </DynamicImage>
+
+                <Label name="$parentName" wordwrap="false" font="font_clear_medium_bold" maxchars="80" textalign="left" handleinput="false">
+                    <Size>
+                        <AbsPoint x="420" y="25" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentSquare">
+                            <AbsPoint x="10" y="-6" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Label name="$parentDetails1" wordwrap="false" font="font_clear_small_bold" maxchars="200" handleinput="false">
+                    <Size>
+                        <AbsPoint x="420" y="25" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentName">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+                <Label name="$parentDetails2" wordwrap="false" font="font_clear_small_bold" maxchars="200" handleinput="false">
+                    <Size>
+                        <AbsPoint x="420" y="25" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDetails1">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Label>
+            </Windows>
+        </Button>
+
+        <Window name="TerminalCareerCacherOutput">
+            <Anchors>
+                <Anchor point="topleft" relativePoint="topleft" parent="$parent">
+                    <AbsPoint x="0" y="32"/>
+                </Anchor>
+                <Anchor point="bottomright" relativePoint="bottomright" parent="$parent">
+                    <AbsPoint x="0" y="0"/>
+                </Anchor>
+            </Anchors>
+            <Windows>
+                <Window name="$parentButtonBackground" inherits="EA_Window_DefaultButtonBottomFrame" layer="background" >
+                    <Size>
+                        <AbsPoint x="0" y="75" />
+                    </Size>
+                </Window>
+
+                <Button name="$parentRefresh" inherits="EA_Button_DefaultResizeable" >
+                    <Anchors>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentButtonBackground">
+                            <AbsPoint x="-35" y="-12"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp" />
+                    </EventHandlers>
+                </Button>
+
+                <Button name="$parentSaveToLog" inherits="EA_Button_DefaultResizeable" >
+                    <Size>
+                        <AbsPoint x="166" y="39"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left" relativeTo="$parentRefresh">
+                            <AbsPoint x="-180" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp" />
+                    </EventHandlers>
+                </Button>
+
+                <Window name="$parentCareerIcon" inherits="warExtendedCircleImageLabelDuoSmall">
+                    <Size>
+                        <AbsPoint x="166" y="39"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parent">
+                            <AbsPoint x="20" y="-10" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <ListBox name="$parentAdvancesList" inherits="warExtendedDefaultListBox" rowdef="CareerCacherRowItem" visiblerows="6" rowcount="150" rowspacing="0">
+                    <Size>
+                        <AbsPoint x="490" y="480" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="TerminalCareerCacherTitleBar">
+                            <AbsPoint x="25" y="50" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentVertSeparator">
+                            <AbsPoint x="-25" y="-45" />
+                        </Anchor>
+                    </Anchors>
+
+                    <ListData table="TerminalCareerCacher.m_Settings.advanceData" populationfunction="TerminalCareerCacher.OnPopulateAdvances">
+                        <ListColumns>
+                            <ListColumn windowname="Square" variable="abilityInfo.iconNum" format="icon" />
+                            <ListColumn windowname="Name"   variable="advanceName"         format="wstring"/>
+                        </ListColumns>
+                    </ListData>
+                </ListBox>
+
+                <EditBox name="$parentAdvancesSearch" inherits="warExtendedDefaultSearchBox">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parentAdvancesList">
+                            <AbsPoint x="-2" y="36" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentAdvancesList">
+                            <AbsPoint x="5" y="18" />
+                        </Anchor>
+                    </Anchors>
+                </EditBox>
+
+                <Window name="$parentVertSeparator" inherits="EA_Window_DefaultVerticalSeparator" handleinput="true">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topright" relativeTo="$parent">
+                            <AbsPoint x="480" y="-6" />
+                        </Anchor>
+                        <Anchor point="bottomleft" relativePoint="bottomright" relativeTo="$parentButtonBackground">
+                            <AbsPoint x="480" y="-58" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <EditBox name="$parentText" inherits="warExtendedMultiLineEditBox">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentVertSeparator">
+                            <AbsPoint x="26" y="10" />
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="-12" y="-75" />
+                        </Anchor>
+                    </Anchors>
+                </EditBox>
+            </Windows>
+        </Window>
+
+
+        <Window name="TerminalCareerCacher" inherits="warExtendedDefaultWindow">
+            <Size>
+                <AbsPoint x="925" y="570" />
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="TerminalCareerCacher.OnInitialize" />
+                <EventHandler event="OnShown" function="TerminalCareerCacher.OnShown" />
+                <EventHandler event="OnHidden" function="TerminalCareerCacher.OnHidden" />
+            </EventHandlers>
+
+            <Windows>
+                <Window name="$parentTitleBar" inherits="warExtendedDefaultTitleBar" layer="primary"/>
+                <Window name="$parentBackground" inherits="warExtendedDefaultBackground"/>
+                <Window name="$parentOutput" inherits="TerminalCareerCacherOutput"/>
+
+                <Window name="$parentSeparator" inherits="EA_Window_DefaultSeparator" handleinput="true">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="0" y="14" />
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

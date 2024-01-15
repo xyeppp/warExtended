@@ -3,7 +3,7 @@
         <!--Templates -->
         <Button name="AbilityRowItem" inherits="EA_Button_DefaultListRow" >
             <Size>
-                <AbsPoint x="560" y="68"/>
+                <AbsPoint x="560" y="120"/>
             </Size>
             <Anchors>
                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentAreaSortButton1">
@@ -23,42 +23,43 @@
 
                 <Label name="$parentAbilityID" font="font_clear_small_bold" textalign="center">
                     <Size>
-                        <AbsPoint x="50" y="26"/>
+                        <AbsPoint x="80" y="26"/>
                     </Size>
                     <Anchors>
                         <Anchor point="left" relativePoint="left" relativeTo="">
-                            <AbsPoint x="10" y="6"/>
+                            <AbsPoint x="0" y="0"/>
                         </Anchor>
                     </Anchors>
                 </Label>
                 <Label name="$parentAbilityName" font="font_clear_small_bold" textalign="left" wordwrap="true">
                     <Size>
-                        <AbsPoint x="480" y="40"/>
+                        <AbsPoint x="480" y="20"/>
                     </Size>
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentAbilityID">
-                            <AbsPoint x="5" y="-16"/>
+                            <AbsPoint x="5" y="-45"/>
                         </Anchor>
                     </Anchors>
                 </Label>
                 <Label name="$parentAbilityDescription" font="font_clear_small" textalign="left" wordwrap="true">
                     <Size>
-                        <AbsPoint x="480" y="60"/>
+                        <AbsPoint x="480" y="100"/>
                     </Size>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parentAbilityName">
-                            <AbsPoint x="0" y="30"/>
+                            <AbsPoint x="0" y="100"/>
                         </Anchor>
                     </Anchors>
                 </Label>
             </Windows>
         </Button>
 
-        <Button name="TerminalAbilityFinderSortButton" inherits="EA_Button_ListSort" >
+        <Button name="TerminalAbilityFinderSortButton" inherits="EA_Button_DefaultListSort" >
             <Size>
                 <AbsPoint x="550" y="31" />
             </Size>
             <EventHandlers>
+                <EventHandler event="OnLButtonUp" function="FrameManager.OnLButtonUp" />
                 <!-- <EventHandler event="OnLButtonUp" function="UiModWindow.OnClickModListSortButton" />
                  <EventHandler event="OnMouseOver" function="UiModWindow.OnMouseOverModListSortButton" />-->
             </EventHandlers>
@@ -76,7 +77,7 @@
 
         <Window name="TerminalAbilityFinder" inherits="warExtendedDefaultWindow" savesettings="false">
             <Size>
-                <AbsPoint x="600" y="330" />
+                <AbsPoint x="612" y="595" />
             </Size>
             <Anchors>
                 <Anchor point="center" relativePoint="center" relativeTo="Root">
@@ -96,40 +97,40 @@
                 <Window name="$parentTitleBar" inherits="warExtendedDefaultTitleBar"/>
                 <Window name="$parentBackground" inherits="warExtendedDefaultBackground"/>
 
-                <Button name="$parentIDSortButton" inherits="TerminalAbilityFinderSortButton">
+                <Button name="$parentSortButton1" inherits="TerminalAbilityFinderSortButton" textalign="center">
                     <Size>
-                        <AbsPoint x="160" y="31" />
+                        <AbsPoint x="80" y="31" />
                     </Size>
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topright" relativeTo="$parentAbilitySortButton2">
+                        <Anchor point="topleft" relativePoint="topright" relativeTo="$parentSortButton2">
                             <AbsPoint x="0" y="0" />
                         </Anchor>
                     </Anchors>
                 </Button>
-                <Button name="$parentNameSortButton" inherits="TerminalAbilityFinderSortButton">
+                <Button name="$parentSortButton2" inherits="TerminalAbilityFinderSortButton">
                     <Size>
                         <AbsPoint x="220" y="31" />
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="bottomleft" relativeTo="$parent">
-                            <AbsPoint x="168" y="48" />
+                            <AbsPoint x="88" y="55" />
                         </Anchor>
                         <Anchor point="topright" relativePoint="bottomright" parent="$parent">
-                            <AbsPoint x="-162" y="0" />
+                            <AbsPoint x="-8" y="0" />
                         </Anchor>
                     </Anchors>
                 </Button>
 
-                <ListBox name="$parentAbilityList" inherits="warExtendedDefaultListBox" rowdef="AbilityRowItem" visiblerows="5" rowspacing="2">
+                <ListBox name="$parentAbilityList" inherits="warExtendedDefaultListBox" rowdef="AbilityRowItem" visiblerows="4" rowspacing="2">
                     <Size>
-                        <AbsPoint x="600" y="210" />
+                        <AbsPoint x="600" y="488" />
                     </Size>
                     <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentIDSortButton">
-                            <AbsPoint x="10" y="10"/>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSortButton1">
+                            <AbsPoint x="5" y="0" />
                         </Anchor>
                         <Anchor point="topright" relativePoint="topright" relativeTo="$parentSeparator">
-                            <AbsPoint x="10" y="50"/>
+                            <AbsPoint x="-15" y="0" />
                         </Anchor>
                     </Anchors>
                     <ListData table="TerminalAbilityFinder.m_Settings.searchResults" populationfunction="TerminalAbilityFinder.OnPopulateSearch">

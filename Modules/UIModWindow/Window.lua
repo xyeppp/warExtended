@@ -3,46 +3,15 @@ local UiMod = warExtendedUiMod
 local WINDOW_NAME = "UiModWindow"
 
 local LABEL = 1
-local SETS = 2
 
-local LIST_BOX = ListBox:Subclass("UiModWindowModsList")
-
-local SEARCH_BOX=SearchEditBox:Subclass("UiModWindowSearch")
+local LIST_BOX = ListBox:Subclass(WINDOW_NAME.."ModsList")
+local SEARCH_BOX=SearchEditBox:Subclass(WINDOW_NAME.."Search")
 
 function warExtendedUiMod.OnInitialize()
-	local FRAME = Frame:CreateFrameForExistingWindow(WINDOW_NAME)
-
-	FRAME.OnSetChanged = function(self, setId, setContents)
-
-		for index, modData in ipairs(setContents) do
-			ModuleInitialize(modData.name)
-			ModuleSetEnabled( modData.name, modData.isEnabled  )
-		end
-
-		--TODO: set listbox to setContents
-		UiModWindow.MarkAsChanged()
-		UiModWindow.UpdateEnableDisableAllButtons()
-
-		--UiMod:Broadcast("reload interface")
-	end
-
-	FRAME.OnAddSet = function(...)
-		return UiModWindow.modsListData
-	end
-
-	SEARCH_BOX = SEARCH_BOX:Create("UiModWindowSearch")
-	LIST_BOX = LIST_BOX:CreateFrameForExistingWindow("UiModWindowModsList")
+	SEARCH_BOX = SEARCH_BOX:Create(WINDOW_NAME.."Search")
+	LIST_BOX = LIST_BOX:CreateFrameForExistingWindow(WINDOW_NAME.."ModsList")
 	SEARCH_BOX:CreateFrame()
-
-	local setFrame = warExtendedDefaultSets:Create(WINDOW_NAME.."Sets", UiModWindow.Settings, FRAME, L"Add-On Sets")
-
-	if not setFrame:GetSet(1) then
-		setFrame:AddSet(UiModWindow.modsListData)
-	end
 end
-
--- This function is used to compare mods for table.sort() on
--- the mod list display order.
 
 local searchFilters = {
 	name = {
@@ -97,6 +66,7 @@ end
 warExtended:Hook(UiModWindow.OnShown, function()
 	SEARCH_BOX:SetArticle(UiModWindow.modsListData)
 end, true)
+
 warExtended:Hook(UiModWindow.OnClickModListSortButton, function ()
 	SEARCH_BOX:OnTextChanged(SEARCH_BOX:GetText())
 end ,true)

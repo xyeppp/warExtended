@@ -23,8 +23,7 @@ function TerminalAbilityFinder.OnShown()
 end
 
 function TerminalAbilityFinder.OnHidden()
-  local cache = TerminalAbilityFinder:GetSettings().abilityCache
-  cache       = {}
+    TerminalAbilityFinder:GetSettings().abilityCache       = {}
 end
 
 

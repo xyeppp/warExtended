@@ -318,17 +318,6 @@
                     </EventHandlers>
                 </Button>
 
-                <Window name="$parentSets" inherits="warExtendedDefaultSets" handleinput="true">
-                    <Size>
-                        <AbsPoint x="260" y="70"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="right" relativePoint="left" relativeTo="$parentAdvancedButton">
-                            <AbsPoint x="15" y="0" />
-                        </Anchor>
-                    </Anchors>
-                </Window>
-
                 <Button name="$parentOkayButton" inherits="EA_Button_DefaultResizeable">
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="bottomright" relativeTo="$parentCancelButton">
